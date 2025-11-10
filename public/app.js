@@ -400,6 +400,135 @@ function copyCode() {
     });
 }
 
+// =================================================================
+// FUNCIONES DE THRONE VAULT
+// =================================================================
+
+async function loadVaultStats() {
+    try {
+        log('📊 Cargando estadísticas del Vault...', 'info');
+        const response = await fetch('/api/vault/stats');
+        const data = await response.json();
+
+        if (data.success) {
+            const stats = data.stats;
+            document.getElementById('vault-total').textContent = stats.totalSecrets;
+            document.getElementById('vault-passwords').textContent = stats.passwords;
+            
+            log(`✅ Vault Stats:`, 'success');
+            log(`  Total: ${stats.totalSecrets}`, 'info');
+            log(`  Passwords: ${stats.passwords}`, 'info');
+            log(`  API Keys: ${stats.apiKeys}`, 'info');
+            log(`  Certificados: ${stats.certificates}`, 'info');
+            log(`  Documentos: ${stats.documents}`, 'info');
+            log(`  🔒 Vault: ${stats.vaultLocked ? 'BLOQUEADO' : 'DESBLOQUEADO'}`, stats.vaultLocked ? 'warning' : 'success');
+        }
+    } catch (error) {
+        log(`❌ Error cargando stats: ${error.message}`, 'error');
+    }
+}
+
+async function addVaultSecret() {
+    const category = document.getElementById('vault-category').value;
+    const name = document.getElementById('vault-name').value.trim();
+    const value = document.getElementById('vault-value').value.trim();
+
+    if (!name || !value) {
+        log('⚠️ Debes escribir nombre y valor', 'warning');
+        return;
+    }
+
+    try {
+        log(`🔐 Guardando secreto en categoría: ${category}...`, 'info');
+        const response = await fetch(`/api/vault/${category}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, value })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            log(`✅ Secreto guardado: ${name}`, 'success');
+            log(`🔒 Encriptado con RSA-4096`, 'info');
+            
+            document.getElementById('vault-name').value = '';
+            document.getElementById('vault-value').value = '';
+            
+            loadVaultStats();
+            loadVaultSecrets();
+        } else {
+            log(`❌ Error: ${data.error}`, 'error');
+        }
+    } catch (error) {
+        log(`❌ Error guardando secreto: ${error.message}`, 'error');
+    }
+}
+
+async function loadVaultSecrets() {
+    const category = document.getElementById('vault-category').value;
+    const listEl = document.getElementById('vault-list');
+
+    try {
+        log(`📋 Listando secretos de ${category}...`, 'info');
+        const response = await fetch(`/api/vault/${category}`);
+        const data = await response.json();
+
+        if (data.success) {
+            listEl.innerHTML = '';
+            
+            if (data.secrets.length === 0) {
+                listEl.innerHTML = '<div style="color: #888; text-align: center; padding: 20px;">No hay secretos en esta categoría</div>';
+                log(`📭 No hay secretos en ${category}`, 'warning');
+                return;
+            }
+
+            data.secrets.forEach(secret => {
+                const item = document.createElement('div');
+                item.style.cssText = 'background: rgba(0,255,136,0.1); border-left: 3px solid #00ff88; padding: 8px; margin: 5px 0; border-radius: 3px; cursor: pointer;';
+                item.innerHTML = `
+                    <div style="font-weight: bold; color: #00ffff; margin-bottom: 3px;">${secret.name}</div>
+                    <div style="color: #888; font-size: 9px;">ID: ${secret.id.substring(0, 8)}... | Creado: ${new Date(secret.created).toLocaleString()}</div>
+                `;
+                
+                item.onclick = () => viewVaultSecret(category, secret.id, secret.name);
+                listEl.appendChild(item);
+            });
+
+            log(`✅ ${data.secrets.length} secretos listados`, 'success');
+        }
+    } catch (error) {
+        log(`❌ Error listando secretos: ${error.message}`, 'error');
+    }
+}
+
+async function viewVaultSecret(category, id, name) {
+    try {
+        log(`🔓 Desencriptando: ${name}...`, 'info');
+        const response = await fetch(`/api/vault/${category}/${id}`);
+        const data = await response.json();
+
+        if (data.success) {
+            const secret = data.secret;
+            log(`\n=== SECRETO DESENCRIPTADO ===`, 'success');
+            log(`Nombre: ${secret.name}`, 'info');
+            log(`Valor: ${secret.value}`, 'warning');
+            log(`Creado: ${new Date(secret.metadata.created).toLocaleString()}`, 'info');
+            log(`Firma: ${secret.signature.substring(0, 20)}...`, 'info');
+            log(`=============================\n`, 'success');
+        }
+    } catch (error) {
+        log(`❌ Error desencriptando: ${error.message}`, 'error');
+    }
+}
+
+// Cargar stats al inicio
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        loadVaultStats();
+    }, 1000);
+});
+
 window.addEventListener('error', (event) => {
     log(`Error global: ${event.message}`, 'error');
 });

@@ -111,17 +111,18 @@ Incluye HTML, CSS, JavaScript, y si es necesario, backend con Node.js/Express.`;
             finalPrompt = `${template.prompt_base}\n${template.features.join('\n- ')}\n\n${userPrompt}`;
         }
 
-        const response = await geminiAI.models.generateContent({
-            model: "gemini-2.5-flash",
-            config: {
-                systemInstruction: systemPrompt
-            },
+        const model = geminiAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+        const result = await model.generateContent({
+            systemInstruction: systemPrompt,
             contents: finalPrompt
         });
 
+        const response = await result.response;
+        const text = response.text();
+
         return {
             success: true,
-            code: response.text || "",
+            code: text || "",
             model: "gemini-2.5-flash",
             industry: industry || "general"
         };
@@ -151,6 +152,17 @@ async function generateDual(userPrompt, industry = null) {
         // Determinar cuál fue mejor (o combinar)
         let primaryResult = gptResult.success ? gptResult : geminiResult;
         let secondaryResult = gptResult.success ? geminiResult : gptResult;
+
+        // Si ambos fallaron, retornar error
+        if (!gptResult.success && !geminiResult.success) {
+            return {
+                success: false,
+                error: `Ambos modelos fallaron. GPT-5: ${gptResult.error}, Gemini: ${geminiResult.error}`,
+                mode: "dual",
+                gpt_error: gptResult.error,
+                gemini_error: geminiResult.error
+            };
+        }
 
         return {
             success: true,
