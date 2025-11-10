@@ -1,0 +1,4 @@
+-----BEGIN PRIVATE KEY-----
+PEGA_AQUI_TU_CLAVE_COMPLETA_SIN_EL_BEGIN_NI_END
+(Reemplaza este texto con todas las líneas de tu clave)
+-----END PRIVATE KEY-----

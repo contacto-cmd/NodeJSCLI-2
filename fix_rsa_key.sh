@@ -1,0 +1,13 @@
+#!/bin/bash
+echo "=== Script para Arreglar Formato de Clave RSA ==="
+echo ""
+echo "Este script tomará tu clave y le agregará el BEGIN y END correcto"
+echo ""
+echo "Instrucciones:"
+echo "1. Abre el archivo 'mi_clave_rsa.txt'"
+echo "2. Borra la línea que dice 'PEGA_AQUI_TU_CLAVE_COMPLETA...'"
+echo "3. Pega todas las líneas de tu clave (solo el contenido, sin BEGIN ni END)"
+echo "4. Guarda el archivo"
+echo "5. Ejecuta este script: bash fix_rsa_key.sh"
+echo ""
+echo "El script creará 'clave_lista.pem' con el formato correcto"
