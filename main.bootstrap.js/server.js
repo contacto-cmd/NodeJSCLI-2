@@ -7,6 +7,7 @@ const fs = require('fs');
 const jwt = require('jsonwebtoken'); 
 const cors = require('cors'); // Añadir cors para el despliegue web
 const { generateWithGPT5, generateWithGemini, generateDual, INDUSTRY_TEMPLATES } = require('./ai-generator');
+const { addSecret, getSecret, listSecrets, deleteSecret, saveVault, getVaultStats } = require('./throne-vault');
 
 const app = express();
 app.use(cors()); // Usar CORS
@@ -150,6 +151,82 @@ app.post('/api/quick-code', async (req, res) => {
         }
 
         const result = await generateWithGPT5(prompt);
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// =================================================================
+// [3.2] RUTAS DE THRONE VAULT (Bóveda Personal)
+// =================================================================
+
+// Obtener estadísticas del vault
+app.get('/api/vault/stats', (req, res) => {
+    try {
+        const stats = getVaultStats();
+        res.json({ success: true, stats });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// Listar secretos de una categoría
+app.get('/api/vault/:category', (req, res) => {
+    try {
+        const { category } = req.params;
+        const secrets = listSecrets(category);
+        res.json({ success: true, category, secrets });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// Agregar secreto
+app.post('/api/vault/:category', (req, res) => {
+    try {
+        const { category } = req.params;
+        const { name, value, metadata } = req.body;
+
+        if (!name || !value) {
+            return res.status(400).json({ success: false, error: "Nombre y valor requeridos" });
+        }
+
+        const result = addSecret(category, name, value, metadata);
+        saveVault(); // Guardar automáticamente
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// Obtener secreto (desencriptado)
+app.get('/api/vault/:category/:id', (req, res) => {
+    try {
+        const { category, id } = req.params;
+        const secret = getSecret(category, id);
+        res.json({ success: true, secret });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// Eliminar secreto
+app.delete('/api/vault/:category/:id', (req, res) => {
+    try {
+        const { category, id } = req.params;
+        const result = deleteSecret(category, id);
+        saveVault(); // Guardar automáticamente
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// Guardar vault manualmente
+app.post('/api/vault/save', (req, res) => {
+    try {
+        const result = saveVault();
         res.json(result);
     } catch (error) {
         res.status(500).json({ success: false, error: error.message });
