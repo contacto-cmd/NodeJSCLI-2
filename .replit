@@ -32,5 +32,12 @@ localPort = 5000
 externalPort = 80
 
 [[ports]]
-localPort = 36969
+localPort = 38951
+externalPort = 3001
+
+[[ports]]
+localPort = 42037
 externalPort = 3000
+
+[agent]
+integrations = ["javascript_gemini:1.0.0"]

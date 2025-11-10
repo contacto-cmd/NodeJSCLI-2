@@ -6,8 +6,10 @@
     "start": "node main.bootstrap.js/server.js"
   },
   "dependencies": {
+    "@google/genai": "^1.29.0",
     "cors": "^2.8.5",
     "express": "^4.21.2",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "openai": "^6.8.1"
   }
 }

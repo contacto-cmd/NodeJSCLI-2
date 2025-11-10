@@ -211,6 +211,33 @@
             font-size: 18px;
             color: #00ff88;
         }
+
+        .node-item {
+            background: rgba(0, 255, 136, 0.1);
+            border-left: 3px solid #00ff88;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        .node-item:hover {
+            background: rgba(0, 255, 136, 0.2);
+            transform: translateX(5px);
+        }
+
+        .node-token {
+            font-weight: bold;
+            color: #00ffff;
+            font-size: 11px;
+            margin-bottom: 3px;
+        }
+
+        .node-url {
+            font-size: 9px;
+            color: #888;
+            word-break: break-all;
+        }
     </style>
 </head>
 <body>
@@ -262,6 +289,11 @@
             </div>
 
             <div class="panel-section">
+                <h2>⚡ Arsenal de Nodos</h2>
+                <div id="nodes-list" style="max-height: 200px; overflow-y: auto;"></div>
+            </div>
+
+            <div class="panel-section">
                 <h2>🎯 Sellos de Seguridad</h2>
                 <div class="info-line">
                     <span class="info-label">Throne Seal:</span>
@@ -280,6 +312,45 @@
                 <button id="btn-adquisicion" onclick="executeAdquisicion()" disabled>EJECUTAR ADQUISICIÓN</button>
                 <button id="btn-refresh" onclick="refreshToken()">ACTUALIZAR TOKEN</button>
                 <button class="danger" onclick="clearConsole()">LIMPIAR CONSOLA</button>
+            </div>
+
+            <div class="panel-section">
+                <h2>🤖 Laboratorio de IA</h2>
+                <div style="margin-bottom: 10px;">
+                    <label style="display: block; margin-bottom: 5px; color: #00ffff;">Industria:</label>
+                    <select id="ai-industry" style="width: 100%; padding: 8px; background: #000; color: #00ff88; border: 1px solid #00ff88; border-radius: 3px;">
+                        <option value="">General</option>
+                        <option value="medicina">Medicina</option>
+                        <option value="arquitectura">Arquitectura</option>
+                        <option value="legal">Legal</option>
+                        <option value="ingenieria">Ingeniería</option>
+                        <option value="negocios">Negocios</option>
+                    </select>
+                </div>
+                
+                <div style="margin-bottom: 10px;">
+                    <label style="display: block; margin-bottom: 5px; color: #00ffff;">Descripción de App:</label>
+                    <textarea id="ai-prompt" rows="3" placeholder="Ej: Crear una app para gestionar pacientes con historial clínico..." style="width: 100%; padding: 8px; background: #000; color: #00ff88; border: 1px solid #00ff88; border-radius: 3px; resize: vertical; font-family: inherit;"></textarea>
+                </div>
+
+                <button onclick="generateApp('dual')" style="background: linear-gradient(135deg, #ff00ff 0%, #00ffff 100%);">
+                    🔥 DUAL (GPT-5 + Gemini)
+                </button>
+                <button onclick="generateApp('gpt5')">GENERAR con GPT-5</button>
+                <button onclick="generateApp('gemini')">GENERAR con Gemini</button>
+                <button onclick="showTemplates()" style="background: linear-gradient(135deg, #ffaa00 0%, #ff6600 100%);">
+                    📋 VER TEMPLATES
+                </button>
+            </div>
+
+            <div class="panel-section" id="ai-results" style="display: none;">
+                <h2>💻 Código Generado</h2>
+                <div style="margin-bottom: 10px;">
+                    <span id="ai-model-used" style="color: #ffaa00; font-size: 11px;"></span>
+                </div>
+                <div id="ai-code-display" style="background: #000; padding: 10px; max-height: 300px; overflow-y: auto; border: 1px solid #00ff88; border-radius: 3px; white-space: pre-wrap; font-size: 10px; word-break: break-word;"></div>
+                <button onclick="downloadCode()" style="margin-top: 10px;">💾 DESCARGAR CÓDIGO</button>
+                <button onclick="copyCode()" style="margin-top: 10px;">📋 COPIAR</button>
             </div>
 
             <div class="panel-section">

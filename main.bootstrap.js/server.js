@@ -3,17 +3,32 @@
 
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const jwt = require('jsonwebtoken'); 
 const cors = require('cors'); // Añadir cors para el despliegue web
+const { generateWithGPT5, generateWithGemini, generateDual, INDUSTRY_TEMPLATES } = require('./ai-generator');
 
 const app = express();
 app.use(cors()); // Usar CORS
+app.use(express.json({ limit: '50mb' })); // Para manejar requests con JSON (incluyendo imágenes base64)
 const PORT = 5000; // El puerto estándar de Replit
 
 // =================================================================
 // [0] ARTEFACTOS CRÍTICOS (Obtenidos de Replit Secrets)
 // =================================================================
-const MASTER_KEY_RSA_PRIVADA = process.env.RSA_4096_PRIVADA;
+let MASTER_KEY_RSA_PRIVADA = null;
+try {
+    const keyPath = path.join(__dirname, '..', 'keys', 'throne_key.pem');
+    if (fs.existsSync(keyPath)) {
+        MASTER_KEY_RSA_PRIVADA = fs.readFileSync(keyPath, 'utf8');
+        console.log("✅ Clave RSA-4096 cargada desde keys/throne_key.pem");
+    } else if (process.env.RSA_4096_PRIVADA) {
+        MASTER_KEY_RSA_PRIVADA = process.env.RSA_4096_PRIVADA.replace(/\\n/g, '\n');
+        console.log("✅ Clave RSA-4096 cargada desde Secrets");
+    }
+} catch (e) {
+    console.warn("⚠️  Error cargando clave RSA:", e.message);
+}
 const CESIUM_TOKEN = process.env.CESIUM_TOKEN;
 const ECC_KEY_PUBLIC = process.env.ECC_KEY_PUBLIC; 
 const PASAPORTE_MAESTRO = process.env.PASAPORTE_MAESTRO ? JSON.parse(process.env.PASAPORTE_MAESTRO) : {};
@@ -80,6 +95,67 @@ function revisarAdquisicion(tokenSoberano) {
 // [3] RUTAS Y SERVICIO
 // =================================================================
 
+// =================================================================
+// [3.1] RUTAS DE GENERACIÓN CON IA
+// =================================================================
+
+// Obtener templates disponibles por industria
+app.get('/api/templates', (req, res) => {
+    res.json({
+        success: true,
+        templates: INDUSTRY_TEMPLATES
+    });
+});
+
+// Generar app con IA (modo dual: GPT-5 + Gemini)
+app.post('/api/generate-app', async (req, res) => {
+    try {
+        const { prompt, industry, mode } = req.body;
+
+        if (!prompt) {
+            return res.status(400).json({
+                success: false,
+                error: "Se requiere un 'prompt' para generar la app"
+            });
+        }
+
+        console.log(`🚀 Generando app - Modo: ${mode || 'dual'}, Industria: ${industry || 'general'}`);
+
+        let result;
+        if (mode === 'gpt5') {
+            result = await generateWithGPT5(prompt, industry);
+        } else if (mode === 'gemini') {
+            result = await generateWithGemini(prompt, industry);
+        } else {
+            // Modo dual por defecto (más potente)
+            result = await generateDual(prompt, industry);
+        }
+
+        res.json(result);
+    } catch (error) {
+        console.error("Error generando app:", error);
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// Generar código rápido con GPT-5
+app.post('/api/quick-code', async (req, res) => {
+    try {
+        const { prompt } = req.body;
+        if (!prompt) {
+            return res.status(400).json({ success: false, error: "Prompt requerido" });
+        }
+
+        const result = await generateWithGPT5(prompt);
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
 // Ruta para obtener los datos críticos (Token Soberano y Sellos)
 app.get('/api/protocol-init', (req, res) => {
     try {
@@ -92,6 +168,7 @@ app.get('/api/protocol-init', (req, res) => {
                 token_soberano: "DEMO_MODE",
                 cesium_token: CESIUM_TOKEN,
                 nodos_cargados: API_BLOCKS.length,
+                arsenal_nodos: API_BLOCKS,
                 pasaporte_maestro: PASAPORTE_MAESTRO,
                 instrucciones: "Agrega los secretos RSA_4096_PRIVADA y SISTEMA_TOKEN_LISTA en el panel de Secrets"
             });
@@ -103,12 +180,24 @@ app.get('/api/protocol-init', (req, res) => {
         res.json({
             status: "PROTOCOLO_APROBADO", master_seal: THRONE_SEAL_SHA256, diplomat_seal: DIPLOMAT_SEAL_SHA256,
             token_soberano: tokenSoberano, cesium_token: CESIUM_TOKEN, ecc_public_key: ECC_KEY_PUBLIC,
-            nodos_cargados: API_BLOCKS.length, adquisicion_status: resultadoAdquisicion,
+            nodos_cargados: API_BLOCKS.length, arsenal_nodos: API_BLOCKS, adquisicion_status: resultadoAdquisicion,
             pasaporte_maestro: PASAPORTE_MAESTRO 
         });
     } catch (e) {
         console.error("ERROR de firma RSA (Verifique Secret):", e.message);
-        res.status(401).json({ status: "PROTOCOLO_FALLIDO", error: "Error de firma: Clave privada RSA inválida." });
+        console.warn("Cambiando a MODO DEMO debido a error de clave RSA");
+        res.json({
+            status: "MODO_DEMO",
+            message: "La clave RSA tiene un formato inválido. Funcionando en modo DEMO.",
+            master_seal: THRONE_SEAL_SHA256, 
+            diplomat_seal: DIPLOMAT_SEAL_SHA256,
+            token_soberano: "DEMO_MODE",
+            cesium_token: CESIUM_TOKEN,
+            nodos_cargados: API_BLOCKS.length,
+            arsenal_nodos: API_BLOCKS,
+            pasaporte_maestro: PASAPORTE_MAESTRO,
+            instrucciones: "Verifica que RSA_4096_PRIVADA sea una clave PEM válida con saltos de línea correctos"
+        });
     }
 });
 
