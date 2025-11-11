@@ -77,5 +77,2375 @@
       "verificable": true,
       "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
     }
+  },
+  {
+    "id_proyecto": "ARCH-1762846039101-989Q7T1QN",
+    "timestamp": "2025-11-11T07:27:19.102Z",
+    "diseño": {
+      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "caracteristicas": [
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos",
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 45,
+        "ancho_m": 30,
+        "profundidad_m": 25,
+        "area_construida_m2": "6000.00",
+        "volumen_total_m3": "13500.00"
+      },
+      "numero_pisos": 8,
+      "material_principal": "bronze_arquitectonico",
+      "material_secundario": "titanio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 13500,
+        "material": "bronze_arquitectonico",
+        "densidad_kg_m3": 8800,
+        "peso_total_kg": 118800000,
+        "peso_toneladas": "118800.00",
+        "fuerza_gravitacional_newtons": "1165428000.00",
+        "resistencia_material_mpa": 450,
+        "costo_material_usd": "162000000.00"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 9,
+        "momento_flexion_nm": "1311106500.00",
+        "esfuerzo_necesario_mpa": "16186500.00",
+        "esfuerzo_material_mpa": 450,
+        "factor_seguridad": "0.00",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.35",
+        "centro_gravedad_y": "0.63",
+        "centro_gravedad_z": "23.85",
+        "masa_total_kg": "118800000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": -11.452706,
+        "longitud": -108.409572,
+        "terreno": "oceano",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "oceano",
+      "zona_climatica": "Tropical"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "162000000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "59,225,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1762846039103-ROZ7OXXY4",
+    "timestamp": "2025-11-11T07:27:19.103Z",
+    "diseño": {
+      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "caracteristicas": [
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos",
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 45,
+        "ancho_m": 30,
+        "profundidad_m": 25,
+        "area_construida_m2": "6000.00",
+        "volumen_total_m3": "13500.00"
+      },
+      "numero_pisos": 8,
+      "material_principal": "bronze_arquitectonico",
+      "material_secundario": "titanio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 13500,
+        "material": "bronze_arquitectonico",
+        "densidad_kg_m3": 8800,
+        "peso_total_kg": 118800000,
+        "peso_toneladas": "118800.00",
+        "fuerza_gravitacional_newtons": "1165428000.00",
+        "resistencia_material_mpa": 450,
+        "costo_material_usd": "162000000.00"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 9,
+        "momento_flexion_nm": "1311106500.00",
+        "esfuerzo_necesario_mpa": "16186500.00",
+        "esfuerzo_material_mpa": 450,
+        "factor_seguridad": "0.00",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.35",
+        "centro_gravedad_y": "0.63",
+        "centro_gravedad_z": "23.85",
+        "masa_total_kg": "118800000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": 38.363459,
+        "longitud": -106.028931,
+        "terreno": "lago",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "lago",
+      "zona_climatica": "Templado"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "162000000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "59,225,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1762846039103-L226M9Z9S",
+    "timestamp": "2025-11-11T07:27:19.103Z",
+    "diseño": {
+      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "caracteristicas": [
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos",
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 45,
+        "ancho_m": 30,
+        "profundidad_m": 25,
+        "area_construida_m2": "6000.00",
+        "volumen_total_m3": "13500.00"
+      },
+      "numero_pisos": 8,
+      "material_principal": "bronze_arquitectonico",
+      "material_secundario": "titanio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 13500,
+        "material": "bronze_arquitectonico",
+        "densidad_kg_m3": 8800,
+        "peso_total_kg": 118800000,
+        "peso_toneladas": "118800.00",
+        "fuerza_gravitacional_newtons": "1165428000.00",
+        "resistencia_material_mpa": 450,
+        "costo_material_usd": "162000000.00"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 9,
+        "momento_flexion_nm": "1311106500.00",
+        "esfuerzo_necesario_mpa": "16186500.00",
+        "esfuerzo_material_mpa": 450,
+        "factor_seguridad": "0.00",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.35",
+        "centro_gravedad_y": "0.63",
+        "centro_gravedad_z": "23.85",
+        "masa_total_kg": "118800000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": 27.331686,
+        "longitud": 47.159838,
+        "terreno": "desierto",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "desierto",
+      "zona_climatica": "Árido"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "162000000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "59,225,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1762846039103-E4XNRXRY0",
+    "timestamp": "2025-11-11T07:27:19.103Z",
+    "diseño": {
+      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "caracteristicas": [
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos",
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 45,
+        "ancho_m": 30,
+        "profundidad_m": 25,
+        "area_construida_m2": "6000.00",
+        "volumen_total_m3": "13500.00"
+      },
+      "numero_pisos": 8,
+      "material_principal": "bronze_arquitectonico",
+      "material_secundario": "titanio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 13500,
+        "material": "bronze_arquitectonico",
+        "densidad_kg_m3": 8800,
+        "peso_total_kg": 118800000,
+        "peso_toneladas": "118800.00",
+        "fuerza_gravitacional_newtons": "1165428000.00",
+        "resistencia_material_mpa": 450,
+        "costo_material_usd": "162000000.00"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 9,
+        "momento_flexion_nm": "1311106500.00",
+        "esfuerzo_necesario_mpa": "16186500.00",
+        "esfuerzo_material_mpa": 450,
+        "factor_seguridad": "0.00",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.35",
+        "centro_gravedad_y": "0.63",
+        "centro_gravedad_z": "23.85",
+        "masa_total_kg": "118800000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": -4.576742,
+        "longitud": -136.016561,
+        "terreno": "oceano",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "oceano",
+      "zona_climatica": "Tropical"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "162000000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "59,225,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1762846039103-JA5FS5IVB",
+    "timestamp": "2025-11-11T07:27:19.103Z",
+    "diseño": {
+      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "caracteristicas": [
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos",
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 45,
+        "ancho_m": 30,
+        "profundidad_m": 25,
+        "area_construida_m2": "6000.00",
+        "volumen_total_m3": "13500.00"
+      },
+      "numero_pisos": 8,
+      "material_principal": "bronze_arquitectonico",
+      "material_secundario": "titanio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 13500,
+        "material": "bronze_arquitectonico",
+        "densidad_kg_m3": 8800,
+        "peso_total_kg": 118800000,
+        "peso_toneladas": "118800.00",
+        "fuerza_gravitacional_newtons": "1165428000.00",
+        "resistencia_material_mpa": 450,
+        "costo_material_usd": "162000000.00"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 9,
+        "momento_flexion_nm": "1311106500.00",
+        "esfuerzo_necesario_mpa": "16186500.00",
+        "esfuerzo_material_mpa": 450,
+        "factor_seguridad": "0.00",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.35",
+        "centro_gravedad_y": "0.63",
+        "centro_gravedad_z": "23.85",
+        "masa_total_kg": "118800000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": 42.190565,
+        "longitud": -92.097656,
+        "terreno": "lago",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "lago",
+      "zona_climatica": "Templado"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "162000000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "59,225,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1762846039103-GEU0UN6O6",
+    "timestamp": "2025-11-11T07:27:19.103Z",
+    "diseño": {
+      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "caracteristicas": [
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos",
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 45,
+        "ancho_m": 30,
+        "profundidad_m": 25,
+        "area_construida_m2": "6000.00",
+        "volumen_total_m3": "13500.00"
+      },
+      "numero_pisos": 8,
+      "material_principal": "bronze_arquitectonico",
+      "material_secundario": "titanio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 13500,
+        "material": "bronze_arquitectonico",
+        "densidad_kg_m3": 8800,
+        "peso_total_kg": 118800000,
+        "peso_toneladas": "118800.00",
+        "fuerza_gravitacional_newtons": "1165428000.00",
+        "resistencia_material_mpa": 450,
+        "costo_material_usd": "162000000.00"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 9,
+        "momento_flexion_nm": "1311106500.00",
+        "esfuerzo_necesario_mpa": "16186500.00",
+        "esfuerzo_material_mpa": 450,
+        "factor_seguridad": "0.00",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.35",
+        "centro_gravedad_y": "0.63",
+        "centro_gravedad_z": "23.85",
+        "masa_total_kg": "118800000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": 24.121224,
+        "longitud": 44.765885,
+        "terreno": "desierto",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "desierto",
+      "zona_climatica": "Árido"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "162000000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "59,225,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1762846039104-Y7BOL1SSZ",
+    "timestamp": "2025-11-11T07:27:19.104Z",
+    "diseño": {
+      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "caracteristicas": [
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos",
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 45,
+        "ancho_m": 30,
+        "profundidad_m": 25,
+        "area_construida_m2": "6000.00",
+        "volumen_total_m3": "13500.00"
+      },
+      "numero_pisos": 8,
+      "material_principal": "bronze_arquitectonico",
+      "material_secundario": "titanio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 13500,
+        "material": "bronze_arquitectonico",
+        "densidad_kg_m3": 8800,
+        "peso_total_kg": 118800000,
+        "peso_toneladas": "118800.00",
+        "fuerza_gravitacional_newtons": "1165428000.00",
+        "resistencia_material_mpa": 450,
+        "costo_material_usd": "162000000.00"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 9,
+        "momento_flexion_nm": "1311106500.00",
+        "esfuerzo_necesario_mpa": "16186500.00",
+        "esfuerzo_material_mpa": 450,
+        "factor_seguridad": "0.00",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.35",
+        "centro_gravedad_y": "0.63",
+        "centro_gravedad_z": "23.85",
+        "masa_total_kg": "118800000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": 41.495411,
+        "longitud": -107.713173,
+        "terreno": "montana",
+        "elevacion_m": 1071
+      },
+      "terreno_tipo": "montana",
+      "zona_climatica": "Templado"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "162000000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "59,225,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1762846039104-RRUAR6L1R",
+    "timestamp": "2025-11-11T07:27:19.104Z",
+    "diseño": {
+      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "caracteristicas": [
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos",
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 45,
+        "ancho_m": 30,
+        "profundidad_m": 25,
+        "area_construida_m2": "6000.00",
+        "volumen_total_m3": "13500.00"
+      },
+      "numero_pisos": 8,
+      "material_principal": "bronze_arquitectonico",
+      "material_secundario": "titanio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 13500,
+        "material": "bronze_arquitectonico",
+        "densidad_kg_m3": 8800,
+        "peso_total_kg": 118800000,
+        "peso_toneladas": "118800.00",
+        "fuerza_gravitacional_newtons": "1165428000.00",
+        "resistencia_material_mpa": 450,
+        "costo_material_usd": "162000000.00"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 9,
+        "momento_flexion_nm": "1311106500.00",
+        "esfuerzo_necesario_mpa": "16186500.00",
+        "esfuerzo_material_mpa": 450,
+        "factor_seguridad": "0.00",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.35",
+        "centro_gravedad_y": "0.63",
+        "centro_gravedad_z": "23.85",
+        "masa_total_kg": "118800000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": -2.40615,
+        "longitud": -100.084516,
+        "terreno": "oceano",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "oceano",
+      "zona_climatica": "Tropical"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "162000000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "59,225,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1762846039104-YAXXHS4B8",
+    "timestamp": "2025-11-11T07:27:19.104Z",
+    "diseño": {
+      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "caracteristicas": [
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos",
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 45,
+        "ancho_m": 30,
+        "profundidad_m": 25,
+        "area_construida_m2": "6000.00",
+        "volumen_total_m3": "13500.00"
+      },
+      "numero_pisos": 8,
+      "material_principal": "bronze_arquitectonico",
+      "material_secundario": "titanio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 13500,
+        "material": "bronze_arquitectonico",
+        "densidad_kg_m3": 8800,
+        "peso_total_kg": 118800000,
+        "peso_toneladas": "118800.00",
+        "fuerza_gravitacional_newtons": "1165428000.00",
+        "resistencia_material_mpa": 450,
+        "costo_material_usd": "162000000.00"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 9,
+        "momento_flexion_nm": "1311106500.00",
+        "esfuerzo_necesario_mpa": "16186500.00",
+        "esfuerzo_material_mpa": 450,
+        "factor_seguridad": "0.00",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.35",
+        "centro_gravedad_y": "0.63",
+        "centro_gravedad_z": "23.85",
+        "masa_total_kg": "118800000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": 37.205709,
+        "longitud": -115.261005,
+        "terreno": "lago",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "lago",
+      "zona_climatica": "Templado"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "162000000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "59,225,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1762846039104-B3HWWKPE1",
+    "timestamp": "2025-11-11T07:27:19.104Z",
+    "diseño": {
+      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "caracteristicas": [
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos",
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 45,
+        "ancho_m": 30,
+        "profundidad_m": 25,
+        "area_construida_m2": "6000.00",
+        "volumen_total_m3": "13500.00"
+      },
+      "numero_pisos": 8,
+      "material_principal": "bronze_arquitectonico",
+      "material_secundario": "titanio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 13500,
+        "material": "bronze_arquitectonico",
+        "densidad_kg_m3": 8800,
+        "peso_total_kg": 118800000,
+        "peso_toneladas": "118800.00",
+        "fuerza_gravitacional_newtons": "1165428000.00",
+        "resistencia_material_mpa": 450,
+        "costo_material_usd": "162000000.00"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 9,
+        "momento_flexion_nm": "1311106500.00",
+        "esfuerzo_necesario_mpa": "16186500.00",
+        "esfuerzo_material_mpa": 450,
+        "factor_seguridad": "0.00",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.35",
+        "centro_gravedad_y": "0.63",
+        "centro_gravedad_z": "23.85",
+        "masa_total_kg": "118800000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": 6.370345,
+        "longitud": -132.141829,
+        "terreno": "oceano",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "oceano",
+      "zona_climatica": "Tropical"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "162000000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "59,225,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1762846039105-L2POKSRTZ",
+    "timestamp": "2025-11-11T07:27:19.105Z",
+    "diseño": {
+      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "caracteristicas": [
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos",
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 45,
+        "ancho_m": 30,
+        "profundidad_m": 25,
+        "area_construida_m2": "6000.00",
+        "volumen_total_m3": "13500.00"
+      },
+      "numero_pisos": 8,
+      "material_principal": "bronze_arquitectonico",
+      "material_secundario": "titanio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 13500,
+        "material": "bronze_arquitectonico",
+        "densidad_kg_m3": 8800,
+        "peso_total_kg": 118800000,
+        "peso_toneladas": "118800.00",
+        "fuerza_gravitacional_newtons": "1165428000.00",
+        "resistencia_material_mpa": 450,
+        "costo_material_usd": "162000000.00"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 9,
+        "momento_flexion_nm": "1311106500.00",
+        "esfuerzo_necesario_mpa": "16186500.00",
+        "esfuerzo_material_mpa": 450,
+        "factor_seguridad": "0.00",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.35",
+        "centro_gravedad_y": "0.63",
+        "centro_gravedad_z": "23.85",
+        "masa_total_kg": "118800000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": 8.84899,
+        "longitud": -121.066729,
+        "terreno": "oceano",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "oceano",
+      "zona_climatica": "Tropical"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "162000000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "59,225,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1762846039105-2XZWUGLOU",
+    "timestamp": "2025-11-11T07:27:19.105Z",
+    "diseño": {
+      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "caracteristicas": [
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos",
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 45,
+        "ancho_m": 30,
+        "profundidad_m": 25,
+        "area_construida_m2": "6000.00",
+        "volumen_total_m3": "13500.00"
+      },
+      "numero_pisos": 8,
+      "material_principal": "bronze_arquitectonico",
+      "material_secundario": "titanio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 13500,
+        "material": "bronze_arquitectonico",
+        "densidad_kg_m3": 8800,
+        "peso_total_kg": 118800000,
+        "peso_toneladas": "118800.00",
+        "fuerza_gravitacional_newtons": "1165428000.00",
+        "resistencia_material_mpa": 450,
+        "costo_material_usd": "162000000.00"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 9,
+        "momento_flexion_nm": "1311106500.00",
+        "esfuerzo_necesario_mpa": "16186500.00",
+        "esfuerzo_material_mpa": 450,
+        "factor_seguridad": "0.00",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.35",
+        "centro_gravedad_y": "0.63",
+        "centro_gravedad_z": "23.85",
+        "masa_total_kg": "118800000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": 20.832225,
+        "longitud": 51.448774,
+        "terreno": "desierto",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "desierto",
+      "zona_climatica": "Árido"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "162000000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "59,225,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1762846039105-DBUJGX40K",
+    "timestamp": "2025-11-11T07:27:19.105Z",
+    "diseño": {
+      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "caracteristicas": [
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos",
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 45,
+        "ancho_m": 30,
+        "profundidad_m": 25,
+        "area_construida_m2": "6000.00",
+        "volumen_total_m3": "13500.00"
+      },
+      "numero_pisos": 8,
+      "material_principal": "bronze_arquitectonico",
+      "material_secundario": "titanio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 13500,
+        "material": "bronze_arquitectonico",
+        "densidad_kg_m3": 8800,
+        "peso_total_kg": 118800000,
+        "peso_toneladas": "118800.00",
+        "fuerza_gravitacional_newtons": "1165428000.00",
+        "resistencia_material_mpa": 450,
+        "costo_material_usd": "162000000.00"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 9,
+        "momento_flexion_nm": "1311106500.00",
+        "esfuerzo_necesario_mpa": "16186500.00",
+        "esfuerzo_material_mpa": 450,
+        "factor_seguridad": "0.00",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.35",
+        "centro_gravedad_y": "0.63",
+        "centro_gravedad_z": "23.85",
+        "masa_total_kg": "118800000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": 30.10456,
+        "longitud": -116.683526,
+        "terreno": "lago",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "lago",
+      "zona_climatica": "Templado"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "162000000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "59,225,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1762846039105-5Q0BUSNM1",
+    "timestamp": "2025-11-11T07:27:19.105Z",
+    "diseño": {
+      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "caracteristicas": [
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos",
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 45,
+        "ancho_m": 30,
+        "profundidad_m": 25,
+        "area_construida_m2": "6000.00",
+        "volumen_total_m3": "13500.00"
+      },
+      "numero_pisos": 8,
+      "material_principal": "bronze_arquitectonico",
+      "material_secundario": "titanio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 13500,
+        "material": "bronze_arquitectonico",
+        "densidad_kg_m3": 8800,
+        "peso_total_kg": 118800000,
+        "peso_toneladas": "118800.00",
+        "fuerza_gravitacional_newtons": "1165428000.00",
+        "resistencia_material_mpa": 450,
+        "costo_material_usd": "162000000.00"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 9,
+        "momento_flexion_nm": "1311106500.00",
+        "esfuerzo_necesario_mpa": "16186500.00",
+        "esfuerzo_material_mpa": 450,
+        "factor_seguridad": "0.00",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.35",
+        "centro_gravedad_y": "0.63",
+        "centro_gravedad_z": "23.85",
+        "masa_total_kg": "118800000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": 13.49027,
+        "longitud": -131.317032,
+        "terreno": "oceano",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "oceano",
+      "zona_climatica": "Tropical"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "162000000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "59,225,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1762846039105-AGCO5G6BB",
+    "timestamp": "2025-11-11T07:27:19.105Z",
+    "diseño": {
+      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "caracteristicas": [
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos",
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 45,
+        "ancho_m": 30,
+        "profundidad_m": 25,
+        "area_construida_m2": "6000.00",
+        "volumen_total_m3": "13500.00"
+      },
+      "numero_pisos": 8,
+      "material_principal": "bronze_arquitectonico",
+      "material_secundario": "titanio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 13500,
+        "material": "bronze_arquitectonico",
+        "densidad_kg_m3": 8800,
+        "peso_total_kg": 118800000,
+        "peso_toneladas": "118800.00",
+        "fuerza_gravitacional_newtons": "1165428000.00",
+        "resistencia_material_mpa": 450,
+        "costo_material_usd": "162000000.00"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 9,
+        "momento_flexion_nm": "1311106500.00",
+        "esfuerzo_necesario_mpa": "16186500.00",
+        "esfuerzo_material_mpa": 450,
+        "factor_seguridad": "0.00",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.35",
+        "centro_gravedad_y": "0.63",
+        "centro_gravedad_z": "23.85",
+        "masa_total_kg": "118800000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": 21.668263,
+        "longitud": 49.120262,
+        "terreno": "desierto",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "desierto",
+      "zona_climatica": "Árido"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "162000000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "59,225,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1762846039105-VDFLHCDCA",
+    "timestamp": "2025-11-11T07:27:19.105Z",
+    "diseño": {
+      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "caracteristicas": [
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos",
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 45,
+        "ancho_m": 30,
+        "profundidad_m": 25,
+        "area_construida_m2": "6000.00",
+        "volumen_total_m3": "13500.00"
+      },
+      "numero_pisos": 8,
+      "material_principal": "bronze_arquitectonico",
+      "material_secundario": "titanio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 13500,
+        "material": "bronze_arquitectonico",
+        "densidad_kg_m3": 8800,
+        "peso_total_kg": 118800000,
+        "peso_toneladas": "118800.00",
+        "fuerza_gravitacional_newtons": "1165428000.00",
+        "resistencia_material_mpa": 450,
+        "costo_material_usd": "162000000.00"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 9,
+        "momento_flexion_nm": "1311106500.00",
+        "esfuerzo_necesario_mpa": "16186500.00",
+        "esfuerzo_material_mpa": 450,
+        "factor_seguridad": "0.00",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.35",
+        "centro_gravedad_y": "0.63",
+        "centro_gravedad_z": "23.85",
+        "masa_total_kg": "118800000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": 38.571404,
+        "longitud": -95.841741,
+        "terreno": "lago",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "lago",
+      "zona_climatica": "Templado"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "162000000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "59,225,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1762846039105-IXOE6PF0O",
+    "timestamp": "2025-11-11T07:27:19.105Z",
+    "diseño": {
+      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "caracteristicas": [
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos",
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 45,
+        "ancho_m": 30,
+        "profundidad_m": 25,
+        "area_construida_m2": "6000.00",
+        "volumen_total_m3": "13500.00"
+      },
+      "numero_pisos": 8,
+      "material_principal": "bronze_arquitectonico",
+      "material_secundario": "titanio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 13500,
+        "material": "bronze_arquitectonico",
+        "densidad_kg_m3": 8800,
+        "peso_total_kg": 118800000,
+        "peso_toneladas": "118800.00",
+        "fuerza_gravitacional_newtons": "1165428000.00",
+        "resistencia_material_mpa": 450,
+        "costo_material_usd": "162000000.00"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 9,
+        "momento_flexion_nm": "1311106500.00",
+        "esfuerzo_necesario_mpa": "16186500.00",
+        "esfuerzo_material_mpa": 450,
+        "factor_seguridad": "0.00",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.35",
+        "centro_gravedad_y": "0.63",
+        "centro_gravedad_z": "23.85",
+        "masa_total_kg": "118800000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": 51.126082,
+        "longitud": -107.410988,
+        "terreno": "montana",
+        "elevacion_m": 1263
+      },
+      "terreno_tipo": "montana",
+      "zona_climatica": "Templado"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "162000000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "59,225,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1762846039105-BUV00STJ4",
+    "timestamp": "2025-11-11T07:27:19.105Z",
+    "diseño": {
+      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "caracteristicas": [
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos",
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 45,
+        "ancho_m": 30,
+        "profundidad_m": 25,
+        "area_construida_m2": "6000.00",
+        "volumen_total_m3": "13500.00"
+      },
+      "numero_pisos": 8,
+      "material_principal": "bronze_arquitectonico",
+      "material_secundario": "titanio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 13500,
+        "material": "bronze_arquitectonico",
+        "densidad_kg_m3": 8800,
+        "peso_total_kg": 118800000,
+        "peso_toneladas": "118800.00",
+        "fuerza_gravitacional_newtons": "1165428000.00",
+        "resistencia_material_mpa": 450,
+        "costo_material_usd": "162000000.00"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 9,
+        "momento_flexion_nm": "1311106500.00",
+        "esfuerzo_necesario_mpa": "16186500.00",
+        "esfuerzo_material_mpa": 450,
+        "factor_seguridad": "0.00",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.35",
+        "centro_gravedad_y": "0.63",
+        "centro_gravedad_z": "23.85",
+        "masa_total_kg": "118800000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": 3.491337,
+        "longitud": -121.082112,
+        "terreno": "oceano",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "oceano",
+      "zona_climatica": "Tropical"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "162000000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "59,225,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1762846039105-KGPR06VC8",
+    "timestamp": "2025-11-11T07:27:19.105Z",
+    "diseño": {
+      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "caracteristicas": [
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos",
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 45,
+        "ancho_m": 30,
+        "profundidad_m": 25,
+        "area_construida_m2": "6000.00",
+        "volumen_total_m3": "13500.00"
+      },
+      "numero_pisos": 8,
+      "material_principal": "bronze_arquitectonico",
+      "material_secundario": "titanio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 13500,
+        "material": "bronze_arquitectonico",
+        "densidad_kg_m3": 8800,
+        "peso_total_kg": 118800000,
+        "peso_toneladas": "118800.00",
+        "fuerza_gravitacional_newtons": "1165428000.00",
+        "resistencia_material_mpa": 450,
+        "costo_material_usd": "162000000.00"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 9,
+        "momento_flexion_nm": "1311106500.00",
+        "esfuerzo_necesario_mpa": "16186500.00",
+        "esfuerzo_material_mpa": 450,
+        "factor_seguridad": "0.00",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.35",
+        "centro_gravedad_y": "0.63",
+        "centro_gravedad_z": "23.85",
+        "masa_total_kg": "118800000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": 24.251967,
+        "longitud": 49.566332,
+        "terreno": "desierto",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "desierto",
+      "zona_climatica": "Árido"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "162000000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "59,225,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1762846039105-UR2CYANAH",
+    "timestamp": "2025-11-11T07:27:19.105Z",
+    "diseño": {
+      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "caracteristicas": [
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos",
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 45,
+        "ancho_m": 30,
+        "profundidad_m": 25,
+        "area_construida_m2": "6000.00",
+        "volumen_total_m3": "13500.00"
+      },
+      "numero_pisos": 8,
+      "material_principal": "bronze_arquitectonico",
+      "material_secundario": "titanio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 13500,
+        "material": "bronze_arquitectonico",
+        "densidad_kg_m3": 8800,
+        "peso_total_kg": 118800000,
+        "peso_toneladas": "118800.00",
+        "fuerza_gravitacional_newtons": "1165428000.00",
+        "resistencia_material_mpa": 450,
+        "costo_material_usd": "162000000.00"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 9,
+        "momento_flexion_nm": "1311106500.00",
+        "esfuerzo_necesario_mpa": "16186500.00",
+        "esfuerzo_material_mpa": 450,
+        "factor_seguridad": "0.00",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.35",
+        "centro_gravedad_y": "0.63",
+        "centro_gravedad_z": "23.85",
+        "masa_total_kg": "118800000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": -5.443574,
+        "longitud": -145.004881,
+        "terreno": "oceano",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "oceano",
+      "zona_climatica": "Tropical"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "162000000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "59,225,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1762846039105-EVFNZ49PC",
+    "timestamp": "2025-11-11T07:27:19.105Z",
+    "diseño": {
+      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "caracteristicas": [
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos",
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 45,
+        "ancho_m": 30,
+        "profundidad_m": 25,
+        "area_construida_m2": "6000.00",
+        "volumen_total_m3": "13500.00"
+      },
+      "numero_pisos": 8,
+      "material_principal": "bronze_arquitectonico",
+      "material_secundario": "titanio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 13500,
+        "material": "bronze_arquitectonico",
+        "densidad_kg_m3": 8800,
+        "peso_total_kg": 118800000,
+        "peso_toneladas": "118800.00",
+        "fuerza_gravitacional_newtons": "1165428000.00",
+        "resistencia_material_mpa": 450,
+        "costo_material_usd": "162000000.00"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 9,
+        "momento_flexion_nm": "1311106500.00",
+        "esfuerzo_necesario_mpa": "16186500.00",
+        "esfuerzo_material_mpa": 450,
+        "factor_seguridad": "0.00",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.35",
+        "centro_gravedad_y": "0.63",
+        "centro_gravedad_z": "23.85",
+        "masa_total_kg": "118800000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": 33.321309,
+        "longitud": -85.128191,
+        "terreno": "lago",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "lago",
+      "zona_climatica": "Templado"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "162000000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "59,225,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1762846039105-EHTP3YE37",
+    "timestamp": "2025-11-11T07:27:19.105Z",
+    "diseño": {
+      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "caracteristicas": [
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos",
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 45,
+        "ancho_m": 30,
+        "profundidad_m": 25,
+        "area_construida_m2": "6000.00",
+        "volumen_total_m3": "13500.00"
+      },
+      "numero_pisos": 8,
+      "material_principal": "bronze_arquitectonico",
+      "material_secundario": "titanio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 13500,
+        "material": "bronze_arquitectonico",
+        "densidad_kg_m3": 8800,
+        "peso_total_kg": 118800000,
+        "peso_toneladas": "118800.00",
+        "fuerza_gravitacional_newtons": "1165428000.00",
+        "resistencia_material_mpa": 450,
+        "costo_material_usd": "162000000.00"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 9,
+        "momento_flexion_nm": "1311106500.00",
+        "esfuerzo_necesario_mpa": "16186500.00",
+        "esfuerzo_material_mpa": 450,
+        "factor_seguridad": "0.00",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.35",
+        "centro_gravedad_y": "0.63",
+        "centro_gravedad_z": "23.85",
+        "masa_total_kg": "118800000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": -15.664464,
+        "longitud": -110.33658,
+        "terreno": "oceano",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "oceano",
+      "zona_climatica": "Tropical"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "162000000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "59,225,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1762846039105-31ZBSAP2E",
+    "timestamp": "2025-11-11T07:27:19.105Z",
+    "diseño": {
+      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "caracteristicas": [
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos",
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 45,
+        "ancho_m": 30,
+        "profundidad_m": 25,
+        "area_construida_m2": "6000.00",
+        "volumen_total_m3": "13500.00"
+      },
+      "numero_pisos": 8,
+      "material_principal": "bronze_arquitectonico",
+      "material_secundario": "titanio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 13500,
+        "material": "bronze_arquitectonico",
+        "densidad_kg_m3": 8800,
+        "peso_total_kg": 118800000,
+        "peso_toneladas": "118800.00",
+        "fuerza_gravitacional_newtons": "1165428000.00",
+        "resistencia_material_mpa": 450,
+        "costo_material_usd": "162000000.00"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 9,
+        "momento_flexion_nm": "1311106500.00",
+        "esfuerzo_necesario_mpa": "16186500.00",
+        "esfuerzo_material_mpa": 450,
+        "factor_seguridad": "0.00",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.35",
+        "centro_gravedad_y": "0.63",
+        "centro_gravedad_z": "23.85",
+        "masa_total_kg": "118800000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": 46.961902,
+        "longitud": -79.157309,
+        "terreno": "lago",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "lago",
+      "zona_climatica": "Templado"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "162000000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "59,225,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1762846039105-GHV6XARO6",
+    "timestamp": "2025-11-11T07:27:19.105Z",
+    "diseño": {
+      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "caracteristicas": [
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos",
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 45,
+        "ancho_m": 30,
+        "profundidad_m": 25,
+        "area_construida_m2": "6000.00",
+        "volumen_total_m3": "13500.00"
+      },
+      "numero_pisos": 8,
+      "material_principal": "bronze_arquitectonico",
+      "material_secundario": "titanio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 13500,
+        "material": "bronze_arquitectonico",
+        "densidad_kg_m3": 8800,
+        "peso_total_kg": 118800000,
+        "peso_toneladas": "118800.00",
+        "fuerza_gravitacional_newtons": "1165428000.00",
+        "resistencia_material_mpa": 450,
+        "costo_material_usd": "162000000.00"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 9,
+        "momento_flexion_nm": "1311106500.00",
+        "esfuerzo_necesario_mpa": "16186500.00",
+        "esfuerzo_material_mpa": 450,
+        "factor_seguridad": "0.00",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.35",
+        "centro_gravedad_y": "0.63",
+        "centro_gravedad_z": "23.85",
+        "masa_total_kg": "118800000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": 4.19336,
+        "longitud": -116.582739,
+        "terreno": "oceano",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "oceano",
+      "zona_climatica": "Tropical"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "162000000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "59,225,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1762846039105-33VLC4TUB",
+    "timestamp": "2025-11-11T07:27:19.105Z",
+    "diseño": {
+      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "caracteristicas": [
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos",
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 45,
+        "ancho_m": 30,
+        "profundidad_m": 25,
+        "area_construida_m2": "6000.00",
+        "volumen_total_m3": "13500.00"
+      },
+      "numero_pisos": 8,
+      "material_principal": "bronze_arquitectonico",
+      "material_secundario": "titanio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 13500,
+        "material": "bronze_arquitectonico",
+        "densidad_kg_m3": 8800,
+        "peso_total_kg": 118800000,
+        "peso_toneladas": "118800.00",
+        "fuerza_gravitacional_newtons": "1165428000.00",
+        "resistencia_material_mpa": 450,
+        "costo_material_usd": "162000000.00"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 9,
+        "momento_flexion_nm": "1311106500.00",
+        "esfuerzo_necesario_mpa": "16186500.00",
+        "esfuerzo_material_mpa": 450,
+        "factor_seguridad": "0.00",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.35",
+        "centro_gravedad_y": "0.63",
+        "centro_gravedad_z": "23.85",
+        "masa_total_kg": "118800000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": 26.125212,
+        "longitud": 49.808544,
+        "terreno": "desierto",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "desierto",
+      "zona_climatica": "Árido"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "162000000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "59,225,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1762846039105-HS4GQZF94",
+    "timestamp": "2025-11-11T07:27:19.105Z",
+    "diseño": {
+      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "caracteristicas": [
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos",
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 45,
+        "ancho_m": 30,
+        "profundidad_m": 25,
+        "area_construida_m2": "6000.00",
+        "volumen_total_m3": "13500.00"
+      },
+      "numero_pisos": 8,
+      "material_principal": "bronze_arquitectonico",
+      "material_secundario": "titanio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 13500,
+        "material": "bronze_arquitectonico",
+        "densidad_kg_m3": 8800,
+        "peso_total_kg": 118800000,
+        "peso_toneladas": "118800.00",
+        "fuerza_gravitacional_newtons": "1165428000.00",
+        "resistencia_material_mpa": 450,
+        "costo_material_usd": "162000000.00"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 9,
+        "momento_flexion_nm": "1311106500.00",
+        "esfuerzo_necesario_mpa": "16186500.00",
+        "esfuerzo_material_mpa": 450,
+        "factor_seguridad": "0.00",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.35",
+        "centro_gravedad_y": "0.63",
+        "centro_gravedad_z": "23.85",
+        "masa_total_kg": "118800000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": -19.955805,
+        "longitud": -140.37125,
+        "terreno": "oceano",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "oceano",
+      "zona_climatica": "Tropical"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "162000000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "59,225,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1762846039105-ZI2PA7DH1",
+    "timestamp": "2025-11-11T07:27:19.105Z",
+    "diseño": {
+      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "caracteristicas": [
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos",
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 45,
+        "ancho_m": 30,
+        "profundidad_m": 25,
+        "area_construida_m2": "6000.00",
+        "volumen_total_m3": "13500.00"
+      },
+      "numero_pisos": 8,
+      "material_principal": "bronze_arquitectonico",
+      "material_secundario": "titanio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 13500,
+        "material": "bronze_arquitectonico",
+        "densidad_kg_m3": 8800,
+        "peso_total_kg": 118800000,
+        "peso_toneladas": "118800.00",
+        "fuerza_gravitacional_newtons": "1165428000.00",
+        "resistencia_material_mpa": 450,
+        "costo_material_usd": "162000000.00"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 9,
+        "momento_flexion_nm": "1311106500.00",
+        "esfuerzo_necesario_mpa": "16186500.00",
+        "esfuerzo_material_mpa": 450,
+        "factor_seguridad": "0.00",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.35",
+        "centro_gravedad_y": "0.63",
+        "centro_gravedad_z": "23.85",
+        "masa_total_kg": "118800000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": 48.197371,
+        "longitud": -96.558173,
+        "terreno": "lago",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "lago",
+      "zona_climatica": "Templado"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "162000000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "59,225,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1762846039105-8NQLDEPQH",
+    "timestamp": "2025-11-11T07:27:19.105Z",
+    "diseño": {
+      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "caracteristicas": [
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos",
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 45,
+        "ancho_m": 30,
+        "profundidad_m": 25,
+        "area_construida_m2": "6000.00",
+        "volumen_total_m3": "13500.00"
+      },
+      "numero_pisos": 8,
+      "material_principal": "bronze_arquitectonico",
+      "material_secundario": "titanio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 13500,
+        "material": "bronze_arquitectonico",
+        "densidad_kg_m3": 8800,
+        "peso_total_kg": 118800000,
+        "peso_toneladas": "118800.00",
+        "fuerza_gravitacional_newtons": "1165428000.00",
+        "resistencia_material_mpa": 450,
+        "costo_material_usd": "162000000.00"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 9,
+        "momento_flexion_nm": "1311106500.00",
+        "esfuerzo_necesario_mpa": "16186500.00",
+        "esfuerzo_material_mpa": 450,
+        "factor_seguridad": "0.00",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.35",
+        "centro_gravedad_y": "0.63",
+        "centro_gravedad_z": "23.85",
+        "masa_total_kg": "118800000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": 15.244376,
+        "longitud": -117.622729,
+        "terreno": "oceano",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "oceano",
+      "zona_climatica": "Tropical"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "162000000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "59,225,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1762846039105-SQIBK6MUZ",
+    "timestamp": "2025-11-11T07:27:19.105Z",
+    "diseño": {
+      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "caracteristicas": [
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos",
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 45,
+        "ancho_m": 30,
+        "profundidad_m": 25,
+        "area_construida_m2": "6000.00",
+        "volumen_total_m3": "13500.00"
+      },
+      "numero_pisos": 8,
+      "material_principal": "bronze_arquitectonico",
+      "material_secundario": "titanio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 13500,
+        "material": "bronze_arquitectonico",
+        "densidad_kg_m3": 8800,
+        "peso_total_kg": 118800000,
+        "peso_toneladas": "118800.00",
+        "fuerza_gravitacional_newtons": "1165428000.00",
+        "resistencia_material_mpa": 450,
+        "costo_material_usd": "162000000.00"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 9,
+        "momento_flexion_nm": "1311106500.00",
+        "esfuerzo_necesario_mpa": "16186500.00",
+        "esfuerzo_material_mpa": 450,
+        "factor_seguridad": "0.00",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.35",
+        "centro_gravedad_y": "0.63",
+        "centro_gravedad_z": "23.85",
+        "masa_total_kg": "118800000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": 43.969195,
+        "longitud": -104.76709,
+        "terreno": "montana",
+        "elevacion_m": 1309
+      },
+      "terreno_tipo": "montana",
+      "zona_climatica": "Templado"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "162000000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "59,225,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1762846039105-DA4D8TDCH",
+    "timestamp": "2025-11-11T07:27:19.105Z",
+    "diseño": {
+      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "caracteristicas": [
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos",
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 45,
+        "ancho_m": 30,
+        "profundidad_m": 25,
+        "area_construida_m2": "6000.00",
+        "volumen_total_m3": "13500.00"
+      },
+      "numero_pisos": 8,
+      "material_principal": "bronze_arquitectonico",
+      "material_secundario": "titanio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 13500,
+        "material": "bronze_arquitectonico",
+        "densidad_kg_m3": 8800,
+        "peso_total_kg": 118800000,
+        "peso_toneladas": "118800.00",
+        "fuerza_gravitacional_newtons": "1165428000.00",
+        "resistencia_material_mpa": 450,
+        "costo_material_usd": "162000000.00"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 9,
+        "momento_flexion_nm": "1311106500.00",
+        "esfuerzo_necesario_mpa": "16186500.00",
+        "esfuerzo_material_mpa": 450,
+        "factor_seguridad": "0.00",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.35",
+        "centro_gravedad_y": "0.63",
+        "centro_gravedad_z": "23.85",
+        "masa_total_kg": "118800000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": 44.687388,
+        "longitud": -111.598258,
+        "terreno": "lago",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "lago",
+      "zona_climatica": "Templado"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "162000000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "59,225,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
   }
 ]
