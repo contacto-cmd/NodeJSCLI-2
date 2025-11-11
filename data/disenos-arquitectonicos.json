@@ -1,0 +1,81 @@
+[
+  {
+    "id_proyecto": "ARCH-1762845969013-OHD8928FI",
+    "timestamp": "2025-11-11T07:26:09.013Z",
+    "diseño": {
+      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "caracteristicas": [
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos",
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 45,
+        "ancho_m": 30,
+        "profundidad_m": 25,
+        "area_construida_m2": "6000.00",
+        "volumen_total_m3": "13500.00"
+      },
+      "numero_pisos": 8,
+      "material_principal": "bronze_arquitectonico",
+      "material_secundario": "titanio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 13500,
+        "material": "bronze_arquitectonico",
+        "densidad_kg_m3": 8800,
+        "peso_total_kg": 118800000,
+        "peso_toneladas": "118800.00",
+        "fuerza_gravitacional_newtons": "1165428000.00",
+        "resistencia_material_mpa": 450,
+        "costo_material_usd": "162000000.00"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 9,
+        "momento_flexion_nm": "1311106500.00",
+        "esfuerzo_necesario_mpa": "16186500.00",
+        "esfuerzo_material_mpa": 450,
+        "factor_seguridad": "0.00",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.35",
+        "centro_gravedad_y": "0.63",
+        "centro_gravedad_z": "23.85",
+        "masa_total_kg": "118800000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": -5.100946,
+        "longitud": -132.516183,
+        "terreno": "oceano",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "oceano",
+      "zona_climatica": "Tropical"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "162000000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "59,225,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  }
+]
