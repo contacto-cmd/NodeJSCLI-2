@@ -10,7 +10,8 @@ const path = require('path');
 // =================================================================
 
 // Cargar las claves RSA del usuario desde el sistema de archivos
-let THRONE_KEY = null;
+let THRONE_PRIVATE_KEY = null;
+let THRONE_PUBLIC_KEY = null;
 let DIPLONAT_KEY = null;
 let HP_KEY = null;
 
@@ -19,8 +20,16 @@ try {
     const throneKeyPath = path.join(keysPath, 'throne_key.pem');
     
     if (fs.existsSync(throneKeyPath)) {
-        THRONE_KEY = fs.readFileSync(throneKeyPath, 'utf8');
-        console.log("✅ Throne Key cargada para Vault");
+        // Cargar clave privada
+        THRONE_PRIVATE_KEY = fs.readFileSync(throneKeyPath, 'utf8');
+        
+        // Derivar clave pública de la privada
+        THRONE_PUBLIC_KEY = crypto.createPublicKey(THRONE_PRIVATE_KEY).export({
+            type: 'spki',
+            format: 'pem'
+        });
+        
+        console.log("✅ Throne Keys cargadas para Vault (pública + privada)");
     }
 } catch (e) {
     console.warn("⚠️  Error cargando claves para Vault:", e.message);
@@ -47,7 +56,7 @@ let vaultData = {
 // FUNCIONES DE ENCRIPTACIÓN/DESENCRIPTACIÓN (Híbrida AES + RSA)
 // =================================================================
 
-function encryptData(plaintext, publicKey = THRONE_KEY) {
+function encryptData(plaintext, publicKey = THRONE_PUBLIC_KEY) {
     try {
         // ENCRIPTACIÓN HÍBRIDA: AES-256-GCM para datos + RSA para la llave AES
         // Esto permite encriptar datos de cualquier tamaño (certificados, documentos, etc.)
@@ -87,7 +96,7 @@ function encryptData(plaintext, publicKey = THRONE_KEY) {
     }
 }
 
-function decryptData(encryptedData, privateKey = THRONE_KEY) {
+function decryptData(encryptedData, privateKey = THRONE_PRIVATE_KEY) {
     try {
         // DESENCRIPTACIÓN HÍBRIDA: Recuperar llave AES con RSA, luego desencriptar datos con AES
         
@@ -125,7 +134,7 @@ function decryptData(encryptedData, privateKey = THRONE_KEY) {
 // FIRMA DIGITAL
 // =================================================================
 
-function signData(data, privateKey = THRONE_KEY) {
+function signData(data, privateKey = THRONE_PRIVATE_KEY) {
     try {
         const sign = crypto.createSign('SHA256');
         sign.update(data);
@@ -137,7 +146,7 @@ function signData(data, privateKey = THRONE_KEY) {
     }
 }
 
-function verifySignature(data, signature, publicKey = THRONE_KEY) {
+function verifySignature(data, signature, publicKey = THRONE_PUBLIC_KEY) {
     try {
         const verify = crypto.createVerify('SHA256');
         verify.update(data);
@@ -154,7 +163,7 @@ function verifySignature(data, signature, publicKey = THRONE_KEY) {
 // =================================================================
 
 function addSecret(category, name, value, metadata = {}) {
-    if (!THRONE_KEY) {
+    if (!THRONE_PRIVATE_KEY || !THRONE_PUBLIC_KEY) {
         throw new Error("No hay clave disponible para encriptar");
     }
 
@@ -194,7 +203,7 @@ function addSecret(category, name, value, metadata = {}) {
 }
 
 function getSecret(category, secretId) {
-    if (!THRONE_KEY) {
+    if (!THRONE_PRIVATE_KEY || !THRONE_PUBLIC_KEY) {
         throw new Error("No hay clave disponible para desencriptar");
     }
 
@@ -292,7 +301,7 @@ function getVaultStats() {
         documents: (vaultData.documents || []).length,
         created: vaultData.metadata.created,
         lastModified: vaultData.metadata.lastModified,
-        vaultLocked: !THRONE_KEY
+        vaultLocked: !THRONE_PRIVATE_KEY
     };
 }
 

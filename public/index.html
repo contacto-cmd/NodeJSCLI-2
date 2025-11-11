@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Throne Protocol V3.0 - Sistema de Comando 3D</title>
     <link href="https://cesium.com/downloads/cesiumjs/releases/1.109/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+    <script src="https://unpkg.com/satellite.js/dist/satellite.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -248,6 +249,9 @@
 
     <div id="header">
         <h1>⚡ THRONE PROTOCOL V3.0 - SISTEMA DE COMANDO</h1>
+        <div style="font-size: 11px; color: #00ffff; margin-top: 3px;">
+            👑 Arte Visualista-Royal | Diseñador de Arquitectura Empresarial Futurista
+        </div>
         <div id="status">
             <div class="status-item">
                 <div class="status-dot" id="server-status"></div>
@@ -309,6 +313,8 @@
             <div class="panel-section">
                 <h2>⚡ Comandos</h2>
                 <button id="btn-init" onclick="initProtocol()">INICIAR PROTOCOLO</button>
+                <button id="btn-certificacion" onclick="verCertificacionFinal()" style="background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); color: #000; font-weight: bold;">🏆 CERTIFICACIÓN FINAL</button>
+                <button id="btn-certificado-digital" onclick="generarCertificadoDigital()" style="background: linear-gradient(135deg, #00ff88 0%, #00cc66 100%); color: #000; font-weight: bold;">📜 GENERAR CERTIFICADO FIRMADO</button>
                 <button id="btn-adquisicion" onclick="executeAdquisicion()" disabled>EJECUTAR ADQUISICIÓN</button>
                 <button id="btn-refresh" onclick="refreshToken()">ACTUALIZAR TOKEN</button>
                 <button class="danger" onclick="clearConsole()">LIMPIAR CONSOLA</button>
