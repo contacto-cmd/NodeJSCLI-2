@@ -1,7 +1,7 @@
 [
   {
-    "id_proyecto": "ARCH-1762845969013-OHD8928FI",
-    "timestamp": "2025-11-11T07:26:09.013Z",
+    "id_proyecto": "ARCH-1762846236558-Q4S3LDLBL",
+    "timestamp": "2025-11-11T07:30:36.558Z",
     "diseño": {
       "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
       "tipo_hibrido": "casa_flotante × torre_piramide",
@@ -21,7 +21,7 @@
         "ancho_m": 30,
         "profundidad_m": 25,
         "area_construida_m2": "6000.00",
-        "volumen_total_m3": "13500.00"
+        "volumen_total_m3": "11812.50"
       },
       "numero_pisos": 8,
       "material_principal": "bronze_arquitectonico",
@@ -29,19 +29,19 @@
     },
     "analisis_estructural": {
       "peso_estructura": {
-        "volumen_m3": 13500,
+        "volumen_m3": 11812.5,
         "material": "bronze_arquitectonico",
         "densidad_kg_m3": 8800,
-        "peso_total_kg": 118800000,
-        "peso_toneladas": "118800.00",
-        "fuerza_gravitacional_newtons": "1165428000.00",
+        "peso_total_kg": 103950000,
+        "peso_toneladas": "103950.00",
+        "fuerza_gravitacional_newtons": "1019749500.00",
         "resistencia_material_mpa": 450,
-        "costo_material_usd": "162000000.00"
+        "costo_material_usd": "141750000.00"
       },
       "analisis_voladizos": {
-        "longitud_voladizo_m": 9,
-        "momento_flexion_nm": "1311106500.00",
-        "esfuerzo_necesario_mpa": "16186500.00",
+        "longitud_voladizo_m": 10.5,
+        "momento_flexion_nm": "1338421218.75",
+        "esfuerzo_necesario_mpa": "12139875.00",
         "esfuerzo_material_mpa": 450,
         "factor_seguridad": "0.00",
         "viable": false,
@@ -51,14 +51,14 @@
         "centro_gravedad_x": "1.35",
         "centro_gravedad_y": "0.63",
         "centro_gravedad_z": "23.85",
-        "masa_total_kg": "118800000.00"
+        "masa_total_kg": "103950000.00"
       },
       "estabilidad": "REQUIERE OPTIMIZACIÓN"
     },
     "ubicacion": {
       "coordenadas_gps": {
-        "latitud": -5.100946,
-        "longitud": -132.516183,
+        "latitud": 1.529761,
+        "longitud": -146.081754,
         "terreno": "oceano",
         "elevacion_m": 0
       },
@@ -66,9 +66,9 @@
       "zona_climatica": "Tropical"
     },
     "valoracion": {
-      "costo_construccion_usd": "162000000.00",
+      "costo_construccion_usd": "141750000.00",
       "costo_planos_diseno_usd": "50,000",
-      "valor_mercado_usd": "59,225,000",
+      "valor_mercado_usd": "1,530,900,000",
       "roi_estimado": "300-500%"
     },
     "certificacion": {
@@ -79,144 +79,65 @@
     }
   },
   {
-    "id_proyecto": "ARCH-1762846039101-989Q7T1QN",
-    "timestamp": "2025-11-11T07:27:19.102Z",
+    "id_proyecto": "ARCH-1762846236559-0FAYLVHIP",
+    "timestamp": "2025-11-11T07:30:36.559Z",
     "diseño": {
-      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
-      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "nombre": "Casa Flotante Orgánica + Villa Orgánica Curveada",
+      "tipo_hibrido": "casa_flotante × villa_organica",
       "caracteristicas": [
         "Estructura sobre agua",
         "Forma curveada",
         "Voladizos",
-        "Estructura vertical",
-        "Geometría imposible",
-        "Secciones flotantes"
+        "Múltiples niveles",
+        "Formas fluidas",
+        "Integración natural"
       ],
       "nivel": "Ultra-Premium Futurista"
     },
     "especificaciones": {
       "dimensiones": {
-        "altura_total_m": 45,
-        "ancho_m": 30,
-        "profundidad_m": 25,
-        "area_construida_m2": "6000.00",
-        "volumen_total_m3": "13500.00"
+        "altura_total_m": 20,
+        "ancho_m": 35,
+        "profundidad_m": 30,
+        "area_construida_m2": "4200.00",
+        "volumen_total_m3": "8400.00"
       },
-      "numero_pisos": 8,
+      "numero_pisos": 4,
       "material_principal": "bronze_arquitectonico",
-      "material_secundario": "titanio"
+      "material_secundario": "fibra_carbono"
     },
     "analisis_estructural": {
       "peso_estructura": {
-        "volumen_m3": 13500,
+        "volumen_m3": 8400,
         "material": "bronze_arquitectonico",
         "densidad_kg_m3": 8800,
-        "peso_total_kg": 118800000,
-        "peso_toneladas": "118800.00",
-        "fuerza_gravitacional_newtons": "1165428000.00",
+        "peso_total_kg": 73920000,
+        "peso_toneladas": "73920.00",
+        "fuerza_gravitacional_newtons": "725155200.00",
         "resistencia_material_mpa": 450,
-        "costo_material_usd": "162000000.00"
+        "costo_material_usd": "100800000.00"
       },
       "analisis_voladizos": {
-        "longitud_voladizo_m": 9,
-        "momento_flexion_nm": "1311106500.00",
-        "esfuerzo_necesario_mpa": "16186500.00",
+        "longitud_voladizo_m": 8.75,
+        "momento_flexion_nm": "793138500.00",
+        "esfuerzo_necesario_mpa": "10359360.00",
         "esfuerzo_material_mpa": 450,
         "factor_seguridad": "0.00",
         "viable": false,
         "recomendacion": "Requiere refuerzo estructural"
       },
       "centro_gravedad": {
-        "centro_gravedad_x": "1.35",
-        "centro_gravedad_y": "0.63",
-        "centro_gravedad_z": "23.85",
-        "masa_total_kg": "118800000.00"
+        "centro_gravedad_x": "1.57",
+        "centro_gravedad_y": "0.75",
+        "centro_gravedad_z": "10.60",
+        "masa_total_kg": "73920000.00"
       },
       "estabilidad": "REQUIERE OPTIMIZACIÓN"
     },
     "ubicacion": {
       "coordenadas_gps": {
-        "latitud": -11.452706,
-        "longitud": -108.409572,
-        "terreno": "oceano",
-        "elevacion_m": 0
-      },
-      "terreno_tipo": "oceano",
-      "zona_climatica": "Tropical"
-    },
-    "valoracion": {
-      "costo_construccion_usd": "162000000.00",
-      "costo_planos_diseno_usd": "50,000",
-      "valor_mercado_usd": "59,225,000",
-      "roi_estimado": "300-500%"
-    },
-    "certificacion": {
-      "nivel_seguridad": "RSA-4096",
-      "algoritmo": "SHA256withRSA4096",
-      "verificable": true,
-      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
-    }
-  },
-  {
-    "id_proyecto": "ARCH-1762846039103-ROZ7OXXY4",
-    "timestamp": "2025-11-11T07:27:19.103Z",
-    "diseño": {
-      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
-      "tipo_hibrido": "casa_flotante × torre_piramide",
-      "caracteristicas": [
-        "Estructura sobre agua",
-        "Forma curveada",
-        "Voladizos",
-        "Estructura vertical",
-        "Geometría imposible",
-        "Secciones flotantes"
-      ],
-      "nivel": "Ultra-Premium Futurista"
-    },
-    "especificaciones": {
-      "dimensiones": {
-        "altura_total_m": 45,
-        "ancho_m": 30,
-        "profundidad_m": 25,
-        "area_construida_m2": "6000.00",
-        "volumen_total_m3": "13500.00"
-      },
-      "numero_pisos": 8,
-      "material_principal": "bronze_arquitectonico",
-      "material_secundario": "titanio"
-    },
-    "analisis_estructural": {
-      "peso_estructura": {
-        "volumen_m3": 13500,
-        "material": "bronze_arquitectonico",
-        "densidad_kg_m3": 8800,
-        "peso_total_kg": 118800000,
-        "peso_toneladas": "118800.00",
-        "fuerza_gravitacional_newtons": "1165428000.00",
-        "resistencia_material_mpa": 450,
-        "costo_material_usd": "162000000.00"
-      },
-      "analisis_voladizos": {
-        "longitud_voladizo_m": 9,
-        "momento_flexion_nm": "1311106500.00",
-        "esfuerzo_necesario_mpa": "16186500.00",
-        "esfuerzo_material_mpa": 450,
-        "factor_seguridad": "0.00",
-        "viable": false,
-        "recomendacion": "Requiere refuerzo estructural"
-      },
-      "centro_gravedad": {
-        "centro_gravedad_x": "1.35",
-        "centro_gravedad_y": "0.63",
-        "centro_gravedad_z": "23.85",
-        "masa_total_kg": "118800000.00"
-      },
-      "estabilidad": "REQUIERE OPTIMIZACIÓN"
-    },
-    "ubicacion": {
-      "coordenadas_gps": {
-        "latitud": 38.363459,
-        "longitud": -106.028931,
+        "latitud": 30.271157,
+        "longitud": -110.898641,
         "terreno": "lago",
         "elevacion_m": 0
       },
@@ -224,9 +145,9 @@
       "zona_climatica": "Templado"
     },
     "valoracion": {
-      "costo_construccion_usd": "162000000.00",
+      "costo_construccion_usd": "100800000.00",
       "costo_planos_diseno_usd": "50,000",
-      "valor_mercado_usd": "59,225,000",
+      "valor_mercado_usd": "567,000,000",
       "roi_estimado": "300-500%"
     },
     "certificacion": {
@@ -237,65 +158,65 @@
     }
   },
   {
-    "id_proyecto": "ARCH-1762846039103-L226M9Z9S",
-    "timestamp": "2025-11-11T07:27:19.103Z",
+    "id_proyecto": "ARCH-1762846236559-VT2RC7LJD",
+    "timestamp": "2025-11-11T07:30:36.559Z",
     "diseño": {
-      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
-      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "nombre": "Torre Pirámide Anti-Gravedad + Complejo Modular Flotante",
+      "tipo_hibrido": "torre_piramide × complejo_modular",
       "caracteristicas": [
-        "Estructura sobre agua",
-        "Forma curveada",
-        "Voladizos",
         "Estructura vertical",
         "Geometría imposible",
-        "Secciones flotantes"
+        "Secciones flotantes",
+        "Pods conectados",
+        "Distribución espacial",
+        "Puentes de vidrio"
       ],
       "nivel": "Ultra-Premium Futurista"
     },
     "especificaciones": {
       "dimensiones": {
-        "altura_total_m": 45,
-        "ancho_m": 30,
-        "profundidad_m": 25,
-        "area_construida_m2": "6000.00",
-        "volumen_total_m3": "13500.00"
+        "altura_total_m": 85,
+        "ancho_m": 40,
+        "profundidad_m": 35,
+        "area_construida_m2": "25200.00",
+        "volumen_total_m3": "35700.00"
       },
-      "numero_pisos": 8,
-      "material_principal": "bronze_arquitectonico",
-      "material_secundario": "titanio"
+      "numero_pisos": 18,
+      "material_principal": "titanio",
+      "material_secundario": "aluminio"
     },
     "analisis_estructural": {
       "peso_estructura": {
-        "volumen_m3": 13500,
-        "material": "bronze_arquitectonico",
-        "densidad_kg_m3": 8800,
-        "peso_total_kg": 118800000,
-        "peso_toneladas": "118800.00",
-        "fuerza_gravitacional_newtons": "1165428000.00",
-        "resistencia_material_mpa": 450,
-        "costo_material_usd": "162000000.00"
+        "volumen_m3": 35700,
+        "material": "titanio",
+        "densidad_kg_m3": 4500,
+        "peso_total_kg": 160650000,
+        "peso_toneladas": "160650.00",
+        "fuerza_gravitacional_newtons": "1575976500.00",
+        "resistencia_material_mpa": 900,
+        "costo_material_usd": "1606500000.00"
       },
       "analisis_voladizos": {
-        "longitud_voladizo_m": 9,
-        "momento_flexion_nm": "1311106500.00",
-        "esfuerzo_necesario_mpa": "16186500.00",
-        "esfuerzo_material_mpa": 450,
+        "longitud_voladizo_m": 10,
+        "momento_flexion_nm": "1969970625.00",
+        "esfuerzo_necesario_mpa": "19699706.25",
+        "esfuerzo_material_mpa": 900,
         "factor_seguridad": "0.00",
         "viable": false,
         "recomendacion": "Requiere refuerzo estructural"
       },
       "centro_gravedad": {
-        "centro_gravedad_x": "1.35",
-        "centro_gravedad_y": "0.63",
-        "centro_gravedad_z": "23.85",
-        "masa_total_kg": "118800000.00"
+        "centro_gravedad_x": "1.80",
+        "centro_gravedad_y": "0.88",
+        "centro_gravedad_z": "45.05",
+        "masa_total_kg": "160650000.00"
       },
       "estabilidad": "REQUIERE OPTIMIZACIÓN"
     },
     "ubicacion": {
       "coordenadas_gps": {
-        "latitud": 27.331686,
-        "longitud": 47.159838,
+        "latitud": 34.006159,
+        "longitud": 53.800994,
         "terreno": "desierto",
         "elevacion_m": 0
       },
@@ -303,9 +224,9 @@
       "zona_climatica": "Árido"
     },
     "valoracion": {
-      "costo_construccion_usd": "162000000.00",
+      "costo_construccion_usd": "1606500000.00",
       "costo_planos_diseno_usd": "50,000",
-      "valor_mercado_usd": "59,225,000",
+      "valor_mercado_usd": "6,117,552,000",
       "roi_estimado": "300-500%"
     },
     "certificacion": {
@@ -316,65 +237,65 @@
     }
   },
   {
-    "id_proyecto": "ARCH-1762846039103-E4XNRXRY0",
-    "timestamp": "2025-11-11T07:27:19.103Z",
+    "id_proyecto": "ARCH-1762846236560-VFHRJD7PA",
+    "timestamp": "2025-11-11T07:30:36.560Z",
     "diseño": {
-      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
-      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "nombre": "Villa Orgánica Curveada + Complejo Modular Flotante",
+      "tipo_hibrido": "villa_organica × complejo_modular",
       "caracteristicas": [
-        "Estructura sobre agua",
-        "Forma curveada",
-        "Voladizos",
-        "Estructura vertical",
-        "Geometría imposible",
-        "Secciones flotantes"
+        "Múltiples niveles",
+        "Formas fluidas",
+        "Integración natural",
+        "Pods conectados",
+        "Distribución espacial",
+        "Puentes de vidrio"
       ],
       "nivel": "Ultra-Premium Futurista"
     },
     "especificaciones": {
       "dimensiones": {
-        "altura_total_m": 45,
-        "ancho_m": 30,
-        "profundidad_m": 25,
-        "area_construida_m2": "6000.00",
-        "volumen_total_m3": "13500.00"
+        "altura_total_m": 28,
+        "ancho_m": 50,
+        "profundidad_m": 45,
+        "area_construida_m2": "13500.00",
+        "volumen_total_m3": "25200.00"
       },
-      "numero_pisos": 8,
-      "material_principal": "bronze_arquitectonico",
-      "material_secundario": "titanio"
+      "numero_pisos": 6,
+      "material_principal": "fibra_carbono",
+      "material_secundario": "aluminio"
     },
     "analisis_estructural": {
       "peso_estructura": {
-        "volumen_m3": 13500,
-        "material": "bronze_arquitectonico",
-        "densidad_kg_m3": 8800,
-        "peso_total_kg": 118800000,
-        "peso_toneladas": "118800.00",
-        "fuerza_gravitacional_newtons": "1165428000.00",
-        "resistencia_material_mpa": 450,
-        "costo_material_usd": "162000000.00"
+        "volumen_m3": 25200,
+        "material": "fibra_carbono",
+        "densidad_kg_m3": 1600,
+        "peso_total_kg": 40320000,
+        "peso_toneladas": "40320.00",
+        "fuerza_gravitacional_newtons": "395539200.00",
+        "resistencia_material_mpa": 3500,
+        "costo_material_usd": "2142000000.00"
       },
       "analisis_voladizos": {
-        "longitud_voladizo_m": 9,
-        "momento_flexion_nm": "1311106500.00",
-        "esfuerzo_necesario_mpa": "16186500.00",
-        "esfuerzo_material_mpa": 450,
+        "longitud_voladizo_m": 17.5,
+        "momento_flexion_nm": "865242000.00",
+        "esfuerzo_necesario_mpa": "2825280.00",
+        "esfuerzo_material_mpa": 3500,
         "factor_seguridad": "0.00",
         "viable": false,
         "recomendacion": "Requiere refuerzo estructural"
       },
       "centro_gravedad": {
-        "centro_gravedad_x": "1.35",
-        "centro_gravedad_y": "0.63",
-        "centro_gravedad_z": "23.85",
-        "masa_total_kg": "118800000.00"
+        "centro_gravedad_x": "2.25",
+        "centro_gravedad_y": "1.13",
+        "centro_gravedad_z": "14.84",
+        "masa_total_kg": "40320000.00"
       },
       "estabilidad": "REQUIERE OPTIMIZACIÓN"
     },
     "ubicacion": {
       "coordenadas_gps": {
-        "latitud": -4.576742,
-        "longitud": -136.016561,
+        "latitud": 5.582232,
+        "longitud": -125.315623,
         "terreno": "oceano",
         "elevacion_m": 0
       },
@@ -382,9 +303,9 @@
       "zona_climatica": "Tropical"
     },
     "valoracion": {
-      "costo_construccion_usd": "162000000.00",
+      "costo_construccion_usd": "2142000000.00",
       "costo_planos_diseno_usd": "50,000",
-      "valor_mercado_usd": "59,225,000",
+      "valor_mercado_usd": "3,402,000,000",
       "roi_estimado": "300-500%"
     },
     "certificacion": {
@@ -395,65 +316,65 @@
     }
   },
   {
-    "id_proyecto": "ARCH-1762846039103-JA5FS5IVB",
-    "timestamp": "2025-11-11T07:27:19.103Z",
+    "id_proyecto": "ARCH-1762846236560-NL4A2IH03",
+    "timestamp": "2025-11-11T07:30:36.560Z",
     "diseño": {
-      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
-      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "nombre": "Casa Flotante Orgánica + Complejo Modular Flotante",
+      "tipo_hibrido": "casa_flotante × complejo_modular",
       "caracteristicas": [
         "Estructura sobre agua",
         "Forma curveada",
         "Voladizos",
-        "Estructura vertical",
-        "Geometría imposible",
-        "Secciones flotantes"
+        "Pods conectados",
+        "Distribución espacial",
+        "Puentes de vidrio"
       ],
       "nivel": "Ultra-Premium Futurista"
     },
     "especificaciones": {
       "dimensiones": {
-        "altura_total_m": 45,
-        "ancho_m": 30,
-        "profundidad_m": 25,
-        "area_construida_m2": "6000.00",
-        "volumen_total_m3": "13500.00"
+        "altura_total_m": 35,
+        "ancho_m": 60,
+        "profundidad_m": 50,
+        "area_construida_m2": "21000.00",
+        "volumen_total_m3": "42000.00"
       },
-      "numero_pisos": 8,
+      "numero_pisos": 7,
       "material_principal": "bronze_arquitectonico",
-      "material_secundario": "titanio"
+      "material_secundario": "aluminio"
     },
     "analisis_estructural": {
       "peso_estructura": {
-        "volumen_m3": 13500,
+        "volumen_m3": 42000,
         "material": "bronze_arquitectonico",
         "densidad_kg_m3": 8800,
-        "peso_total_kg": 118800000,
-        "peso_toneladas": "118800.00",
-        "fuerza_gravitacional_newtons": "1165428000.00",
+        "peso_total_kg": 369600000,
+        "peso_toneladas": "369600.00",
+        "fuerza_gravitacional_newtons": "3625776000.00",
         "resistencia_material_mpa": 450,
-        "costo_material_usd": "162000000.00"
+        "costo_material_usd": "504000000.00"
       },
       "analisis_voladizos": {
-        "longitud_voladizo_m": 9,
-        "momento_flexion_nm": "1311106500.00",
-        "esfuerzo_necesario_mpa": "16186500.00",
+        "longitud_voladizo_m": 15,
+        "momento_flexion_nm": "6798330000.00",
+        "esfuerzo_necesario_mpa": "30214800.00",
         "esfuerzo_material_mpa": 450,
         "factor_seguridad": "0.00",
         "viable": false,
         "recomendacion": "Requiere refuerzo estructural"
       },
       "centro_gravedad": {
-        "centro_gravedad_x": "1.35",
-        "centro_gravedad_y": "0.63",
-        "centro_gravedad_z": "23.85",
-        "masa_total_kg": "118800000.00"
+        "centro_gravedad_x": "2.70",
+        "centro_gravedad_y": "1.25",
+        "centro_gravedad_z": "18.55",
+        "masa_total_kg": "369600000.00"
       },
       "estabilidad": "REQUIERE OPTIMIZACIÓN"
     },
     "ubicacion": {
       "coordenadas_gps": {
-        "latitud": 42.190565,
-        "longitud": -92.097656,
+        "latitud": 48.311702,
+        "longitud": -108.150292,
         "terreno": "lago",
         "elevacion_m": 0
       },
@@ -461,9 +382,9 @@
       "zona_climatica": "Templado"
     },
     "valoracion": {
-      "costo_construccion_usd": "162000000.00",
+      "costo_construccion_usd": "504000000.00",
       "costo_planos_diseno_usd": "50,000",
-      "valor_mercado_usd": "59,225,000",
+      "valor_mercado_usd": "3,969,000,000",
       "roi_estimado": "300-500%"
     },
     "certificacion": {
@@ -474,65 +395,65 @@
     }
   },
   {
-    "id_proyecto": "ARCH-1762846039103-GEU0UN6O6",
-    "timestamp": "2025-11-11T07:27:19.103Z",
+    "id_proyecto": "ARCH-1762846236560-TZANR5OX7",
+    "timestamp": "2025-11-11T07:30:36.560Z",
     "diseño": {
-      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
-      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "nombre": "Torre Pirámide Anti-Gravedad + Casa Flotante Orgánica",
+      "tipo_hibrido": "torre_piramide × casa_flotante",
       "caracteristicas": [
-        "Estructura sobre agua",
-        "Forma curveada",
-        "Voladizos",
         "Estructura vertical",
         "Geometría imposible",
-        "Secciones flotantes"
+        "Secciones flotantes",
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos"
       ],
       "nivel": "Ultra-Premium Futurista"
     },
     "especificaciones": {
       "dimensiones": {
-        "altura_total_m": 45,
-        "ancho_m": 30,
-        "profundidad_m": 25,
-        "area_construida_m2": "6000.00",
-        "volumen_total_m3": "13500.00"
+        "altura_total_m": 120,
+        "ancho_m": 35,
+        "profundidad_m": 30,
+        "area_construida_m2": "29400.00",
+        "volumen_total_m3": "37800.00"
       },
-      "numero_pisos": 8,
-      "material_principal": "bronze_arquitectonico",
-      "material_secundario": "titanio"
+      "numero_pisos": 28,
+      "material_principal": "titanio",
+      "material_secundario": "bronze_arquitectonico"
     },
     "analisis_estructural": {
       "peso_estructura": {
-        "volumen_m3": 13500,
-        "material": "bronze_arquitectonico",
-        "densidad_kg_m3": 8800,
-        "peso_total_kg": 118800000,
-        "peso_toneladas": "118800.00",
-        "fuerza_gravitacional_newtons": "1165428000.00",
-        "resistencia_material_mpa": 450,
-        "costo_material_usd": "162000000.00"
+        "volumen_m3": 37800,
+        "material": "titanio",
+        "densidad_kg_m3": 4500,
+        "peso_total_kg": 170100000,
+        "peso_toneladas": "170100.00",
+        "fuerza_gravitacional_newtons": "1668681000.00",
+        "resistencia_material_mpa": 900,
+        "costo_material_usd": "1701000000.00"
       },
       "analisis_voladizos": {
-        "longitud_voladizo_m": 9,
-        "momento_flexion_nm": "1311106500.00",
-        "esfuerzo_necesario_mpa": "16186500.00",
-        "esfuerzo_material_mpa": 450,
+        "longitud_voladizo_m": 8.75,
+        "momento_flexion_nm": "1825119843.75",
+        "esfuerzo_necesario_mpa": "23838300.00",
+        "esfuerzo_material_mpa": 900,
         "factor_seguridad": "0.00",
         "viable": false,
         "recomendacion": "Requiere refuerzo estructural"
       },
       "centro_gravedad": {
-        "centro_gravedad_x": "1.35",
-        "centro_gravedad_y": "0.63",
-        "centro_gravedad_z": "23.85",
-        "masa_total_kg": "118800000.00"
+        "centro_gravedad_x": "1.57",
+        "centro_gravedad_y": "0.75",
+        "centro_gravedad_z": "63.60",
+        "masa_total_kg": "170100000.00"
       },
       "estabilidad": "REQUIERE OPTIMIZACIÓN"
     },
     "ubicacion": {
       "coordenadas_gps": {
-        "latitud": 24.121224,
-        "longitud": 44.765885,
+        "latitud": 22.927237,
+        "longitud": 48.871083,
         "terreno": "desierto",
         "elevacion_m": 0
       },
@@ -540,9 +461,9 @@
       "zona_climatica": "Árido"
     },
     "valoracion": {
-      "costo_construccion_usd": "162000000.00",
+      "costo_construccion_usd": "1701000000.00",
       "costo_planos_diseno_usd": "50,000",
-      "valor_mercado_usd": "59,225,000",
+      "valor_mercado_usd": "7,620,480,000",
       "roi_estimado": "300-500%"
     },
     "certificacion": {
@@ -553,75 +474,75 @@
     }
   },
   {
-    "id_proyecto": "ARCH-1762846039104-Y7BOL1SSZ",
-    "timestamp": "2025-11-11T07:27:19.104Z",
+    "id_proyecto": "ARCH-1762846236560-ONEFAGJDB",
+    "timestamp": "2025-11-11T07:30:36.560Z",
     "diseño": {
-      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
-      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "nombre": "Torre Pirámide Anti-Gravedad + Villa Orgánica Curveada",
+      "tipo_hibrido": "torre_piramide × villa_organica",
       "caracteristicas": [
-        "Estructura sobre agua",
-        "Forma curveada",
-        "Voladizos",
         "Estructura vertical",
         "Geometría imposible",
-        "Secciones flotantes"
+        "Secciones flotantes",
+        "Múltiples niveles",
+        "Formas fluidas",
+        "Integración natural"
       ],
       "nivel": "Ultra-Premium Futurista"
     },
     "especificaciones": {
       "dimensiones": {
-        "altura_total_m": 45,
-        "ancho_m": 30,
-        "profundidad_m": 25,
-        "area_construida_m2": "6000.00",
-        "volumen_total_m3": "13500.00"
+        "altura_total_m": 95,
+        "ancho_m": 42,
+        "profundidad_m": 38,
+        "area_construida_m2": "35112.00",
+        "volumen_total_m3": "45486.00"
       },
-      "numero_pisos": 8,
-      "material_principal": "bronze_arquitectonico",
-      "material_secundario": "titanio"
+      "numero_pisos": 22,
+      "material_principal": "titanio",
+      "material_secundario": "fibra_carbono"
     },
     "analisis_estructural": {
       "peso_estructura": {
-        "volumen_m3": 13500,
-        "material": "bronze_arquitectonico",
-        "densidad_kg_m3": 8800,
-        "peso_total_kg": 118800000,
-        "peso_toneladas": "118800.00",
-        "fuerza_gravitacional_newtons": "1165428000.00",
-        "resistencia_material_mpa": 450,
-        "costo_material_usd": "162000000.00"
+        "volumen_m3": 45486,
+        "material": "titanio",
+        "densidad_kg_m3": 4500,
+        "peso_total_kg": 204687000,
+        "peso_toneladas": "204687.00",
+        "fuerza_gravitacional_newtons": "2007979470.00",
+        "resistencia_material_mpa": 900,
+        "costo_material_usd": "2046870000.00"
       },
       "analisis_voladizos": {
-        "longitud_voladizo_m": 9,
-        "momento_flexion_nm": "1311106500.00",
-        "esfuerzo_necesario_mpa": "16186500.00",
-        "esfuerzo_material_mpa": 450,
+        "longitud_voladizo_m": 10.5,
+        "momento_flexion_nm": "2635473054.38",
+        "esfuerzo_necesario_mpa": "23904517.50",
+        "esfuerzo_material_mpa": 900,
         "factor_seguridad": "0.00",
         "viable": false,
         "recomendacion": "Requiere refuerzo estructural"
       },
       "centro_gravedad": {
-        "centro_gravedad_x": "1.35",
-        "centro_gravedad_y": "0.63",
-        "centro_gravedad_z": "23.85",
-        "masa_total_kg": "118800000.00"
+        "centro_gravedad_x": "1.89",
+        "centro_gravedad_y": "0.95",
+        "centro_gravedad_z": "50.35",
+        "masa_total_kg": "204687000.00"
       },
       "estabilidad": "REQUIERE OPTIMIZACIÓN"
     },
     "ubicacion": {
       "coordenadas_gps": {
-        "latitud": 41.495411,
-        "longitud": -107.713173,
+        "latitud": 48.048693,
+        "longitud": -102.238249,
         "terreno": "montana",
-        "elevacion_m": 1071
+        "elevacion_m": 2320
       },
       "terreno_tipo": "montana",
       "zona_climatica": "Templado"
     },
     "valoracion": {
-      "costo_construccion_usd": "162000000.00",
+      "costo_construccion_usd": "2046870000.00",
       "costo_planos_diseno_usd": "50,000",
-      "valor_mercado_usd": "59,225,000",
+      "valor_mercado_usd": "8,907,978,240",
       "roi_estimado": "300-500%"
     },
     "certificacion": {
@@ -632,65 +553,65 @@
     }
   },
   {
-    "id_proyecto": "ARCH-1762846039104-RRUAR6L1R",
-    "timestamp": "2025-11-11T07:27:19.104Z",
+    "id_proyecto": "ARCH-1762846236560-FG3QNOY32",
+    "timestamp": "2025-11-11T07:30:36.560Z",
     "diseño": {
-      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
-      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "nombre": "Villa Orgánica Curveada + Casa Flotante Orgánica",
+      "tipo_hibrido": "villa_organica × casa_flotante",
       "caracteristicas": [
+        "Múltiples niveles",
+        "Formas fluidas",
+        "Integración natural",
         "Estructura sobre agua",
         "Forma curveada",
-        "Voladizos",
-        "Estructura vertical",
-        "Geometría imposible",
-        "Secciones flotantes"
+        "Voladizos"
       ],
       "nivel": "Ultra-Premium Futurista"
     },
     "especificaciones": {
       "dimensiones": {
-        "altura_total_m": 45,
-        "ancho_m": 30,
-        "profundidad_m": 25,
-        "area_construida_m2": "6000.00",
-        "volumen_total_m3": "13500.00"
+        "altura_total_m": 18,
+        "ancho_m": 40,
+        "profundidad_m": 35,
+        "area_construida_m2": "4200.00",
+        "volumen_total_m3": "10080.00"
       },
-      "numero_pisos": 8,
-      "material_principal": "bronze_arquitectonico",
-      "material_secundario": "titanio"
+      "numero_pisos": 3,
+      "material_principal": "fibra_carbono",
+      "material_secundario": "bronze_arquitectonico"
     },
     "analisis_estructural": {
       "peso_estructura": {
-        "volumen_m3": 13500,
-        "material": "bronze_arquitectonico",
-        "densidad_kg_m3": 8800,
-        "peso_total_kg": 118800000,
-        "peso_toneladas": "118800.00",
-        "fuerza_gravitacional_newtons": "1165428000.00",
-        "resistencia_material_mpa": 450,
-        "costo_material_usd": "162000000.00"
+        "volumen_m3": 10080,
+        "material": "fibra_carbono",
+        "densidad_kg_m3": 1600,
+        "peso_total_kg": 16128000,
+        "peso_toneladas": "16128.00",
+        "fuerza_gravitacional_newtons": "158215680.00",
+        "resistencia_material_mpa": 3500,
+        "costo_material_usd": "856800000.00"
       },
       "analisis_voladizos": {
-        "longitud_voladizo_m": 9,
-        "momento_flexion_nm": "1311106500.00",
-        "esfuerzo_necesario_mpa": "16186500.00",
-        "esfuerzo_material_mpa": 450,
+        "longitud_voladizo_m": 14,
+        "momento_flexion_nm": "276877440.00",
+        "esfuerzo_necesario_mpa": "1412640.00",
+        "esfuerzo_material_mpa": 3500,
         "factor_seguridad": "0.00",
         "viable": false,
         "recomendacion": "Requiere refuerzo estructural"
       },
       "centro_gravedad": {
-        "centro_gravedad_x": "1.35",
-        "centro_gravedad_y": "0.63",
-        "centro_gravedad_z": "23.85",
-        "masa_total_kg": "118800000.00"
+        "centro_gravedad_x": "1.80",
+        "centro_gravedad_y": "0.88",
+        "centro_gravedad_z": "9.54",
+        "masa_total_kg": "16128000.00"
       },
       "estabilidad": "REQUIERE OPTIMIZACIÓN"
     },
     "ubicacion": {
       "coordenadas_gps": {
-        "latitud": -2.40615,
-        "longitud": -100.084516,
+        "latitud": 8.369374,
+        "longitud": -139.563577,
         "terreno": "oceano",
         "elevacion_m": 0
       },
@@ -698,9 +619,9 @@
       "zona_climatica": "Tropical"
     },
     "valoracion": {
-      "costo_construccion_usd": "162000000.00",
+      "costo_construccion_usd": "856800000.00",
       "costo_planos_diseno_usd": "50,000",
-      "valor_mercado_usd": "59,225,000",
+      "valor_mercado_usd": "1,360,800,000",
       "roi_estimado": "300-500%"
     },
     "certificacion": {
@@ -711,15 +632,15 @@
     }
   },
   {
-    "id_proyecto": "ARCH-1762846039104-YAXXHS4B8",
-    "timestamp": "2025-11-11T07:27:19.104Z",
+    "id_proyecto": "ARCH-1762846236560-DPIT8M8SO",
+    "timestamp": "2025-11-11T07:30:36.560Z",
     "diseño": {
-      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
-      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "nombre": "Complejo Modular Flotante + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "complejo_modular × torre_piramide",
       "caracteristicas": [
-        "Estructura sobre agua",
-        "Forma curveada",
-        "Voladizos",
+        "Pods conectados",
+        "Distribución espacial",
+        "Puentes de vidrio",
         "Estructura vertical",
         "Geometría imposible",
         "Secciones flotantes"
@@ -728,48 +649,48 @@
     },
     "especificaciones": {
       "dimensiones": {
-        "altura_total_m": 45,
-        "ancho_m": 30,
-        "profundidad_m": 25,
-        "area_construida_m2": "6000.00",
-        "volumen_total_m3": "13500.00"
+        "altura_total_m": 65,
+        "ancho_m": 55,
+        "profundidad_m": 48,
+        "area_construida_m2": "36960.00",
+        "volumen_total_m3": "60060.00"
       },
-      "numero_pisos": 8,
-      "material_principal": "bronze_arquitectonico",
+      "numero_pisos": 14,
+      "material_principal": "aluminio",
       "material_secundario": "titanio"
     },
     "analisis_estructural": {
       "peso_estructura": {
-        "volumen_m3": 13500,
-        "material": "bronze_arquitectonico",
-        "densidad_kg_m3": 8800,
-        "peso_total_kg": 118800000,
-        "peso_toneladas": "118800.00",
-        "fuerza_gravitacional_newtons": "1165428000.00",
-        "resistencia_material_mpa": 450,
-        "costo_material_usd": "162000000.00"
+        "volumen_m3": 60059.99999999999,
+        "material": "aluminio",
+        "densidad_kg_m3": 2700,
+        "peso_total_kg": 162161999.99999997,
+        "peso_toneladas": "162162.00",
+        "fuerza_gravitacional_newtons": "1590809220.00",
+        "resistencia_material_mpa": 300,
+        "costo_material_usd": "210210000.00"
       },
       "analisis_voladizos": {
-        "longitud_voladizo_m": 9,
-        "momento_flexion_nm": "1311106500.00",
-        "esfuerzo_necesario_mpa": "16186500.00",
-        "esfuerzo_material_mpa": 450,
+        "longitud_voladizo_m": 13.75,
+        "momento_flexion_nm": "2734203346.87",
+        "esfuerzo_necesario_mpa": "14461902.00",
+        "esfuerzo_material_mpa": 300,
         "factor_seguridad": "0.00",
         "viable": false,
         "recomendacion": "Requiere refuerzo estructural"
       },
       "centro_gravedad": {
-        "centro_gravedad_x": "1.35",
-        "centro_gravedad_y": "0.63",
-        "centro_gravedad_z": "23.85",
-        "masa_total_kg": "118800000.00"
+        "centro_gravedad_x": "2.47",
+        "centro_gravedad_y": "1.20",
+        "centro_gravedad_z": "34.45",
+        "masa_total_kg": "162162000.00"
       },
       "estabilidad": "REQUIERE OPTIMIZACIÓN"
     },
     "ubicacion": {
       "coordenadas_gps": {
-        "latitud": 37.205709,
-        "longitud": -115.261005,
+        "latitud": 44.570455,
+        "longitud": -73.827052,
         "terreno": "lago",
         "elevacion_m": 0
       },
@@ -777,9 +698,9 @@
       "zona_climatica": "Templado"
     },
     "valoracion": {
-      "costo_construccion_usd": "162000000.00",
+      "costo_construccion_usd": "210210000.00",
       "costo_planos_diseno_usd": "50,000",
-      "valor_mercado_usd": "59,225,000",
+      "valor_mercado_usd": "6,301,152,000",
       "roi_estimado": "300-500%"
     },
     "certificacion": {
@@ -790,65 +711,65 @@
     }
   },
   {
-    "id_proyecto": "ARCH-1762846039104-B3HWWKPE1",
-    "timestamp": "2025-11-11T07:27:19.104Z",
+    "id_proyecto": "ARCH-1762846236561-5NQGKR85C",
+    "timestamp": "2025-11-11T07:30:36.561Z",
     "diseño": {
-      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
-      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "nombre": "Complejo Modular Flotante + Villa Orgánica Curveada",
+      "tipo_hibrido": "complejo_modular × villa_organica",
       "caracteristicas": [
-        "Estructura sobre agua",
-        "Forma curveada",
-        "Voladizos",
-        "Estructura vertical",
-        "Geometría imposible",
-        "Secciones flotantes"
+        "Pods conectados",
+        "Distribución espacial",
+        "Puentes de vidrio",
+        "Múltiples niveles",
+        "Formas fluidas",
+        "Integración natural"
       ],
       "nivel": "Ultra-Premium Futurista"
     },
     "especificaciones": {
       "dimensiones": {
-        "altura_total_m": 45,
-        "ancho_m": 30,
-        "profundidad_m": 25,
-        "area_construida_m2": "6000.00",
-        "volumen_total_m3": "13500.00"
+        "altura_total_m": 32,
+        "ancho_m": 70,
+        "profundidad_m": 60,
+        "area_construida_m2": "33600.00",
+        "volumen_total_m3": "53760.00"
       },
       "numero_pisos": 8,
-      "material_principal": "bronze_arquitectonico",
-      "material_secundario": "titanio"
+      "material_principal": "aluminio",
+      "material_secundario": "fibra_carbono"
     },
     "analisis_estructural": {
       "peso_estructura": {
-        "volumen_m3": 13500,
-        "material": "bronze_arquitectonico",
-        "densidad_kg_m3": 8800,
-        "peso_total_kg": 118800000,
-        "peso_toneladas": "118800.00",
-        "fuerza_gravitacional_newtons": "1165428000.00",
-        "resistencia_material_mpa": 450,
-        "costo_material_usd": "162000000.00"
+        "volumen_m3": 53760,
+        "material": "aluminio",
+        "densidad_kg_m3": 2700,
+        "peso_total_kg": 145152000,
+        "peso_toneladas": "145152.00",
+        "fuerza_gravitacional_newtons": "1423941120.00",
+        "resistencia_material_mpa": 300,
+        "costo_material_usd": "188160000.00"
       },
       "analisis_voladizos": {
-        "longitud_voladizo_m": 9,
-        "momento_flexion_nm": "1311106500.00",
-        "esfuerzo_necesario_mpa": "16186500.00",
-        "esfuerzo_material_mpa": 450,
+        "longitud_voladizo_m": 24.5,
+        "momento_flexion_nm": "4360819680.00",
+        "esfuerzo_necesario_mpa": "7265005.71",
+        "esfuerzo_material_mpa": 300,
         "factor_seguridad": "0.00",
         "viable": false,
         "recomendacion": "Requiere refuerzo estructural"
       },
       "centro_gravedad": {
-        "centro_gravedad_x": "1.35",
-        "centro_gravedad_y": "0.63",
-        "centro_gravedad_z": "23.85",
-        "masa_total_kg": "118800000.00"
+        "centro_gravedad_x": "3.15",
+        "centro_gravedad_y": "1.50",
+        "centro_gravedad_z": "16.96",
+        "masa_total_kg": "145152000.00"
       },
       "estabilidad": "REQUIERE OPTIMIZACIÓN"
     },
     "ubicacion": {
       "coordenadas_gps": {
-        "latitud": 6.370345,
-        "longitud": -132.141829,
+        "latitud": 2.203002,
+        "longitud": -125.511476,
         "terreno": "oceano",
         "elevacion_m": 0
       },
@@ -856,9 +777,9 @@
       "zona_climatica": "Tropical"
     },
     "valoracion": {
-      "costo_construccion_usd": "162000000.00",
+      "costo_construccion_usd": "188160000.00",
       "costo_planos_diseno_usd": "50,000",
-      "valor_mercado_usd": "59,225,000",
+      "valor_mercado_usd": "4,877,107,200",
       "roi_estimado": "300-500%"
     },
     "certificacion": {
@@ -869,65 +790,62 @@
     }
   },
   {
-    "id_proyecto": "ARCH-1762846039105-L2POKSRTZ",
-    "timestamp": "2025-11-11T07:27:19.105Z",
+    "id_proyecto": "ARCH-1762846236561-0VBUNQWVG",
+    "timestamp": "2025-11-11T07:30:36.561Z",
     "diseño": {
-      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
-      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "nombre": "Casa Flotante Orgánica + Casa Flotante Orgánica",
+      "tipo_hibrido": "casa_flotante × casa_flotante",
       "caracteristicas": [
         "Estructura sobre agua",
         "Forma curveada",
-        "Voladizos",
-        "Estructura vertical",
-        "Geometría imposible",
-        "Secciones flotantes"
+        "Voladizos"
       ],
       "nivel": "Ultra-Premium Futurista"
     },
     "especificaciones": {
       "dimensiones": {
-        "altura_total_m": 45,
-        "ancho_m": 30,
-        "profundidad_m": 25,
-        "area_construida_m2": "6000.00",
-        "volumen_total_m3": "13500.00"
+        "altura_total_m": 22,
+        "ancho_m": 32,
+        "profundidad_m": 28,
+        "area_construida_m2": "4480.00",
+        "volumen_total_m3": "7884.80"
       },
-      "numero_pisos": 8,
+      "numero_pisos": 5,
       "material_principal": "bronze_arquitectonico",
-      "material_secundario": "titanio"
+      "material_secundario": "bronze_arquitectonico"
     },
     "analisis_estructural": {
       "peso_estructura": {
-        "volumen_m3": 13500,
+        "volumen_m3": 7884.8,
         "material": "bronze_arquitectonico",
         "densidad_kg_m3": 8800,
-        "peso_total_kg": 118800000,
-        "peso_toneladas": "118800.00",
-        "fuerza_gravitacional_newtons": "1165428000.00",
+        "peso_total_kg": 69386240,
+        "peso_toneladas": "69386.24",
+        "fuerza_gravitacional_newtons": "680679014.40",
         "resistencia_material_mpa": 450,
-        "costo_material_usd": "162000000.00"
+        "costo_material_usd": "94617600.00"
       },
       "analisis_voladizos": {
-        "longitud_voladizo_m": 9,
-        "momento_flexion_nm": "1311106500.00",
-        "esfuerzo_necesario_mpa": "16186500.00",
+        "longitud_voladizo_m": 11.2,
+        "momento_flexion_nm": "952950620.16",
+        "esfuerzo_necesario_mpa": "7596864.00",
         "esfuerzo_material_mpa": 450,
         "factor_seguridad": "0.00",
         "viable": false,
         "recomendacion": "Requiere refuerzo estructural"
       },
       "centro_gravedad": {
-        "centro_gravedad_x": "1.35",
-        "centro_gravedad_y": "0.63",
-        "centro_gravedad_z": "23.85",
-        "masa_total_kg": "118800000.00"
+        "centro_gravedad_x": "1.44",
+        "centro_gravedad_y": "0.70",
+        "centro_gravedad_z": "11.66",
+        "masa_total_kg": "69386240.00"
       },
       "estabilidad": "REQUIERE OPTIMIZACIÓN"
     },
     "ubicacion": {
       "coordenadas_gps": {
-        "latitud": 8.84899,
-        "longitud": -121.066729,
+        "latitud": -2.932986,
+        "longitud": -139.055535,
         "terreno": "oceano",
         "elevacion_m": 0
       },
@@ -935,9 +853,9 @@
       "zona_climatica": "Tropical"
     },
     "valoracion": {
-      "costo_construccion_usd": "162000000.00",
+      "costo_construccion_usd": "94617600.00",
       "costo_planos_diseno_usd": "50,000",
-      "valor_mercado_usd": "59,225,000",
+      "valor_mercado_usd": "638,668,800",
       "roi_estimado": "300-500%"
     },
     "certificacion": {
@@ -948,15 +866,12 @@
     }
   },
   {
-    "id_proyecto": "ARCH-1762846039105-2XZWUGLOU",
-    "timestamp": "2025-11-11T07:27:19.105Z",
+    "id_proyecto": "ARCH-1762846236561-EEQUO5W8Q",
+    "timestamp": "2025-11-11T07:30:36.561Z",
     "diseño": {
-      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
-      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "nombre": "Torre Pirámide Anti-Gravedad + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "torre_piramide × torre_piramide",
       "caracteristicas": [
-        "Estructura sobre agua",
-        "Forma curveada",
-        "Voladizos",
         "Estructura vertical",
         "Geometría imposible",
         "Secciones flotantes"
@@ -965,48 +880,48 @@
     },
     "especificaciones": {
       "dimensiones": {
-        "altura_total_m": 45,
-        "ancho_m": 30,
-        "profundidad_m": 25,
-        "area_construida_m2": "6000.00",
-        "volumen_total_m3": "13500.00"
+        "altura_total_m": 145,
+        "ancho_m": 45,
+        "profundidad_m": 42,
+        "area_construida_m2": "66150.00",
+        "volumen_total_m3": "82215.00"
       },
-      "numero_pisos": 8,
-      "material_principal": "bronze_arquitectonico",
+      "numero_pisos": 35,
+      "material_principal": "titanio",
       "material_secundario": "titanio"
     },
     "analisis_estructural": {
       "peso_estructura": {
-        "volumen_m3": 13500,
-        "material": "bronze_arquitectonico",
-        "densidad_kg_m3": 8800,
-        "peso_total_kg": 118800000,
-        "peso_toneladas": "118800.00",
-        "fuerza_gravitacional_newtons": "1165428000.00",
-        "resistencia_material_mpa": 450,
-        "costo_material_usd": "162000000.00"
+        "volumen_m3": 82215,
+        "material": "titanio",
+        "densidad_kg_m3": 4500,
+        "peso_total_kg": 369967500,
+        "peso_toneladas": "369967.50",
+        "fuerza_gravitacional_newtons": "3629381175.00",
+        "resistencia_material_mpa": 900,
+        "costo_material_usd": "3699675000.00"
       },
       "analisis_voladizos": {
-        "longitud_voladizo_m": 9,
-        "momento_flexion_nm": "1311106500.00",
-        "esfuerzo_necesario_mpa": "16186500.00",
-        "esfuerzo_material_mpa": 450,
+        "longitud_voladizo_m": 11.25,
+        "momento_flexion_nm": "5103817277.34",
+        "esfuerzo_necesario_mpa": "40326457.50",
+        "esfuerzo_material_mpa": 900,
         "factor_seguridad": "0.00",
         "viable": false,
         "recomendacion": "Requiere refuerzo estructural"
       },
       "centro_gravedad": {
-        "centro_gravedad_x": "1.35",
-        "centro_gravedad_y": "0.63",
-        "centro_gravedad_z": "23.85",
-        "masa_total_kg": "118800000.00"
+        "centro_gravedad_x": "2.02",
+        "centro_gravedad_y": "1.05",
+        "centro_gravedad_z": "76.85",
+        "masa_total_kg": "369967500.00"
       },
       "estabilidad": "REQUIERE OPTIMIZACIÓN"
     },
     "ubicacion": {
       "coordenadas_gps": {
-        "latitud": 20.832225,
-        "longitud": 51.448774,
+        "latitud": 23.633639,
+        "longitud": 47.443141,
         "terreno": "desierto",
         "elevacion_m": 0
       },
@@ -1014,9 +929,9 @@
       "zona_climatica": "Árido"
     },
     "valoracion": {
-      "costo_construccion_usd": "162000000.00",
+      "costo_construccion_usd": "3699675000.00",
       "costo_planos_diseno_usd": "50,000",
-      "valor_mercado_usd": "59,225,000",
+      "valor_mercado_usd": "16,574,544,000",
       "roi_estimado": "300-500%"
     },
     "certificacion": {
@@ -1027,65 +942,62 @@
     }
   },
   {
-    "id_proyecto": "ARCH-1762846039105-DBUJGX40K",
-    "timestamp": "2025-11-11T07:27:19.105Z",
+    "id_proyecto": "ARCH-1762846236561-X2WR4N5FE",
+    "timestamp": "2025-11-11T07:30:36.561Z",
     "diseño": {
-      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
-      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "nombre": "Villa Orgánica Curveada + Villa Orgánica Curveada",
+      "tipo_hibrido": "villa_organica × villa_organica",
       "caracteristicas": [
-        "Estructura sobre agua",
-        "Forma curveada",
-        "Voladizos",
-        "Estructura vertical",
-        "Geometría imposible",
-        "Secciones flotantes"
+        "Múltiples niveles",
+        "Formas fluidas",
+        "Integración natural"
       ],
       "nivel": "Ultra-Premium Futurista"
     },
     "especificaciones": {
       "dimensiones": {
-        "altura_total_m": 45,
-        "ancho_m": 30,
-        "profundidad_m": 25,
-        "area_construida_m2": "6000.00",
-        "volumen_total_m3": "13500.00"
+        "altura_total_m": 25,
+        "ancho_m": 48,
+        "profundidad_m": 42,
+        "area_construida_m2": "10080.00",
+        "volumen_total_m3": "20160.00"
       },
-      "numero_pisos": 8,
-      "material_principal": "bronze_arquitectonico",
-      "material_secundario": "titanio"
+      "numero_pisos": 5,
+      "material_principal": "fibra_carbono",
+      "material_secundario": "fibra_carbono"
     },
     "analisis_estructural": {
       "peso_estructura": {
-        "volumen_m3": 13500,
-        "material": "bronze_arquitectonico",
-        "densidad_kg_m3": 8800,
-        "peso_total_kg": 118800000,
-        "peso_toneladas": "118800.00",
-        "fuerza_gravitacional_newtons": "1165428000.00",
-        "resistencia_material_mpa": 450,
-        "costo_material_usd": "162000000.00"
+        "volumen_m3": 20160,
+        "material": "fibra_carbono",
+        "densidad_kg_m3": 1600,
+        "peso_total_kg": 32256000,
+        "peso_toneladas": "32256.00",
+        "fuerza_gravitacional_newtons": "316431360.00",
+        "resistencia_material_mpa": 3500,
+        "costo_material_usd": "1713600000.00"
       },
       "analisis_voladizos": {
-        "longitud_voladizo_m": 9,
-        "momento_flexion_nm": "1311106500.00",
-        "esfuerzo_necesario_mpa": "16186500.00",
-        "esfuerzo_material_mpa": 450,
+        "longitud_voladizo_m": 12,
+        "momento_flexion_nm": "474647040.00",
+        "esfuerzo_necesario_mpa": "3296160.00",
+        "esfuerzo_material_mpa": 3500,
         "factor_seguridad": "0.00",
         "viable": false,
         "recomendacion": "Requiere refuerzo estructural"
       },
       "centro_gravedad": {
-        "centro_gravedad_x": "1.35",
-        "centro_gravedad_y": "0.63",
-        "centro_gravedad_z": "23.85",
-        "masa_total_kg": "118800000.00"
+        "centro_gravedad_x": "2.16",
+        "centro_gravedad_y": "1.05",
+        "centro_gravedad_z": "13.25",
+        "masa_total_kg": "32256000.00"
       },
       "estabilidad": "REQUIERE OPTIMIZACIÓN"
     },
     "ubicacion": {
       "coordenadas_gps": {
-        "latitud": 30.10456,
-        "longitud": -116.683526,
+        "latitud": 37.156967,
+        "longitud": -118.683362,
         "terreno": "lago",
         "elevacion_m": 0
       },
@@ -1093,9 +1005,9 @@
       "zona_climatica": "Templado"
     },
     "valoracion": {
-      "costo_construccion_usd": "162000000.00",
+      "costo_construccion_usd": "1713600000.00",
       "costo_planos_diseno_usd": "50,000",
-      "valor_mercado_usd": "59,225,000",
+      "valor_mercado_usd": "2,268,000,000",
       "roi_estimado": "300-500%"
     },
     "certificacion": {
@@ -1106,65 +1018,62 @@
     }
   },
   {
-    "id_proyecto": "ARCH-1762846039105-5Q0BUSNM1",
-    "timestamp": "2025-11-11T07:27:19.105Z",
+    "id_proyecto": "ARCH-1762846236561-F8X952YEE",
+    "timestamp": "2025-11-11T07:30:36.561Z",
     "diseño": {
-      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
-      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "nombre": "Complejo Modular Flotante + Complejo Modular Flotante",
+      "tipo_hibrido": "complejo_modular × complejo_modular",
       "caracteristicas": [
-        "Estructura sobre agua",
-        "Forma curveada",
-        "Voladizos",
-        "Estructura vertical",
-        "Geometría imposible",
-        "Secciones flotantes"
+        "Pods conectados",
+        "Distribución espacial",
+        "Puentes de vidrio"
       ],
       "nivel": "Ultra-Premium Futurista"
     },
     "especificaciones": {
       "dimensiones": {
-        "altura_total_m": 45,
-        "ancho_m": 30,
-        "profundidad_m": 25,
-        "area_construida_m2": "6000.00",
-        "volumen_total_m3": "13500.00"
+        "altura_total_m": 38,
+        "ancho_m": 75,
+        "profundidad_m": 65,
+        "area_construida_m2": "43875.00",
+        "volumen_total_m3": "74100.00"
       },
-      "numero_pisos": 8,
-      "material_principal": "bronze_arquitectonico",
-      "material_secundario": "titanio"
+      "numero_pisos": 9,
+      "material_principal": "aluminio",
+      "material_secundario": "aluminio"
     },
     "analisis_estructural": {
       "peso_estructura": {
-        "volumen_m3": 13500,
-        "material": "bronze_arquitectonico",
-        "densidad_kg_m3": 8800,
-        "peso_total_kg": 118800000,
-        "peso_toneladas": "118800.00",
-        "fuerza_gravitacional_newtons": "1165428000.00",
-        "resistencia_material_mpa": 450,
-        "costo_material_usd": "162000000.00"
+        "volumen_m3": 74100,
+        "material": "aluminio",
+        "densidad_kg_m3": 2700,
+        "peso_total_kg": 200070000,
+        "peso_toneladas": "200070.00",
+        "fuerza_gravitacional_newtons": "1962686700.00",
+        "resistencia_material_mpa": 300,
+        "costo_material_usd": "259350000.00"
       },
       "analisis_voladizos": {
-        "longitud_voladizo_m": 9,
-        "momento_flexion_nm": "1311106500.00",
-        "esfuerzo_necesario_mpa": "16186500.00",
-        "esfuerzo_material_mpa": 450,
+        "longitud_voladizo_m": 26.25,
+        "momento_flexion_nm": "6440065734.38",
+        "esfuerzo_necesario_mpa": "9346127.14",
+        "esfuerzo_material_mpa": 300,
         "factor_seguridad": "0.00",
         "viable": false,
         "recomendacion": "Requiere refuerzo estructural"
       },
       "centro_gravedad": {
-        "centro_gravedad_x": "1.35",
-        "centro_gravedad_y": "0.63",
-        "centro_gravedad_z": "23.85",
-        "masa_total_kg": "118800000.00"
+        "centro_gravedad_x": "3.38",
+        "centro_gravedad_y": "1.63",
+        "centro_gravedad_z": "20.14",
+        "masa_total_kg": "200070000.00"
       },
       "estabilidad": "REQUIERE OPTIMIZACIÓN"
     },
     "ubicacion": {
       "coordenadas_gps": {
-        "latitud": 13.49027,
-        "longitud": -131.317032,
+        "latitud": -3.683097,
+        "longitud": -108.273403,
         "terreno": "oceano",
         "elevacion_m": 0
       },
@@ -1172,9 +1081,9 @@
       "zona_climatica": "Tropical"
     },
     "valoracion": {
-      "costo_construccion_usd": "162000000.00",
+      "costo_construccion_usd": "259350000.00",
       "costo_planos_diseno_usd": "50,000",
-      "valor_mercado_usd": "59,225,000",
+      "valor_mercado_usd": "6,722,352,000",
       "roi_estimado": "300-500%"
     },
     "certificacion": {
@@ -1185,65 +1094,65 @@
     }
   },
   {
-    "id_proyecto": "ARCH-1762846039105-AGCO5G6BB",
-    "timestamp": "2025-11-11T07:27:19.105Z",
+    "id_proyecto": "ARCH-1762846236561-XGB5KSXI1",
+    "timestamp": "2025-11-11T07:30:36.561Z",
     "diseño": {
-      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
-      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "nombre": "Torre Pirámide Anti-Gravedad + Casa Flotante Orgánica",
+      "tipo_hibrido": "torre_piramide × casa_flotante",
       "caracteristicas": [
-        "Estructura sobre agua",
-        "Forma curveada",
-        "Voladizos",
         "Estructura vertical",
         "Geometría imposible",
-        "Secciones flotantes"
+        "Secciones flotantes",
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos"
       ],
       "nivel": "Ultra-Premium Futurista"
     },
     "especificaciones": {
       "dimensiones": {
-        "altura_total_m": 45,
-        "ancho_m": 30,
-        "profundidad_m": 25,
-        "area_construida_m2": "6000.00",
-        "volumen_total_m3": "13500.00"
+        "altura_total_m": 160,
+        "ancho_m": 38,
+        "profundidad_m": 35,
+        "area_construida_m2": "55860.00",
+        "volumen_total_m3": "63840.00"
       },
-      "numero_pisos": 8,
-      "material_principal": "bronze_arquitectonico",
-      "material_secundario": "titanio"
+      "numero_pisos": 42,
+      "material_principal": "titanio",
+      "material_secundario": "bronze_arquitectonico"
     },
     "analisis_estructural": {
       "peso_estructura": {
-        "volumen_m3": 13500,
-        "material": "bronze_arquitectonico",
-        "densidad_kg_m3": 8800,
-        "peso_total_kg": 118800000,
-        "peso_toneladas": "118800.00",
-        "fuerza_gravitacional_newtons": "1165428000.00",
-        "resistencia_material_mpa": 450,
-        "costo_material_usd": "162000000.00"
+        "volumen_m3": 63840,
+        "material": "titanio",
+        "densidad_kg_m3": 4500,
+        "peso_total_kg": 287280000,
+        "peso_toneladas": "287280.00",
+        "fuerza_gravitacional_newtons": "2818216800.00",
+        "resistencia_material_mpa": 900,
+        "costo_material_usd": "2872800000.00"
       },
       "analisis_voladizos": {
-        "longitud_voladizo_m": 9,
-        "momento_flexion_nm": "1311106500.00",
-        "esfuerzo_necesario_mpa": "16186500.00",
-        "esfuerzo_material_mpa": 450,
+        "longitud_voladizo_m": 9.5,
+        "momento_flexion_nm": "3346632450.00",
+        "esfuerzo_necesario_mpa": "37081800.00",
+        "esfuerzo_material_mpa": 900,
         "factor_seguridad": "0.00",
         "viable": false,
         "recomendacion": "Requiere refuerzo estructural"
       },
       "centro_gravedad": {
-        "centro_gravedad_x": "1.35",
-        "centro_gravedad_y": "0.63",
-        "centro_gravedad_z": "23.85",
-        "masa_total_kg": "118800000.00"
+        "centro_gravedad_x": "1.71",
+        "centro_gravedad_y": "0.88",
+        "centro_gravedad_z": "84.80",
+        "masa_total_kg": "287280000.00"
       },
       "estabilidad": "REQUIERE OPTIMIZACIÓN"
     },
     "ubicacion": {
       "coordenadas_gps": {
-        "latitud": 21.668263,
-        "longitud": 49.120262,
+        "latitud": 27.441735,
+        "longitud": 51.871244,
         "terreno": "desierto",
         "elevacion_m": 0
       },
@@ -1251,9 +1160,9 @@
       "zona_climatica": "Árido"
     },
     "valoracion": {
-      "costo_construccion_usd": "162000000.00",
+      "costo_construccion_usd": "2872800000.00",
       "costo_planos_diseno_usd": "50,000",
-      "valor_mercado_usd": "59,225,000",
+      "valor_mercado_usd": "12,870,144,000",
       "roi_estimado": "300-500%"
     },
     "certificacion": {
@@ -1264,65 +1173,65 @@
     }
   },
   {
-    "id_proyecto": "ARCH-1762846039105-VDFLHCDCA",
-    "timestamp": "2025-11-11T07:27:19.105Z",
+    "id_proyecto": "ARCH-1762846236561-H4A4MWEZ4",
+    "timestamp": "2025-11-11T07:30:36.561Z",
     "diseño": {
-      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
-      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "nombre": "Casa Flotante Orgánica + Villa Orgánica Curveada",
+      "tipo_hibrido": "casa_flotante × villa_organica",
       "caracteristicas": [
         "Estructura sobre agua",
         "Forma curveada",
         "Voladizos",
-        "Estructura vertical",
-        "Geometría imposible",
-        "Secciones flotantes"
+        "Múltiples niveles",
+        "Formas fluidas",
+        "Integración natural"
       ],
       "nivel": "Ultra-Premium Futurista"
     },
     "especificaciones": {
       "dimensiones": {
-        "altura_total_m": 45,
-        "ancho_m": 30,
-        "profundidad_m": 25,
-        "area_construida_m2": "6000.00",
-        "volumen_total_m3": "13500.00"
+        "altura_total_m": 15,
+        "ancho_m": 28,
+        "profundidad_m": 24,
+        "area_construida_m2": "1344.00",
+        "volumen_total_m3": "4032.00"
       },
-      "numero_pisos": 8,
+      "numero_pisos": 2,
       "material_principal": "bronze_arquitectonico",
-      "material_secundario": "titanio"
+      "material_secundario": "fibra_carbono"
     },
     "analisis_estructural": {
       "peso_estructura": {
-        "volumen_m3": 13500,
+        "volumen_m3": 4032,
         "material": "bronze_arquitectonico",
         "densidad_kg_m3": 8800,
-        "peso_total_kg": 118800000,
-        "peso_toneladas": "118800.00",
-        "fuerza_gravitacional_newtons": "1165428000.00",
+        "peso_total_kg": 35481600,
+        "peso_toneladas": "35481.60",
+        "fuerza_gravitacional_newtons": "348074496.00",
         "resistencia_material_mpa": 450,
-        "costo_material_usd": "162000000.00"
+        "costo_material_usd": "48384000.00"
       },
       "analisis_voladizos": {
-        "longitud_voladizo_m": 9,
-        "momento_flexion_nm": "1311106500.00",
-        "esfuerzo_necesario_mpa": "16186500.00",
+        "longitud_voladizo_m": 7,
+        "momento_flexion_nm": "304565184.00",
+        "esfuerzo_necesario_mpa": "6215616.00",
         "esfuerzo_material_mpa": 450,
         "factor_seguridad": "0.00",
         "viable": false,
         "recomendacion": "Requiere refuerzo estructural"
       },
       "centro_gravedad": {
-        "centro_gravedad_x": "1.35",
-        "centro_gravedad_y": "0.63",
-        "centro_gravedad_z": "23.85",
-        "masa_total_kg": "118800000.00"
+        "centro_gravedad_x": "1.26",
+        "centro_gravedad_y": "0.60",
+        "centro_gravedad_z": "7.95",
+        "masa_total_kg": "35481600.00"
       },
       "estabilidad": "REQUIERE OPTIMIZACIÓN"
     },
     "ubicacion": {
       "coordenadas_gps": {
-        "latitud": 38.571404,
-        "longitud": -95.841741,
+        "latitud": 41.111827,
+        "longitud": -71.622131,
         "terreno": "lago",
         "elevacion_m": 0
       },
@@ -1330,9 +1239,9 @@
       "zona_climatica": "Templado"
     },
     "valoracion": {
-      "costo_construccion_usd": "162000000.00",
+      "costo_construccion_usd": "48384000.00",
       "costo_planos_diseno_usd": "50,000",
-      "valor_mercado_usd": "59,225,000",
+      "valor_mercado_usd": "272,160,000",
       "roi_estimado": "300-500%"
     },
     "certificacion": {
@@ -1343,15 +1252,15 @@
     }
   },
   {
-    "id_proyecto": "ARCH-1762846039105-IXOE6PF0O",
-    "timestamp": "2025-11-11T07:27:19.105Z",
+    "id_proyecto": "ARCH-1762846236561-2K2HOUM3M",
+    "timestamp": "2025-11-11T07:30:36.561Z",
     "diseño": {
-      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
-      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "nombre": "Villa Orgánica Curveada + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "villa_organica × torre_piramide",
       "caracteristicas": [
-        "Estructura sobre agua",
-        "Forma curveada",
-        "Voladizos",
+        "Múltiples niveles",
+        "Formas fluidas",
+        "Integración natural",
         "Estructura vertical",
         "Geometría imposible",
         "Secciones flotantes"
@@ -1360,58 +1269,58 @@
     },
     "especificaciones": {
       "dimensiones": {
-        "altura_total_m": 45,
-        "ancho_m": 30,
-        "profundidad_m": 25,
-        "area_construida_m2": "6000.00",
-        "volumen_total_m3": "13500.00"
+        "altura_total_m": 78,
+        "ancho_m": 36,
+        "profundidad_m": 32,
+        "area_construida_m2": "18432.00",
+        "volumen_total_m3": "31449.60"
       },
-      "numero_pisos": 8,
-      "material_principal": "bronze_arquitectonico",
+      "numero_pisos": 16,
+      "material_principal": "fibra_carbono",
       "material_secundario": "titanio"
     },
     "analisis_estructural": {
       "peso_estructura": {
-        "volumen_m3": 13500,
-        "material": "bronze_arquitectonico",
-        "densidad_kg_m3": 8800,
-        "peso_total_kg": 118800000,
-        "peso_toneladas": "118800.00",
-        "fuerza_gravitacional_newtons": "1165428000.00",
-        "resistencia_material_mpa": 450,
-        "costo_material_usd": "162000000.00"
+        "volumen_m3": 31449.6,
+        "material": "fibra_carbono",
+        "densidad_kg_m3": 1600,
+        "peso_total_kg": 50319360,
+        "peso_toneladas": "50319.36",
+        "fuerza_gravitacional_newtons": "493632921.60",
+        "resistencia_material_mpa": 3500,
+        "costo_material_usd": "2673216000.00"
       },
       "analisis_voladizos": {
         "longitud_voladizo_m": 9,
-        "momento_flexion_nm": "1311106500.00",
-        "esfuerzo_necesario_mpa": "16186500.00",
-        "esfuerzo_material_mpa": 450,
+        "momento_flexion_nm": "555337036.80",
+        "esfuerzo_necesario_mpa": "6856012.80",
+        "esfuerzo_material_mpa": 3500,
         "factor_seguridad": "0.00",
         "viable": false,
         "recomendacion": "Requiere refuerzo estructural"
       },
       "centro_gravedad": {
-        "centro_gravedad_x": "1.35",
-        "centro_gravedad_y": "0.63",
-        "centro_gravedad_z": "23.85",
-        "masa_total_kg": "118800000.00"
+        "centro_gravedad_x": "1.62",
+        "centro_gravedad_y": "0.80",
+        "centro_gravedad_z": "41.34",
+        "masa_total_kg": "50319360.00"
       },
       "estabilidad": "REQUIERE OPTIMIZACIÓN"
     },
     "ubicacion": {
       "coordenadas_gps": {
-        "latitud": 51.126082,
-        "longitud": -107.410988,
+        "latitud": 53.793218,
+        "longitud": -105.409932,
         "terreno": "montana",
-        "elevacion_m": 1263
+        "elevacion_m": 2129
       },
       "terreno_tipo": "montana",
       "zona_climatica": "Templado"
     },
     "valoracion": {
-      "costo_construccion_usd": "162000000.00",
+      "costo_construccion_usd": "2673216000.00",
       "costo_planos_diseno_usd": "50,000",
-      "valor_mercado_usd": "59,225,000",
+      "valor_mercado_usd": "7,332,249,600",
       "roi_estimado": "300-500%"
     },
     "certificacion": {
@@ -1422,65 +1331,65 @@
     }
   },
   {
-    "id_proyecto": "ARCH-1762846039105-BUV00STJ4",
-    "timestamp": "2025-11-11T07:27:19.105Z",
+    "id_proyecto": "ARCH-1762846236561-HN0WE73F2",
+    "timestamp": "2025-11-11T07:30:36.561Z",
     "diseño": {
-      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
-      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "nombre": "Complejo Modular Flotante + Casa Flotante Orgánica",
+      "tipo_hibrido": "complejo_modular × casa_flotante",
       "caracteristicas": [
+        "Pods conectados",
+        "Distribución espacial",
+        "Puentes de vidrio",
         "Estructura sobre agua",
         "Forma curveada",
-        "Voladizos",
-        "Estructura vertical",
-        "Geometría imposible",
-        "Secciones flotantes"
+        "Voladizos"
       ],
       "nivel": "Ultra-Premium Futurista"
     },
     "especificaciones": {
       "dimensiones": {
-        "altura_total_m": 45,
-        "ancho_m": 30,
-        "profundidad_m": 25,
-        "area_construida_m2": "6000.00",
-        "volumen_total_m3": "13500.00"
+        "altura_total_m": 42,
+        "ancho_m": 68,
+        "profundidad_m": 58,
+        "area_construida_m2": "39440.00",
+        "volumen_total_m3": "57976.80"
       },
-      "numero_pisos": 8,
-      "material_principal": "bronze_arquitectonico",
-      "material_secundario": "titanio"
+      "numero_pisos": 10,
+      "material_principal": "aluminio",
+      "material_secundario": "bronze_arquitectonico"
     },
     "analisis_estructural": {
       "peso_estructura": {
-        "volumen_m3": 13500,
-        "material": "bronze_arquitectonico",
-        "densidad_kg_m3": 8800,
-        "peso_total_kg": 118800000,
-        "peso_toneladas": "118800.00",
-        "fuerza_gravitacional_newtons": "1165428000.00",
-        "resistencia_material_mpa": 450,
-        "costo_material_usd": "162000000.00"
+        "volumen_m3": 57976.799999999996,
+        "material": "aluminio",
+        "densidad_kg_m3": 2700,
+        "peso_total_kg": 156537360,
+        "peso_toneladas": "156537.36",
+        "fuerza_gravitacional_newtons": "1535631501.60",
+        "resistencia_material_mpa": 300,
+        "costo_material_usd": "202918800.00"
       },
       "analisis_voladizos": {
-        "longitud_voladizo_m": 9,
-        "momento_flexion_nm": "1311106500.00",
-        "esfuerzo_necesario_mpa": "16186500.00",
-        "esfuerzo_material_mpa": 450,
+        "longitud_voladizo_m": 23.799999999999997,
+        "momento_flexion_nm": "4568503717.26",
+        "esfuerzo_necesario_mpa": "8065291.50",
+        "esfuerzo_material_mpa": 300,
         "factor_seguridad": "0.00",
         "viable": false,
         "recomendacion": "Requiere refuerzo estructural"
       },
       "centro_gravedad": {
-        "centro_gravedad_x": "1.35",
-        "centro_gravedad_y": "0.63",
-        "centro_gravedad_z": "23.85",
-        "masa_total_kg": "118800000.00"
+        "centro_gravedad_x": "3.06",
+        "centro_gravedad_y": "1.45",
+        "centro_gravedad_z": "22.26",
+        "masa_total_kg": "156537360.00"
       },
       "estabilidad": "REQUIERE OPTIMIZACIÓN"
     },
     "ubicacion": {
       "coordenadas_gps": {
-        "latitud": 3.491337,
-        "longitud": -121.082112,
+        "latitud": 16.716076,
+        "longitud": -132.28028,
         "terreno": "oceano",
         "elevacion_m": 0
       },
@@ -1488,9 +1397,9 @@
       "zona_climatica": "Tropical"
     },
     "valoracion": {
-      "costo_construccion_usd": "162000000.00",
+      "costo_construccion_usd": "202918800.00",
       "costo_planos_diseno_usd": "50,000",
-      "valor_mercado_usd": "59,225,000",
+      "valor_mercado_usd": "6,011,034,624",
       "roi_estimado": "300-500%"
     },
     "certificacion": {
@@ -1501,65 +1410,65 @@
     }
   },
   {
-    "id_proyecto": "ARCH-1762846039105-KGPR06VC8",
-    "timestamp": "2025-11-11T07:27:19.105Z",
+    "id_proyecto": "ARCH-1762846236562-J9L93IYD3",
+    "timestamp": "2025-11-11T07:30:36.562Z",
     "diseño": {
-      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
-      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "nombre": "Torre Pirámide Anti-Gravedad + Complejo Modular Flotante",
+      "tipo_hibrido": "torre_piramide × complejo_modular",
       "caracteristicas": [
-        "Estructura sobre agua",
-        "Forma curveada",
-        "Voladizos",
         "Estructura vertical",
         "Geometría imposible",
-        "Secciones flotantes"
+        "Secciones flotantes",
+        "Pods conectados",
+        "Distribución espacial",
+        "Puentes de vidrio"
       ],
       "nivel": "Ultra-Premium Futurista"
     },
     "especificaciones": {
       "dimensiones": {
-        "altura_total_m": 45,
-        "ancho_m": 30,
-        "profundidad_m": 25,
-        "area_construida_m2": "6000.00",
-        "volumen_total_m3": "13500.00"
+        "altura_total_m": 110,
+        "ancho_m": 62,
+        "profundidad_m": 55,
+        "area_construida_m2": "88660.00",
+        "volumen_total_m3": "112530.00"
       },
-      "numero_pisos": 8,
-      "material_principal": "bronze_arquitectonico",
-      "material_secundario": "titanio"
+      "numero_pisos": 26,
+      "material_principal": "titanio",
+      "material_secundario": "aluminio"
     },
     "analisis_estructural": {
       "peso_estructura": {
-        "volumen_m3": 13500,
-        "material": "bronze_arquitectonico",
-        "densidad_kg_m3": 8800,
-        "peso_total_kg": 118800000,
-        "peso_toneladas": "118800.00",
-        "fuerza_gravitacional_newtons": "1165428000.00",
-        "resistencia_material_mpa": 450,
-        "costo_material_usd": "162000000.00"
+        "volumen_m3": 112530,
+        "material": "titanio",
+        "densidad_kg_m3": 4500,
+        "peso_total_kg": 506385000,
+        "peso_toneladas": "506385.00",
+        "fuerza_gravitacional_newtons": "4967636850.00",
+        "resistencia_material_mpa": 900,
+        "costo_material_usd": "5063850000.00"
       },
       "analisis_voladizos": {
-        "longitud_voladizo_m": 9,
-        "momento_flexion_nm": "1311106500.00",
-        "esfuerzo_necesario_mpa": "16186500.00",
-        "esfuerzo_material_mpa": 450,
+        "longitud_voladizo_m": 15.5,
+        "momento_flexion_nm": "9624796396.88",
+        "esfuerzo_necesario_mpa": "40061587.50",
+        "esfuerzo_material_mpa": 900,
         "factor_seguridad": "0.00",
         "viable": false,
         "recomendacion": "Requiere refuerzo estructural"
       },
       "centro_gravedad": {
-        "centro_gravedad_x": "1.35",
-        "centro_gravedad_y": "0.63",
-        "centro_gravedad_z": "23.85",
-        "masa_total_kg": "118800000.00"
+        "centro_gravedad_x": "2.79",
+        "centro_gravedad_y": "1.38",
+        "centro_gravedad_z": "58.30",
+        "masa_total_kg": "506385000.00"
       },
       "estabilidad": "REQUIERE OPTIMIZACIÓN"
     },
     "ubicacion": {
       "coordenadas_gps": {
-        "latitud": 24.251967,
-        "longitud": 49.566332,
+        "latitud": 27.756385,
+        "longitud": 45.323738,
         "terreno": "desierto",
         "elevacion_m": 0
       },
@@ -1567,9 +1476,9 @@
       "zona_climatica": "Árido"
     },
     "valoracion": {
-      "costo_construccion_usd": "162000000.00",
+      "costo_construccion_usd": "5063850000.00",
       "costo_planos_diseno_usd": "50,000",
-      "valor_mercado_usd": "59,225,000",
+      "valor_mercado_usd": "22,686,048,000",
       "roi_estimado": "300-500%"
     },
     "certificacion": {
@@ -1580,65 +1489,65 @@
     }
   },
   {
-    "id_proyecto": "ARCH-1762846039105-UR2CYANAH",
-    "timestamp": "2025-11-11T07:27:19.105Z",
+    "id_proyecto": "ARCH-1762846236562-8UC8EUYTS",
+    "timestamp": "2025-11-11T07:30:36.562Z",
     "diseño": {
-      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
-      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "nombre": "Villa Orgánica Curveada + Complejo Modular Flotante",
+      "tipo_hibrido": "villa_organica × complejo_modular",
       "caracteristicas": [
-        "Estructura sobre agua",
-        "Forma curveada",
-        "Voladizos",
-        "Estructura vertical",
-        "Geometría imposible",
-        "Secciones flotantes"
+        "Múltiples niveles",
+        "Formas fluidas",
+        "Integración natural",
+        "Pods conectados",
+        "Distribución espacial",
+        "Puentes de vidrio"
       ],
       "nivel": "Ultra-Premium Futurista"
     },
     "especificaciones": {
       "dimensiones": {
-        "altura_total_m": 45,
-        "ancho_m": 30,
-        "profundidad_m": 25,
-        "area_construida_m2": "6000.00",
-        "volumen_total_m3": "13500.00"
+        "altura_total_m": 35,
+        "ancho_m": 80,
+        "profundidad_m": 70,
+        "area_construida_m2": "44800.00",
+        "volumen_total_m3": "78400.00"
       },
       "numero_pisos": 8,
-      "material_principal": "bronze_arquitectonico",
-      "material_secundario": "titanio"
+      "material_principal": "fibra_carbono",
+      "material_secundario": "aluminio"
     },
     "analisis_estructural": {
       "peso_estructura": {
-        "volumen_m3": 13500,
-        "material": "bronze_arquitectonico",
-        "densidad_kg_m3": 8800,
-        "peso_total_kg": 118800000,
-        "peso_toneladas": "118800.00",
-        "fuerza_gravitacional_newtons": "1165428000.00",
-        "resistencia_material_mpa": 450,
-        "costo_material_usd": "162000000.00"
+        "volumen_m3": 78400,
+        "material": "fibra_carbono",
+        "densidad_kg_m3": 1600,
+        "peso_total_kg": 125440000,
+        "peso_toneladas": "125440.00",
+        "fuerza_gravitacional_newtons": "1230566400.00",
+        "resistencia_material_mpa": 3500,
+        "costo_material_usd": "6664000000.00"
       },
       "analisis_voladizos": {
-        "longitud_voladizo_m": 9,
-        "momento_flexion_nm": "1311106500.00",
-        "esfuerzo_necesario_mpa": "16186500.00",
-        "esfuerzo_material_mpa": 450,
+        "longitud_voladizo_m": 28,
+        "momento_flexion_nm": "4306982400.00",
+        "esfuerzo_necesario_mpa": "5493600.00",
+        "esfuerzo_material_mpa": 3500,
         "factor_seguridad": "0.00",
         "viable": false,
         "recomendacion": "Requiere refuerzo estructural"
       },
       "centro_gravedad": {
-        "centro_gravedad_x": "1.35",
-        "centro_gravedad_y": "0.63",
-        "centro_gravedad_z": "23.85",
-        "masa_total_kg": "118800000.00"
+        "centro_gravedad_x": "3.60",
+        "centro_gravedad_y": "1.75",
+        "centro_gravedad_z": "18.55",
+        "masa_total_kg": "125440000.00"
       },
       "estabilidad": "REQUIERE OPTIMIZACIÓN"
     },
     "ubicacion": {
       "coordenadas_gps": {
-        "latitud": -5.443574,
-        "longitud": -145.004881,
+        "latitud": -13.610564,
+        "longitud": -126.443906,
         "terreno": "oceano",
         "elevacion_m": 0
       },
@@ -1646,9 +1555,9 @@
       "zona_climatica": "Tropical"
     },
     "valoracion": {
-      "costo_construccion_usd": "162000000.00",
+      "costo_construccion_usd": "6664000000.00",
       "costo_planos_diseno_usd": "50,000",
-      "valor_mercado_usd": "59,225,000",
+      "valor_mercado_usd": "14,817,600,000",
       "roi_estimado": "300-500%"
     },
     "certificacion": {
@@ -1659,8 +1568,8 @@
     }
   },
   {
-    "id_proyecto": "ARCH-1762846039105-EVFNZ49PC",
-    "timestamp": "2025-11-11T07:27:19.105Z",
+    "id_proyecto": "ARCH-1762846236562-ZZL9WGTHF",
+    "timestamp": "2025-11-11T07:30:36.562Z",
     "diseño": {
       "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
       "tipo_hibrido": "casa_flotante × torre_piramide",
@@ -1676,48 +1585,48 @@
     },
     "especificaciones": {
       "dimensiones": {
-        "altura_total_m": 45,
-        "ancho_m": 30,
-        "profundidad_m": 25,
-        "area_construida_m2": "6000.00",
-        "volumen_total_m3": "13500.00"
+        "altura_total_m": 58,
+        "ancho_m": 34,
+        "profundidad_m": 30,
+        "area_construida_m2": "12240.00",
+        "volumen_total_m3": "20706.00"
       },
-      "numero_pisos": 8,
+      "numero_pisos": 12,
       "material_principal": "bronze_arquitectonico",
       "material_secundario": "titanio"
     },
     "analisis_estructural": {
       "peso_estructura": {
-        "volumen_m3": 13500,
+        "volumen_m3": 20706,
         "material": "bronze_arquitectonico",
         "densidad_kg_m3": 8800,
-        "peso_total_kg": 118800000,
-        "peso_toneladas": "118800.00",
-        "fuerza_gravitacional_newtons": "1165428000.00",
+        "peso_total_kg": 182212800,
+        "peso_toneladas": "182212.80",
+        "fuerza_gravitacional_newtons": "1787507568.00",
         "resistencia_material_mpa": 450,
-        "costo_material_usd": "162000000.00"
+        "costo_material_usd": "248472000.00"
       },
       "analisis_voladizos": {
-        "longitud_voladizo_m": 9,
-        "momento_flexion_nm": "1311106500.00",
-        "esfuerzo_necesario_mpa": "16186500.00",
+        "longitud_voladizo_m": 8.5,
+        "momento_flexion_nm": "1899226791.00",
+        "esfuerzo_necesario_mpa": "26286876.00",
         "esfuerzo_material_mpa": 450,
         "factor_seguridad": "0.00",
         "viable": false,
         "recomendacion": "Requiere refuerzo estructural"
       },
       "centro_gravedad": {
-        "centro_gravedad_x": "1.35",
-        "centro_gravedad_y": "0.63",
-        "centro_gravedad_z": "23.85",
-        "masa_total_kg": "118800000.00"
+        "centro_gravedad_x": "1.53",
+        "centro_gravedad_y": "0.75",
+        "centro_gravedad_z": "30.74",
+        "masa_total_kg": "182212800.00"
       },
       "estabilidad": "REQUIERE OPTIMIZACIÓN"
     },
     "ubicacion": {
       "coordenadas_gps": {
-        "latitud": 33.321309,
-        "longitud": -85.128191,
+        "latitud": 48.125741,
+        "longitud": -79.469241,
         "terreno": "lago",
         "elevacion_m": 0
       },
@@ -1725,9 +1634,9 @@
       "zona_climatica": "Templado"
     },
     "valoracion": {
-      "costo_construccion_usd": "162000000.00",
+      "costo_construccion_usd": "248472000.00",
       "costo_planos_diseno_usd": "50,000",
-      "valor_mercado_usd": "59,225,000",
+      "valor_mercado_usd": "2,236,248,000",
       "roi_estimado": "300-500%"
     },
     "certificacion": {
@@ -1738,65 +1647,65 @@
     }
   },
   {
-    "id_proyecto": "ARCH-1762846039105-EHTP3YE37",
-    "timestamp": "2025-11-11T07:27:19.105Z",
+    "id_proyecto": "ARCH-1762846236562-9PVWX3HL6",
+    "timestamp": "2025-11-11T07:30:36.562Z",
     "diseño": {
-      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
-      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "nombre": "Complejo Modular Flotante + Villa Orgánica Curveada",
+      "tipo_hibrido": "complejo_modular × villa_organica",
       "caracteristicas": [
-        "Estructura sobre agua",
-        "Forma curveada",
-        "Voladizos",
-        "Estructura vertical",
-        "Geometría imposible",
-        "Secciones flotantes"
+        "Pods conectados",
+        "Distribución espacial",
+        "Puentes de vidrio",
+        "Múltiples niveles",
+        "Formas fluidas",
+        "Integración natural"
       ],
       "nivel": "Ultra-Premium Futurista"
     },
     "especificaciones": {
       "dimensiones": {
-        "altura_total_m": 45,
-        "ancho_m": 30,
-        "profundidad_m": 25,
-        "area_construida_m2": "6000.00",
-        "volumen_total_m3": "13500.00"
+        "altura_total_m": 40,
+        "ancho_m": 85,
+        "profundidad_m": 75,
+        "area_construida_m2": "63750.00",
+        "volumen_total_m3": "102000.00"
       },
-      "numero_pisos": 8,
-      "material_principal": "bronze_arquitectonico",
-      "material_secundario": "titanio"
+      "numero_pisos": 10,
+      "material_principal": "aluminio",
+      "material_secundario": "fibra_carbono"
     },
     "analisis_estructural": {
       "peso_estructura": {
-        "volumen_m3": 13500,
-        "material": "bronze_arquitectonico",
-        "densidad_kg_m3": 8800,
-        "peso_total_kg": 118800000,
-        "peso_toneladas": "118800.00",
-        "fuerza_gravitacional_newtons": "1165428000.00",
-        "resistencia_material_mpa": 450,
-        "costo_material_usd": "162000000.00"
+        "volumen_m3": 102000,
+        "material": "aluminio",
+        "densidad_kg_m3": 2700,
+        "peso_total_kg": 275400000,
+        "peso_toneladas": "275400.00",
+        "fuerza_gravitacional_newtons": "2701674000.00",
+        "resistencia_material_mpa": 300,
+        "costo_material_usd": "357000000.00"
       },
       "analisis_voladizos": {
-        "longitud_voladizo_m": 9,
-        "momento_flexion_nm": "1311106500.00",
-        "esfuerzo_necesario_mpa": "16186500.00",
-        "esfuerzo_material_mpa": 450,
+        "longitud_voladizo_m": 29.749999999999996,
+        "momento_flexion_nm": "10046850187.50",
+        "esfuerzo_necesario_mpa": "11351571.43",
+        "esfuerzo_material_mpa": 300,
         "factor_seguridad": "0.00",
         "viable": false,
         "recomendacion": "Requiere refuerzo estructural"
       },
       "centro_gravedad": {
-        "centro_gravedad_x": "1.35",
-        "centro_gravedad_y": "0.63",
-        "centro_gravedad_z": "23.85",
-        "masa_total_kg": "118800000.00"
+        "centro_gravedad_x": "3.83",
+        "centro_gravedad_y": "1.88",
+        "centro_gravedad_z": "21.20",
+        "masa_total_kg": "275400000.00"
       },
       "estabilidad": "REQUIERE OPTIMIZACIÓN"
     },
     "ubicacion": {
       "coordenadas_gps": {
-        "latitud": -15.664464,
-        "longitud": -110.33658,
+        "latitud": -4.236158,
+        "longitud": -136.091781,
         "terreno": "oceano",
         "elevacion_m": 0
       },
@@ -1804,9 +1713,9 @@
       "zona_climatica": "Tropical"
     },
     "valoracion": {
-      "costo_construccion_usd": "162000000.00",
+      "costo_construccion_usd": "357000000.00",
       "costo_planos_diseno_usd": "50,000",
-      "valor_mercado_usd": "59,225,000",
+      "valor_mercado_usd": "9,253,440,000",
       "roi_estimado": "300-500%"
     },
     "certificacion": {
@@ -1817,65 +1726,65 @@
     }
   },
   {
-    "id_proyecto": "ARCH-1762846039105-31ZBSAP2E",
-    "timestamp": "2025-11-11T07:27:19.105Z",
+    "id_proyecto": "ARCH-1762846236562-RT4B8PKHL",
+    "timestamp": "2025-11-11T07:30:36.562Z",
     "diseño": {
-      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
-      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "nombre": "Casa Flotante Orgánica + Villa Orgánica Curveada",
+      "tipo_hibrido": "casa_flotante × villa_organica",
       "caracteristicas": [
         "Estructura sobre agua",
         "Forma curveada",
         "Voladizos",
-        "Estructura vertical",
-        "Geometría imposible",
-        "Secciones flotantes"
+        "Múltiples niveles",
+        "Formas fluidas",
+        "Integración natural"
       ],
       "nivel": "Ultra-Premium Futurista"
     },
     "especificaciones": {
       "dimensiones": {
-        "altura_total_m": 45,
-        "ancho_m": 30,
-        "profundidad_m": 25,
-        "area_construida_m2": "6000.00",
-        "volumen_total_m3": "13500.00"
+        "altura_total_m": 12,
+        "ancho_m": 22,
+        "profundidad_m": 20,
+        "area_construida_m2": "880.00",
+        "volumen_total_m3": "2112.00"
       },
-      "numero_pisos": 8,
+      "numero_pisos": 2,
       "material_principal": "bronze_arquitectonico",
-      "material_secundario": "titanio"
+      "material_secundario": "fibra_carbono"
     },
     "analisis_estructural": {
       "peso_estructura": {
-        "volumen_m3": 13500,
+        "volumen_m3": 2112,
         "material": "bronze_arquitectonico",
         "densidad_kg_m3": 8800,
-        "peso_total_kg": 118800000,
-        "peso_toneladas": "118800.00",
-        "fuerza_gravitacional_newtons": "1165428000.00",
+        "peso_total_kg": 18585600,
+        "peso_toneladas": "18585.60",
+        "fuerza_gravitacional_newtons": "182324736.00",
         "resistencia_material_mpa": 450,
-        "costo_material_usd": "162000000.00"
+        "costo_material_usd": "25344000.00"
       },
       "analisis_voladizos": {
-        "longitud_voladizo_m": 9,
-        "momento_flexion_nm": "1311106500.00",
-        "esfuerzo_necesario_mpa": "16186500.00",
+        "longitud_voladizo_m": 5.5,
+        "momento_flexion_nm": "125348256.00",
+        "esfuerzo_necesario_mpa": "4143744.00",
         "esfuerzo_material_mpa": 450,
         "factor_seguridad": "0.00",
         "viable": false,
         "recomendacion": "Requiere refuerzo estructural"
       },
       "centro_gravedad": {
-        "centro_gravedad_x": "1.35",
-        "centro_gravedad_y": "0.63",
-        "centro_gravedad_z": "23.85",
-        "masa_total_kg": "118800000.00"
+        "centro_gravedad_x": "0.99",
+        "centro_gravedad_y": "0.50",
+        "centro_gravedad_z": "6.36",
+        "masa_total_kg": "18585600.00"
       },
       "estabilidad": "REQUIERE OPTIMIZACIÓN"
     },
     "ubicacion": {
       "coordenadas_gps": {
-        "latitud": 46.961902,
-        "longitud": -79.157309,
+        "latitud": 37.916478,
+        "longitud": -81.978037,
         "terreno": "lago",
         "elevacion_m": 0
       },
@@ -1883,9 +1792,9 @@
       "zona_climatica": "Templado"
     },
     "valoracion": {
-      "costo_construccion_usd": "162000000.00",
+      "costo_construccion_usd": "25344000.00",
       "costo_planos_diseno_usd": "50,000",
-      "valor_mercado_usd": "59,225,000",
+      "valor_mercado_usd": "142,560,000",
       "roi_estimado": "300-500%"
     },
     "certificacion": {
@@ -1896,65 +1805,65 @@
     }
   },
   {
-    "id_proyecto": "ARCH-1762846039105-GHV6XARO6",
-    "timestamp": "2025-11-11T07:27:19.105Z",
+    "id_proyecto": "ARCH-1762846236562-4SLFB06B5",
+    "timestamp": "2025-11-11T07:30:36.562Z",
     "diseño": {
-      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
-      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "nombre": "Villa Orgánica Curveada + Casa Flotante Orgánica",
+      "tipo_hibrido": "villa_organica × casa_flotante",
       "caracteristicas": [
+        "Múltiples niveles",
+        "Formas fluidas",
+        "Integración natural",
         "Estructura sobre agua",
         "Forma curveada",
-        "Voladizos",
-        "Estructura vertical",
-        "Geometría imposible",
-        "Secciones flotantes"
+        "Voladizos"
       ],
       "nivel": "Ultra-Premium Futurista"
     },
     "especificaciones": {
       "dimensiones": {
-        "altura_total_m": 45,
-        "ancho_m": 30,
-        "profundidad_m": 25,
-        "area_construida_m2": "6000.00",
-        "volumen_total_m3": "13500.00"
+        "altura_total_m": 16,
+        "ancho_m": 26,
+        "profundidad_m": 24,
+        "area_construida_m2": "1872.00",
+        "volumen_total_m3": "3993.60"
       },
-      "numero_pisos": 8,
-      "material_principal": "bronze_arquitectonico",
-      "material_secundario": "titanio"
+      "numero_pisos": 3,
+      "material_principal": "fibra_carbono",
+      "material_secundario": "bronze_arquitectonico"
     },
     "analisis_estructural": {
       "peso_estructura": {
-        "volumen_m3": 13500,
-        "material": "bronze_arquitectonico",
-        "densidad_kg_m3": 8800,
-        "peso_total_kg": 118800000,
-        "peso_toneladas": "118800.00",
-        "fuerza_gravitacional_newtons": "1165428000.00",
-        "resistencia_material_mpa": 450,
-        "costo_material_usd": "162000000.00"
+        "volumen_m3": 3993.6000000000004,
+        "material": "fibra_carbono",
+        "densidad_kg_m3": 1600,
+        "peso_total_kg": 6389760.000000001,
+        "peso_toneladas": "6389.76",
+        "fuerza_gravitacional_newtons": "62683545.60",
+        "resistencia_material_mpa": 3500,
+        "costo_material_usd": "339456000.00"
       },
       "analisis_voladizos": {
-        "longitud_voladizo_m": 9,
-        "momento_flexion_nm": "1311106500.00",
-        "esfuerzo_necesario_mpa": "16186500.00",
-        "esfuerzo_material_mpa": 450,
+        "longitud_voladizo_m": 9.1,
+        "momento_flexion_nm": "71302533.12",
+        "esfuerzo_necesario_mpa": "861037.71",
+        "esfuerzo_material_mpa": 3500,
         "factor_seguridad": "0.00",
         "viable": false,
         "recomendacion": "Requiere refuerzo estructural"
       },
       "centro_gravedad": {
-        "centro_gravedad_x": "1.35",
-        "centro_gravedad_y": "0.63",
-        "centro_gravedad_z": "23.85",
-        "masa_total_kg": "118800000.00"
+        "centro_gravedad_x": "1.17",
+        "centro_gravedad_y": "0.60",
+        "centro_gravedad_z": "8.48",
+        "masa_total_kg": "6389760.00"
       },
       "estabilidad": "REQUIERE OPTIMIZACIÓN"
     },
     "ubicacion": {
       "coordenadas_gps": {
-        "latitud": 4.19336,
-        "longitud": -116.582739,
+        "latitud": -18.8586,
+        "longitud": -140.043533,
         "terreno": "oceano",
         "elevacion_m": 0
       },
@@ -1962,9 +1871,9 @@
       "zona_climatica": "Tropical"
     },
     "valoracion": {
-      "costo_construccion_usd": "162000000.00",
+      "costo_construccion_usd": "339456000.00",
       "costo_planos_diseno_usd": "50,000",
-      "valor_mercado_usd": "59,225,000",
+      "valor_mercado_usd": "539,136,000",
       "roi_estimado": "300-500%"
     },
     "certificacion": {
@@ -1975,15 +1884,12 @@
     }
   },
   {
-    "id_proyecto": "ARCH-1762846039105-33VLC4TUB",
-    "timestamp": "2025-11-11T07:27:19.105Z",
+    "id_proyecto": "ARCH-1762846236562-QS6VR3IAK",
+    "timestamp": "2025-11-11T07:30:36.562Z",
     "diseño": {
-      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
-      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "nombre": "Torre Pirámide Anti-Gravedad + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "torre_piramide × torre_piramide",
       "caracteristicas": [
-        "Estructura sobre agua",
-        "Forma curveada",
-        "Voladizos",
         "Estructura vertical",
         "Geometría imposible",
         "Secciones flotantes"
@@ -1992,48 +1898,48 @@
     },
     "especificaciones": {
       "dimensiones": {
-        "altura_total_m": 45,
-        "ancho_m": 30,
-        "profundidad_m": 25,
-        "area_construida_m2": "6000.00",
-        "volumen_total_m3": "13500.00"
+        "altura_total_m": 180,
+        "ancho_m": 52,
+        "profundidad_m": 48,
+        "area_construida_m2": "119808.00",
+        "volumen_total_m3": "134784.00"
       },
-      "numero_pisos": 8,
-      "material_principal": "bronze_arquitectonico",
+      "numero_pisos": 48,
+      "material_principal": "titanio",
       "material_secundario": "titanio"
     },
     "analisis_estructural": {
       "peso_estructura": {
-        "volumen_m3": 13500,
-        "material": "bronze_arquitectonico",
-        "densidad_kg_m3": 8800,
-        "peso_total_kg": 118800000,
-        "peso_toneladas": "118800.00",
-        "fuerza_gravitacional_newtons": "1165428000.00",
-        "resistencia_material_mpa": 450,
-        "costo_material_usd": "162000000.00"
+        "volumen_m3": 134784,
+        "material": "titanio",
+        "densidad_kg_m3": 4500,
+        "peso_total_kg": 606528000,
+        "peso_toneladas": "606528.00",
+        "fuerza_gravitacional_newtons": "5950039680.00",
+        "resistencia_material_mpa": 900,
+        "costo_material_usd": "6065280000.00"
       },
       "analisis_voladizos": {
-        "longitud_voladizo_m": 9,
-        "momento_flexion_nm": "1311106500.00",
-        "esfuerzo_necesario_mpa": "16186500.00",
-        "esfuerzo_material_mpa": 450,
+        "longitud_voladizo_m": 13,
+        "momento_flexion_nm": "9668814480.00",
+        "esfuerzo_necesario_mpa": "57211920.00",
+        "esfuerzo_material_mpa": 900,
         "factor_seguridad": "0.00",
         "viable": false,
         "recomendacion": "Requiere refuerzo estructural"
       },
       "centro_gravedad": {
-        "centro_gravedad_x": "1.35",
-        "centro_gravedad_y": "0.63",
-        "centro_gravedad_z": "23.85",
-        "masa_total_kg": "118800000.00"
+        "centro_gravedad_x": "2.34",
+        "centro_gravedad_y": "1.20",
+        "centro_gravedad_z": "95.40",
+        "masa_total_kg": "606528000.00"
       },
       "estabilidad": "REQUIERE OPTIMIZACIÓN"
     },
     "ubicacion": {
       "coordenadas_gps": {
-        "latitud": 26.125212,
-        "longitud": 49.808544,
+        "latitud": 22.623503,
+        "longitud": 45.571371,
         "terreno": "desierto",
         "elevacion_m": 0
       },
@@ -2041,9 +1947,9 @@
       "zona_climatica": "Árido"
     },
     "valoracion": {
-      "costo_construccion_usd": "162000000.00",
+      "costo_construccion_usd": "6065280000.00",
       "costo_planos_diseno_usd": "50,000",
-      "valor_mercado_usd": "59,225,000",
+      "valor_mercado_usd": "27,172,454,400",
       "roi_estimado": "300-500%"
     },
     "certificacion": {
@@ -2054,15 +1960,15 @@
     }
   },
   {
-    "id_proyecto": "ARCH-1762846039105-HS4GQZF94",
-    "timestamp": "2025-11-11T07:27:19.105Z",
+    "id_proyecto": "ARCH-1762846236562-GBI103DEN",
+    "timestamp": "2025-11-11T07:30:36.562Z",
     "diseño": {
-      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
-      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "nombre": "Complejo Modular Flotante + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "complejo_modular × torre_piramide",
       "caracteristicas": [
-        "Estructura sobre agua",
-        "Forma curveada",
-        "Voladizos",
+        "Pods conectados",
+        "Distribución espacial",
+        "Puentes de vidrio",
         "Estructura vertical",
         "Geometría imposible",
         "Secciones flotantes"
@@ -2071,48 +1977,48 @@
     },
     "especificaciones": {
       "dimensiones": {
-        "altura_total_m": 45,
-        "ancho_m": 30,
-        "profundidad_m": 25,
-        "area_construida_m2": "6000.00",
-        "volumen_total_m3": "13500.00"
+        "altura_total_m": 92,
+        "ancho_m": 90,
+        "profundidad_m": 80,
+        "area_construida_m2": "144000.00",
+        "volumen_total_m3": "198720.00"
       },
-      "numero_pisos": 8,
-      "material_principal": "bronze_arquitectonico",
+      "numero_pisos": 20,
+      "material_principal": "aluminio",
       "material_secundario": "titanio"
     },
     "analisis_estructural": {
       "peso_estructura": {
-        "volumen_m3": 13500,
-        "material": "bronze_arquitectonico",
-        "densidad_kg_m3": 8800,
-        "peso_total_kg": 118800000,
-        "peso_toneladas": "118800.00",
-        "fuerza_gravitacional_newtons": "1165428000.00",
-        "resistencia_material_mpa": 450,
-        "costo_material_usd": "162000000.00"
+        "volumen_m3": 198720,
+        "material": "aluminio",
+        "densidad_kg_m3": 2700,
+        "peso_total_kg": 536544000,
+        "peso_toneladas": "536544.00",
+        "fuerza_gravitacional_newtons": "5263496640.00",
+        "resistencia_material_mpa": 300,
+        "costo_material_usd": "695520000.00"
       },
       "analisis_voladizos": {
-        "longitud_voladizo_m": 9,
-        "momento_flexion_nm": "1311106500.00",
-        "esfuerzo_necesario_mpa": "16186500.00",
-        "esfuerzo_material_mpa": 450,
+        "longitud_voladizo_m": 31.499999999999996,
+        "momento_flexion_nm": "20725018020.00",
+        "esfuerzo_necesario_mpa": "20886891.43",
+        "esfuerzo_material_mpa": 300,
         "factor_seguridad": "0.00",
         "viable": false,
         "recomendacion": "Requiere refuerzo estructural"
       },
       "centro_gravedad": {
-        "centro_gravedad_x": "1.35",
-        "centro_gravedad_y": "0.63",
-        "centro_gravedad_z": "23.85",
-        "masa_total_kg": "118800000.00"
+        "centro_gravedad_x": "4.05",
+        "centro_gravedad_y": "2.00",
+        "centro_gravedad_z": "48.76",
+        "masa_total_kg": "536544000.00"
       },
       "estabilidad": "REQUIERE OPTIMIZACIÓN"
     },
     "ubicacion": {
       "coordenadas_gps": {
-        "latitud": -19.955805,
-        "longitud": -140.37125,
+        "latitud": 16.059909,
+        "longitud": -113.106281,
         "terreno": "oceano",
         "elevacion_m": 0
       },
@@ -2120,9 +2026,9 @@
       "zona_climatica": "Tropical"
     },
     "valoracion": {
-      "costo_construccion_usd": "162000000.00",
+      "costo_construccion_usd": "695520000.00",
       "costo_planos_diseno_usd": "50,000",
-      "valor_mercado_usd": "59,225,000",
+      "valor_mercado_usd": "29,187,993,600",
       "roi_estimado": "300-500%"
     },
     "certificacion": {
@@ -2133,15 +2039,15 @@
     }
   },
   {
-    "id_proyecto": "ARCH-1762846039105-ZI2PA7DH1",
-    "timestamp": "2025-11-11T07:27:19.105Z",
+    "id_proyecto": "ARCH-1762846236562-RS2XGMTUB",
+    "timestamp": "2025-11-11T07:30:36.562Z",
     "diseño": {
-      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
-      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "nombre": "Villa Orgánica Curveada + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "villa_organica × torre_piramide",
       "caracteristicas": [
-        "Estructura sobre agua",
-        "Forma curveada",
-        "Voladizos",
+        "Múltiples niveles",
+        "Formas fluidas",
+        "Integración natural",
         "Estructura vertical",
         "Geometría imposible",
         "Secciones flotantes"
@@ -2150,48 +2056,48 @@
     },
     "especificaciones": {
       "dimensiones": {
-        "altura_total_m": 45,
-        "ancho_m": 30,
-        "profundidad_m": 25,
-        "area_construida_m2": "6000.00",
-        "volumen_total_m3": "13500.00"
+        "altura_total_m": 68,
+        "ancho_m": 38,
+        "profundidad_m": 34,
+        "area_construida_m2": "18088.00",
+        "volumen_total_m3": "30749.60"
       },
-      "numero_pisos": 8,
-      "material_principal": "bronze_arquitectonico",
+      "numero_pisos": 14,
+      "material_principal": "fibra_carbono",
       "material_secundario": "titanio"
     },
     "analisis_estructural": {
       "peso_estructura": {
-        "volumen_m3": 13500,
-        "material": "bronze_arquitectonico",
-        "densidad_kg_m3": 8800,
-        "peso_total_kg": 118800000,
-        "peso_toneladas": "118800.00",
-        "fuerza_gravitacional_newtons": "1165428000.00",
-        "resistencia_material_mpa": 450,
-        "costo_material_usd": "162000000.00"
+        "volumen_m3": 30749.6,
+        "material": "fibra_carbono",
+        "densidad_kg_m3": 1600,
+        "peso_total_kg": 49199360,
+        "peso_toneladas": "49199.36",
+        "fuerza_gravitacional_newtons": "482645721.60",
+        "resistencia_material_mpa": 3500,
+        "costo_material_usd": "2613716000.00"
       },
       "analisis_voladizos": {
-        "longitud_voladizo_m": 9,
-        "momento_flexion_nm": "1311106500.00",
-        "esfuerzo_necesario_mpa": "16186500.00",
-        "esfuerzo_material_mpa": 450,
+        "longitud_voladizo_m": 9.5,
+        "momento_flexion_nm": "573141794.40",
+        "esfuerzo_necesario_mpa": "6350601.60",
+        "esfuerzo_material_mpa": 3500,
         "factor_seguridad": "0.00",
         "viable": false,
         "recomendacion": "Requiere refuerzo estructural"
       },
       "centro_gravedad": {
-        "centro_gravedad_x": "1.35",
-        "centro_gravedad_y": "0.63",
-        "centro_gravedad_z": "23.85",
-        "masa_total_kg": "118800000.00"
+        "centro_gravedad_x": "1.71",
+        "centro_gravedad_y": "0.85",
+        "centro_gravedad_z": "36.04",
+        "masa_total_kg": "49199360.00"
       },
       "estabilidad": "REQUIERE OPTIMIZACIÓN"
     },
     "ubicacion": {
       "coordenadas_gps": {
-        "latitud": 48.197371,
-        "longitud": -96.558173,
+        "latitud": 32.564018,
+        "longitud": -71.651379,
         "terreno": "lago",
         "elevacion_m": 0
       },
@@ -2199,9 +2105,9 @@
       "zona_climatica": "Templado"
     },
     "valoracion": {
-      "costo_construccion_usd": "162000000.00",
+      "costo_construccion_usd": "2613716000.00",
       "costo_planos_diseno_usd": "50,000",
-      "valor_mercado_usd": "59,225,000",
+      "valor_mercado_usd": "6,720,984,000",
       "roi_estimado": "300-500%"
     },
     "certificacion": {
@@ -2212,65 +2118,65 @@
     }
   },
   {
-    "id_proyecto": "ARCH-1762846039105-8NQLDEPQH",
-    "timestamp": "2025-11-11T07:27:19.105Z",
+    "id_proyecto": "ARCH-1762846236562-5RO9OHQ7J",
+    "timestamp": "2025-11-11T07:30:36.562Z",
     "diseño": {
-      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
-      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "nombre": "Casa Flotante Orgánica + Complejo Modular Flotante",
+      "tipo_hibrido": "casa_flotante × complejo_modular",
       "caracteristicas": [
         "Estructura sobre agua",
         "Forma curveada",
         "Voladizos",
-        "Estructura vertical",
-        "Geometría imposible",
-        "Secciones flotantes"
+        "Pods conectados",
+        "Distribución espacial",
+        "Puentes de vidrio"
       ],
       "nivel": "Ultra-Premium Futurista"
     },
     "especificaciones": {
       "dimensiones": {
-        "altura_total_m": 45,
-        "ancho_m": 30,
-        "profundidad_m": 25,
-        "area_construida_m2": "6000.00",
-        "volumen_total_m3": "13500.00"
+        "altura_total_m": 30,
+        "ancho_m": 55,
+        "profundidad_m": 48,
+        "area_construida_m2": "15840.00",
+        "volumen_total_m3": "31680.00"
       },
-      "numero_pisos": 8,
+      "numero_pisos": 6,
       "material_principal": "bronze_arquitectonico",
-      "material_secundario": "titanio"
+      "material_secundario": "aluminio"
     },
     "analisis_estructural": {
       "peso_estructura": {
-        "volumen_m3": 13500,
+        "volumen_m3": 31680,
         "material": "bronze_arquitectonico",
         "densidad_kg_m3": 8800,
-        "peso_total_kg": 118800000,
-        "peso_toneladas": "118800.00",
-        "fuerza_gravitacional_newtons": "1165428000.00",
+        "peso_total_kg": 278784000,
+        "peso_toneladas": "278784.00",
+        "fuerza_gravitacional_newtons": "2734871040.00",
         "resistencia_material_mpa": 450,
-        "costo_material_usd": "162000000.00"
+        "costo_material_usd": "380160000.00"
       },
       "analisis_voladizos": {
-        "longitud_voladizo_m": 9,
-        "momento_flexion_nm": "1311106500.00",
-        "esfuerzo_necesario_mpa": "16186500.00",
+        "longitud_voladizo_m": 19.25,
+        "momento_flexion_nm": "6580783440.00",
+        "esfuerzo_necesario_mpa": "17758902.86",
         "esfuerzo_material_mpa": 450,
         "factor_seguridad": "0.00",
         "viable": false,
         "recomendacion": "Requiere refuerzo estructural"
       },
       "centro_gravedad": {
-        "centro_gravedad_x": "1.35",
-        "centro_gravedad_y": "0.63",
-        "centro_gravedad_z": "23.85",
-        "masa_total_kg": "118800000.00"
+        "centro_gravedad_x": "2.48",
+        "centro_gravedad_y": "1.20",
+        "centro_gravedad_z": "15.90",
+        "masa_total_kg": "278784000.00"
       },
       "estabilidad": "REQUIERE OPTIMIZACIÓN"
     },
     "ubicacion": {
       "coordenadas_gps": {
-        "latitud": 15.244376,
-        "longitud": -117.622729,
+        "latitud": 6.691521,
+        "longitud": -145.667419,
         "terreno": "oceano",
         "elevacion_m": 0
       },
@@ -2278,9 +2184,9 @@
       "zona_climatica": "Tropical"
     },
     "valoracion": {
-      "costo_construccion_usd": "162000000.00",
+      "costo_construccion_usd": "380160000.00",
       "costo_planos_diseno_usd": "50,000",
-      "valor_mercado_usd": "59,225,000",
+      "valor_mercado_usd": "2,566,080,000",
       "roi_estimado": "300-500%"
     },
     "certificacion": {
@@ -2291,75 +2197,75 @@
     }
   },
   {
-    "id_proyecto": "ARCH-1762846039105-SQIBK6MUZ",
-    "timestamp": "2025-11-11T07:27:19.105Z",
+    "id_proyecto": "ARCH-1762846236562-55A4WPRWA",
+    "timestamp": "2025-11-11T07:30:36.562Z",
     "diseño": {
-      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
-      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "nombre": "Torre Pirámide Anti-Gravedad + Villa Orgánica Curveada",
+      "tipo_hibrido": "torre_piramide × villa_organica",
       "caracteristicas": [
-        "Estructura sobre agua",
-        "Forma curveada",
-        "Voladizos",
         "Estructura vertical",
         "Geometría imposible",
-        "Secciones flotantes"
+        "Secciones flotantes",
+        "Múltiples niveles",
+        "Formas fluidas",
+        "Integración natural"
       ],
       "nivel": "Ultra-Premium Futurista"
     },
     "especificaciones": {
       "dimensiones": {
-        "altura_total_m": 45,
-        "ancho_m": 30,
-        "profundidad_m": 25,
-        "area_construida_m2": "6000.00",
-        "volumen_total_m3": "13500.00"
+        "altura_total_m": 102,
+        "ancho_m": 44,
+        "profundidad_m": 40,
+        "area_construida_m2": "42240.00",
+        "volumen_total_m3": "53856.00"
       },
-      "numero_pisos": 8,
-      "material_principal": "bronze_arquitectonico",
-      "material_secundario": "titanio"
+      "numero_pisos": 24,
+      "material_principal": "titanio",
+      "material_secundario": "fibra_carbono"
     },
     "analisis_estructural": {
       "peso_estructura": {
-        "volumen_m3": 13500,
-        "material": "bronze_arquitectonico",
-        "densidad_kg_m3": 8800,
-        "peso_total_kg": 118800000,
-        "peso_toneladas": "118800.00",
-        "fuerza_gravitacional_newtons": "1165428000.00",
-        "resistencia_material_mpa": 450,
-        "costo_material_usd": "162000000.00"
+        "volumen_m3": 53856,
+        "material": "titanio",
+        "densidad_kg_m3": 4500,
+        "peso_total_kg": 242352000,
+        "peso_toneladas": "242352.00",
+        "fuerza_gravitacional_newtons": "2377473120.00",
+        "resistencia_material_mpa": 900,
+        "costo_material_usd": "2423520000.00"
       },
       "analisis_voladizos": {
-        "longitud_voladizo_m": 9,
-        "momento_flexion_nm": "1311106500.00",
-        "esfuerzo_necesario_mpa": "16186500.00",
-        "esfuerzo_material_mpa": 450,
+        "longitud_voladizo_m": 11,
+        "momento_flexion_nm": "3269025540.00",
+        "esfuerzo_necesario_mpa": "27016740.00",
+        "esfuerzo_material_mpa": 900,
         "factor_seguridad": "0.00",
         "viable": false,
         "recomendacion": "Requiere refuerzo estructural"
       },
       "centro_gravedad": {
-        "centro_gravedad_x": "1.35",
-        "centro_gravedad_y": "0.63",
-        "centro_gravedad_z": "23.85",
-        "masa_total_kg": "118800000.00"
+        "centro_gravedad_x": "1.98",
+        "centro_gravedad_y": "1.00",
+        "centro_gravedad_z": "54.06",
+        "masa_total_kg": "242352000.00"
       },
       "estabilidad": "REQUIERE OPTIMIZACIÓN"
     },
     "ubicacion": {
       "coordenadas_gps": {
-        "latitud": 43.969195,
-        "longitud": -104.76709,
+        "latitud": 53.814016,
+        "longitud": -105.774817,
         "terreno": "montana",
-        "elevacion_m": 1309
+        "elevacion_m": 622
       },
       "terreno_tipo": "montana",
       "zona_climatica": "Templado"
     },
     "valoracion": {
-      "costo_construccion_usd": "162000000.00",
+      "costo_construccion_usd": "2423520000.00",
       "costo_planos_diseno_usd": "50,000",
-      "valor_mercado_usd": "59,225,000",
+      "valor_mercado_usd": "12,408,422,400",
       "roi_estimado": "300-500%"
     },
     "certificacion": {
@@ -2370,65 +2276,65 @@
     }
   },
   {
-    "id_proyecto": "ARCH-1762846039105-DA4D8TDCH",
-    "timestamp": "2025-11-11T07:27:19.105Z",
+    "id_proyecto": "ARCH-1762846236562-D2RIAU0U4",
+    "timestamp": "2025-11-11T07:30:36.562Z",
     "diseño": {
-      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
-      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "nombre": "Complejo Modular Flotante + Casa Flotante Orgánica",
+      "tipo_hibrido": "complejo_modular × casa_flotante",
       "caracteristicas": [
+        "Pods conectados",
+        "Distribución espacial",
+        "Puentes de vidrio",
         "Estructura sobre agua",
         "Forma curveada",
-        "Voladizos",
-        "Estructura vertical",
-        "Geometría imposible",
-        "Secciones flotantes"
+        "Voladizos"
       ],
       "nivel": "Ultra-Premium Futurista"
     },
     "especificaciones": {
       "dimensiones": {
-        "altura_total_m": 45,
-        "ancho_m": 30,
-        "profundidad_m": 25,
-        "area_construida_m2": "6000.00",
-        "volumen_total_m3": "13500.00"
+        "altura_total_m": 35,
+        "ancho_m": 72,
+        "profundidad_m": 62,
+        "area_construida_m2": "35712.00",
+        "volumen_total_m3": "62496.00"
       },
       "numero_pisos": 8,
-      "material_principal": "bronze_arquitectonico",
-      "material_secundario": "titanio"
+      "material_principal": "aluminio",
+      "material_secundario": "bronze_arquitectonico"
     },
     "analisis_estructural": {
       "peso_estructura": {
-        "volumen_m3": 13500,
-        "material": "bronze_arquitectonico",
-        "densidad_kg_m3": 8800,
-        "peso_total_kg": 118800000,
-        "peso_toneladas": "118800.00",
-        "fuerza_gravitacional_newtons": "1165428000.00",
-        "resistencia_material_mpa": 450,
-        "costo_material_usd": "162000000.00"
+        "volumen_m3": 62496,
+        "material": "aluminio",
+        "densidad_kg_m3": 2700,
+        "peso_total_kg": 168739200,
+        "peso_toneladas": "168739.20",
+        "fuerza_gravitacional_newtons": "1655331552.00",
+        "resistencia_material_mpa": 300,
+        "costo_material_usd": "218736000.00"
       },
       "analisis_voladizos": {
-        "longitud_voladizo_m": 9,
-        "momento_flexion_nm": "1311106500.00",
-        "esfuerzo_necesario_mpa": "16186500.00",
-        "esfuerzo_material_mpa": 450,
+        "longitud_voladizo_m": 18,
+        "momento_flexion_nm": "3724495992.00",
+        "esfuerzo_necesario_mpa": "11495358.00",
+        "esfuerzo_material_mpa": 300,
         "factor_seguridad": "0.00",
         "viable": false,
         "recomendacion": "Requiere refuerzo estructural"
       },
       "centro_gravedad": {
-        "centro_gravedad_x": "1.35",
-        "centro_gravedad_y": "0.63",
-        "centro_gravedad_z": "23.85",
-        "masa_total_kg": "118800000.00"
+        "centro_gravedad_x": "3.24",
+        "centro_gravedad_y": "1.55",
+        "centro_gravedad_z": "18.55",
+        "masa_total_kg": "168739200.00"
       },
       "estabilidad": "REQUIERE OPTIMIZACIÓN"
     },
     "ubicacion": {
       "coordenadas_gps": {
-        "latitud": 44.687388,
-        "longitud": -111.598258,
+        "latitud": 35.020138,
+        "longitud": -81.128261,
         "terreno": "lago",
         "elevacion_m": 0
       },
@@ -2436,9 +2342,9 @@
       "zona_climatica": "Templado"
     },
     "valoracion": {
-      "costo_construccion_usd": "162000000.00",
+      "costo_construccion_usd": "218736000.00",
       "costo_planos_diseno_usd": "50,000",
-      "valor_mercado_usd": "59,225,000",
+      "valor_mercado_usd": "4,724,697,600",
       "roi_estimado": "300-500%"
     },
     "certificacion": {

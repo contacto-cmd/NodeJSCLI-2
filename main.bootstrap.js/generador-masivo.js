@@ -11,48 +11,48 @@ const path = require('path');
 // =================================================================
 
 const COMBINACIONES_UNICAS = [
-    { tipo1: "casa_flotante", tipo2: "torre_piramide", altura: 45, ancho: 30, profundidad: 25, pisos: 8, terreno: "oceano" },
-    { tipo1: "casa_flotante", tipo2: "villa_organica", altura: 20, ancho: 35, profundidad: 30, pisos: 4, terreno: "lago" },
-    { tipo1: "torre_piramide", tipo2: "complejo_modular", altura: 85, ancho: 40, profundidad: 35, pisos: 18, terreno: "desierto" },
-    { tipo1: "villa_organica", tipo2: "complejo_modular", altura: 28, ancho: 50, profundidad: 45, pisos: 6, terreno: "oceano" },
-    { tipo1: "casa_flotante", tipo2: "complejo_modular", altura: 35, ancho: 60, profundidad: 50, pisos: 7, terreno: "lago" },
+    { tipo_base_1: "casa_flotante", tipo_base_2: "torre_piramide", altura_m: 45, ancho_m: 30, profundidad_m: 25, num_pisos: 8, terreno: "oceano" },
+    { tipo_base_1: "casa_flotante", tipo_base_2: "villa_organica", altura_m: 20, ancho_m: 35, profundidad_m: 30, num_pisos: 4, terreno: "lago" },
+    { tipo_base_1: "torre_piramide", tipo_base_2: "complejo_modular", altura_m: 85, ancho_m: 40, profundidad_m: 35, num_pisos: 18, terreno: "desierto" },
+    { tipo_base_1: "villa_organica", tipo_base_2: "complejo_modular", altura_m: 28, ancho_m: 50, profundidad_m: 45, num_pisos: 6, terreno: "oceano" },
+    { tipo_base_1: "casa_flotante", tipo_base_2: "complejo_modular", altura_m: 35, ancho_m: 60, profundidad_m: 50, num_pisos: 7, terreno: "lago" },
     
-    { tipo1: "torre_piramide", tipo2: "casa_flotante", altura: 120, ancho: 35, profundidad: 30, pisos: 28, terreno: "desierto" },
-    { tipo1: "torre_piramide", tipo2: "villa_organica", altura: 95, ancho: 42, profundidad: 38, pisos: 22, terreno: "montana" },
-    { tipo1: "villa_organica", tipo2: "casa_flotante", altura: 18, ancho: 40, profundidad: 35, pisos: 3, terreno: "oceano" },
-    { tipo1: "complejo_modular", tipo2: "torre_piramide", altura: 65, ancho: 55, profundidad: 48, pisos: 14, terreno: "lago" },
-    { tipo1: "complejo_modular", tipo2: "villa_organica", altura: 32, ancho: 70, profundidad: 60, pisos: 8, terreno: "oceano" },
+    { tipo_base_1: "torre_piramide", tipo_base_2: "casa_flotante", altura_m: 120, ancho_m: 35, profundidad_m: 30, num_pisos: 28, terreno: "desierto" },
+    { tipo_base_1: "torre_piramide", tipo_base_2: "villa_organica", altura_m: 95, ancho_m: 42, profundidad_m: 38, num_pisos: 22, terreno: "montana" },
+    { tipo_base_1: "villa_organica", tipo_base_2: "casa_flotante", altura_m: 18, ancho_m: 40, profundidad_m: 35, num_pisos: 3, terreno: "oceano" },
+    { tipo_base_1: "complejo_modular", tipo_base_2: "torre_piramide", altura_m: 65, ancho_m: 55, profundidad_m: 48, num_pisos: 14, terreno: "lago" },
+    { tipo_base_1: "complejo_modular", tipo_base_2: "villa_organica", altura_m: 32, ancho_m: 70, profundidad_m: 60, num_pisos: 8, terreno: "oceano" },
     
-    { tipo1: "casa_flotante", tipo2: "casa_flotante", altura: 22, ancho: 32, profundidad: 28, pisos: 5, terreno: "oceano" },
-    { tipo1: "torre_piramide", tipo2: "torre_piramide", altura: 145, ancho: 45, profundidad: 42, pisos: 35, terreno: "desierto" },
-    { tipo1: "villa_organica", tipo2: "villa_organica", altura: 25, ancho: 48, profundidad: 42, pisos: 5, terreno: "lago" },
-    { tipo1: "complejo_modular", tipo2: "complejo_modular", altura: 38, ancho: 75, profundidad: 65, pisos: 9, terreno: "oceano" },
+    { tipo_base_1: "casa_flotante", tipo_base_2: "casa_flotante", altura_m: 22, ancho_m: 32, profundidad_m: 28, num_pisos: 5, terreno: "oceano" },
+    { tipo_base_1: "torre_piramide", tipo_base_2: "torre_piramide", altura_m: 145, ancho_m: 45, profundidad_m: 42, num_pisos: 35, terreno: "desierto" },
+    { tipo_base_1: "villa_organica", tipo_base_2: "villa_organica", altura_m: 25, ancho_m: 48, profundidad_m: 42, num_pisos: 5, terreno: "lago" },
+    { tipo_base_1: "complejo_modular", tipo_base_2: "complejo_modular", altura_m: 38, ancho_m: 75, profundidad_m: 65, num_pisos: 9, terreno: "oceano" },
     
     // Variaciones extremas
-    { tipo1: "torre_piramide", tipo2: "casa_flotante", altura: 160, ancho: 38, profundidad: 35, pisos: 42, terreno: "desierto" },
-    { tipo1: "casa_flotante", tipo2: "villa_organica", altura: 15, ancho: 28, profundidad: 24, pisos: 2, terreno: "lago" },
-    { tipo1: "villa_organica", tipo2: "torre_piramide", altura: 78, ancho: 36, profundidad: 32, pisos: 16, terreno: "montana" },
-    { tipo1: "complejo_modular", tipo2: "casa_flotante", altura: 42, ancho: 68, profundidad: 58, pisos: 10, terreno: "oceano" },
+    { tipo_base_1: "torre_piramide", tipo_base_2: "casa_flotante", altura_m: 160, ancho_m: 38, profundidad_m: 35, num_pisos: 42, terreno: "desierto" },
+    { tipo_base_1: "casa_flotante", tipo_base_2: "villa_organica", altura_m: 15, ancho_m: 28, profundidad_m: 24, num_pisos: 2, terreno: "lago" },
+    { tipo_base_1: "villa_organica", tipo_base_2: "torre_piramide", altura_m: 78, ancho_m: 36, profundidad_m: 32, num_pisos: 16, terreno: "montana" },
+    { tipo_base_1: "complejo_modular", tipo_base_2: "casa_flotante", altura_m: 42, ancho_m: 68, profundidad_m: 58, num_pisos: 10, terreno: "oceano" },
     
     // Diseños mega-premium
-    { tipo1: "torre_piramide", tipo2: "complejo_modular", altura: 110, ancho: 62, profundidad: 55, pisos: 26, terreno: "desierto" },
-    { tipo1: "villa_organica", tipo2: "complejo_modular", altura: 35, ancho: 80, profundidad: 70, pisos: 8, terreno: "oceano" },
-    { tipo1: "casa_flotante", tipo2: "torre_piramide", altura: 58, ancho: 34, profundidad: 30, pisos: 12, terreno: "lago" },
-    { tipo1: "complejo_modular", tipo2: "villa_organica", altura: 40, ancho: 85, profundidad: 75, pisos: 10, terreno: "oceano" },
+    { tipo_base_1: "torre_piramide", tipo_base_2: "complejo_modular", altura_m: 110, ancho_m: 62, profundidad_m: 55, num_pisos: 26, terreno: "desierto" },
+    { tipo_base_1: "villa_organica", tipo_base_2: "complejo_modular", altura_m: 35, ancho_m: 80, profundidad_m: 70, num_pisos: 8, terreno: "oceano" },
+    { tipo_base_1: "casa_flotante", tipo_base_2: "torre_piramide", altura_m: 58, ancho_m: 34, profundidad_m: 30, num_pisos: 12, terreno: "lago" },
+    { tipo_base_1: "complejo_modular", tipo_base_2: "villa_organica", altura_m: 40, ancho_m: 85, profundidad_m: 75, num_pisos: 10, terreno: "oceano" },
     
     // Diseños ultra-compactos
-    { tipo1: "casa_flotante", tipo2: "villa_organica", altura: 12, ancho: 22, profundidad: 20, pisos: 2, terreno: "lago" },
-    { tipo1: "villa_organica", tipo2: "casa_flotante", altura: 16, ancho: 26, profundidad: 24, pisos: 3, terreno: "oceano" },
+    { tipo_base_1: "casa_flotante", tipo_base_2: "villa_organica", altura_m: 12, ancho_m: 22, profundidad_m: 20, num_pisos: 2, terreno: "lago" },
+    { tipo_base_1: "villa_organica", tipo_base_2: "casa_flotante", altura_m: 16, ancho_m: 26, profundidad_m: 24, num_pisos: 3, terreno: "oceano" },
     
     // Diseños monumentales
-    { tipo1: "torre_piramide", tipo2: "torre_piramide", altura: 180, ancho: 52, profundidad: 48, pisos: 48, terreno: "desierto" },
-    { tipo1: "complejo_modular", tipo2: "torre_piramide", altura: 92, ancho: 90, profundidad: 80, pisos: 20, terreno: "oceano" },
+    { tipo_base_1: "torre_piramide", tipo_base_2: "torre_piramide", altura_m: 180, ancho_m: 52, profundidad_m: 48, num_pisos: 48, terreno: "desierto" },
+    { tipo_base_1: "complejo_modular", tipo_base_2: "torre_piramide", altura_m: 92, ancho_m: 90, profundidad_m: 80, num_pisos: 20, terreno: "oceano" },
     
     // Diseños híbridos avanzados
-    { tipo1: "villa_organica", tipo2: "torre_piramide", altura: 68, ancho: 38, profundidad: 34, pisos: 14, terreno: "lago" },
-    { tipo1: "casa_flotante", tipo2: "complejo_modular", altura: 30, ancho: 55, profundidad: 48, pisos: 6, terreno: "oceano" },
-    { tipo1: "torre_piramide", tipo2: "villa_organica", altura: 102, ancho: 44, profundidad: 40, pisos: 24, terreno: "montana" },
-    { tipo1: "complejo_modular", tipo2: "casa_flotante", altura: 35, ancho: 72, profundidad: 62, pisos: 8, terreno: "lago" }
+    { tipo_base_1: "villa_organica", tipo_base_2: "torre_piramide", altura_m: 68, ancho_m: 38, profundidad_m: 34, num_pisos: 14, terreno: "lago" },
+    { tipo_base_1: "casa_flotante", tipo_base_2: "complejo_modular", altura_m: 30, ancho_m: 55, profundidad_m: 48, num_pisos: 6, terreno: "oceano" },
+    { tipo_base_1: "torre_piramide", tipo_base_2: "villa_organica", altura_m: 102, ancho_m: 44, profundidad_m: 40, num_pisos: 24, terreno: "montana" },
+    { tipo_base_1: "complejo_modular", tipo_base_2: "casa_flotante", altura_m: 35, ancho_m: 72, profundidad_m: 62, num_pisos: 8, terreno: "lago" }
 ];
 
 // =================================================================
@@ -69,7 +69,7 @@ async function generarTodosLosDisenos() {
     for (let i = 0; i < COMBINACIONES_UNICAS.length; i++) {
         try {
             const config = COMBINACIONES_UNICAS[i];
-            console.log(`\n[${i + 1}/${COMBINACIONES_UNICAS.length}] Generando: ${config.tipo1} × ${config.tipo2}`);
+            console.log(`\n[${i + 1}/${COMBINACIONES_UNICAS.length}] Generando: ${config.tipo_base_1} × ${config.tipo_base_2}`);
             
             const diseno = await generarDisenoCompleto(config);
             disenosGenerados.push(diseno);

@@ -118,6 +118,35 @@ function calcularCentroGravedad(componentes) {
     };
 }
 
+function calcularValorMercado(altura_m, ancho_m, profundidad_m, material, terreno) {
+    // Fórmula: Volumen × Factor material × Factor terreno × Factor altura
+    const volumen = altura_m * ancho_m * profundidad_m;
+    
+    const factor_material = {
+        titanio: 1.8,
+        fibra_carbono: 2.5,
+        bronze_arquitectonico: 1.5,
+        aluminio: 1.2,
+        acero: 1.0,
+        vidrio_templado: 1.3,
+        hormigon: 0.8
+    };
+    
+    const factor_terreno = {
+        oceano: 1.8,
+        lago: 1.5,
+        montana: 1.6,
+        desierto: 1.4
+    };
+    
+    const factor_altura = altura_m > 100 ? 2.0 : altura_m > 60 ? 1.7 : altura_m > 30 ? 1.4 : 1.0;
+    
+    const valor_base = volumen * 12000; // $12K por m³
+    const valor_final = valor_base * (factor_material[material] || 1.0) * (factor_terreno[terreno] || 1.0) * factor_altura;
+    
+    return valor_final.toLocaleString('en-US', { style: 'decimal', maximumFractionDigits: 0 });
+}
+
 // =================================================================
 // GENERADOR DE COORDENADAS GEOGRÁFICAS
 // =================================================================
@@ -181,28 +210,31 @@ function combinarDiseños(tipo1, tipo2) {
 // =================================================================
 
 async function generarDisenoCompleto(config) {
-    const {
-        tipo_base_1 = "casa_flotante",
-        tipo_base_2 = "torre_piramide",
-        altura_m = 45,
-        ancho_m = 30,
-        profundidad_m = 25,
-        num_pisos = 8,
-        terreno = "oceano"
-    } = config;
+    // IMPORTANTE: Usar los parámetros del config, NO valores por defecto
+    const tipo_base_1 = config.tipo_base_1 || "casa_flotante";
+    const tipo_base_2 = config.tipo_base_2 || "torre_piramide";
+    const altura_m = config.altura_m || 45;
+    const ancho_m = config.ancho_m || 30;
+    const profundidad_m = config.profundidad_m || 25;
+    const num_pisos = config.num_pisos || 8;
+    const terreno = config.terreno || "oceano";
+    const material_custom = config.material_principal || null;
     
     // Combinar estilos
     const hibrido = combinarDiseños(tipo_base_1, tipo_base_2);
     
-    // Calcular volumen aproximado
-    const volumen = altura_m * ancho_m * profundidad_m * 0.4; // Factor de ocupación
+    // Calcular volumen aproximado (factor de ocupación varía por tipo)
+    const factor_ocupacion = altura_m > 80 ? 0.3 : altura_m > 40 ? 0.35 : 0.4;
+    const volumen = altura_m * ancho_m * profundidad_m * factor_ocupacion;
     
-    // Seleccionar material
-    const material = hibrido.materiales_sugeridos[0];
+    // Seleccionar material (usar custom o híbrido)
+    const material = material_custom || hibrido.materiales_sugeridos[0];
+    const material_secundario = hibrido.materiales_sugeridos[1] || "vidrio_templado";
     
-    // Cálculos estructurales
+    // Cálculos estructurales (varían según dimensiones reales)
     const peso = calcularPesoEstructural(volumen, material);
-    const voladizo = calcularVoladizo(ancho_m * 0.3, peso.peso_total_kg * 0.25, material);
+    const longitud_voladizo = ancho_m * (terreno === "oceano" ? 0.35 : 0.25);
+    const voladizo = calcularVoladizo(longitud_voladizo, peso.peso_total_kg * 0.25, material);
     
     // Centro de gravedad (simplificado)
     const componentes = [
@@ -259,11 +291,11 @@ async function generarDisenoCompleto(config) {
             zona_climatica: terreno === "desierto" ? "Árido" : terreno === "oceano" ? "Tropical" : "Templado"
         },
         
-        // Valoración
+        // Valoración (basada en dimensiones y complejidad real)
         valoracion: {
             costo_construccion_usd: peso.costo_material_usd,
             costo_planos_diseno_usd: "50,000",
-            valor_mercado_usd: hibrido.valor_estimado_usd,
+            valor_mercado_usd: calcularValorMercado(altura_m, ancho_m, profundidad_m, material, terreno),
             roi_estimado: "300-500%"
         },
         
