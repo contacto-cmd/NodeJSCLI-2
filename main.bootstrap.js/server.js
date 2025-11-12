@@ -14,6 +14,11 @@ const { COMBINACIONES_UNICAS } = require('./generador-masivo');
 const { generarCertificadoPDF, obtenerCertificado, enviarCertificadoPorCorreo, verificarBlockchain, obtenerBlockchain, buscarCertificadoEnBlockchain, CERT_DIR } = require('./throne-certificados');
 const { arquitectoInterno } = require('./arquitecto-interno');
 const { generarCertificadoValoracion, generarCertificadoValidacionTecnica, generarCertificadosCompletos } = require('./certificados-profesionales');
+const { generarCertificadoDesarrollador } = require('./certificado-desarrollador');
+const { generarCertificadoRoyalPremium } = require('./certificado-royal-premium');
+const { CATALOGO_ARQUITECTONICO, VALORACION_TOTAL } = require('./catalogo-arquitectonico');
+const { generarPlanoTecnico } = require('./planos-tecnicos');
+const { generarCertificadoPropiedad } = require('./certificado-propiedad');
 
 // Configurar Resend para envío de emails
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -1410,6 +1415,343 @@ app.get('/api/certificados/profesionales/descargar/:certId', async (req, res) =>
         
     } catch (error) {
         console.error('❌ Error descargando certificado:', error);
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// =================================================================
+// CERTIFICADO DE DESARROLLO PROFESIONAL
+// =================================================================
+
+app.post('/api/certificados/profesionales/desarrollador', async (req, res) => {
+    try {
+        const { nombre, meses, tecnologias, logros } = req.body;
+        
+        const desarrollador = nombre || 'Roberto Rivera Gamas - Royal';
+        const experiencia = {
+            meses: meses || 5,
+            tecnologias: tecnologias || [
+                'Node.js + Express.js (Backend avanzado)',
+                'JavaScript Full-Stack (Frontend + Backend)',
+                'Criptografía RSA-4096 + AES-256-GCM',
+                'Inteligencia Artificial (GPT-4 + Gemini)',
+                'Arquitectura de Sistemas Complejos',
+                'Seguridad nivel Gubernamental/Bancario',
+                'APIs RESTful + WebSocket',
+                'Cesium.js (Visualización 3D geoespacial)',
+                'PDFKit + QRCode (Generación documentos)',
+                'Git + Control de versiones'
+            ],
+            logros: logros || [
+                'Diseñó y desarrolló Throne Protocol V3.0 desde cero',
+                'Implementó sistema de seguridad RSA-4096 + AES-256-GCM',
+                'Integró dual AI (GPT-4 + Gemini) en paralelo',
+                'Creó vault cifrado con arquitectura multi-capa',
+                'Desarrolló sistema de certificación digital profesional',
+                'Construyó plataforma command center con 40 nodos + 8 satélites',
+                'Evolucionó de estudiante a developer junior en 5 meses'
+            ]
+        };
+        
+        console.log(`👨‍💻 Generando certificado de desarrollador para: ${desarrollador}`);
+        
+        const resultado = await generarCertificadoDesarrollador(desarrollador, experiencia, MASTER_KEY_RSA_PRIVADA);
+        
+        // Enviar certificado PDF por correo empresarial
+        try {
+            if (resultado.pdf_path && fs.existsSync(resultado.pdf_path)) {
+                const pdfBuffer = fs.readFileSync(resultado.pdf_path);
+                const pdfBase64 = pdfBuffer.toString('base64');
+                const nombreArchivo = path.basename(resultado.pdf_path);
+                
+                await arquitectoInterno.enviarNotificacionEmpresarial('CERTIFICADO_GENERADO', {
+                    certificadoId: resultado.certificado_id,
+                    diseno: `Certificado de Desarrollador - ${desarrollador}`,
+                    hash: resultado.hash_sha256,
+                    valoracion: `${experiencia.meses} meses de experiencia`
+                }, [{
+                    filename: nombreArchivo,
+                    content: pdfBase64
+                }]);
+                
+                console.log(`✅ Email enviado con certificado de desarrollador PDF adjunto`);
+            }
+        } catch (err) {
+            console.warn('⚠️ Error enviando email:', err.message);
+        }
+        
+        res.json({
+            success: true,
+            certificado: resultado,
+            mensaje: `Certificado de desarrollo profesional generado exitosamente y enviado a contacto@streetemporioroyal.com`,
+            url_descarga: `/api/certificados/profesionales/descargar/${resultado.certificado_id}`
+        });
+        
+    } catch (error) {
+        console.error('❌ Error generando certificado de desarrollador:', error);
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// =================================================================
+// CERTIFICADO ROYAL PREMIUM (ULTRA ALTA CALIDAD)
+// =================================================================
+
+app.post('/api/certificados/royal-premium', async (req, res) => {
+    try {
+        const { nombre, meses, tecnologias } = req.body;
+        
+        const desarrollador = nombre || 'Roberto Rivera Gamas - Royal';
+        const experiencia = {
+            meses: meses || 5,
+            tecnologias: tecnologias || [
+                'Node.js + Express',
+                'JavaScript Full-Stack',
+                'RSA-4096 + AES-256',
+                'AI (GPT-4 + Gemini)',
+                'Sistemas Complejos',
+                'Seguridad Gubernamental',
+                'APIs RESTful',
+                'Cesium 3D',
+                'PDFKit + QRCode',
+                'Git + DevOps'
+            ]
+        };
+        
+        console.log(`👑 Generando certificado ROYAL PREMIUM para: ${desarrollador}`);
+        
+        const resultado = await generarCertificadoRoyalPremium(desarrollador, experiencia, MASTER_KEY_RSA_PRIVADA);
+        
+        // Enviar certificado PDF por correo empresarial
+        try {
+            if (resultado.pdf_path && fs.existsSync(resultado.pdf_path)) {
+                const pdfBuffer = fs.readFileSync(resultado.pdf_path);
+                const pdfBase64 = pdfBuffer.toString('base64');
+                const nombreArchivo = path.basename(resultado.pdf_path);
+                
+                await arquitectoInterno.enviarNotificacionEmpresarial('CERTIFICADO_GENERADO', {
+                    certificadoId: resultado.certificado_id,
+                    diseno: `Certificado Royal Premium - ${desarrollador}`,
+                    hash: resultado.hash_sha256,
+                    valoracion: 'Ultra Alta Calidad - Diseño Minimalista Elegante'
+                }, [{
+                    filename: nombreArchivo,
+                    content: pdfBase64
+                }]);
+                
+                console.log(`✅ Email enviado con certificado Royal Premium PDF adjunto`);
+            }
+        } catch (err) {
+            console.warn('⚠️ Error enviando email:', err.message);
+        }
+        
+        res.json({
+            success: true,
+            certificado: resultado,
+            mensaje: `Certificado Royal Premium generado exitosamente y enviado a contacto@streetemporioroyal.com`,
+            url_descarga: `/api/certificados/profesionales/descargar/${resultado.certificado_id}`
+        });
+        
+    } catch (error) {
+        console.error('❌ Error generando certificado Royal Premium:', error);
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// =================================================================
+// SISTEMA DE VENTAS ARQUITECTÓNICAS - 30 DISEÑOS FUTURISTAS
+// =================================================================
+
+// Listar catálogo completo de diseños
+app.get('/api/arquitectura/catalogo', async (req, res) => {
+    try {
+        res.json({
+            success: true,
+            total_disenos: CATALOGO_ARQUITECTONICO.length,
+            valoracion_total_usd: VALORACION_TOTAL,
+            valoracion_billones: (VALORACION_TOTAL / 1000000000).toFixed(1),
+            catalogo: CATALOGO_ARQUITECTONICO.map(diseno => ({
+                ...diseno,
+                imagen_url: `/arquitectura/${diseno.imagen}`,
+                precio_millones: (diseno.precio_usd / 1000000).toFixed(1)
+            }))
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// Ver detalles de un diseño específico
+app.get('/api/arquitectura/diseno/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const diseno = CATALOGO_ARQUITECTONICO.find(d => d.id === id);
+        
+        if (!diseno) {
+            return res.status(404).json({
+                success: false,
+                error: 'Diseño no encontrado'
+            });
+        }
+        
+        res.json({
+            success: true,
+            diseno: {
+                ...diseno,
+                imagen_url: `/arquitectura/${diseno.imagen}`,
+                precio_millones: (diseno.precio_usd / 1000000).toFixed(1)
+            }
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// COMPRAR DISEÑO ARQUITECTÓNICO
+// Genera: Certificado de Propiedad + Planos Técnicos + Envío por Email
+app.post('/api/arquitectura/comprar', async (req, res) => {
+    try {
+        const { diseno_id, comprador } = req.body;
+        
+        if (!diseno_id || !comprador || !comprador.nombre || !comprador.email) {
+            return res.status(400).json({
+                success: false,
+                error: 'Faltan datos requeridos: diseno_id, comprador.nombre, comprador.email'
+            });
+        }
+        
+        // Buscar diseño en catálogo
+        const diseno = CATALOGO_ARQUITECTONICO.find(d => d.id === diseno_id);
+        
+        if (!diseno) {
+            return res.status(404).json({
+                success: false,
+                error: 'Diseño no encontrado en el catálogo'
+            });
+        }
+        
+        console.log(`🏗️ Procesando compra de: ${diseno.nombre}`);
+        console.log(`👤 Comprador: ${comprador.nombre} (${comprador.email})`);
+        
+        // 1. Generar Certificado de Propiedad
+        const certificado = await generarCertificadoPropiedad(diseno, comprador, MASTER_KEY_RSA_PRIVADA);
+        
+        // 2. Generar Planos Técnicos
+        const plano = await generarPlanoTecnico(diseno, MASTER_KEY_RSA_PRIVADA);
+        
+        // 3. Enviar paquete completo por email
+        try {
+            const adjuntos = [];
+            
+            // Adjuntar certificado
+            if (certificado.pdf_path && fs.existsSync(certificado.pdf_path)) {
+                const certBuffer = fs.readFileSync(certificado.pdf_path);
+                adjuntos.push({
+                    filename: path.basename(certificado.pdf_path),
+                    content: certBuffer.toString('base64')
+                });
+            }
+            
+            // Adjuntar planos
+            if (plano.pdf_path && fs.existsSync(plano.pdf_path)) {
+                const planoBuffer = fs.readFileSync(plano.pdf_path);
+                adjuntos.push({
+                    filename: path.basename(plano.pdf_path),
+                    content: planoBuffer.toString('base64')
+                });
+            }
+            
+            // Enviar a email empresarial
+            await arquitectoInterno.enviarNotificacionEmpresarial('COMPRA_ARQUITECTONICA', {
+                comprador: comprador.nombre,
+                email_comprador: comprador.email,
+                diseno: diseno.nombre,
+                diseno_id: diseno.id,
+                precio: `$${(diseno.precio_usd / 1000000).toFixed(1)} Millones USD`,
+                certificado_id: certificado.certificado_id,
+                plano_id: plano.plano_id,
+                coordenadas: `${diseno.coordenadas.lat}°, ${diseno.coordenadas.lon}°`
+            }, adjuntos);
+            
+            // Enviar copia al comprador
+            await resend.emails.send({
+                from: 'Street Emporio Royal <onboarding@resend.dev>',
+                to: comprador.email,
+                subject: `🏗️ Compra Confirmada: ${diseno.nombre}`,
+                html: `
+                    <h1>¡Felicidades ${comprador.nombre}!</h1>
+                    <p>Su compra de <strong>${diseno.nombre}</strong> ha sido procesada exitosamente.</p>
+                    
+                    <h2>📋 Detalles de su Adquisición:</h2>
+                    <ul>
+                        <li><strong>Diseño:</strong> ${diseno.nombre}</li>
+                        <li><strong>Tipo:</strong> ${diseno.tipo}</li>
+                        <li><strong>ID:</strong> ${diseno.id}</li>
+                        <li><strong>Valor:</strong> $${(diseno.precio_usd / 1000000).toFixed(1)} Millones USD</li>
+                        <li><strong>Coordenadas GPS:</strong> ${diseno.coordenadas.lat}°, ${diseno.coordenadas.lon}°</li>
+                    </ul>
+                    
+                    <h2>📦 Documentos Incluidos:</h2>
+                    <ol>
+                        <li><strong>Certificado de Propiedad</strong> con firma RSA-4096</li>
+                        <li><strong>Planos Técnicos Completos</strong> con:
+                            <ul>
+                                <li>Coordenadas GPS exactas</li>
+                                <li>Cálculos de gravedad precisos</li>
+                                <li>Medidas detalladas (altura, área, volumen)</li>
+                                <li>Especificaciones de materiales</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    
+                    <p><em>Los documentos adjuntos están firmados digitalmente con tecnología RSA-4096 de nivel gubernamental.</em></p>
+                    
+                    <hr>
+                    <p style="color: #666; font-size: 12px;">
+                        <strong>Street Emporio Royal</strong><br>
+                        Roberto Rivera Gamas - Royal, Arquitecto Principal
+                    </p>
+                `,
+                attachments: adjuntos
+            });
+            
+            console.log(`✅ Paquete completo enviado a ${comprador.email} y contacto@streetemporioroyal.com`);
+            
+        } catch (emailError) {
+            console.warn('⚠️ Error enviando emails:', emailError.message);
+        }
+        
+        res.json({
+            success: true,
+            compra: {
+                diseno_id: diseno.id,
+                diseno_nombre: diseno.nombre,
+                comprador: comprador.nombre,
+                precio_usd: diseno.precio_usd,
+                certificado: certificado,
+                plano: plano,
+                emails_enviados: [comprador.email, 'contacto@streetemporioroyal.com']
+            },
+            mensaje: `¡Compra exitosa! Certificado de propiedad y planos técnicos enviados a ${comprador.email}`
+        });
+        
+    } catch (error) {
+        console.error('❌ Error procesando compra:', error);
         res.status(500).json({
             success: false,
             error: error.message
