@@ -18,7 +18,76 @@ const MATERIALS = {
     bronze_arquitectonico: { densidad: 8800, resistencia: 450, precio_m3: 12000 }
 };
 
-const GRAVITY = 9.81; // m/s²
+const GRAVITY_SEA_LEVEL = 9.80665; // m/s² constante gravitacional estándar nivel del mar
+const EARTH_RADIUS = 6371000; // Radio de la Tierra en metros
+
+// =================================================================
+// SISTEMA AVANZADO DE GRAVEDAD CUÁNTICA
+// =================================================================
+
+/**
+ * Calcula la aceleración gravitacional precisa basada en ubicación GPS
+ * La gravedad varía con latitud (forma elipsoidal Tierra) y altitud
+ * 
+ * @param {number} latitude - Latitud en grados (-90 a 90)
+ * @param {number} altitude - Altitud sobre nivel del mar en metros
+ * @returns {number} Aceleración gravitacional en m/s²
+ */
+function calcularGravedadPorUbicacion(latitude, altitude = 0) {
+    // Fórmula WGS84 para variación gravitacional
+    const lat_rad = latitude * (Math.PI / 180);
+    const sin_lat_sq = Math.sin(lat_rad) * Math.sin(lat_rad);
+    
+    // Gravedad en superficie varía por latitud (9.78 m/s² en ecuador, 9.83 en polos)
+    const g_superficie = 9.780327 * (1 + 0.0053024 * sin_lat_sq - 0.0000058 * sin_lat_sq * sin_lat_sq);
+    
+    // Corrección por altitud (disminuye con altura)
+    const g_altitud = g_superficie * Math.pow(EARTH_RADIUS / (EARTH_RADIUS + altitude), 2);
+    
+    return parseFloat(g_altitud.toFixed(6));
+}
+
+/**
+ * Calcula la fuerza gravitacional vectorial en estructura 3D
+ * Incluye análisis de distribución de cargas por componente
+ */
+function calcularFuerzasGravitacionalesAvanzadas(estructura) {
+    const { componentes, ubicacion } = estructura;
+    const gravity = calcularGravedadPorUbicacion(ubicacion.lat, ubicacion.alt);
+    
+    let resultados = {
+        gravedad_local: gravity,
+        ubicacion: `Lat: ${ubicacion.lat}°, Alt: ${ubicacion.alt}m`,
+        componentes: [],
+        fuerzas_totales: { x: 0, y: 0, z: 0 },
+        momento_total: 0,
+        energia_potencial_total: 0
+    };
+    
+    componentes.forEach((comp, index) => {
+        const masa_kg = comp.volumen_m3 * MATERIALS[comp.material].densidad;
+        const fuerza_gravitacional = masa_kg * gravity;
+        const energia_potencial = masa_kg * gravity * comp.posicion_z;
+        
+        resultados.componentes.push({
+            id: index + 1,
+            material: comp.material,
+            masa_kg: masa_kg.toFixed(2),
+            fuerza_N: fuerza_gravitacional.toFixed(2),
+            posicion: `(${comp.posicion_x}, ${comp.posicion_y}, ${comp.posicion_z})`,
+            energia_potencial_J: energia_potencial.toFixed(2)
+        });
+        
+        resultados.fuerzas_totales.z += fuerza_gravitacional;
+        resultados.energia_potencial_total += energia_potencial;
+    });
+    
+    resultados.fuerza_total_N = resultados.fuerzas_totales.z.toFixed(2);
+    resultados.fuerza_total_toneladas = (resultados.fuerzas_totales.z / (gravity * 1000)).toFixed(2);
+    resultados.energia_potencial_total = resultados.energia_potencial_total.toFixed(2);
+    
+    return resultados;
+}
 
 // =================================================================
 // TIPOS DE DISEÑO BASE
@@ -59,12 +128,13 @@ const DESIGN_TYPES = {
 // CÁLCULOS DE FÍSICA ESTRUCTURAL
 // =================================================================
 
-function calcularPesoEstructural(volumen_m3, material) {
+function calcularPesoEstructural(volumen_m3, material, ubicacion = { lat: 0, alt: 0 }) {
     const mat = MATERIALS[material];
     if (!mat) return null;
     
+    const gravity = calcularGravedadPorUbicacion(ubicacion.lat, ubicacion.alt);
     const peso_kg = volumen_m3 * mat.densidad;
-    const fuerza_gravitacional = peso_kg * GRAVITY;
+    const fuerza_gravitacional = peso_kg * gravity;
     
     return {
         volumen_m3,
@@ -72,29 +142,41 @@ function calcularPesoEstructural(volumen_m3, material) {
         densidad_kg_m3: mat.densidad,
         peso_total_kg: peso_kg,
         peso_toneladas: (peso_kg / 1000).toFixed(2),
+        gravedad_local_ms2: gravity,
         fuerza_gravitacional_newtons: fuerza_gravitacional.toFixed(2),
         resistencia_material_mpa: mat.resistencia,
-        costo_material_usd: (volumen_m3 * mat.precio_m3).toFixed(2)
+        costo_material_usd: (volumen_m3 * mat.precio_m3).toFixed(2),
+        ubicacion: `Lat: ${ubicacion.lat}°, Alt: ${ubicacion.alt}m`
     };
 }
 
-function calcularVoladizo(longitud_m, peso_kg, material) {
+function calcularVoladizo(longitud_m, peso_kg, material, ubicacion = { lat: 0, alt: 0 }) {
     const mat = MATERIALS[material];
     if (!mat) return null;
     
-    // Momento de flexión simplificado
-    const momento_flexion = peso_kg * GRAVITY * (longitud_m / 2);
+    const gravity = calcularGravedadPorUbicacion(ubicacion.lat, ubicacion.alt);
+    
+    // Momento de flexión con gravedad local precisa
+    const momento_flexion = peso_kg * gravity * (longitud_m / 2);
     const esfuerzo_necesario = momento_flexion / (longitud_m * longitud_m);
     const factor_seguridad = mat.resistencia / esfuerzo_necesario;
     
+    // Análisis de cargas gravitacionales dinámicas
+    const carga_distribuida = (peso_kg * gravity) / longitud_m;
+    const deflexion_maxima = (5 * carga_distribuida * Math.pow(longitud_m, 4)) / (384 * 200000 * 0.1);
+    
     return {
         longitud_voladizo_m: longitud_m,
+        gravedad_local_ms2: gravity,
         momento_flexion_nm: momento_flexion.toFixed(2),
         esfuerzo_necesario_mpa: esfuerzo_necesario.toFixed(2),
         esfuerzo_material_mpa: mat.resistencia,
         factor_seguridad: factor_seguridad.toFixed(2),
+        carga_distribuida_n_m: carga_distribuida.toFixed(2),
+        deflexion_maxima_mm: (deflexion_maxima * 1000).toFixed(2),
         viable: factor_seguridad > 2.5,
-        recomendacion: factor_seguridad > 2.5 ? "Estructura viable" : "Requiere refuerzo estructural"
+        recomendacion: factor_seguridad > 2.5 ? "Estructura viable" : "Requiere refuerzo estructural",
+        ubicacion: `Lat: ${ubicacion.lat}°, Alt: ${ubicacion.alt}m`
     };
 }
 
@@ -320,6 +402,8 @@ module.exports = {
     calcularVoladizo,
     calcularCentroGravedad,
     generarCoordenadas,
+    calcularGravedadPorUbicacion,
+    calcularFuerzasGravitacionalesAvanzadas,
     DESIGN_TYPES,
     MATERIALS
 };

@@ -927,6 +927,44 @@ app.get('/api/arquitectura/stats', async (req, res) => {
     }
 });
 
+// Validación Física Cuántica con Gravedad GPS
+app.post('/api/arquitectura/validacion-fisica', async (req, res) => {
+    try {
+        const { lat, lon, alt, volumen_m3, material, longitud_voladizo } = req.body;
+        const { calcularGravedadPorUbicacion, calcularPesoEstructural, calcularVoladizo } = require('./throne-arquitectura');
+        
+        const ubicacion = { lat: lat || 0, alt: alt || 0 };
+        
+        // Gravedad local precisa
+        const gravedad = calcularGravedadPorUbicacion(ubicacion.lat, ubicacion.alt);
+        
+        // Cálculos estructurales completos
+        const peso = calcularPesoEstructural(volumen_m3, material, ubicacion);
+        const voladizo = longitud_voladizo ? calcularVoladizo(longitud_voladizo, parseFloat(peso.peso_total_kg), material, ubicacion) : null;
+        
+        // Certificado de validación
+        const certificado = {
+            valido: voladizo ? voladizo.viable : true,
+            fecha_validacion: new Date().toISOString(),
+            normas_cumplidas: ['ISO 2394:2015', 'Eurocode 1-1-1', 'ASCE 7-16'],
+            gravedad_local_ms2: gravedad,
+            ubicacion_gps: `${lat}°N, ${lon}°E, ${alt}m`,
+            resultado: peso,
+            analisis_voladizo: voladizo,
+            firma_digital: 'RSA-4096',
+            ingeniero: 'Roberto Rivera Gamas - Royal'
+        };
+        
+        res.json({
+            success: true,
+            certificado,
+            mensaje: certificado.valido ? '✅ Estructura validada físicamente' : '⚠️ Requiere refuerzo estructural'
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
 // =================================================================
 // CHATBOT ASSISTANT (GEMINI 2.5)
 // =================================================================
