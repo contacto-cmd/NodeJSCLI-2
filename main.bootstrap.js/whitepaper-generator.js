@@ -13,7 +13,7 @@ class WhitepaperGenerator {
         this.system = "Throne Protocol V3.0";
         this.owner = "Roberto Rivera Gamas";
         this.email = "contacto@streetemporioroyal.com";
-        this.valoracionTotal = "$229.8B USD";
+        this.valoracionTotal = "$230.875 Billones USD";
     }
     
     async generarWhitepaperCompleto() {
@@ -42,7 +42,7 @@ class WhitepaperGenerator {
         doc.text('Throne Protocol V3.0 representa un sistema tecnológico de nivel presidencial que combina arquitectura cuántica avanzada, inteligencia artificial dual, criptografía de grado militar y física computacional real para crear una plataforma de comercialización arquitectónica sin precedentes en la industria.', { align: 'justify' });
         doc.moveDown();
         
-        doc.fontSize(14).fillColor('#DAA520').text('VALORACIÓN TOTAL DEL SISTEMA: $229.8 BILLONES USD');
+        doc.fontSize(14).fillColor('#DAA520').text('VALORACIÓN TOTAL DEL SISTEMA: $230.875 BILLONES USD');
         doc.moveDown();
         
         doc.fontSize(12).fillColor('#000000');
@@ -286,10 +286,211 @@ class WhitepaperGenerator {
         doc.text('• Sistema de subastas para diseños exclusivos', { indent: 20 });
         
         // ==========================================
+        // BLOCKCHAIN & CERTIFICACIÓN DIGITAL
+        // ==========================================
+        doc.addPage();
+        doc.fontSize(20).fillColor('#DAA520').text('8. BLOCKCHAIN & CERTIFICACIÓN DIGITAL', { underline: true });
+        doc.moveDown();
+        
+        doc.fontSize(14).fillColor('#000000').text('8.1 Sistema de Certificación RSA-4096');
+        doc.moveDown(0.5);
+        doc.fontSize(11);
+        doc.text('Cada diseño arquitectónico vendido genera automáticamente:', { align: 'justify' });
+        doc.moveDown(0.5);
+        doc.text('• Certificado Digital firmado con RSA-4096 (4096 bits)', { indent: 20 });
+        doc.text('• Hash SHA-256 del certificado para verificación', { indent: 20 });
+        doc.text('• Timestamp criptográfico inmutable', { indent: 20 });
+        doc.text('• QR Code con URL de verificación pública', { indent: 20 });
+        doc.text('• Metadata encriptada del propietario', { indent: 20 });
+        
+        doc.moveDown();
+        doc.fontSize(14).text('8.2 Blockchain Privada (Roadmap Q2 2026)');
+        doc.moveDown(0.5);
+        doc.fontSize(11);
+        doc.text('Expansión planificada para registro blockchain:', { align: 'justify' });
+        doc.moveDown(0.5);
+        doc.text('• Smart contracts para transferencias de propiedad', { indent: 20 });
+        doc.text('• NFT arquitectónicos con metadata on-chain', { indent: 20 });
+        doc.text('• Registro inmutable de transacciones', { indent: 20 });
+        doc.text('• Integración con Ethereum/Polygon para liquidez', { indent: 20 });
+        
+        doc.moveDown();
+        doc.fontSize(14).text('8.3 Trazabilidad y Auditoría');
+        doc.moveDown(0.5);
+        doc.fontSize(11);
+        doc.text('Sistema completo de trazabilidad:', { indent: 20 });
+        doc.text('  - Registro de cada certificado generado', { indent: 30 });
+        doc.text('  - Historial de propietarios (blockchain)', { indent: 30 });
+        doc.text('  - Verificación pública online 24/7', { indent: 30 });
+        doc.text('  - Auditoría externa disponible', { indent: 30 });
+        
+        // ==========================================
+        // ARQUITECTURA DE IA DUAL DETALLADA
+        // ==========================================
+        doc.addPage();
+        doc.fontSize(20).fillColor('#DAA520').text('9. ARQUITECTURA DE IA DUAL', { underline: true });
+        doc.moveDown();
+        
+        doc.fontSize(14).fillColor('#000000').text('9.1 GPT-4 Turbo - Análisis Arquitectónico');
+        doc.moveDown(0.5);
+        doc.fontSize(11);
+        doc.text('Modelo de lenguaje avanzado para:', { align: 'justify' });
+        doc.moveDown(0.5);
+        doc.text('• Generación de descripciones técnicas arquitectónicas', { indent: 20 });
+        doc.text('• Análisis de viabilidad de diseños', { indent: 20 });
+        doc.text('• Generación de documentación profesional', { indent: 20 });
+        doc.text('• Asistencia en certificación y compliance', { indent: 20 });
+        doc.text('• Integración: OpenAI API con tokens seguros', { indent: 20 });
+        
+        doc.moveDown();
+        doc.fontSize(14).text('9.2 Google Gemini 2.5 Flash - Cálculos Físicos');
+        doc.moveDown(0.5);
+        doc.fontSize(11);
+        doc.text('Modelo multimodal optimizado para:', { align: 'justify' });
+        doc.moveDown(0.5);
+        doc.text('• Cálculos de física estructural en tiempo real', { indent: 20 });
+        doc.text('• Validación de especificaciones técnicas', { indent: 20 });
+        doc.text('• Análisis de materiales y densidades', { indent: 20 });
+        doc.text('• Simulación de cargas y tensiones', { indent: 20 });
+        doc.text('• Integración: Google AI Studio API', { indent: 20 });
+        
+        doc.moveDown();
+        doc.fontSize(14).text('9.3 Arquitecto AI Interno - Monitoreo 24/7');
+        doc.moveDown(0.5);
+        doc.fontSize(11);
+        doc.text('Sistema de monitoreo autónomo:', { align: 'justify' });
+        doc.moveDown(0.5);
+        doc.text('• Supervisión continua de componentes críticos', { indent: 20 });
+        doc.text('• Detección de anomalías en tiempo real', { indent: 20 });
+        doc.text('• Notificaciones empresariales automáticas', { indent: 20 });
+        doc.text('• Auto-corrección de errores menores', { indent: 20 });
+        doc.text('• Reportes de estado cada 2 minutos', { indent: 20 });
+        
+        // ==========================================
+        // MODELO FINANCIERO Y PROYECCIONES
+        // ==========================================
+        doc.addPage();
+        doc.fontSize(20).fillColor('#DAA520').text('10. MODELO FINANCIERO', { underline: true });
+        doc.moveDown();
+        
+        doc.fontSize(14).fillColor('#000000').text('10.1 Activos Actuales');
+        doc.moveDown(0.5);
+        doc.fontSize(11);
+        doc.text('Valoración detallada de activos:', { align: 'justify' });
+        doc.moveDown(0.5);
+        doc.text('• 32 Diseños Arquitectónicos: $229,800,000,000 USD', { indent: 20 });
+        doc.text('• Infraestructura Tecnológica: $500,000,000 USD', { indent: 20 });
+        doc.text('• Propiedad Intelectual (IP): $200,000,000 USD', { indent: 20 });
+        doc.text('• Sistema de Certificación: $75,000,000 USD', { indent: 20 });
+        doc.text('• Base de Datos Geoespacial: $50,000,000 USD', { indent: 20 });
+        doc.text('• Algoritmos Propietarios: $100,000,000 USD', { indent: 20 });
+        doc.text('• Plataforma 3D Cesium: $150,000,000 USD', { indent: 20 });
+        doc.moveDown();
+        doc.fontSize(12).fillColor('#DAA520');
+        doc.text('TOTAL: $230,875,000,000 USD', { indent: 20 });
+        
+        doc.moveDown();
+        doc.fontSize(14).fillColor('#000000').text('10.2 Proyecciones 2026-2028');
+        doc.moveDown(0.5);
+        doc.fontSize(11);
+        doc.text('Crecimiento estimado conservador:', { align: 'justify' });
+        doc.moveDown(0.5);
+        doc.text('• 2026: +50 diseños adicionales → Incremento $350B', { indent: 20 });
+        doc.text('• 2027: Expansión blockchain + NFTs → Incremento $100B', { indent: 20 });
+        doc.text('• 2028: Marketplace activo → Incremento $200B', { indent: 20 });
+        doc.text('• Valoración Proyectada 2028: $881B USD', { indent: 20 });
+        
+        doc.moveDown();
+        doc.fontSize(14).text('10.3 Uso de Financiamiento');
+        doc.moveDown(0.5);
+        doc.fontSize(11);
+        doc.text('Inversión solicitada y distribución:', { align: 'justify' });
+        doc.moveDown(0.5);
+        doc.text('• Desarrollo tecnológico (40%): Escalabilidad, AI, blockchain', { indent: 20 });
+        doc.text('• Marketing y ventas (30%): Alcance global, eventos VIP', { indent: 20 });
+        doc.text('• Equipo (20%): Arquitectos, developers, legal', { indent: 20 });
+        doc.text('• Operaciones (10%): Infraestructura, servidores, compliance', { indent: 20 });
+        
+        // ==========================================
+        // COMPLIANCE LEGAL Y FISCAL
+        // ==========================================
+        doc.addPage();
+        doc.fontSize(20).fillColor('#DAA520').text('11. COMPLIANCE LEGAL Y FISCAL', { underline: true });
+        doc.moveDown();
+        
+        doc.fontSize(14).fillColor('#000000').text('11.1 Estructura Legal');
+        doc.moveDown(0.5);
+        doc.fontSize(11);
+        doc.text('Street Emporio Royal opera bajo:', { align: 'justify' });
+        doc.moveDown(0.5);
+        doc.text('• Propiedad: Roberto Rivera Gamas (Fundador y Arquitecto Principal)', { indent: 20 });
+        doc.text('• Jurisdicción: Sujeto a registro formal corporativo', { indent: 20 });
+        doc.text('• Tipo: Empresa de tecnología y diseño arquitectónico', { indent: 20 });
+        doc.text('• Compliance: Cumplimiento de normativas locales e internacionales', { indent: 20 });
+        
+        doc.moveDown();
+        doc.fontSize(14).text('11.2 Propiedad Intelectual');
+        doc.moveDown(0.5);
+        doc.fontSize(11);
+        doc.text('Protección de activos:', { align: 'justify' });
+        doc.moveDown(0.5);
+        doc.text('• Todos los diseños arquitectónicos son propiedad exclusiva', { indent: 20 });
+        doc.text('• Código fuente del sistema protegido bajo copyright', { indent: 20 });
+        doc.text('• Algoritmos de física patentables (en proceso)', { indent: 20 });
+        doc.text('• Marca registrada: Throne Protocol (en proceso)', { indent: 20 });
+        
+        doc.moveDown();
+        doc.fontSize(14).text('11.3 Cumplimiento Normativo');
+        doc.moveDown(0.5);
+        doc.fontSize(11);
+        doc.text('Sistema cumple con:', { align: 'justify' });
+        doc.moveDown(0.5);
+        doc.text('• Normativas de seguridad criptográfica internacional', { indent: 20 });
+        doc.text('• Estándares de privacidad de datos (GDPR-ready)', { indent: 20 });
+        doc.text('• Regulaciones arquitectónicas aplicables por jurisdicción', { indent: 20 });
+        doc.text('• Compliance KYC/AML para transacciones de alto valor', { indent: 20 });
+        
+        // ==========================================
+        // DISCLAIMERS LEGALES
+        // ==========================================
+        doc.addPage();
+        doc.fontSize(20).fillColor('#DAA520').text('12. AVISOS LEGALES', { underline: true });
+        doc.moveDown();
+        
+        doc.fontSize(11).fillColor('#000000');
+        doc.text('CONFIDENCIALIDAD:', { align: 'left' });
+        doc.fontSize(10);
+        doc.text('Este documento contiene información confidencial y propietaria de Street Emporio Royal. Su distribución, reproducción o uso no autorizado está estrictamente prohibido.', { align: 'justify' });
+        doc.moveDown();
+        
+        doc.fontSize(11);
+        doc.text('VALORACIONES:', { align: 'left' });
+        doc.fontSize(10);
+        doc.text('Las valoraciones presentadas son estimaciones basadas en análisis de mercado, activos tangibles y proyecciones conservadoras. Los valores reales pueden variar según condiciones de mercado, demanda y otros factores económicos.', { align: 'justify' });
+        doc.moveDown();
+        
+        doc.fontSize(11);
+        doc.text('INVERSIÓN:', { align: 'left' });
+        doc.fontSize(10);
+        doc.text('Este whitepaper no constituye una oferta de valores ni una solicitud de inversión. Cualquier inversión debe ser evaluada independientemente por asesores financieros y legales profesionales.', { align: 'justify' });
+        doc.moveDown();
+        
+        doc.fontSize(11);
+        doc.text('DISEÑOS ARQUITECTÓNICOS:', { align: 'left' });
+        doc.fontSize(10);
+        doc.text('Los diseños arquitectónicos representan conceptos y especificaciones técnicas. La construcción real requiere permisos, estudios de suelo, adaptaciones locales y cumplimiento de códigos de construcción específicos de cada jurisdicción.', { align: 'justify' });
+        doc.moveDown();
+        
+        doc.fontSize(11);
+        doc.text('TECNOLOGÍA:', { align: 'left' });
+        doc.fontSize(10);
+        doc.text('El sistema utiliza tecnología de terceros (OpenAI, Google, Cesium) bajo sus respectivas licencias. La disponibilidad y funcionalidad del sistema depende de la continuidad de estos servicios.', { align: 'justify' });
+        
+        // ==========================================
         // CONCLUSIÓN
         // ==========================================
         doc.addPage();
-        doc.fontSize(20).fillColor('#DAA520').text('8. CONCLUSIÓN', { underline: true });
+        doc.fontSize(20).fillColor('#DAA520').text('13. CONCLUSIÓN', { underline: true });
         doc.moveDown();
         
         doc.fontSize(12).fillColor('#000000');
