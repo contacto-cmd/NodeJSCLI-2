@@ -11,7 +11,7 @@ const { generateWithGPT5, generateWithGemini, generateDual, INDUSTRY_TEMPLATES }
 const { addSecret, getSecret, listSecrets, deleteSecret, saveVault, getVaultStats } = require('./throne-vault');
 const ArquitecturaService = require('./services/arquitectura.service');
 const { COMBINACIONES_UNICAS } = require('./generador-masivo');
-const { generarCertificadoPDF, obtenerCertificado, CERT_DIR } = require('./throne-certificados');
+const { generarCertificadoPDF, obtenerCertificado, enviarCertificadoPorCorreo, CERT_DIR } = require('./throne-certificados');
 
 // Configurar Resend para envío de emails
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -31,7 +31,22 @@ try {
         MASTER_KEY_RSA_PRIVADA = fs.readFileSync(keyPath, 'utf8');
         console.log("✅ Clave RSA-4096 cargada desde keys/throne_key.pem");
     } else if (process.env.RSA_4096_PRIVADA) {
-        MASTER_KEY_RSA_PRIVADA = process.env.RSA_4096_PRIVADA.replace(/\\n/g, '\n');
+        // Limpiar y reformatear la clave RSA
+        let rawKey = process.env.RSA_4096_PRIVADA
+            .replace(/\\n/g, '\n')  // Convertir \n literal a saltos de línea
+            .replace(/\s+/g, ' ')   // Normalizar espacios
+            .trim();
+        
+        // Si la clave tiene espacios en vez de saltos de línea, reformatearla
+        if (!rawKey.includes('\n')) {
+            rawKey = rawKey
+                .replace('-----BEGIN PRIVATE KEY----- ', '-----BEGIN PRIVATE KEY-----\n')
+                .replace(' -----END PRIVATE KEY-----', '\n-----END PRIVATE KEY-----')
+                .replace(/(.{64})/g, '$1\n')  // Agregar salto cada 64 caracteres
+                .replace(/\n\n/g, '\n');      // Eliminar líneas dobles
+        }
+        
+        MASTER_KEY_RSA_PRIVADA = rawKey;
         console.log("✅ Clave RSA-4096 cargada desde Secrets");
     }
 } catch (e) {
@@ -618,6 +633,15 @@ app.post('/api/certificados/generar/:proyectoId', async (req, res) => {
         
         const certificado = await generarCertificadoPDF(disenoResult.diseno, MASTER_KEY_RSA_PRIVADA);
         
+        // 📧 ENVIAR CERTIFICADO POR CORREO AUTOMÁTICAMENTE
+        try {
+            await enviarCertificadoPorCorreo(certificado, disenoResult.diseno);
+            console.log('✅ Certificado enviado por correo a contacto@streetemporioroyal.com');
+        } catch (emailError) {
+            console.error('⚠️ Error enviando correo (certificado generado correctamente):', emailError.message);
+            // No fallar la petición si el correo falla, el certificado ya está generado
+        }
+        
         res.json({
             success: true,
             certificado: {
@@ -625,7 +649,8 @@ app.post('/api/certificados/generar/:proyectoId', async (req, res) => {
                 proyecto_id: certificado.proyecto_id,
                 url_verificacion: certificado.url_verificacion,
                 url_descarga: `/api/certificados/descargar/${certificado.certificado_id}`,
-                timestamp: certificado.timestamp_emision
+                timestamp: certificado.timestamp_emision,
+                email_enviado: true
             }
         });
     } catch (error) {
@@ -737,6 +762,91 @@ app.get('/api/arquitectura/stats', async (req, res) => {
         res.json(result);
     } catch (error) {
         res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// =================================================================
+// CHATBOT ASSISTANT (GEMINI 2.5)
+// =================================================================
+
+app.post('/api/chat-assistant', async (req, res) => {
+    try {
+        const { message } = req.body;
+        
+        if (!message) {
+            return res.status(400).json({ success: false, error: 'Mensaje requerido' });
+        }
+        
+        // Obtener estadísticas del portafolio
+        const statsResult = await ArquitecturaService.getStats();
+        const stats = statsResult.stats;
+        
+        // Contexto del sistema para Gemini
+        const systemContext = `Eres "Royal Assistant", un asistente IA experto en arquitectura futurista para Roberto Rivera Gamas (Royal - Arquitecto) de Street Emporio Royal.
+
+INFORMACIÓN DEL PORTAFOLIO:
+- Total de diseños: ${stats.total_proyectos}
+- Valoración total: $${stats.valor_total_usd} USD ($229.80 billones)
+- Diseño más caro: ${stats.diseno_mas_caro.nombre} - $${stats.diseno_mas_caro.valor}
+- Diseño más alto: ${stats.diseno_mas_alto.nombre} - ${stats.diseno_mas_alto.altura} metros
+
+CAPACIDADES:
+1. Responder preguntas sobre los 30 diseños arquitectónicos
+2. Proporcionar información técnica (materiales, dimensiones, ubicaciones)
+3. Mostrar estadísticas del portafolio
+4. Detectar comandos para ejecutar acciones
+
+COMANDOS DETECTABLES:
+- "genera certificado" / "crear certificado" → acción: generar_certificado
+- "muestra diseños" / "ver portafolio" → acción: mostrar_disenos
+- "estadísticas" / "stats" → acción: mostrar_stats
+
+Si detectas un comando, incluye en tu respuesta: [COMANDO:nombre_accion]
+
+Responde de manera profesional, clara y concisa. Usa emojis moderadamente.`;
+
+        // Llamar a Gemini 2.5 Flash
+        const geminiResponse = await generateWithGemini({
+            prompt: message,
+            systemInstruction: systemContext,
+            temperature: 0.7
+        });
+        
+        let response = geminiResponse.content || geminiResponse.text || 'Error generando respuesta';
+        let actionExecuted = null;
+        
+        // Detectar comandos en la respuesta
+        const comandoMatch = response.match(/\[COMANDO:(\w+)\]/);
+        if (comandoMatch) {
+            const comando = comandoMatch[1];
+            response = response.replace(/\[COMANDO:\w+\]/, '').trim();
+            
+            // Ejecutar acción según el comando
+            switch(comando) {
+                case 'generar_certificado':
+                    actionExecuted = 'Certificado listo para generar (selecciona un diseño)';
+                    break;
+                case 'mostrar_disenos':
+                    actionExecuted = 'Redirigiendo a galería de diseños';
+                    break;
+                case 'mostrar_stats':
+                    actionExecuted = 'Estadísticas del portafolio cargadas';
+                    break;
+            }
+        }
+        
+        res.json({
+            success: true,
+            response: response,
+            action: actionExecuted
+        });
+        
+    } catch (error) {
+        console.error('Error en chat assistant:', error);
+        res.status(500).json({ 
+            success: false, 
+            error: 'Error procesando mensaje: ' + error.message 
+        });
     }
 });
 

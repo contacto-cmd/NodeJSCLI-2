@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle del Diseño - Throne Protocol V3.0</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: linear-gradient(135deg, #000000 0%, #1a0033 100%);
+            color: #d4af37;
+            font-family: 'Courier New', monospace;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .back-btn {
+            display: inline-block;
+            background: rgba(212, 175, 55, 0.2);
+            border: 2px solid #d4af37;
+            padding: 10px 20px;
+            color: #d4af37;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 30px;
+            transition: all 0.3s;
+        }
+        .back-btn:hover {
+            background: #d4af37;
+            color: #000;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.8);
+        }
+        .loading {
+            text-align: center;
+            color: #fff;
+            font-size: 1.5rem;
+            margin-top: 100px;
+        }
+        .design-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 40px;
+        }
+        @media (max-width: 768px) {
+            .design-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        .image-section {
+            background: rgba(0, 0, 0, 0.6);
+            border: 3px solid #d4af37;
+            border-radius: 15px;
+            padding: 20px;
+        }
+        .design-image {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.3);
+        }
+        .info-section {
+            background: rgba(0, 0, 0, 0.6);
+            border: 3px solid #d4af37;
+            border-radius: 15px;
+            padding: 30px;
+        }
+        .design-title {
+            font-size: 2rem;
+            color: #ffd700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .price-tag {
+            background: linear-gradient(135deg, #d4af37, #ffd700);
+            color: #000;
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+        }
+        .specs {
+            margin-bottom: 20px;
+        }
+        .spec-item {
+            background: rgba(212, 175, 55, 0.1);
+            padding: 10px;
+            margin-bottom: 10px;
+            border-left: 3px solid #d4af37;
+            color: #fff;
+        }
+        .spec-label {
+            color: #d4af37;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        .btn {
+            padding: 15px;
+            border: 2px solid #d4af37;
+            background: rgba(212, 175, 55, 0.2);
+            color: #d4af37;
+            font-size: 1.1rem;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+        }
+        .btn:hover {
+            background: #d4af37;
+            color: #000;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.5);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #d4af37, #ffd700);
+            color: #000;
+            font-weight: bold;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #ffd700, #d4af37);
+        }
+        .features {
+            margin-top: 20px;
+        }
+        .feature-item {
+            color: #fff;
+            padding: 8px;
+            margin-bottom: 5px;
+            padding-left: 25px;
+            position: relative;
+        }
+        .feature-item:before {
+            content: "✓";
+            position: absolute;
+            left: 5px;
+            color: #d4af37;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/galeria.html" class="back-btn">← Volver a Galería</a>
+        
+        <h1 id="page-title">DETALLE DEL DISEÑO</h1>
+        
+        <div id="loading" class="loading">
+            Cargando diseño...
+        </div>
+        
+        <div id="design-content" style="display: none;">
+            <div class="design-container">
+                <div class="image-section">
+                    <img id="design-img" class="design-image" src="" alt="Diseño">
+                </div>
+                
+                <div class="info-section">
+                    <div id="design-name" class="design-title"></div>
+                    <div id="design-price" class="price-tag"></div>
+                    
+                    <div class="specs">
+                        <h3 style="color: #ffd700; margin-bottom: 15px;">📐 DIMENSIONES EXACTAS:</h3>
+                        <div class="spec-item">
+                            <span class="spec-label">Altura Total:</span>
+                            <span id="spec-altura"></span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Ancho:</span>
+                            <span id="spec-ancho"></span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Profundidad:</span>
+                            <span id="spec-profundidad"></span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Área Construida:</span>
+                            <span id="spec-area"></span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Volumen Total:</span>
+                            <span id="spec-volumen"></span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Número de Pisos:</span>
+                            <span id="spec-pisos"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="specs" style="margin-top: 20px;">
+                        <h3 style="color: #ffd700; margin-bottom: 15px;">⚙️ MATERIALES Y CONSTRUCCIÓN:</h3>
+                        <div class="spec-item">
+                            <span class="spec-label">Material Principal:</span>
+                            <span id="spec-material"></span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Material Secundario:</span>
+                            <span id="spec-material-sec"></span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Peso Total:</span>
+                            <span id="spec-peso"></span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Costo de Materiales:</span>
+                            <span id="spec-costo-material"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="specs" style="margin-top: 20px;">
+                        <h3 style="color: #ffd700; margin-bottom: 15px;">📍 UBICACIÓN GPS:</h3>
+                        <div class="spec-item">
+                            <span class="spec-label">Latitud:</span>
+                            <span id="spec-lat"></span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Longitud:</span>
+                            <span id="spec-lon"></span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Tipo de Terreno:</span>
+                            <span id="spec-ubicacion"></span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Zona Climática:</span>
+                            <span id="spec-clima"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="specs" style="margin-top: 20px;">
+                        <h3 style="color: #ffd700; margin-bottom: 15px;">💰 VALORACIÓN COMERCIAL:</h3>
+                        <div class="spec-item">
+                            <span class="spec-label">Costo de Construcción:</span>
+                            <span id="spec-costo-construccion"></span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Costo Planos + Diseño:</span>
+                            <span id="spec-costo-planos"></span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">ROI Estimado:</span>
+                            <span id="spec-roi"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="specs" style="margin-top: 20px;">
+                        <h3 style="color: #ffd700; margin-bottom: 15px;">🔬 ANÁLISIS ESTRUCTURAL:</h3>
+                        <div class="spec-item">
+                            <span class="spec-label">Fuerza Gravitacional:</span>
+                            <span id="spec-fuerza"></span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Resistencia del Material:</span>
+                            <span id="spec-resistencia"></span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Estabilidad Estructural:</span>
+                            <span id="spec-estabilidad"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="features">
+                        <h3 style="color: #ffd700; margin-bottom: 15px;">✨ Características Únicas:</h3>
+                        <div id="design-features"></div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="generarCertificado()">📜 Generar Certificado</button>
+                        <a href="/menu.html" class="btn">🏠 Menú Principal</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const designId = urlParams.get('id');
+        
+        // Mapeo de imágenes a IDs de diseños
+        const imageToDesign = {
+            'casa-flotante-1': 0,
+            'casa-flotante-esfera': 1,
+            'casa-flotante-capas': 2,
+            'casa-flotante-caracol': 3,
+            'casa-flotante-pods': 4,
+            'casa-flotante-alas': 5,
+            'casa-flotante-tropical': 6,
+            'casa-vela-exotica': 7,
+            'casa-organica-blob': 8,
+            'villa-petalos': 9,
+            'torre-piramide-invertida': 10,
+            'torre-piramide-espiral': 11,
+            'complejo-piramides-flotantes': 12,
+            'torre-piramide-rotante': 13,
+            'torre-piramide-escalones': 14,
+            'torre-zigurat-invertido': 15,
+            'torre-gravedad-1': 16,
+            'torre-metal-liquido': 17,
+            'torre-cinta-retorcida': 18,
+            'torre-ola-organica': 19,
+            'torre-geometria-1': 20
+        };
+        
+        async function cargarDiseno() {
+            console.log('🔍 Cargando diseño con ID:', designId);
+            
+            // Verificar que tenemos un ID
+            if (!designId) {
+                document.getElementById('loading').innerHTML = '❌ Error: No se especificó un diseño.<br><a href="/galeria.html" style="color: #ffd700;">Volver a galería</a>';
+                return;
+            }
+            
+            try {
+                console.log('📡 Llamando a API...');
+                const response = await fetch('/api/arquitectura/proyectos');
+                const data = await response.json();
+                
+                console.log('✅ Respuesta recibida:', data.success);
+                
+                if (!data.success) {
+                    throw new Error('Error cargando diseños desde API');
+                }
+                
+                const designIndex = imageToDesign[designId];
+                
+                if (designIndex === undefined) {
+                    throw new Error(`ID de diseño "${designId}" no encontrado en mapeo`);
+                }
+                
+                const design = data.proyectos[designIndex];
+                
+                console.log('🎨 Diseño encontrado:', design ? design.diseño.nombre : 'NO ENCONTRADO');
+                
+                if (!design) {
+                    throw new Error('Diseño no encontrado en el portafolio');
+                }
+                
+                // Actualizar contenido con verificación
+                try {
+                    // Información básica
+                    document.getElementById('design-name').textContent = design.diseño.nombre;
+                    document.getElementById('design-price').textContent = '$' + design.valoracion.valor_mercado_usd + ' USD';
+                    document.getElementById('design-img').src = '/' + designId + '.png';
+                    
+                    // DIMENSIONES EXACTAS
+                    document.getElementById('spec-altura').textContent = design.especificaciones.dimensiones.altura_total_m + ' metros';
+                    document.getElementById('spec-ancho').textContent = design.especificaciones.dimensiones.ancho_m + ' metros';
+                    document.getElementById('spec-profundidad').textContent = design.especificaciones.dimensiones.profundidad_m + ' metros';
+                    document.getElementById('spec-area').textContent = design.especificaciones.dimensiones.area_construida_m2 + ' m²';
+                    document.getElementById('spec-volumen').textContent = design.especificaciones.dimensiones.volumen_total_m3 + ' m³';
+                    document.getElementById('spec-pisos').textContent = design.especificaciones.numero_pisos + ' pisos';
+                    
+                    // MATERIALES Y CONSTRUCCIÓN
+                    document.getElementById('spec-material').textContent = design.especificaciones.material_principal.replace(/_/g, ' ').toUpperCase();
+                    document.getElementById('spec-material-sec').textContent = design.especificaciones.material_secundario.replace(/_/g, ' ').toUpperCase();
+                    document.getElementById('spec-peso').textContent = design.analisis_estructural.peso_estructura.peso_toneladas + ' toneladas';
+                    document.getElementById('spec-costo-material').textContent = '$' + design.analisis_estructural.peso_estructura.costo_material_usd + ' USD';
+                    
+                    // UBICACIÓN GPS
+                    document.getElementById('spec-lat').textContent = design.ubicacion.coordenadas_gps.latitud.toFixed(6) + '°';
+                    document.getElementById('spec-lon').textContent = design.ubicacion.coordenadas_gps.longitud.toFixed(6) + '°';
+                    document.getElementById('spec-ubicacion').textContent = design.ubicacion.terreno_tipo.toUpperCase();
+                    document.getElementById('spec-clima').textContent = design.ubicacion.zona_climatica;
+                    
+                    // VALORACIÓN COMERCIAL
+                    document.getElementById('spec-costo-construccion').textContent = '$' + design.valoracion.costo_construccion_usd + ' USD';
+                    document.getElementById('spec-costo-planos').textContent = '$' + design.valoracion.costo_planos_diseno_usd;
+                    document.getElementById('spec-roi').textContent = design.valoracion.roi_estimado;
+                    
+                    // ANÁLISIS ESTRUCTURAL
+                    document.getElementById('spec-fuerza').textContent = design.analisis_estructural.peso_estructura.fuerza_gravitacional_newtons + ' N';
+                    document.getElementById('spec-resistencia').textContent = design.analisis_estructural.peso_estructura.resistencia_material_mpa + ' MPa';
+                    document.getElementById('spec-estabilidad').textContent = design.analisis_estructural.estabilidad;
+                    
+                    // Características
+                    const featuresHTML = design.diseño.caracteristicas
+                        .map(f => `<div class="feature-item">${f}</div>`)
+                        .join('');
+                    document.getElementById('design-features').innerHTML = featuresHTML;
+                    
+                    // Guardar ID del proyecto para generar certificado
+                    window.currentProjectId = design.id_proyecto;
+                    
+                    console.log('✅ Contenido actualizado correctamente');
+                    
+                    // Mostrar contenido
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('design-content').style.display = 'block';
+                    
+                } catch (updateError) {
+                    console.error('Error actualizando DOM:', updateError);
+                    throw new Error('Error mostrando información del diseño');
+                }
+                
+            } catch (error) {
+                console.error('❌ Error completo:', error);
+                document.getElementById('loading').innerHTML = `
+                    ❌ <strong>Error:</strong> ${error.message}<br><br>
+                    <a href="/galeria.html" style="color: #ffd700; text-decoration: underline;">← Volver a galería</a>
+                `;
+            }
+        }
+        
+        async function generarCertificado() {
+            if (!window.currentProjectId) {
+                alert('Error: ID del proyecto no disponible');
+                return;
+            }
+            
+            const btn = event.target;
+            btn.disabled = true;
+            btn.textContent = '⏳ Generando certificado...';
+            
+            try {
+                const response = await fetch(`/api/certificados/generar/${window.currentProjectId}`, {
+                    method: 'POST'
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('✅ ¡Certificado generado y enviado a contacto@streetemporioroyal.com!\n\nRevisa tu correo.');
+                    // Descargar certificado
+                    window.open(data.certificado.url_descarga, '_blank');
+                } else {
+                    alert('❌ Error: ' + data.error);
+                }
+            } catch (error) {
+                alert('❌ Error generando certificado: ' + error.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '📜 Generar Certificado';
+            }
+        }
+        
+        // Cargar diseño al iniciar
+        cargarDiseno();
+    </script>
+</body>
+</html>

@@ -1,5 +1,6 @@
 // Archivo: throne-certificados.js (Sistema de Certificación Digital)
 // Genera certificados PDF oficiales con firma RSA-4096 + QR verification
+// ✨ NUEVO: Contraseñas únicas + Registro Blockchain
 // -----------------------------------------------------
 
 const PDFDocument = require('pdfkit');
@@ -7,6 +8,7 @@ const QRCode = require('qrcode');
 const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
+const { Resend } = require('resend');
 
 // =================================================================
 // CONFIGURACIÓN
@@ -20,6 +22,125 @@ const VERIFICACION_BASE_URL = process.env.REPLIT_DEV_DOMAIN
 // Crear directorio si no existe
 if (!fs.existsSync(CERT_DIR)) {
     fs.mkdirSync(CERT_DIR, { recursive: true });
+}
+
+// Inicializar Resend para envío de emails
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+// =================================================================
+// GENERADOR DE CONTRASEÑAS ÚNICAS (HOJAS DE DIAMANTE 💎)
+// =================================================================
+
+function generarPasswordUnico() {
+    // Formato: ROYAL-XXXX-XXXX (ejm: ROYAL-7A3B-9F2E)
+    const parte1 = crypto.randomBytes(2).toString('hex').toUpperCase();
+    const parte2 = crypto.randomBytes(2).toString('hex').toUpperCase();
+    return `ROYAL-${parte1}-${parte2}`;
+}
+
+// =================================================================
+// SISTEMA BLOCKCHAIN SIMPLIFICADO (Registro Inmutable)
+// =================================================================
+
+const BLOCKCHAIN_FILE = path.join(__dirname, '..', 'data', 'blockchain-certificados.json');
+
+// Crear archivo blockchain si no existe
+if (!fs.existsSync(BLOCKCHAIN_FILE)) {
+    const blockchainInicial = {
+        chain: [
+            {
+                index: 0,
+                timestamp: new Date().toISOString(),
+                data: {
+                    tipo: 'GENESIS_BLOCK',
+                    mensaje: 'Street Emporio Royal - Throne Protocol V3.0 - Blockchain Iniciado',
+                    autor: 'Roberto Rivera Gamas - Royal (Arquitecto)'
+                },
+                previousHash: '0',
+                hash: crypto.createHash('sha256').update('GENESIS_BLOCK').digest('hex')
+            }
+        ]
+    };
+    fs.writeFileSync(BLOCKCHAIN_FILE, JSON.stringify(blockchainInicial, null, 2));
+}
+
+function registrarEnBlockchain(certificadoId, hashCertificado, proyectoId, nombreDiseno, password) {
+    try {
+        const blockchain = JSON.parse(fs.readFileSync(BLOCKCHAIN_FILE, 'utf8'));
+        const ultimoBloque = blockchain.chain[blockchain.chain.length - 1];
+        
+        const nuevoBloque = {
+            index: blockchain.chain.length,
+            timestamp: new Date().toISOString(),
+            data: {
+                certificado_id: certificadoId,
+                proyecto_id: proyectoId,
+                nombre_diseno: nombreDiseno,
+                hash_certificado: hashCertificado,
+                password_hash: crypto.createHash('sha256').update(password).digest('hex'), // Hash de la contraseña
+                tipo: 'CERTIFICADO_ARQUITECTONICO',
+                empresa: 'Street Emporio Royal',
+                autor: 'Roberto Rivera Gamas - Royal (Arquitecto)'
+            },
+            previousHash: ultimoBloque.hash,
+            hash: ''
+        };
+        
+        // Calcular hash del bloque
+        const bloqueString = JSON.stringify({
+            index: nuevoBloque.index,
+            timestamp: nuevoBloque.timestamp,
+            data: nuevoBloque.data,
+            previousHash: nuevoBloque.previousHash
+        });
+        nuevoBloque.hash = crypto.createHash('sha256').update(bloqueString).digest('hex');
+        
+        blockchain.chain.push(nuevoBloque);
+        fs.writeFileSync(BLOCKCHAIN_FILE, JSON.stringify(blockchain, null, 2));
+        
+        console.log(`✅ Certificado registrado en blockchain - Bloque #${nuevoBloque.index}`);
+        return nuevoBloque;
+    } catch (error) {
+        console.error('❌ Error registrando en blockchain:', error);
+        return null;
+    }
+}
+
+function verificarBlockchain() {
+    try {
+        const blockchain = JSON.parse(fs.readFileSync(BLOCKCHAIN_FILE, 'utf8'));
+        
+        for (let i = 1; i < blockchain.chain.length; i++) {
+            const bloqueActual = blockchain.chain[i];
+            const bloqueAnterior = blockchain.chain[i - 1];
+            
+            // Verificar hash del bloque anterior
+            if (bloqueActual.previousHash !== bloqueAnterior.hash) {
+                return { valido: false, error: `Cadena rota en bloque #${i}` };
+            }
+            
+            // Recalcular hash del bloque actual
+            const bloqueString = JSON.stringify({
+                index: bloqueActual.index,
+                timestamp: bloqueActual.timestamp,
+                data: bloqueActual.data,
+                previousHash: bloqueActual.previousHash
+            });
+            const hashCalculado = crypto.createHash('sha256').update(bloqueString).digest('hex');
+            
+            if (bloqueActual.hash !== hashCalculado) {
+                return { valido: false, error: `Hash inválido en bloque #${i}` };
+            }
+        }
+        
+        return { 
+            valido: true, 
+            bloques: blockchain.chain.length,
+            ultimo_bloque: blockchain.chain[blockchain.chain.length - 1]
+        };
+    } catch (error) {
+        return { valido: false, error: error.message };
+    }
 }
 
 // =================================================================
@@ -73,6 +194,10 @@ async function generarCertificadoPDF(disenoArquitectonico, clavePrivada = null) 
         try {
             const certificadoId = `CERT-${Date.now()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
             
+            // 🔐 GENERAR CONTRASEÑA ÚNICA (HOJA DE DIAMANTE)
+            const passwordUnico = generarPasswordUnico();
+            console.log(`💎 Contraseña única generada: ${passwordUnico}`);
+            
             // Datos para firma digital
             const datosParaFirma = {
                 id_proyecto: disenoArquitectonico.id_proyecto,
@@ -80,7 +205,8 @@ async function generarCertificadoPDF(disenoArquitectonico, clavePrivada = null) 
                 autor: "Roberto Rivera Gamas - Royal (Arquitecto)",
                 empresa: "Street Emporio Royal",
                 timestamp: new Date().toISOString(),
-                certificado_id: certificadoId
+                certificado_id: certificadoId,
+                password_hash: crypto.createHash('sha256').update(passwordUnico).digest('hex')
             };
             
             // Generar firma digital (opcional)
@@ -339,10 +465,25 @@ async function generarCertificadoPDF(disenoArquitectonico, clavePrivada = null) 
             
             doc.opacity(1);
             
+            // Disclaimer legal en el pie de página
+            doc.fontSize(6)
+               .fillColor('#888888')
+               .text('Este certificado de autenticidad garantiza la propiedad intelectual del diseño arquitectónico. Incluye verificación criptográfica SHA-256 y validación por código QR.', 
+                     50, 760, { width: 512, align: 'center' });
+            
             // Finalizar PDF
             doc.end();
             
             stream.on('finish', () => {
+                // 🔗 REGISTRAR EN BLOCKCHAIN
+                const bloqueBlockchain = registrarEnBlockchain(
+                    certificadoId,
+                    firma.hash_sha256,
+                    disenoArquitectonico.id_proyecto,
+                    disenoArquitectonico.diseño.nombre,
+                    passwordUnico
+                );
+                
                 const certificado = {
                     certificado_id: certificadoId,
                     proyecto_id: disenoArquitectonico.id_proyecto,
@@ -351,6 +492,8 @@ async function generarCertificadoPDF(disenoArquitectonico, clavePrivada = null) 
                     qr_code: qrCodeDataURL,
                     firma_digital: firma,
                     datos_firmados: datosParaFirma,
+                    password: passwordUnico, // 🔐 CONTRASEÑA ÚNICA
+                    blockchain_block: bloqueBlockchain ? bloqueBlockchain.index : null, // 🔗 Número de bloque
                     timestamp_emision: new Date().toISOString()
                 };
                 
@@ -364,6 +507,101 @@ async function generarCertificadoPDF(disenoArquitectonico, clavePrivada = null) 
             reject(error);
         }
     });
+}
+
+// =================================================================
+// ENVIAR CERTIFICADO POR CORREO
+// =================================================================
+
+async function enviarCertificadoPorCorreo(certificado, disenoArquitectonico) {
+    try {
+        // Leer el PDF como buffer
+        const pdfBuffer = fs.readFileSync(certificado.pdf_path);
+        const pdfBase64 = pdfBuffer.toString('base64');
+        
+        const emailData = {
+            from: 'Throne Protocol <noreply@streetemporioroyal.com>',
+            to: ['contacto@streetemporioroyal.com'],
+            subject: `✅ Certificado Generado: ${disenoArquitectonico.diseño.nombre}`,
+            html: `
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #000; color: #d4af37; padding: 30px; border: 3px solid #d4af37;">
+                    <h1 style="text-align: center; color: #ffd700;">👑 CERTIFICADO DIGITAL GENERADO</h1>
+                    <h2 style="text-align: center; color: #d4af37;">THRONE PROTOCOL V3.0</h2>
+                    
+                    <div style="background: rgba(212, 175, 55, 0.1); padding: 20px; margin: 20px 0; border-left: 4px solid #d4af37;">
+                        <h3 style="color: #ffd700; margin-top: 0;">📋 Detalles del Proyecto</h3>
+                        <p style="color: #fff;"><strong>Nombre:</strong> ${disenoArquitectonico.diseño.nombre}</p>
+                        <p style="color: #fff;"><strong>ID Proyecto:</strong> ${disenoArquitectonico.id_proyecto}</p>
+                        <p style="color: #fff;"><strong>ID Certificado:</strong> ${certificado.certificado_id}</p>
+                    </div>
+                    
+                    <div style="background: rgba(212, 175, 55, 0.1); padding: 20px; margin: 20px 0; border-left: 4px solid #d4af37;">
+                        <h3 style="color: #ffd700; margin-top: 0;">🏗️ Especificaciones</h3>
+                        <p style="color: #fff;"><strong>Altura:</strong> ${disenoArquitectonico.especificaciones.dimensiones.altura_total_m}m</p>
+                        <p style="color: #fff;"><strong>Material:</strong> ${disenoArquitectonico.especificaciones.material_principal}</p>
+                        <p style="color: #fff;"><strong>Pisos:</strong> ${disenoArquitectonico.especificaciones.numero_pisos}</p>
+                    </div>
+                    
+                    <div style="background: rgba(212, 175, 55, 0.1); padding: 20px; margin: 20px 0; border-left: 4px solid #d4af37;">
+                        <h3 style="color: #ffd700; margin-top: 0;">💰 Valoración</h3>
+                        <p style="color: #fff; font-size: 1.3rem;"><strong>$${disenoArquitectonico.valoracion.valor_mercado_usd} USD</strong></p>
+                    </div>
+                    
+                    <div style="background: rgba(212, 175, 55, 0.1); padding: 20px; margin: 20px 0; border-left: 4px solid #d4af37;">
+                        <h3 style="color: #ffd700; margin-top: 0;">💎 CONTRASEÑA ÚNICA (HOJA DE DIAMANTE)</h3>
+                        <p style="color: #fff; font-size: 0.9rem;">Esta contraseña protege su certificado digital:</p>
+                        <div style="background: #000; padding: 15px; border: 2px solid #ffd700; margin: 10px 0; text-align: center;">
+                            <p style="color: #ffd700; font-family: monospace; font-size: 1.5rem; font-weight: bold; margin: 0;">${certificado.password}</p>
+                        </div>
+                        <p style="color: #ff6b6b; font-size: 0.85rem;">⚠️ IMPORTANTE: Guarde esta contraseña de forma segura. Es única e irrepetible.</p>
+                    </div>
+                    
+                    <div style="background: rgba(212, 175, 55, 0.1); padding: 20px; margin: 20px 0; border-left: 4px solid #d4af37;">
+                        <h3 style="color: #ffd700; margin-top: 0;">🔗 Registro Blockchain</h3>
+                        <p style="color: #fff;"><strong>Bloque #${certificado.blockchain_block || 'Pendiente'}</strong></p>
+                        <p style="color: #888; font-size: 0.85rem;">Su certificado ha sido registrado en la blockchain de Street Emporio Royal para garantizar autenticidad e inmutabilidad.</p>
+                    </div>
+                    
+                    <div style="background: rgba(212, 175, 55, 0.1); padding: 20px; margin: 20px 0; border-left: 4px solid #d4af37;">
+                        <h3 style="color: #ffd700; margin-top: 0;">🔐 Verificación Criptográfica</h3>
+                        <p style="color: #fff;"><strong>Hash SHA-256:</strong></p>
+                        <p style="color: #d4af37; font-family: monospace; font-size: 0.8rem; word-break: break-all;">${certificado.firma_digital.hash_sha256}</p>
+                        <p style="color: #fff; margin-top: 15px;"><strong>URL de Verificación:</strong></p>
+                        <a href="${certificado.url_verificacion}" style="color: #ffd700; word-break: break-all;">${certificado.url_verificacion}</a>
+                    </div>
+                    
+                    <p style="text-align: center; color: #fff; margin-top: 30px;">
+                        El certificado PDF está adjunto a este correo.
+                    </p>
+                    
+                    <hr style="border: 1px solid #d4af37; margin: 30px 0;">
+                    
+                    <div style="text-align: center; color: #888; font-size: 0.9rem;">
+                        <p><strong style="color: #d4af37;">Roberto Rivera Gamas - Royal (Arquitecto)</strong></p>
+                        <p>Street Emporio Royal</p>
+                        <p>www.streetemporioroyal.com</p>
+                        <p style="margin-top: 10px; color: #666;">AHT - Alpha High Tech</p>
+                    </div>
+                </div>
+            `,
+            attachments: [
+                {
+                    filename: `${certificado.certificado_id}.pdf`,
+                    content: pdfBase64,
+                    type: 'application/pdf',
+                    disposition: 'attachment'
+                }
+            ]
+        };
+        
+        const result = await resend.emails.send(emailData);
+        console.log(`✅ Certificado enviado por correo: ${result.id}`);
+        return result;
+        
+    } catch (error) {
+        console.error('❌ Error enviando certificado por correo:', error);
+        throw error;
+    }
 }
 
 // =================================================================
@@ -416,5 +654,6 @@ module.exports = {
     generarCertificadoPDF,
     verificarFirmaDigital,
     obtenerCertificado,
+    enviarCertificadoPorCorreo,
     CERT_DIR
 };
