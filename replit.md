@@ -1,9 +1,11 @@
 # THRONE PROTOCOL V3.0 - Sistema Cuántico de Comando Central
 
 **Propietario:** Roberto Rivera Gamas  
-**Nombre Profesional:** Arte Visualista-Royal  
-**Email de negocio:** contacto@streetemporioroyal.com  
-**Título:** Diseñador de Arquitectura Empresarial Futurista
+**Nombre Profesional:** Royal (Arquitecto)  
+**Empresa:** Street Emporio Royal  
+**Dominio:** www.streetemporioroyal.com  
+**Email Empresarial:** contacto@streetemporioroyal.com  
+**Título:** Arquitecto | Diseñador de Arquitectura Empresarial Futurista
 
 ---
 
@@ -241,10 +243,11 @@ fetch('/api/arquitectura/stats')
 
 ## CONTACTO
 
-**Roberto Rivera Gamas**  
-Arte Visualista-Royal  
-Diseñador de Arquitectura Empresarial Futurista
+**Roberto Rivera Gamas - Royal**  
+Arquitecto  
+Street Emporio Royal
 
 Email: contacto@streetemporioroyal.com  
+Web: www.streetemporioroyal.com  
 Plataforma: Throne Protocol V3.0  
 Valoración estimada del sistema: $500K - $1.25M USD

@@ -1,0 +1,40 @@
+[
+  {
+    "certificado_id": "CERT-1762918621242-8CRDQ137W",
+    "proyecto_id": "ARCH-1762846236558-Q4S3LDLBL",
+    "url_verificacion": "https://4b742e9c-7f79-441f-a42b-ba9dd5aef5dc-00-3lon3qdnc2zvl.janeway.replit.dev/verificar/CERT-1762918621242-8CRDQ137W",
+    "firma_digital": {
+      "hash_sha256": "b56685f14e5aba9f24071dddcc7a369054c1be331e6df78f96b7a5346b2406c3",
+      "firma_rsa4096": "PENDIENTE_CONFIGURACION_RSA",
+      "algoritmo": "SHA256withRSA4096",
+      "timestamp": "2025-11-12T03:37:01.244Z"
+    },
+    "datos_firmados": {
+      "id_proyecto": "ARCH-1762846236558-Q4S3LDLBL",
+      "nombre_diseno": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal",
+      "timestamp": "2025-11-12T03:37:01.242Z",
+      "certificado_id": "CERT-1762918621242-8CRDQ137W"
+    },
+    "timestamp": "2025-11-12T03:37:01.364Z"
+  },
+  {
+    "certificado_id": "CERT-1762918628755-Y5B1YOABN",
+    "proyecto_id": "ARCH-1762846236558-Q4S3LDLBL",
+    "url_verificacion": "https://4b742e9c-7f79-441f-a42b-ba9dd5aef5dc-00-3lon3qdnc2zvl.janeway.replit.dev/verificar/CERT-1762918628755-Y5B1YOABN",
+    "firma_digital": {
+      "hash_sha256": "9499da5928e56966a09a93f94d5107b725ebd92a697267c07c6a10a886ce88e3",
+      "firma_rsa4096": "PENDIENTE_CONFIGURACION_RSA",
+      "algoritmo": "SHA256withRSA4096",
+      "timestamp": "2025-11-12T03:37:08.755Z"
+    },
+    "datos_firmados": {
+      "id_proyecto": "ARCH-1762846236558-Q4S3LDLBL",
+      "nombre_diseno": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal",
+      "timestamp": "2025-11-12T03:37:08.755Z",
+      "certificado_id": "CERT-1762918628755-Y5B1YOABN"
+    },
+    "timestamp": "2025-11-12T03:37:08.801Z"
+  }
+]
