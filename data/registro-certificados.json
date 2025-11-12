@@ -756,5 +756,26 @@
       "certificado_id": "CERT-1762924160780-H71WHVR8K"
     },
     "timestamp": "2025-11-12T05:09:20.942Z"
+  },
+  {
+    "certificado_id": "CERT-1762928855014-N221FJ9EK",
+    "proyecto_id": "ARCH-1762846236558-Q4S3LDLBL",
+    "url_verificacion": "https://4b742e9c-7f79-441f-a42b-ba9dd5aef5dc-00-3lon3qdnc2zvl.janeway.replit.dev/verificar/CERT-1762928855014-N221FJ9EK",
+    "firma_digital": {
+      "hash_sha256": "934bd6a15ccc16ab9559d659d166a31c75f6b738b22788d144679693450934fc",
+      "firma_rsa4096": "G4xRmtdDroHUmOvV0nqVi32GtLATV9emGuh4fT/BxHFItR/lTqU11F4YPQgPP5FexwJOiJVLKm0NzT/k/Z04X5hNvjditzEyHnkCCK+hmmbu0vvtLNMkBJSiIkcAsuHRg3AKIn0MG/b3xJ1WJMF+V+kK9HD4hlPYiGIt8QyoeDW+5PkMIaxK4f6kI5eTZRkMJLL9F/ilE26XCiArr6E1sthxUSoSyN4RnCDlvCpVZaCm2QoyfurEKRI7bTUtBErKBep17B3BB15sqkt7OCdoJo/ADNwgXSx7exLv98ckJ2wx8rCgR3SM4b5rtD4UVBxHmoWGyMI3I3mc1+2ga8ScuvsBRO7A0Zb8gz8FSetH7pg7wE1foy3Zqpc5j5Pm8yZWx0lTU8yoXMLUt/dFJZ0JREhFzxFOWuBomF0vpGUGA8/QIgD6SoBY6RiwAD6BnLD9VZ+9s24ToZlVjzSrlMbMmBLN4hL5baRMZaV3RKIrBSry5GducEF36GteptYXrqFT3BQWMJP/VekXMC9Z2amc53xvXpBrYGQTUjyaQjh0D6xGWrs7n4jntGlwFmXRSAw/GCeLQMyT99okRzUFimRXQHzZDglLHQjTAggf3kZT7GWVYryrYOox6RNVEYeHOjAj5f155EdZnUbb3Uf3q270Y//o0808m5PozD34oOACUEA=",
+      "algoritmo": "SHA256withRSA4096",
+      "timestamp": "2025-11-12T06:27:35.019Z"
+    },
+    "datos_firmados": {
+      "id_proyecto": "ARCH-1762846236558-Q4S3LDLBL",
+      "nombre_diseno": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+      "autor": "Roberto Rivera Gamas - Royal (Arquitecto)",
+      "empresa": "Street Emporio Royal",
+      "timestamp": "2025-11-12T06:27:35.014Z",
+      "certificado_id": "CERT-1762928855014-N221FJ9EK",
+      "password_hash": "d95bfe3099c294a198f50a965c2677d8ec7dbee9a467f958f3f88e621359dc6a"
+    },
+    "timestamp": "2025-11-12T06:27:35.350Z"
   }
 ]

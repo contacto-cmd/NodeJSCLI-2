@@ -196,7 +196,7 @@ async function generarCertificadoPDF(disenoArquitectonico, clavePrivada = null) 
             
             // 🔐 GENERAR CONTRASEÑA ÚNICA (HOJA DE DIAMANTE)
             const passwordUnico = generarPasswordUnico();
-            console.log(`💎 Contraseña única generada: ${passwordUnico}`);
+            console.log(`💎 Contraseña única generada para certificado (enviada por email)`);
             
             // Datos para firma digital
             const datosParaFirma = {

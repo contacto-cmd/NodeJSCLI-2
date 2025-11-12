@@ -10,6 +10,22 @@
       },
       "previousHash": "0",
       "hash": "d849201979ca8f774b43c29239d41a09fa7de7d65e1c2818cb777c90ffe9aeb3"
+    },
+    {
+      "index": 1,
+      "timestamp": "2025-11-12T06:27:35.350Z",
+      "data": {
+        "certificado_id": "CERT-1762928855014-N221FJ9EK",
+        "proyecto_id": "ARCH-1762846236558-Q4S3LDLBL",
+        "nombre_diseno": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+        "hash_certificado": "934bd6a15ccc16ab9559d659d166a31c75f6b738b22788d144679693450934fc",
+        "password_hash": "d95bfe3099c294a198f50a965c2677d8ec7dbee9a467f958f3f88e621359dc6a",
+        "tipo": "CERTIFICADO_ARQUITECTONICO",
+        "empresa": "Street Emporio Royal",
+        "autor": "Roberto Rivera Gamas - Royal (Arquitecto)"
+      },
+      "previousHash": "d849201979ca8f774b43c29239d41a09fa7de7d65e1c2818cb777c90ffe9aeb3",
+      "hash": "8149ba0c19818ec5a9bf59c4551b799253d451bf6e955c8812ce5cce0a244d7e"
     }
   ]
 }
