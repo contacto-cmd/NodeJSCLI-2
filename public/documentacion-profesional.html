@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación Profesional - Throne Protocol V3.0</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 50%, #0a1a0a 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 30px;
+            background: linear-gradient(145deg, rgba(255, 215, 0, 0.1), rgba(0, 255, 136, 0.1));
+            border: 3px solid #ffd700;
+            border-radius: 20px;
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
+        }
+        
+        .header h1 {
+            font-size: 3em;
+            color: #ffd700;
+            text-shadow: 0 0 30px #ffd700;
+            margin-bottom: 15px;
+        }
+        
+        .header h2 {
+            font-size: 1.5em;
+            color: #00ff88;
+            margin-bottom: 20px;
+        }
+        
+        .header p {
+            color: #aaa;
+            font-size: 1.1em;
+        }
+        
+        .info-box {
+            background: rgba(255, 215, 0, 0.1);
+            border-left: 5px solid #ffd700;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+        }
+        
+        .info-box h3 {
+            color: #ffd700;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        
+        .info-box ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+        
+        .info-box li {
+            margin: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        .info-box li:before {
+            content: "✅";
+            position: absolute;
+            left: 0;
+        }
+        
+        .documents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .document-card {
+            background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+            border: 2px solid #00ff88;
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+        }
+        
+        .document-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 40px rgba(0, 255, 136, 0.4);
+            border-color: #ffd700;
+        }
+        
+        .document-card h3 {
+            color: #00ff88;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .document-card p {
+            color: #aaa;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .document-card .meta {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+        
+        .download-btn {
+            background: linear-gradient(145deg, #00ff88, #00cc6a);
+            color: #000;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .download-btn:hover {
+            background: linear-gradient(145deg, #ffd700, #ffaa00);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+        
+        .package-download {
+            background: linear-gradient(145deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.1));
+            border: 3px solid #ffd700;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin-top: 40px;
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
+        }
+        
+        .package-download h3 {
+            color: #ffd700;
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px #ffd700;
+        }
+        
+        .package-download p {
+            color: #aaa;
+            font-size: 1.1em;
+            margin-bottom: 30px;
+        }
+        
+        .package-download .download-btn {
+            background: linear-gradient(145deg, #ffd700, #ffaa00);
+            font-size: 1.2em;
+            padding: 18px 40px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .footer {
+            margin-top: 60px;
+            padding: 30px;
+            text-align: center;
+            border-top: 2px solid #ffd700;
+            color: #666;
+        }
+        
+        .footer p {
+            margin: 10px 0;
+        }
+        
+        .loading {
+            text-align: center;
+            color: #00ff88;
+            font-size: 1.5em;
+            padding: 40px;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .loading {
+            animation: pulse 1.5s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>👑 THRONE PROTOCOL V3.0</h1>
+            <h2>Documentación Profesional Completa</h2>
+            <p>Paquete Oficial para Inversionistas y Socios Estratégicos</p>
+        </div>
+        
+        <div class="info-box">
+            <h3>📋 Sobre Este Paquete</h3>
+            <ul>
+                <li>Documentación técnica completa del sistema</li>
+                <li>Plan de negocios ejecutivo con proyecciones financieras</li>
+                <li>Pitch deck profesional para inversionistas</li>
+                <li>Especificaciones de seguridad criptográfica</li>
+                <li>Carta de presentación del arquitecto y proyecto</li>
+            </ul>
+        </div>
+        
+        <div class="info-box" style="border-left-color: #00ff88;">
+            <h3>🎯 Propósito</h3>
+            <p style="color: #ccc; margin-bottom: 15px;">
+                Esta documentación profesional ha sido creada para presentar Throne Protocol V3.0 
+                a inversionistas potenciales, instituciones financieras, y socios estratégicos. 
+                Todos los documentos son de uso profesional y contienen información real del sistema.
+            </p>
+        </div>
+        
+        <h2 style="color: #ffd700; margin: 40px 0 25px 0; text-align: center; font-size: 2em;">
+            📁 Documentos Disponibles
+        </h2>
+        
+        <div id="documentsContainer" class="documents-grid">
+            <div class="loading">Cargando documentos...</div>
+        </div>
+        
+        <div class="package-download">
+            <h3>📦 PAQUETE COMPLETO</h3>
+            <p>Descarga todos los documentos en un solo archivo consolidado</p>
+            <button class="download-btn" onclick="downloadPackage()">
+                ⬇️ DESCARGAR PAQUETE COMPLETO
+            </button>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Roberto Rivera Gamas - Royal</strong></p>
+            <p>Arquitecto Principal - Street Emporio Royal</p>
+            <p>contacto@streetemporioroyal.com</p>
+            <p style="margin-top: 20px; color: #444;">
+                Documentación generada por Throne Protocol V3.0
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        // Cargar lista de documentos
+        async function loadDocuments() {
+            try {
+                const response = await fetch('/api/documentacion/listado');
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayDocuments(data.documentos);
+                } else {
+                    document.getElementById('documentsContainer').innerHTML = 
+                        '<p style="color: #ff4444; text-align: center;">Error cargando documentos</p>';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('documentsContainer').innerHTML = 
+                    '<p style="color: #ff4444; text-align: center;">Error de conexión</p>';
+            }
+        }
+        
+        function displayDocuments(docs) {
+            const container = document.getElementById('documentsContainer');
+            
+            const descriptions = {
+                'ESPECIFICACIONES_TECNICAS_THRONE_V3.md': 'Documento técnico oficial completo del sistema con todas las especificaciones, arquitectura, componentes, y capacidades operacionales.',
+                'PLAN_NEGOCIOS_EJECUTIVO.md': 'Plan de negocios completo con modelo de negocio, proyecciones financieras a 3 años, análisis de mercado, y estrategia de crecimiento.',
+                'PITCH_DECK_INVERSIONISTAS.md': 'Presentación ejecutiva de 16 slides para inversionistas con problema, solución, mercado, tracción, financials, y terms de inversión.',
+                'CARTA_PRESENTACION_PROFESIONAL.md': 'Carta formal de presentación del arquitecto Roberto Rivera Gamas y el proyecto Throne Protocol V3.0 para inversionistas y socios.',
+                'ESPECIFICACION_SEGURIDAD_VAULT.md': 'Especificaciones técnicas detalladas del sistema de seguridad: AES-256-GCM, RSA-4096, arquitectura multi-capa, y compliance.'
+            };
+            
+            const icons = {
+                'ESPECIFICACIONES_TECNICAS_THRONE_V3.md': '🔧',
+                'PLAN_NEGOCIOS_EJECUTIVO.md': '💼',
+                'PITCH_DECK_INVERSIONISTAS.md': '📊',
+                'CARTA_PRESENTACION_PROFESIONAL.md': '📝',
+                'ESPECIFICACION_SEGURIDAD_VAULT.md': '🔐'
+            };
+            
+            container.innerHTML = docs.map(doc => `
+                <div class="document-card">
+                    <h3>${icons[doc.nombre] || '📄'} ${doc.nombre_legible}</h3>
+                    <p>${descriptions[doc.nombre] || 'Documento profesional del sistema'}</p>
+                    <div class="meta">Tamaño: ${(doc.tamaño / 1024).toFixed(2)} KB | Formato: Markdown</div>
+                    <button class="download-btn" onclick="downloadDocument('${doc.nombre}', '${doc.nombre_legible}')">
+                        ⬇️ Descargar
+                    </button>
+                </div>
+            `).join('');
+        }
+        
+        function downloadDocument(filename, displayName) {
+            window.location.href = `/api/documentacion/descargar/${filename}`;
+        }
+        
+        function downloadPackage() {
+            window.location.href = '/api/documentacion/paquete-completo';
+        }
+        
+        // Cargar al inicio
+        loadDocuments();
+    </script>
+</body>
+</html>

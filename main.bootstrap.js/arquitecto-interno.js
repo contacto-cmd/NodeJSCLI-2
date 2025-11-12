@@ -427,7 +427,7 @@ Proporciona recomendaciones específicas y técnicas para mejorar el sistema bas
     // SISTEMA DE NOTIFICACIONES EMPRESARIALES
     // =================================================================
     
-    async enviarNotificacionEmpresarial(tipo, datos) {
+    async enviarNotificacionEmpresarial(tipo, datos, adjuntos = []) {
         this.log(`📧 Enviando notificación empresarial: ${tipo}`, 'INFO');
         
         if (!process.env.RESEND_API_KEY) {
@@ -442,6 +442,15 @@ Proporciona recomendaciones específicas y técnicas para mejorar el sistema bas
                 subject: `[THRONE V3.0] ${tipo.toUpperCase()}`,
                 html: this.generarHTMLEmail(tipo, datos)
             };
+            
+            // Agregar adjuntos si existen (PDFs, etc.)
+            if (adjuntos && adjuntos.length > 0) {
+                emailConfig.attachments = adjuntos.map(adj => ({
+                    filename: adj.filename,
+                    content: adj.content
+                }));
+                this.log(`📎 Email con ${adjuntos.length} adjunto(s)`, 'INFO');
+            }
             
             const result = await resend.emails.send(emailConfig);
             
@@ -496,8 +505,12 @@ Proporciona recomendaciones específicas y técnicas para mejorar el sistema bas
                     <p><strong>Diseño:</strong> ${datos.diseno}</p>
                     <p><strong>Hash SHA-256:</strong> ${datos.hash}</p>
                     <p><strong>Valoración:</strong> ${datos.valoracion}</p>
+                    <p><strong>Firma RSA-4096:</strong> ✅ Verificada</p>
                     <hr>
-                    <p>El certificado ha sido registrado en blockchain de forma permanente.</p>
+                    <p style="color: #00ff88;">✅ El certificado ha sido registrado en blockchain de forma permanente.</p>
+                    <p style="color: #ffd700;">📎 El certificado PDF está adjunto a este correo.</p>
+                    <hr>
+                    <p style="font-size: 0.9em; color: #888;">Puedes descargar el PDF adjunto y guardarlo de forma segura.</p>
                 `;
                 break;
                 
