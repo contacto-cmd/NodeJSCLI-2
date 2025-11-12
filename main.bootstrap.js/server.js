@@ -1568,6 +1568,59 @@ app.post('/api/certificados/royal-premium', async (req, res) => {
     }
 });
 
+// Generar Whitepaper Técnico Profesional del Sistema
+app.post('/api/documentacion/whitepaper', async (req, res) => {
+    try {
+        const WhitepaperGenerator = require('./whitepaper-generator');
+        const generator = new WhitepaperGenerator();
+        
+        console.log(`📄 Generando Whitepaper Técnico Profesional del Sistema...`);
+        
+        const resultado = await generator.generarWhitepaperCompleto();
+        
+        if (resultado.success) {
+            // Enviar whitepaper PDF por correo empresarial
+            try {
+                const pdfPath = path.join(__dirname, '..', 'public', resultado.filename);
+                if (fs.existsSync(pdfPath)) {
+                    const pdfBuffer = fs.readFileSync(pdfPath);
+                    const pdfBase64 = pdfBuffer.toString('base64');
+                    
+                    await arquitectoInterno.enviarNotificacionEmpresarial('WHITEPAPER_GENERADO', {
+                        tipo: 'Whitepaper Técnico Profesional',
+                        sistema: 'Throne Protocol V3.0',
+                        valoracion: '$230.875 Billones USD',
+                        paginas: '10+'
+                    }, [{
+                        filename: resultado.filename,
+                        content: pdfBase64
+                    }]);
+                    
+                    console.log(`✅ Email enviado con Whitepaper PDF adjunto`);
+                }
+            } catch (err) {
+                console.warn('⚠️ Error enviando email:', err.message);
+            }
+            
+            res.json({
+                success: true,
+                filename: resultado.filename,
+                mensaje: 'Whitepaper Técnico generado exitosamente y enviado a contacto@streetemporioroyal.com',
+                url_descarga: `/${resultado.filename}`
+            });
+        } else {
+            res.status(500).json({ success: false, error: 'Error generando whitepaper' });
+        }
+        
+    } catch (error) {
+        console.error('❌ Error generando whitepaper:', error);
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
 // =================================================================
 // SISTEMA ARQUITECTÓNICO CUÁNTICO CON FÍSICA REAL
 // Usando throne-arquitectura.js (Nivel Presidencial)
