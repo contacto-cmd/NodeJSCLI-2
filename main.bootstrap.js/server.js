@@ -1129,6 +1129,201 @@ app.post('/api/certificados/completo', async (req, res) => {
     }
 });
 
+// =================================================================
+// VAULT CIFRADO (Gestor de Contraseñas tipo 1Password)
+// =================================================================
+const vaultCifrado = require('./throne-vault.js');
+
+// Para JWT RS256, usaremos directamente la clave privada en la verificación
+// En Node.js, jwt.verify con RS256 puede usar tanto la clave pública como la privada
+// Ya que la clave privada contiene también la información pública
+const MASTER_KEY_RSA_PUBLICA = MASTER_KEY_RSA_PRIVADA;
+
+// Middleware de autenticación para Vault
+function vaultAuthMiddleware(req, res, next) {
+    const sessionToken = req.headers['x-vault-session'];
+    
+    if (!sessionToken) {
+        return res.status(401).json({
+            success: false,
+            error: 'No autenticado. Acceso denegado al vault.'
+        });
+    }
+    
+    if (!MASTER_KEY_RSA_PUBLICA) {
+        return res.status(500).json({
+            success: false,
+            error: 'Sistema de autenticación no configurado correctamente'
+        });
+    }
+    
+    try {
+        const decoded = jwt.verify(sessionToken, MASTER_KEY_RSA_PUBLICA, {
+            algorithms: ['RS256']
+        });
+        
+        if (decoded.vault !== 'authorized') {
+            return res.status(403).json({
+                success: false,
+                error: 'Token inválido para acceso al vault'
+            });
+        }
+        
+        req.vaultUser = decoded;
+        next();
+    } catch (error) {
+        return res.status(401).json({
+            success: false,
+            error: 'Token expirado o inválido'
+        });
+    }
+}
+
+// Generar token de sesión de vault (válido por 1 hora)
+app.post('/api/vault/authenticate', (req, res) => {
+    try {
+        if (!MASTER_KEY_RSA_PRIVADA) {
+            return res.status(500).json({
+                success: false,
+                error: 'Sistema de autenticación no disponible'
+            });
+        }
+        
+        const { password } = req.body;
+        
+        const expectedPassword = process.env.VAULT_PASSWORD || 'Royal2025';
+        
+        if (password !== expectedPassword) {
+            return res.status(401).json({
+                success: false,
+                error: 'Contraseña incorrecta'
+            });
+        }
+        
+        const sessionToken = jwt.sign(
+            {
+                vault: 'authorized',
+                timestamp: Date.now(),
+                owner: 'Roberto Rivera Gamas - Royal'
+            },
+            MASTER_KEY_RSA_PRIVADA,
+            {
+                algorithm: 'RS256',
+                expiresIn: '1h'
+            }
+        );
+        
+        console.log('✅ Sesión de vault autenticada');
+        
+        res.json({
+            success: true,
+            sessionToken,
+            expiresIn: 3600
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// Obtener estadísticas del vault
+app.get('/api/vault/stats', vaultAuthMiddleware, (req, res) => {
+    try {
+        const stats = vaultCifrado.getVaultStats();
+        res.json({
+            success: true,
+            stats
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// Listar secretos de una categoría
+app.get('/api/vault/list/:category', vaultAuthMiddleware, (req, res) => {
+    try {
+        const { category } = req.params;
+        const secrets = vaultCifrado.listSecrets(category);
+        res.json({
+            success: true,
+            secrets
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// Obtener un secreto específico (descifrado)
+app.get('/api/vault/get/:category/:id', vaultAuthMiddleware, (req, res) => {
+    try {
+        const { category, id } = req.params;
+        const secret = vaultCifrado.getSecret(category, id);
+        res.json({
+            success: true,
+            secret
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// Agregar nuevo secreto
+app.post('/api/vault/add', vaultAuthMiddleware, (req, res) => {
+    try {
+        const { category, name, value, metadata } = req.body;
+        
+        if (!category || !name || !value) {
+            return res.status(400).json({
+                success: false,
+                error: 'Faltan campos requeridos'
+            });
+        }
+        
+        const result = vaultCifrado.addSecret(category, name, value, metadata);
+        vaultCifrado.saveVault();
+        
+        res.json({
+            success: true,
+            ...result
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// Eliminar secreto
+app.delete('/api/vault/delete/:category/:id', vaultAuthMiddleware, (req, res) => {
+    try {
+        const { category, id } = req.params;
+        const result = vaultCifrado.deleteSecret(category, id);
+        vaultCifrado.saveVault();
+        
+        res.json({
+            success: true,
+            ...result
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
 // Descargar certificado profesional por ID
 app.get('/api/certificados/profesionales/descargar/:certId', async (req, res) => {
     try {
