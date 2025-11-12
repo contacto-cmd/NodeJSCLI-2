@@ -1,253 +1,248 @@
-# THRONE PROTOCOL V3.0 - Sistema Cuántico de Comando Central
+# THRONE PROTOCOL V3.0
+## Sistema Arquitectónico Cuántico de Nivel Presidencial
 
-**Propietario:** Roberto Rivera Gamas  
-**Nombre Profesional:** Royal (Arquitecto)  
+**Propietario:** Roberto Rivera Gamas - Royal (Arquitecto)  
 **Empresa:** Street Emporio Royal  
-**Dominio:** www.streetemporioroyal.com  
-**Email Empresarial:** contacto@streetemporioroyal.com  
-**Título:** Arquitecto | Diseñador de Arquitectura Empresarial Futurista
+**Email Empresarial:** contacto@streetemporioroyal.com
 
 ---
 
-## DESCRIPCIÓN DEL PROYECTO
+## 📊 SISTEMA ACTUAL - NIVEL PRESIDENCIAL
 
-Throne Protocol V3.0 es una plataforma de comando central que combina:
+### 🏗️ **Sistema Arquitectónico Cuántico con Física Real**
 
-1. **Globo 3D Cesium** con 40 nodos geolocalizados + 8 satélites en vivo (TLE tracking)
-2. **Sistema de autenticación JWT** con firma RSA-4096
-3. **AI Laboratory** dual (GPT-5 + Gemini 2.5) para generación de contenido
-4. **Vault cifrado** (AES-256-GCM + RSA-4096) para gestión de secretos
-5. **Generador de certificados digitales** con firma criptográfica
-6. **Sistema Arquitectónico Cuántico** (módulo especializado #1)
+El sistema genera diseños arquitectónicos futuristas con cálculos de ingeniería real:
 
----
+**Física Estructural Verificable:**
+- ✅ Pesos reales calculados por densidad de materiales (kg/m³)
+- ✅ 7 materiales certificados: Titanio (4500 kg/m³), Fibra de Carbono (1600 kg/m³), Bronze (8800 kg/m³), Aluminio (2700 kg/m³), Acero (7850 kg/m³), Vidrio Templado (2500 kg/m³), Hormigón (2400 kg/m³)
+- ✅ Cálculos de voladizos con momentos de flexión
+- ✅ Centro de gravedad de estructuras complejas
+- ✅ Factor de seguridad estructural (> 2.5 = viable)
+- ✅ Fuerza gravitacional en Newtons
+- ✅ Resistencia de materiales en MPa
 
-## ARQUITECTURA DEL SISTEMA
+**Portafolio Generado:**
+- 📐 30+ diseños únicos
+- 💰 Valoración total: $229.8B+ USD
+- 📍 Coordenadas GPS exactas para cada diseño
+- 🌍 4 tipos de terreno: Océano, Lago, Desierto, Montaña
+- 🏢 Rango de alturas: 12m hasta 180m
 
-### Comando Central (main.bootstrap.js/server.js)
-- **Puerto:** 5000
-- **Framework:** Node.js + Express
-- **Rutas principales:**
-  - `/api/protocol-init` - Inicialización del protocolo con Token Soberano
-  - `/api/nodes` - Arsenal de 40 nodos geolocalizados
-  - `/api/satellites` - 8 satélites en órbita con datos TLE
-  - `/api/vault/*` - Gestión de secretos cifrados
-  - `/api/ai/*` - Generación de contenido con AI dual
-  - `/api/arquitectura/*` - Sistema arquitectónico cuántico
+**Tipos de Diseño:**
+1. **Casas Flotantes Oceánicas** - Estructuras sobre agua con voladizos
+2. **Torres Pirámide Anti-Gravedad** - Geometría imposible vertical
+3. **Villas Orgánicas** - Formas curveadas fluidas
+4. **Complejos Modulares** - Pods conectados con puentes
 
-### Sistema Arquitectónico Cuántico (Módulo #1)
+### 📜 **Sistema de Certificación Gubernamental**
 
-#### Archivos principales:
-- **throne-arquitectura.js** - Motor de generación con física real
-- **generador-masivo.js** - 30 combinaciones únicas predefinidas
-- **services/arquitectura.service.js** - Capa de servicio + persistencia JSON
-- **arquitectura-panel.html** - Panel de control web
+**Certificados de Propiedad (Nivel Presidencial):**
+- 🔐 Firma digital RSA-4096
+- 🔒 Hash SHA-256
+- 📋 Incluye toda la física estructural
+- 📊 Valoración de mercado
+- 📍 Coordenadas GPS exactas
+- ✉️ Envío automático por email
 
-#### Física Real Implementada:
-- **Cálculos de gravedad:** F = m × g
-- **Peso estructural:** Volumen × Densidad del material
-- **Análisis de voladizos:** Momento de flexión + Factor de seguridad
-- **Centro de gravedad:** Cálculo tridimensional (x, y, z)
-- **Valoración dinámica:** Basada en dimensiones + material + terreno + altura
+**Planos Técnicos Profesionales:**
+- 📐 Coordenadas GPS con 6 decimales
+- ⚖️ Cálculos de gravedad detallados
+- 🏗️ Peso estructural en toneladas
+- 📏 Medidas precisas (altura, área, volumen)
+- 🔧 Especificaciones de materiales
+- 🔬 Análisis de voladizos y flexión
+- 🎯 Centro de gravedad
+- ⚡ Factor de seguridad estructural
 
-#### Materiales disponibles:
-- Titanio (densidad: 4500 kg/m³, resistencia: 900 MPa)
-- Acero (7850 kg/m³, 500 MPa)
-- Vidrio templado (2500 kg/m³, 200 MPa)
-- Hormigón (2400 kg/m³, 40 MPa)
-- Aluminio (2700 kg/m³, 300 MPa)
-- Fibra de carbono (1600 kg/m³, 3500 MPa)
-- Bronze arquitectónico (8800 kg/m³, 450 MPa)
+**Certificado Royal Premium (Ultra Alta Calidad):**
+- 🖤 Fondo negro minimalista
+- 🏆 Triple marco dorado elegante
+- ✍️ Firma manuscrita caligráfica "Royal"
+- 👑 Diseño de nivel presidencial
 
-#### Tipos de diseño base:
-1. Casa Flotante Orgánica
-2. Torre Pirámide Anti-Gravedad
-3. Villa Orgánica Curveada
-4. Complejo Modular Flotante
+### 🌐 **Interfaces Web**
 
-#### Endpoints REST:
-- `POST /api/arquitectura/generar` - Generar un diseño único
-- `GET /api/arquitectura/proyectos` - Listar todos los diseños
-- `GET /api/arquitectura/proyecto/:id` - Obtener diseño por ID
-- `POST /api/arquitectura/masivo` - Generar portafolio de 30 diseños
-- `GET /api/arquitectura/stats` - Estadísticas del portafolio
+1. **/arquitectura-panel.html** - Panel de control principal
+   - Generación masiva de 30 diseños
+   - Estadísticas del portafolio
+   - Visualización de todos los diseños
+   - Generación de certificados
 
----
+2. **/galeria-arquitectura.html** - Galería con globo 3D
+   - Globo Cesium con ubicaciones GPS
+   - 30 diseños en cards visuales
+   - Sistema de compra integrado
 
-## PORTAFOLIO GENERADO
+3. **/certificados-premium.html** - Gestión de certificados
+   - Listado de certificados generados
+   - Descarga de PDFs
 
-### Estadísticas Actuales:
-- **Total de diseños:** 30 únicos
-- **Valor total del portafolio:** $229,798,786,464 USD
-- **Valor promedio por diseño:** $7,659,959,548 USD
-- **Diseño más alto:** 180 metros
-- **Diseño más bajo:** 12 metros
+4. **/documentacion-profesional.html** - Documentación para inversionistas
+   - 5 documentos profesionales
+   - Plan de negocios ejecutivo
+   - Pitch deck
+   - Especificaciones técnicas y de seguridad
 
-### Rango de precios:
-- Ultra-compactos: $1.19B - $1.53B USD
-- Premium: $5B - $10B USD
-- Mega-Premium: $10B - $15B USD
+### 🤖 **Sistemas AI Integrados**
 
-### Distribución por terreno:
-- Océano: ~40%
-- Desierto: ~25%
-- Lago: ~25%
-- Montaña: ~10%
+- **GPT-4 Turbo** - Generación de contenido avanzado
+- **Gemini 2.5** - Análisis y certificación
+- **Arquitecto AI Interno** - Monitoreo continuo del sistema (cada 2 min)
 
----
+### 🔐 **Seguridad**
 
-## MODELO DE NEGOCIO
+- **Vault Cifrado:** AES-256-GCM + RSA-4096
+- **Firma Digital:** RSA-4096 en todos los certificados
+- **Hash:** SHA-256 para verificación
+- **QR Codes:** Verificación rápida de certificados
+- **Blockchain:** Registro inmutable de certificados
 
-### Arquitectura Premium Futurista
-Cada diseño se vende como **kit completo** que incluye:
-1. 24+ renders profesionales AI (ángulos múltiples)
-2. Planos técnicos detallados
-3. Cálculos estructurales reales (física verificable)
-4. Especificaciones de materiales
-5. Análisis de viabilidad constructiva
-6. Certificado digital con firma RSA-4096
+### 🌍 **Sistema 3D en Vivo**
 
-**Precio por kit:** $50,000 - $1,000,000 USD (según complejidad)
-
-### Visión Multi-Industria
-El sistema está diseñado para ser modular. Arquitectura es el **primer módulo especializado**.
-
-**Próximos módulos planeados:**
-- Sistemas militares
-- Soluciones educativas
-- Plataformas legales
-- Otros mercados verticales
+- **Globo Cesium 3D** con 40 nodos + 8 satélites
+- **Marcadores GPS** para cada diseño arquitectónico
+- **Visualización en tiempo real** de ubicaciones
 
 ---
 
-## CONFIGURACIÓN DE SECRETS
+## 📁 ESTRUCTURA DEL PROYECTO
 
-### Variables de entorno requeridas:
+```
+/main.bootstrap.js/
+  ├── server.js                          # Servidor principal Express
+  ├── throne-arquitectura.js             # ⭐ Motor de física real
+  ├── planos-tecnicos.js                 # Generador de planos con física
+  ├── certificado-propiedad.js           # Certificados gubernamentales
+  ├── certificado-royal-premium.js       # Certificados ultra premium
+  ├── catalogo-arquitectonico.js         # Catálogo de 30 diseños
+  ├── arquitecto-interno.js              # AI monitoring
+  ├── throne-vault.js                    # Vault cifrado
+  ├── throne-certificados.js             # Sistema de certificación
+  └── services/
+      └── arquitectura.service.js        # Servicio de persistencia
 
-1. **RSA_4096_PRIVADA** - Clave privada RSA-4096 para firma de tokens (formato PEM)
-2. **SISTEMA_TOKEN_LISTA** - JSON con arsenal de 40 nodos
-3. **CESIUM_TOKEN** - Token de acceso a Cesium (globo 3D)
-4. **GEMINI_API_KEY** - API key de Google Gemini 2.5
-5. **RESEND_API_KEY** - API key de Resend para envío de emails
-6. **PASAPORTE_MAESTRO** (opcional) - Datos del propietario
+/public/
+  ├── arquitectura-panel.html            # ⭐ Panel principal
+  ├── galeria-arquitectura.html          # Galería 3D
+  ├── certificados-premium.html          # Gestión certificados
+  ├── documentacion-profesional.html     # Docs inversionistas
+  └── arquitectura/                      # Imágenes de diseños
 
-### Configuración de integración:
-- **Gemini:** Integración configurada (javascript_gemini==1.0.0)
+/data/
+  └── disenos-arquitectonicos.json       # Portafolio persistente
 
----
-
-## CAMBIOS RECIENTES (Nov 11, 2025)
-
-### Sistema Arquitectónico Cuántico Implementado
-- ✅ Motor de física real con cálculos gravitacionales
-- ✅ 30 diseños únicos generados con diversidad completa
-- ✅ Persistencia JSON en `/data/disenos-arquitectonicos.json`
-- ✅ REST API completa integrada al servidor principal
-- ✅ Panel de control HTML con estadísticas en vivo
-- ✅ **SEGURIDAD:** Clave privada RSA eliminada del repositorio
-
-### Arquitectura Modular
-- Sistema de comando central mantiene: Globo 3D + Vault + AI Lab
-- Módulos especializados se integran vía REST API
-- Cada módulo tiene su propia lógica de negocio
-- Escalable para múltiples industrias
-
----
-
-## PREFERENCIAS DEL USUARIO
-
-### Estilo de código:
-- Arquitectura modular y separada por responsabilidades
-- Comentarios descriptivos en español
-- Física real y cálculos verificables
-- No usar datos mock en producción
-
-### Workflow preferido:
-- Discord para comandos y control (en lugar de Twilio)
-- Persistencia en JSON (escalable a DB más adelante)
-- AI dual (GPT + Gemini) para máxima calidad
-- Certificados digitales con firma RSA-4096
-
-### Visión de negocio:
-- Marketplace de diseños arquitectónicos futuristas
-- Kits completos con renders + planos técnicos
-- Precio premium: $50K - $1M USD por proyecto
-- Escalable a múltiples industrias verticales
-
----
-
-## CÓMO USAR EL SISTEMA
-
-### 1. Iniciar el servidor:
-El servidor se inicia automáticamente en puerto 5000.
-
-### 2. Acceder al panel arquitectónico:
-Navega a: `http://localhost:5000/arquitectura-panel.html`
-
-### 3. Generar diseños:
-- Click en "GENERAR 30 DISEÑOS ÚNICOS" para crear portafolio completo
-- O usar REST API para generación individual
-
-### 4. Ver estadísticas:
-- Click en "VER ESTADÍSTICAS" para análisis del portafolio
-- Click en "LISTAR TODOS LOS DISEÑOS" para galería completa
-
-### 5. API REST (ejemplos):
-
-```javascript
-// Generar un diseño único
-fetch('/api/arquitectura/generar', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    tipo_base_1: 'torre_piramide',
-    tipo_base_2: 'villa_organica',
-    altura_m: 120,
-    ancho_m: 45,
-    profundidad_m: 40,
-    num_pisos: 28,
-    terreno: 'desierto'
-  })
-});
-
-// Obtener estadísticas
-fetch('/api/arquitectura/stats')
-  .then(r => r.json())
-  .then(data => console.log(data));
+/certificados/                            # PDFs generados
+/planos-tecnicos/                         # Planos técnicos PDF
 ```
 
 ---
 
-## PRÓXIMOS PASOS SUGERIDOS
+## 🚀 API ENDPOINTS PRINCIPALES
 
-1. **Integración Discord Bot:**
-   - Configurar token de Discord
-   - Comandos: `/generar`, `/stats`, `/listar`
-   - Notificaciones de nuevos diseños
+### Sistema Arquitectónico
+- `POST /api/arquitectura/generar` - Generar 1 diseño con física real
+- `POST /api/arquitectura/masivo` - Generar 30 diseños masivos
+- `GET /api/arquitectura/listado` - Listar todos los diseños
+- `GET /api/arquitectura/stats` - Estadísticas del portafolio
+- `GET /api/arquitectura/diseno-real/:id` - Obtener diseño por ID
 
-2. **Galería Premium:**
-   - Implementar sistema de renders con AI
-   - Descarga de planos técnicos en PDF
-   - Sistema de pago (Stripe/crypto)
+### Sistema de Ventas
+- `GET /api/arquitectura/catalogo` - Catálogo de 30 diseños
+- `GET /api/arquitectura/diseno/:id` - Detalles de diseño
+- `POST /api/arquitectura/comprar` - Comprar diseño (genera certificado + planos + email)
 
-3. **Base de datos:**
-   - Migrar de JSON a PostgreSQL
-   - Sistema de usuarios y autenticación
-   - Tracking de ventas
-
-4. **Módulos adicionales:**
-   - Planificar segundo módulo especializado
-   - Arquitectura escalable lista
+### Certificados
+- `POST /api/certificados/royal-premium` - Generar certificado Royal Premium
+- `POST /api/certificados/profesionales/completo` - Generar certificado completo
+- `GET /api/certificados/profesionales/listar` - Listar certificados
 
 ---
 
-## CONTACTO
+## 💎 DATOS TÉCNICOS CLAVE
 
-**Roberto Rivera Gamas - Royal**  
-Arquitecto  
-Street Emporio Royal
+**Materiales con Densidades Reales:**
+| Material | Densidad (kg/m³) | Resistencia (MPa) | Precio ($/m³) |
+|----------|------------------|-------------------|---------------|
+| Titanio | 4,500 | 900 | 45,000 |
+| Fibra de Carbono | 1,600 | 3,500 | 85,000 |
+| Bronze Arquitectónico | 8,800 | 450 | 12,000 |
+| Aluminio | 2,700 | 300 | 3,500 |
+| Acero | 7,850 | 500 | 800 |
+| Vidrio Templado | 2,500 | 200 | 1,200 |
+| Hormigón | 2,400 | 40 | 150 |
 
-Email: contacto@streetemporioroyal.com  
-Web: www.streetemporioroyal.com  
-Plataforma: Throne Protocol V3.0  
-Valoración estimada del sistema: $500K - $1.25M USD
+**Constantes Físicas:**
+- Gravedad estándar (g₀): 9.81 m/s²
+- Factor de seguridad mínimo: 2.5
+- Sistemas de coordenadas: WGS84
+
+---
+
+## 🎯 PRÓXIMOS PASOS RECOMENDADOS
+
+1. **Financiamiento:**
+   - Usar documentación profesional para buscar inversionistas ángeles
+   - Presentar pitch deck (16 slides) 
+   - Meta: $250K por 11.1% equity
+
+2. **Ventas:**
+   - Activar sistema de compra de diseños
+   - Promocionar portafolio de $229.8B
+   - Ofrecer certificados + planos técnicos completos
+
+3. **Expansión:**
+   - Generar más diseños (el sistema soporta generación ilimitada)
+   - Integrar pasarela de pagos
+   - Añadir visualización 3D de cada diseño
+
+---
+
+## ⚙️ COMANDOS ÚTILES
+
+**Generar 30 diseños:**
+```bash
+curl -X POST http://localhost:5000/api/arquitectura/masivo \
+  -H "Content-Type: application/json" \
+  -d '{"limite":30}'
+```
+
+**Ver estadísticas:**
+```bash
+curl http://localhost:5000/api/arquitectura/stats
+```
+
+**Generar certificado Royal Premium:**
+```bash
+curl -X POST http://localhost:5000/api/certificados/royal-premium \
+  -H "Content-Type: application/json" \
+  -d '{"nombre":"Roberto Rivera Gamas - Royal","meses":5}'
+```
+
+---
+
+## 🔑 SECRETS CONFIGURADOS
+
+- `GEMINI_API_KEY` - API de Google Gemini
+- `RESEND_API_KEY` - Envío de emails empresariales
+- `RSA_4096_PRIVADA` - Clave privada para firmas digitales
+- `SISTEMA_TOKEN_LISTA` - Tokens de acceso
+
+**Email empresarial:** contacto@streetemporioroyal.com  
+**Password vault:** Royal2025
+
+---
+
+## 📊 VALORACIÓN ACTUAL
+
+- **Portafolio Total:** $229.8B+ USD
+- **30 Diseños Únicos** con física real verificable
+- **Rango Alturas:** 12m - 180m
+- **Pesos Estructurales:** 16K - 287K toneladas
+- **7 Materiales Diferentes** con propiedades reales
+
+---
+
+**Sistema desarrollado por Roberto Rivera Gamas - Royal**  
+**Arquitecto Principal - Street Emporio Royal**  
+**Throne Protocol V3.0 - Nivel Presidencial**

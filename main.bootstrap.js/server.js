@@ -19,6 +19,7 @@ const { generarCertificadoRoyalPremium } = require('./certificado-royal-premium'
 const { CATALOGO_ARQUITECTONICO, VALORACION_TOTAL } = require('./catalogo-arquitectonico');
 const { generarPlanoTecnico } = require('./planos-tecnicos');
 const { generarCertificadoPropiedad } = require('./certificado-propiedad');
+const { generarDisenoCompleto, DESIGN_TYPES, MATERIALS } = require('./throne-arquitectura');
 
 // Configurar Resend para envío de emails
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -1564,6 +1565,112 @@ app.post('/api/certificados/royal-premium', async (req, res) => {
             success: false,
             error: error.message
         });
+    }
+});
+
+// =================================================================
+// SISTEMA ARQUITECTÓNICO CUÁNTICO CON FÍSICA REAL
+// Usando throne-arquitectura.js (Nivel Presidencial)
+// =================================================================
+
+// Generar diseño individual con física real
+app.post('/api/arquitectura/generar', async (req, res) => {
+    try {
+        const config = req.body;
+        const resultado = await ArquitecturaService.generateDesign(config);
+        res.json(resultado);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// Generación MASIVA - 30 diseños únicos con física real
+app.post('/api/arquitectura/masivo', async (req, res) => {
+    try {
+        const { limite = 30 } = req.body;
+        
+        console.log(`🚀 Generando ${limite} diseños arquitectónicos con física real...`);
+        
+        // Combinaciones únicas para generar 30 diseños diversos
+        const combinaciones = [
+            // Casas flotantes oceánicas (8 diseños)
+            { tipo_base_1: 'casa_flotante', tipo_base_2: 'villa_organica', altura_m: 15, ancho_m: 25, profundidad_m: 20, num_pisos: 3, terreno: 'oceano', material_principal: 'bronze_arquitectonico' },
+            { tipo_base_1: 'casa_flotante', tipo_base_2: 'complejo_modular', altura_m: 18, ancho_m: 30, profundidad_m: 25, num_pisos: 4, terreno: 'oceano', material_principal: 'fibra_carbono' },
+            { tipo_base_1: 'villa_organica', tipo_base_2: 'casa_flotante', altura_m: 22, ancho_m: 35, profundidad_m: 28, num_pisos: 5, terreno: 'oceano', material_principal: 'aluminio' },
+            { tipo_base_1: 'casa_flotante', tipo_base_2: 'torre_piramide', altura_m: 12, ancho_m: 20, profundidad_m: 18, num_pisos: 2, terreno: 'oceano', material_principal: 'vidrio_templado' },
+            { tipo_base_1: 'complejo_modular', tipo_base_2: 'casa_flotante', altura_m: 20, ancho_m: 40, profundidad_m: 32, num_pisos: 4, terreno: 'oceano', material_principal: 'titanio' },
+            { tipo_base_1: 'casa_flotante', tipo_base_2: 'villa_organica', altura_m: 16, ancho_m: 28, profundidad_m: 22, num_pisos: 3, terreno: 'oceano', material_principal: 'acero' },
+            { tipo_base_1: 'villa_organica', tipo_base_2: 'casa_flotante', altura_m: 25, ancho_m: 38, profundidad_m: 30, num_pisos: 5, terreno: 'oceano', material_principal: 'fibra_carbono' },
+            { tipo_base_1: 'complejo_modular', tipo_base_2: 'villa_organica', altura_m: 14, ancho_m: 32, profundidad_m: 26, num_pisos: 3, terreno: 'oceano', material_principal: 'bronze_arquitectonico' },
+            
+            // Torres pirámides anti-gravedad (10 diseños)
+            { tipo_base_1: 'torre_piramide', tipo_base_2: 'complejo_modular', altura_m: 85, ancho_m: 35, profundidad_m: 35, num_pisos: 18, terreno: 'desierto', material_principal: 'titanio' },
+            { tipo_base_1: 'torre_piramide', tipo_base_2: 'villa_organica', altura_m: 120, ancho_m: 42, profundidad_m: 42, num_pisos: 25, terreno: 'oceano', material_principal: 'fibra_carbono' },
+            { tipo_base_1: 'torre_piramide', tipo_base_2: 'casa_flotante', altura_m: 95, ancho_m: 38, profundidad_m: 38, num_pisos: 20, terreno: 'montana', material_principal: 'acero' },
+            { tipo_base_1: 'torre_piramide', tipo_base_2: 'complejo_modular', altura_m: 150, ancho_m: 48, profundidad_m: 48, num_pisos: 32, terreno: 'desierto', material_principal: 'titanio' },
+            { tipo_base_1: 'torre_piramide', tipo_base_2: 'villa_organica', altura_m: 110, ancho_m: 40, profundidad_m: 40, num_pisos: 23, terreno: 'lago', material_principal: 'aluminio' },
+            { tipo_base_1: 'torre_piramide', tipo_base_2: 'casa_flotante', altura_m: 75, ancho_m: 32, profundidad_m: 32, num_pisos: 16, terreno: 'oceano', material_principal: 'vidrio_templado' },
+            { tipo_base_1: 'torre_piramide', tipo_base_2: 'complejo_modular', altura_m: 135, ancho_m: 45, profundidad_m: 45, num_pisos: 28, terreno: 'montana', material_principal: 'bronze_arquitectonico' },
+            { tipo_base_1: 'torre_piramide', tipo_base_2: 'villa_organica', altura_m: 105, ancho_m: 39, profundidad_m: 39, num_pisos: 22, terreno: 'desierto', material_principal: 'fibra_carbono' },
+            { tipo_base_1: 'torre_piramide', tipo_base_2: 'casa_flotante', altura_m: 160, ancho_m: 50, profundidad_m: 50, num_pisos: 34, terreno: 'oceano', material_principal: 'titanio' },
+            { tipo_base_1: 'torre_piramide', tipo_base_2: 'complejo_modular', altura_m: 180, ancho_m: 52, profundidad_m: 52, num_pisos: 38, terreno: 'montana', material_principal: 'acero' },
+            
+            // Villas orgánicas (6 diseños)
+            { tipo_base_1: 'villa_organica', tipo_base_2: 'torre_piramide', altura_m: 28, ancho_m: 45, profundidad_m: 38, num_pisos: 6, terreno: 'lago', material_principal: 'fibra_carbono' },
+            { tipo_base_1: 'villa_organica', tipo_base_2: 'complejo_modular', altura_m: 24, ancho_m: 50, profundidad_m: 42, num_pisos: 5, terreno: 'montana', material_principal: 'aluminio' },
+            { tipo_base_1: 'villa_organica', tipo_base_2: 'casa_flotante', altura_m: 30, ancho_m: 52, profundidad_m: 45, num_pisos: 6, terreno: 'desierto', material_principal: 'vidrio_templado' },
+            { tipo_base_1: 'villa_organica', tipo_base_2: 'torre_piramide', altura_m: 26, ancho_m: 48, profundidad_m: 40, num_pisos: 5, terreno: 'oceano', material_principal: 'bronze_arquitectonico' },
+            { tipo_base_1: 'villa_organica', tipo_base_2: 'complejo_modular', altura_m: 32, ancho_m: 55, profundidad_m: 48, num_pisos: 7, terreno: 'lago', material_principal: 'titanio' },
+            { tipo_base_1: 'villa_organica', tipo_base_2: 'casa_flotante', altura_m: 27, ancho_m: 46, profundidad_m: 39, num_pisos: 6, terreno: 'montana', material_principal: 'acero' },
+            
+            // Complejos modulares (6 diseños)
+            { tipo_base_1: 'complejo_modular', tipo_base_2: 'torre_piramide', altura_m: 35, ancho_m: 65, profundidad_m: 55, num_pisos: 8, terreno: 'oceano', material_principal: 'aluminio' },
+            { tipo_base_1: 'complejo_modular', tipo_base_2: 'villa_organica', altura_m: 32, ancho_m: 70, profundidad_m: 58, num_pisos: 7, terreno: 'lago', material_principal: 'fibra_carbono' },
+            { tipo_base_1: 'complejo_modular', tipo_base_2: 'casa_flotante', altura_m: 28, ancho_m: 60, profundidad_m: 50, num_pisos: 6, terreno: 'desierto', material_principal: 'vidrio_templado' },
+            { tipo_base_1: 'complejo_modular', tipo_base_2: 'torre_piramide', altura_m: 38, ancho_m: 72, profundidad_m: 62, num_pisos: 9, terreno: 'montana', material_principal: 'titanio' },
+            { tipo_base_1: 'complejo_modular', tipo_base_2: 'villa_organica', altura_m: 30, ancho_m: 68, profundidad_m: 56, num_pisos: 7, terreno: 'oceano', material_principal: 'bronze_arquitectonico' },
+            { tipo_base_1: 'complejo_modular', tipo_base_2: 'casa_flotante', altura_m: 34, ancho_m: 75, profundidad_m: 60, num_pisos: 8, terreno: 'lago', material_principal: 'acero' }
+        ];
+        
+        const resultado = await ArquitecturaService.generateBulk(combinaciones.slice(0, limite), limite);
+        
+        res.json(resultado);
+        
+    } catch (error) {
+        console.error('❌ Error generación masiva:', error);
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// Listar todos los diseños generados
+app.get('/api/arquitectura/listado', async (req, res) => {
+    try {
+        const filtros = req.query;
+        const resultado = await ArquitecturaService.listDesigns(filtros);
+        res.json(resultado);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// Estadísticas del portafolio
+app.get('/api/arquitectura/stats', async (req, res) => {
+    try {
+        const resultado = await ArquitecturaService.getStats();
+        res.json(resultado);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// Obtener diseño individual por ID
+app.get('/api/arquitectura/diseno-real/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const resultado = await ArquitecturaService.getDesignById(id);
+        res.json(resultado);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
     }
 });
 

@@ -205,29 +205,77 @@ async function generarPlanoTecnico(diseno, clavePrivadaRSA = null) {
        .font('Helvetica-Bold')
        .text(`  ${specs.capacidad_gravedad}`, { continued: false });
     
-    // Cálculos de gravedad detallados
+    // CÁLCULOS DE GRAVEDAD Y PESO ESTRUCTURAL REAL
     y += 25;
     doc.fontSize(10)
        .font('Helvetica-Bold')
        .fillColor('#0066cc')
-       .text('Cálculos de Gravedad:', 40, y);
+       .text('Cálculos de Gravedad y Peso Estructural Real:', 40, y);
     
     y += 18;
     doc.font('Helvetica')
        .fillColor('#333333')
        .fontSize(9);
     
-    const gravedadEstandar = 9.81; // m/s²
-    const factorGravedad = parseFloat(specs.capacidad_gravedad.match(/[\d.]+/)?.[0] || 1);
-    const gravedadEfectiva = gravedadEstandar * factorGravedad;
-    
-    doc.text(`• Gravedad estándar (g₀): 9.81 m/s²`, 50, y);
-    y += 14;
-    doc.text(`• Factor de compensación: ${factorGravedad.toFixed(2)}`, 50, y);
-    y += 14;
-    doc.text(`• Gravedad efectiva: ${gravedadEfectiva.toFixed(3)} m/s²`, 50, y);
-    y += 14;
-    doc.text(`• Peso aparente al 100%: ${(factorGravedad * 100).toFixed(1)}%`, 50, y);
+    // Obtener datos de análisis estructural si existen
+    if (diseno.analisis_estructural && diseno.analisis_estructural.peso_estructura) {
+        const peso_est = diseno.analisis_estructural.peso_estructura;
+        
+        doc.text(`• Gravedad estándar (g₀): 9.81 m/s²`, 50, y);
+        y += 14;
+        doc.text(`• Densidad del material: ${peso_est.densidad_kg_m3} kg/m³`, 50, y);
+        y += 14;
+        doc.text(`• Peso total estructura: ${peso_est.peso_toneladas} toneladas`, 50, y);
+        y += 14;
+        doc.text(`• Fuerza gravitacional: ${peso_est.fuerza_gravitacional_newtons} N`, 50, y);
+        y += 14;
+        doc.text(`• Resistencia material: ${peso_est.resistencia_material_mpa} MPa`, 50, y);
+        
+        // Análisis de voladizos
+        if (diseno.analisis_estructural.analisis_voladizos) {
+            const volad = diseno.analisis_estructural.analisis_voladizos;
+            y += 20;
+            doc.font('Helvetica-Bold').fillColor('#0066cc').text('Análisis de Voladizos:', 50, y);
+            y += 14;
+            doc.font('Helvetica').fillColor('#333333');
+            doc.text(`• Longitud voladizo: ${volad.longitud_voladizo_m} m`, 50, y);
+            y += 14;
+            doc.text(`• Momento de flexión: ${volad.momento_flexion_nm} N⋅m`, 50, y);
+            y += 14;
+            doc.text(`• Factor de seguridad: ${volad.factor_seguridad}`, 50, y);
+            y += 14;
+            doc.text(`• Estabilidad: ${volad.viable ? '✓ VIABLE' : '⚠ REQUIERE REFUERZO'}`, 50, y);
+        }
+        
+        // Centro de gravedad
+        if (diseno.analisis_estructural.centro_gravedad) {
+            const cg = diseno.analisis_estructural.centro_gravedad;
+            y += 20;
+            doc.font('Helvetica-Bold').fillColor('#0066cc').text('Centro de Gravedad:', 50, y);
+            y += 14;
+            doc.font('Helvetica').fillColor('#333333');
+            doc.text(`• Coordenada X: ${cg.centro_gravedad_x} m`, 50, y);
+            y += 14;
+            doc.text(`• Coordenada Y: ${cg.centro_gravedad_y} m`, 50, y);
+            y += 14;
+            doc.text(`• Coordenada Z: ${cg.centro_gravedad_z} m`, 50, y);
+            y += 14;
+            doc.text(`• Masa total: ${cg.masa_total_kg} kg`, 50, y);
+        }
+    } else {
+        // Cálculos básicos si no hay análisis estructural
+        const gravedadEstandar = 9.81;
+        const factorGravedad = parseFloat(specs.capacidad_gravedad.match(/[\d.]+/)?.[0] || 1);
+        const gravedadEfectiva = gravedadEstandar * factorGravedad;
+        
+        doc.text(`• Gravedad estándar (g₀): 9.81 m/s²`, 50, y);
+        y += 14;
+        doc.text(`• Factor de compensación: ${factorGravedad.toFixed(2)}`, 50, y);
+        y += 14;
+        doc.text(`• Gravedad efectiva: ${gravedadEfectiva.toFixed(3)} m/s²`, 50, y);
+        y += 14;
+        doc.text(`• Peso aparente: ${(factorGravedad * 100).toFixed(1)}%`, 50, y);
+    }
     
     // ============================================
     // MATERIALES Y TECNOLOGÍA
