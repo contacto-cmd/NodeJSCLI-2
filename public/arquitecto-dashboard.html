@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧠 Arquitecto AI Interno - Throne Protocol V3.0</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #000000, #1a1a1a);
+            color: #d4af37;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #ffd700;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px #ffd700;
+        }
+        .subtitle {
+            text-align: center;
+            color: #d4af37;
+            margin-bottom: 30px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .card {
+            background: rgba(212, 175, 55, 0.05);
+            border: 2px solid #d4af37;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .card h2 {
+            color: #ffd700;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .status-perfecto { background: #00ff00; box-shadow: 0 0 10px #00ff00; }
+        .status-estable { background: #ffff00; box-shadow: 0 0 10px #ffff00; }
+        .status-critico { background: #ff0000; box-shadow: 0 0 10px #ff0000; }
+        .stat {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            margin: 5px 0;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+        }
+        .stat-label {
+            color: #fff;
+        }
+        .stat-value {
+            color: #ffd700;
+            font-weight: bold;
+        }
+        .tablero-ajedrez {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .casilla {
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid #d4af37;
+            border-radius: 5px;
+            padding: 10px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .casilla:hover {
+            background: rgba(212, 175, 55, 0.2);
+            transform: translateY(-2px);
+        }
+        .casilla-titulo {
+            font-size: 0.8rem;
+            color: #d4af37;
+            font-weight: bold;
+        }
+        .casilla-componente {
+            font-size: 0.75rem;
+            color: #fff;
+            margin: 5px 0;
+        }
+        .casilla-salud {
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        .salud-100 { color: #00ff00; }
+        .salud-80 { color: #ffff00; }
+        .salud-50 { color: #ff6600; }
+        .salud-baja { color: #ff0000; }
+        .anomalia {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid #ff6b6b;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        .anomalia-titulo {
+            color: #ff6b6b;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .btn {
+            background: linear-gradient(135deg, #d4af37, #ffd700);
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 10px 5px;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.5);
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .vision-card {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(255, 215, 0, 0.05));
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .vision-card h3 {
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+        .vision-item {
+            color: #fff;
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        .vision-item:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #d4af37;
+        }
+        #diagnostico-resultado {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #d4af37;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+        }
+        .loading {
+            text-align: center;
+            color: #ffd700;
+            margin: 20px 0;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧠 ARQUITECTO AI INTERNO</h1>
+        <p class="subtitle">Sistema de Auto-Diagnóstico y Monitoreo Inteligente | Throne Protocol V3.0</p>
+        
+        <!-- Visión Arquitectónica -->
+        <div class="vision-card">
+            <h3>👑 Visión Arquitectónica - Roberto Rivera Gamas (Royal - Arquitecto)</h3>
+            <p id="vision-filosofia" style="color: #ffd700; margin-bottom: 10px;"></p>
+            <div id="vision-principios"></div>
+        </div>
+        
+        <!-- Estado Global -->
+        <div class="grid">
+            <div class="card">
+                <h2>📊 Estado Global del Sistema</h2>
+                <div class="stat">
+                    <span class="stat-label">Estado:</span>
+                    <span class="stat-value" id="estado-sistema">
+                        <span class="status-indicator status-perfecto"></span> CARGANDO...
+                    </span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Componentes Activos:</span>
+                    <span class="stat-value" id="componentes-activos">--/--</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Salud Promedio:</span>
+                    <span class="stat-value" id="salud-promedio">--%</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Arquitecto AI:</span>
+                    <span class="stat-value" id="arquitecto-activo">
+                        <span class="status-indicator status-perfecto pulse"></span> ACTIVO
+                    </span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>📈 Estadísticas</h2>
+                <div class="stat">
+                    <span class="stat-label">Fallas Detectadas:</span>
+                    <span class="stat-value" id="fallas-detectadas">0</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Fallas Corregidas:</span>
+                    <span class="stat-value" id="fallas-corregidas">0</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Tiempo Activo:</span>
+                    <span class="stat-value" id="tiempo-activo">0s</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Inicio:</span>
+                    <span class="stat-value" id="inicio-sistema">--</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tablero de Ajedrez Champion -->
+        <div class="card" style="grid-column: 1 / -1;">
+            <h2>♟️ Tablero de Ajedrez Champion - Estado de Componentes</h2>
+            <div class="tablero-ajedrez" id="tablero-ajedrez">
+                <!-- Se llenará dinámicamente -->
+            </div>
+        </div>
+        
+        <!-- Anomalías -->
+        <div class="card" style="grid-column: 1 / -1;">
+            <h2>⚠️ Anomalías Detectadas</h2>
+            <div id="anomalias-container">
+                <p style="color: #00ff00;">✅ No se detectaron anomalías</p>
+            </div>
+        </div>
+        
+        <!-- Controles -->
+        <div class="card" style="grid-column: 1 / -1;">
+            <h2>🎮 Controles del Arquitecto AI</h2>
+            <button class="btn" onclick="actualizarEstado()">🔄 Actualizar Estado</button>
+            <button class="btn" onclick="forzarMonitoreo()">🔍 Forzar Monitoreo</button>
+            <button class="btn" onclick="ejecutarDiagnostico()">🔬 Diagnóstico Completo</button>
+            <button class="btn" onclick="location.href='/menu.html'">🏠 Menú Principal</button>
+            
+            <div id="diagnostico-resultado"></div>
+        </div>
+    </div>
+    
+    <script>
+        let actualizacionAutomatica = null;
+        
+        async function cargarEstado() {
+            try {
+                const response = await fetch('/api/arquitecto-ai/estado');
+                const data = await response.json();
+                
+                if (data.success) {
+                    const arq = data.arquitecto;
+                    
+                    // Visión
+                    document.getElementById('vision-filosofia').textContent = arq.vision.filosofia;
+                    const principiosHTML = arq.vision.principios
+                        .map(p => `<div class="vision-item">${p}</div>`)
+                        .join('');
+                    document.getElementById('vision-principios').innerHTML = principiosHTML;
+                    
+                    // Estado global
+                    const estadoClass = arq.tablero.estado === 'PERFECTO' ? 'status-perfecto' : 
+                                       arq.tablero.estado === 'ESTABLE' ? 'status-estable' : 'status-critico';
+                    document.getElementById('estado-sistema').innerHTML = 
+                        `<span class="status-indicator ${estadoClass}"></span> ${arq.tablero.estado}`;
+                    document.getElementById('componentes-activos').textContent = 
+                        `${arq.tablero.componentes_activos}/${arq.tablero.componentes_totales}`;
+                    document.getElementById('salud-promedio').textContent = `${arq.tablero.salud_promedio}%`;
+                    
+                    // Estadísticas
+                    document.getElementById('fallas-detectadas').textContent = arq.estadisticas.fallas_detectadas;
+                    document.getElementById('fallas-corregidas').textContent = arq.estadisticas.fallas_corregidas;
+                    document.getElementById('tiempo-activo').textContent = `${arq.estadisticas.tiempo_actividad}s`;
+                    document.getElementById('inicio-sistema').textContent = 
+                        new Date(arq.estadisticas.inicio).toLocaleString('es-MX');
+                }
+            } catch (error) {
+                console.error('Error cargando estado:', error);
+            }
+        }
+        
+        async function cargarTablero() {
+            try {
+                const response = await fetch('/api/arquitecto-ai/tablero');
+                const data = await response.json();
+                
+                if (data.success) {
+                    const tableroHTML = Object.keys(data.tablero)
+                        .map(pos => {
+                            const comp = data.tablero[pos];
+                            const saludClass = comp.salud >= 100 ? 'salud-100' :
+                                             comp.salud >= 80 ? 'salud-80' :
+                                             comp.salud >= 50 ? 'salud-50' : 'salud-baja';
+                            return `
+                                <div class="casilla">
+                                    <div class="casilla-titulo">${pos}</div>
+                                    <div class="casilla-componente">${comp.componente}</div>
+                                    <div class="casilla-salud ${saludClass}">${comp.salud}%</div>
+                                    <div style="font-size: 0.7rem; color: ${comp.estado === 'ACTIVO' ? '#00ff00' : '#ff0000'}">
+                                        ${comp.estado}
+                                    </div>
+                                </div>
+                            `;
+                        })
+                        .join('');
+                    document.getElementById('tablero-ajedrez').innerHTML = tableroHTML;
+                    
+                    // Anomalías
+                    if (data.anomalias.length > 0) {
+                        const anomaliasHTML = data.anomalias
+                            .map(a => `
+                                <div class="anomalia">
+                                    <div class="anomalia-titulo">🔴 ${a.componente} (${a.posicion})</div>
+                                    <div style="color: #fff; margin-top: 5px;">
+                                        Estado: ${a.estado} | Salud: ${a.salud}% | Gravedad: ${a.gravedad}
+                                    </div>
+                                </div>
+                            `)
+                            .join('');
+                        document.getElementById('anomalias-container').innerHTML = anomaliasHTML;
+                    } else {
+                        document.getElementById('anomalias-container').innerHTML = 
+                            '<p style="color: #00ff00;">✅ No se detectaron anomalías</p>';
+                    }
+                }
+            } catch (error) {
+                console.error('Error cargando tablero:', error);
+            }
+        }
+        
+        async function actualizarEstado() {
+            await Promise.all([cargarEstado(), cargarTablero()]);
+        }
+        
+        async function forzarMonitoreo() {
+            try {
+                document.querySelector('button[onclick="forzarMonitoreo()"]').disabled = true;
+                document.querySelector('button[onclick="forzarMonitoreo()"]').textContent = '⏳ Monitoreando...';
+                
+                const response = await fetch('/api/arquitecto-ai/monitorear', { method: 'POST' });
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert(`✅ Monitoreo completado\n\nEstado: ${data.resultado.estado}\nSalud: ${data.resultado.salud_promedio}%`);
+                    await actualizarEstado();
+                }
+            } catch (error) {
+                alert('❌ Error: ' + error.message);
+            } finally {
+                document.querySelector('button[onclick="forzarMonitoreo()"]').disabled = false;
+                document.querySelector('button[onclick="forzarMonitoreo()"]').textContent = '🔍 Forzar Monitoreo';
+            }
+        }
+        
+        async function ejecutarDiagnostico() {
+            try {
+                const mensaje = prompt('Mensaje opcional para el diagnóstico (o déjalo vacío):');
+                
+                document.querySelector('button[onclick="ejecutarDiagnostico()"]').disabled = true;
+                document.querySelector('button[onclick="ejecutarDiagnostico()"]').textContent = '⏳ Diagnosticando...';
+                
+                const diagnosticoDiv = document.getElementById('diagnostico-resultado');
+                diagnosticoDiv.style.display = 'block';
+                diagnosticoDiv.innerHTML = '<div class="loading">🔬 Ejecutando diagnóstico completo con IA...</div>';
+                
+                const response = await fetch('/api/arquitecto-ai/diagnosticar', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ mensaje: mensaje || null })
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    const diag = data.diagnostico;
+                    diagnosticoDiv.innerHTML = `
+                        <h3 style="color: #ffd700; margin-bottom: 10px;">📋 Diagnóstico Completo</h3>
+                        <div style="color: #fff;">
+                            <p><strong>Timestamp:</strong> ${new Date(diag.timestamp).toLocaleString('es-MX')}</p>
+                            <p><strong>Estado Sistema:</strong> ${diag.estado_sistema.estado}</p>
+                            <p><strong>Anomalías:</strong> ${diag.anomalias.length}</p>
+                            ${diag.recomendaciones_ia ? `
+                                <div style="margin-top: 15px; padding: 10px; background: rgba(212, 175, 55, 0.1); border-radius: 5px;">
+                                    <strong style="color: #ffd700;">🤖 Recomendaciones IA:</strong>
+                                    <pre style="white-space: pre-wrap; margin-top: 10px;">${diag.recomendaciones_ia}</pre>
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                alert('❌ Error: ' + error.message);
+            } finally {
+                document.querySelector('button[onclick="ejecutarDiagnostico()"]').disabled = false;
+                document.querySelector('button[onclick="ejecutarDiagnostico()"]').textContent = '🔬 Diagnóstico Completo';
+            }
+        }
+        
+        // Cargar al inicio
+        actualizarEstado();
+        
+        // Auto-actualizar cada 30 segundos
+        actualizacionAutomatica = setInterval(actualizarEstado, 30000);
+    </script>
+</body>
+</html>

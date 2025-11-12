@@ -11,10 +11,10 @@
 
 const fs = require('fs');
 const path = require('path');
-const { GoogleGenerativeAI } = require('@google/genai');
+const { GoogleGenAI } = require('@google/genai');
 
 // Inicializar Gemini 2.5 para análisis inteligente
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
 
 // =================================================================
 // VISIÓN ARQUITECTÓNICA DE ROBERTO RIVERA GAMAS
@@ -186,6 +186,7 @@ class ArquitectoAI {
         this.vision = VISION_ARQUITECTONICA;
         this.activo = true;
         this.intervaloMonitoreo = null;
+        this.monitoreando = false; // Guardia contra re-entrada
         this.logPath = path.join(__dirname, '..', 'logs', 'arquitecto-interno.log');
         this.estadisticas = {
             fallas_detectadas: 0,
@@ -221,38 +222,58 @@ class ArquitectoAI {
     }
     
     async monitorear() {
-        this.log('🔍 Iniciando monitoreo del sistema...', 'INFO');
-        
-        // Simular detección de estado (en producción conectaría a métricas reales)
-        const estadoGlobal = this.tablero.obtenerEstadoGlobal();
-        this.log(`📊 Estado global: ${estadoGlobal.estado} (${estadoGlobal.salud_promedio}% salud)`, 'INFO');
-        
-        // Detectar anomalías
-        const anomalias = this.tablero.detectarAnomalias();
-        
-        if (anomalias.length > 0) {
-            this.estadisticas.fallas_detectadas += anomalias.length;
-            this.log(`⚠️  ${anomalias.length} anomalías detectadas`, 'WARN');
-            
-            for (let anomalia of anomalias) {
-                const analisis = AlgebraInversa.calcularPrioridad(anomalia, this.tablero);
-                this.log(`   🔴 ${anomalia.componente} (${anomalia.posicion}): ${anomalia.estado}, Salud: ${anomalia.salud}%`, 'WARN');
-                this.log(`   📈 Prioridad: ${analisis.prioridad} → ${analisis.accion_recomendada}`, 'WARN');
-                
-                // Intentar auto-corrección con IA
-                if (analisis.accion_recomendada === 'REPARAR_INMEDIATO') {
-                    await this.autoCorregir(anomalia);
-                }
-            }
-        } else {
-            this.log('✅ Todos los componentes funcionando correctamente', 'INFO');
+        // Guardia contra re-entrada
+        if (this.monitoreando) {
+            this.log('⚠️  Monitoreo ya en curso, omitiendo ciclo', 'WARN');
+            return this.tablero.obtenerEstadoGlobal();
         }
         
-        return estadoGlobal;
+        this.monitoreando = true;
+        
+        try {
+            this.log('🔍 Iniciando monitoreo del sistema...', 'INFO');
+            
+            // Simular detección de estado (en producción conectaría a métricas reales)
+            const estadoGlobal = this.tablero.obtenerEstadoGlobal();
+            this.log(`📊 Estado global: ${estadoGlobal.estado} (${estadoGlobal.salud_promedio}% salud)`, 'INFO');
+            
+            // Detectar anomalías
+            const anomalias = this.tablero.detectarAnomalias();
+            
+            if (anomalias.length > 0) {
+                this.estadisticas.fallas_detectadas += anomalias.length;
+                this.log(`⚠️  ${anomalias.length} anomalías detectadas`, 'WARN');
+                
+                for (let anomalia of anomalias) {
+                    const analisis = AlgebraInversa.calcularPrioridad(anomalia, this.tablero);
+                    this.log(`   🔴 ${anomalia.componente} (${anomalia.posicion}): ${anomalia.estado}, Salud: ${anomalia.salud}%`, 'WARN');
+                    this.log(`   📈 Prioridad: ${analisis.prioridad} → ${analisis.accion_recomendada}`, 'WARN');
+                    
+                    // Intentar auto-corrección con IA
+                    if (analisis.accion_recomendada === 'REPARAR_INMEDIATO') {
+                        await this.autoCorregir(anomalia);
+                    }
+                }
+            } else {
+                this.log('✅ Todos los componentes funcionando correctamente', 'INFO');
+            }
+            
+            return estadoGlobal;
+            
+        } finally {
+            this.monitoreando = false;
+        }
     }
     
     async autoCorregir(anomalia) {
         this.log(`🔧 Intentando auto-corrección: ${anomalia.componente}`, 'INFO');
+        
+        // Verificar que Gemini esté disponible
+        if (!process.env.GEMINI_API_KEY) {
+            this.log(`⚠️  Gemini no configurado, omitiendo análisis IA`, 'WARN');
+            this.log(`💡 Recomendación manual: Revisar ${anomalia.componente}`, 'INFO');
+            return;
+        }
         
         try {
             // Usar Gemini 2.5 para analizar y sugerir corrección
@@ -285,10 +306,41 @@ Responde en formato JSON con las claves: diagnostico, causa_raiz, pasos_correcci
             
             this.estadisticas.fallas_corregidas++;
             
-            // En producción, aquí ejecutaríamos los pasos de corrección automáticamente
+            // Persistir anomalía corregida
+            this.persistirAnomalia(anomalia, respuesta);
             
         } catch (error) {
-            this.log(`❌ Error en auto-corrección: ${error.message}`, 'ERROR');
+            this.log(`❌ Error en auto-corrección IA: ${error.message}`, 'ERROR');
+            this.log(`💡 Recomendación manual: Revisar ${anomalia.componente}`, 'INFO');
+        }
+    }
+    
+    persistirAnomalia(anomalia, respuesta_ia = null) {
+        try {
+            const anomaliasPath = path.join(__dirname, '..', 'data', 'anomalias-historial.json');
+            let historial = [];
+            
+            if (fs.existsSync(anomaliasPath)) {
+                historial = JSON.parse(fs.readFileSync(anomaliasPath, 'utf8'));
+            }
+            
+            historial.push({
+                timestamp: new Date().toISOString(),
+                anomalia: anomalia,
+                respuesta_ia: respuesta_ia,
+                corregida: !!respuesta_ia
+            });
+            
+            // Mantener solo últimas 100 anomalías
+            if (historial.length > 100) {
+                historial = historial.slice(-100);
+            }
+            
+            fs.writeFileSync(anomaliasPath, JSON.stringify(historial, null, 2));
+            this.log(`💾 Anomalía persistida en historial`, 'INFO');
+            
+        } catch (error) {
+            this.log(`⚠️  Error persistiendo anomalía: ${error.message}`, 'WARN');
         }
     }
     
