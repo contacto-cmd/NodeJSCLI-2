@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Throne - Entrada Dimensional</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #000;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+            perspective: 2000px;
+        }
+        
+        /* Canvas de fondo para explosión de energía */
+        #energyBg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+        }
+        
+        /* Contenedor 3D de la escena */
+        .scene-3d {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 2;
+            transform-style: preserve-3d;
+        }
+        
+        /* Columnas arquitectónicas */
+        .column {
+            position: absolute;
+            width: 100px;
+            height: 600px;
+            background: linear-gradient(180deg, 
+                #d4af37 0%,
+                #c9a961 20%,
+                #b8944f 50%,
+                #c9a961 80%,
+                #d4af37 100%
+            );
+            border: 3px solid #ffd700;
+            border-radius: 10px;
+            box-shadow: 
+                0 0 40px rgba(255, 215, 0, 0.6),
+                inset 0 0 30px rgba(255, 215, 0, 0.3);
+            transform-style: preserve-3d;
+            animation: columnGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes columnGlow {
+            0%, 100% { 
+                box-shadow: 0 0 40px rgba(255, 215, 0, 0.6), inset 0 0 30px rgba(255, 215, 0, 0.3);
+            }
+            50% { 
+                box-shadow: 0 0 80px rgba(255, 215, 0, 0.9), inset 0 0 50px rgba(255, 215, 0, 0.5);
+            }
+        }
+        
+        .column::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: -15px;
+            width: 130px;
+            height: 30px;
+            background: linear-gradient(180deg, #ffd700, #d4af37);
+            border: 2px solid #ffd700;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+        }
+        
+        .column::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: -15px;
+            width: 130px;
+            height: 30px;
+            background: linear-gradient(180deg, #d4af37, #ffd700);
+            border: 2px solid #ffd700;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+        }
+        
+        .column-left {
+            top: 50%;
+            left: 5%;
+            transform: translateY(-50%) rotateY(15deg);
+        }
+        
+        .column-right {
+            top: 50%;
+            right: 5%;
+            transform: translateY(-50%) rotateY(-15deg);
+        }
+        
+        /* Tablero de ajedrez 3D */
+        .chess-board {
+            position: absolute;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%) rotateX(60deg) translateZ(-50px);
+            transform-style: preserve-3d;
+            animation: boardFloat 4s ease-in-out infinite;
+        }
+        
+        @keyframes boardFloat {
+            0%, 100% { 
+                transform: translateX(-50%) rotateX(60deg) translateZ(-50px);
+            }
+            50% { 
+                transform: translateX(-50%) rotateX(60deg) translateZ(-30px);
+            }
+        }
+        
+        .board-base {
+            width: 600px;
+            height: 600px;
+            background: linear-gradient(145deg, #1a1a1a, #2d2d2d);
+            border: 15px solid #d4af37;
+            box-shadow: 
+                0 30px 80px rgba(0, 0, 0, 0.9),
+                0 0 60px rgba(255, 215, 0, 0.5),
+                inset 0 0 40px rgba(255, 215, 0, 0.2);
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            grid-template-rows: repeat(8, 1fr);
+            gap: 2px;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .square {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        
+        .square.light {
+            background: linear-gradient(145deg, #f0e6d2, #d4c5a8);
+            box-shadow: inset 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+        
+        .square.dark {
+            background: linear-gradient(145deg, #5a4a3a, #3d2f23);
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Piezas de ajedrez */
+        .piece {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 60px;
+            border-radius: 50% 50% 20% 20%;
+            animation: pieceGlow 2s ease-in-out infinite;
+        }
+        
+        .piece.gold {
+            background: linear-gradient(180deg, #ffd700, #d4af37);
+            box-shadow: 
+                0 5px 15px rgba(255, 215, 0, 0.6),
+                0 0 20px rgba(255, 215, 0, 0.4);
+        }
+        
+        .piece.silver {
+            background: linear-gradient(180deg, #c0c0c0, #808080);
+            box-shadow: 
+                0 5px 15px rgba(192, 192, 192, 0.6),
+                0 0 20px rgba(192, 192, 192, 0.4);
+        }
+        
+        .piece.cyan {
+            background: linear-gradient(180deg, #00ffff, #00cccc);
+            box-shadow: 
+                0 5px 15px rgba(0, 255, 255, 0.8),
+                0 0 30px rgba(0, 255, 255, 0.6);
+            animation: cyanPulse 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes pieceGlow {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.3); }
+        }
+        
+        @keyframes cyanPulse {
+            0%, 100% { 
+                box-shadow: 0 5px 15px rgba(0, 255, 255, 0.8), 0 0 30px rgba(0, 255, 255, 0.6);
+                transform: translate(-50%, -50%) scale(1);
+            }
+            50% { 
+                box-shadow: 0 10px 30px rgba(0, 255, 255, 1), 0 0 60px rgba(0, 255, 255, 0.9);
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+        }
+        
+        /* Portal de energía central */
+        .portal-center {
+            position: absolute;
+            top: 35%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 400px;
+            z-index: 5;
+        }
+        
+        .portal-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 3px solid #ffd700;
+            border-radius: 50%;
+            box-shadow: 
+                0 0 40px #ffd700,
+                inset 0 0 40px #ffd700;
+            animation: portalRotate 8s linear infinite;
+        }
+        
+        @keyframes portalRotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        .ring-1 { width: 400px; height: 400px; animation-duration: 8s; }
+        .ring-2 { width: 350px; height: 350px; animation-duration: 6s; animation-direction: reverse; }
+        .ring-3 { width: 300px; height: 300px; animation-duration: 10s; }
+        
+        .portal-core {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, #fff, #ffd700, #ff8c00);
+            border-radius: 50%;
+            box-shadow: 
+                0 0 80px #ffd700,
+                0 0 120px #ff8c00,
+                inset 0 0 60px #fff;
+            animation: corePulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes corePulse {
+            0%, 100% { 
+                transform: translate(-50%, -50%) scale(1);
+                box-shadow: 0 0 80px #ffd700, 0 0 120px #ff8c00;
+            }
+            50% { 
+                transform: translate(-50%, -50%) scale(1.2);
+                box-shadow: 0 0 120px #ffd700, 0 0 180px #ff8c00;
+            }
+        }
+        
+        /* Título */
+        .title {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ffd700;
+            font-size: 3.5rem;
+            text-shadow: 
+                0 0 20px #ffd700,
+                0 0 40px #ffd700,
+                0 0 60px #ff8c00;
+            z-index: 10;
+            animation: titleGlow 2s ease-in-out infinite;
+            letter-spacing: 8px;
+            font-weight: bold;
+        }
+        
+        @keyframes titleGlow {
+            0%, 100% { 
+                text-shadow: 0 0 20px #ffd700, 0 0 40px #ffd700;
+            }
+            50% { 
+                text-shadow: 0 0 40px #ffd700, 0 0 80px #ffd700, 0 0 120px #ff8c00;
+            }
+        }
+        
+        .subtitle {
+            position: absolute;
+            top: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #00ff88;
+            font-size: 1.5rem;
+            text-shadow: 0 0 20px #00ff88;
+            z-index: 10;
+            letter-spacing: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">♟️ THRONE PROTOCOL ♟️</div>
+    <div class="subtitle">Portal Dimensional de Entrada</div>
+    
+    <!-- Canvas de fondo con explosión de energía -->
+    <canvas id="energyBg"></canvas>
+    
+    <!-- Escena 3D -->
+    <div class="scene-3d">
+        <!-- Columnas arquitectónicas -->
+        <div class="column column-left"></div>
+        <div class="column column-right"></div>
+        
+        <!-- Portal de energía central -->
+        <div class="portal-center">
+            <div class="portal-ring ring-1"></div>
+            <div class="portal-ring ring-2"></div>
+            <div class="portal-ring ring-3"></div>
+            <div class="portal-core"></div>
+        </div>
+        
+        <!-- Tablero de ajedrez -->
+        <div class="chess-board">
+            <div class="board-base" id="chessBoard"></div>
+        </div>
+    </div>
+    
+    <script>
+        // Crear tablero de ajedrez
+        const board = document.getElementById('chessBoard');
+        
+        // Configuración de piezas
+        const piecesSetup = [
+            // Fila trasera
+            [1,1,1,1,1,1,1,1], // Peones dorados
+            [0,0,2,2,2,0,0,0], // Piezas especiales cyan
+            // Filas vacías
+            [0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0],
+            // Fila delantera
+            [3,3,3,3,3,3,3,3], // Peones plateados
+            [3,3,3,3,3,3,3,3]
+        ];
+        
+        for (let row = 0; row < 8; row++) {
+            for (let col = 0; col < 8; col++) {
+                const square = document.createElement('div');
+                square.className = 'square ' + ((row + col) % 2 === 0 ? 'light' : 'dark');
+                
+                // Agregar piezas
+                const pieceType = piecesSetup[row][col];
+                if (pieceType > 0) {
+                    const piece = document.createElement('div');
+                    piece.className = 'piece ' + (pieceType === 1 ? 'gold' : pieceType === 2 ? 'cyan' : 'silver');
+                    piece.style.animationDelay = Math.random() * 2 + 's';
+                    square.appendChild(piece);
+                }
+                
+                board.appendChild(square);
+            }
+        }
+        
+        // Canvas de fondo con efectos de energía
+        const canvas = document.getElementById('energyBg');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+        
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 3;
+        
+        // Partículas de energía
+        class EnergyParticle {
+            constructor() {
+                this.reset();
+            }
+            
+            reset() {
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 4 + 2;
+                this.x = centerX;
+                this.y = centerY;
+                this.vx = Math.cos(angle) * speed;
+                this.vy = Math.sin(angle) * speed;
+                this.life = 1;
+                this.decay = Math.random() * 0.01 + 0.005;
+                this.size = Math.random() * 5 + 2;
+                const rand = Math.random();
+                this.color = rand > 0.6 ? '#ffd700' : rand > 0.3 ? '#ff8c00' : '#00ffff';
+            }
+            
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.life -= this.decay;
+                
+                if (this.life <= 0) {
+                    this.reset();
+                }
+            }
+            
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.life;
+                ctx.shadowBlur = 25;
+                ctx.shadowColor = this.color;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+        
+        // Rayos de energía
+        class EnergyRay {
+            constructor(angle) {
+                this.angle = angle;
+                this.length = 0;
+                this.maxLength = Math.random() * 400 + 300;
+                this.growing = true;
+                this.width = Math.random() * 4 + 2;
+                this.color = Math.random() > 0.5 ? '#ffd700' : '#ff8c00';
+            }
+            
+            update() {
+                if (this.growing) {
+                    this.length += 12;
+                    if (this.length >= this.maxLength) {
+                        this.growing = false;
+                    }
+                } else {
+                    this.length -= 18;
+                    if (this.length <= 0) {
+                        this.angle = Math.random() * Math.PI * 2;
+                        this.maxLength = Math.random() * 400 + 300;
+                        this.growing = true;
+                    }
+                }
+            }
+            
+            draw() {
+                ctx.save();
+                ctx.translate(centerX, centerY);
+                ctx.rotate(this.angle);
+                
+                const gradient = ctx.createLinearGradient(0, 0, this.length, 0);
+                gradient.addColorStop(0, this.color);
+                gradient.addColorStop(0.5, this.color + '88');
+                gradient.addColorStop(1, 'transparent');
+                
+                ctx.strokeStyle = gradient;
+                ctx.lineWidth = this.width;
+                ctx.shadowBlur = 30;
+                ctx.shadowColor = this.color;
+                
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.lineTo(this.length, 0);
+                ctx.stroke();
+                
+                ctx.restore();
+            }
+        }
+        
+        // Crear elementos
+        const particles = Array.from({ length: 300 }, () => new EnergyParticle());
+        const rays = Array.from({ length: 24 }, (_, i) => new EnergyRay((Math.PI * 2 / 24) * i));
+        
+        // Animación
+        function animate() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Rayos de energía
+            rays.forEach(ray => {
+                ray.update();
+                ray.draw();
+            });
+            
+            // Partículas
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+    </script>
+</body>
+</html>

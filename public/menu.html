@@ -6,106 +6,297 @@
     <title>Throne Protocol V3.0 - Menú Principal</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
-            background: linear-gradient(135deg, #000000 0%, #1a0033 100%);
+            background: #000;
             color: #d4af37;
             font-family: 'Courier New', monospace;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            overflow-x: hidden;
         }
-        .container {
-            max-width: 900px;
+        
+        /* Fondo cinematográfico con resplandor */
+        .cinema-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at top, rgba(255, 140, 0, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at center, rgba(0, 255, 136, 0.08) 0%, transparent 70%),
+                radial-gradient(ellipse at bottom, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+                linear-gradient(180deg, #000 0%, #0a0a0a 50%, #000 100%);
+            z-index: 0;
+            animation: bgPulse 6s ease-in-out infinite;
         }
+        
+        @keyframes bgPulse {
+            0%, 100% { opacity: 0.9; }
+            50% { opacity: 1; }
+        }
+        
+        /* Partículas flotantes de energía */
+        .particle {
+            position: fixed;
+            width: 2px;
+            height: 2px;
+            background: #ffd700;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #ffd700, 0 0 15px #ffd700;
+            animation: float 15s infinite;
+            opacity: 0.7;
+            z-index: 1;
+        }
+        
+        @keyframes float {
+            0% { transform: translate(0, 100vh) scale(0); opacity: 0; }
+            10% { opacity: 0.7; }
+            90% { opacity: 0.7; }
+            100% { transform: translate(50px, -100vh) scale(1.5); opacity: 0; }
+        }
+        
+        .particle.green {
+            background: #00ff88;
+            box-shadow: 0 0 10px #00ff88, 0 0 20px #00ff88;
+        }
+        
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Header con efecto de gravedad */
         h1 {
             text-align: center;
-            font-size: 3rem;
-            margin-bottom: 10px;
-            text-shadow: 0 0 30px rgba(212, 175, 55, 0.8);
-            animation: glow 2s ease-in-out infinite;
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            color: #ffd700;
+            text-shadow: 
+                0 0 20px #ffd700,
+                0 0 40px #ffd700,
+                0 0 60px #ff8c00,
+                0 0 80px #ff8c00;
+            animation: headerFloat 4s ease-in-out infinite;
+            letter-spacing: 4px;
         }
-        @keyframes glow {
-            0%, 100% { text-shadow: 0 0 20px rgba(212, 175, 55, 0.5); }
-            50% { text-shadow: 0 0 40px rgba(212, 175, 55, 1); }
+        
+        @keyframes headerFloat {
+            0%, 100% { 
+                transform: translateY(0);
+                text-shadow: 
+                    0 0 20px #ffd700,
+                    0 0 40px #ffd700,
+                    0 0 60px #ff8c00;
+            }
+            50% { 
+                transform: translateY(-10px);
+                text-shadow: 
+                    0 0 30px #ffd700,
+                    0 0 60px #ffd700,
+                    0 0 90px #ff8c00,
+                    0 0 120px #ff8c00;
+            }
         }
+        
         .subtitle {
             text-align: center;
             color: #fff;
-            margin-bottom: 50px;
-            font-size: 1.3rem;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
+        
         .empresa {
             text-align: center;
-            color: #ffd700;
-            font-size: 1.8rem;
-            margin-bottom: 40px;
+            color: #00ff88;
+            font-size: 2rem;
+            margin-bottom: 50px;
             font-weight: bold;
+            text-shadow: 
+                0 0 15px #00ff88,
+                0 0 30px #00ff88;
+            animation: empresaGlow 3s ease-in-out infinite;
         }
+        
+        @keyframes empresaGlow {
+            0%, 100% { 
+                text-shadow: 0 0 15px #00ff88, 0 0 30px #00ff88;
+            }
+            50% { 
+                text-shadow: 0 0 25px #00ff88, 0 0 50px #00ff88, 0 0 75px #00ff88;
+            }
+        }
+        
+        /* Grid de tarjetas flotantes */
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
             margin-top: 40px;
+            perspective: 1500px;
         }
+        
         .menu-card {
-            background: rgba(0, 0, 0, 0.8);
+            background: linear-gradient(145deg, rgba(0, 0, 0, 0.9), rgba(26, 0, 51, 0.7));
             border: 3px solid #d4af37;
-            border-radius: 15px;
-            padding: 30px;
+            border-radius: 20px;
+            padding: 35px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s;
             position: relative;
             overflow: hidden;
+            transform-style: preserve-3d;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 
+                0 15px 40px rgba(0, 0, 0, 0.6),
+                inset 0 0 30px rgba(255, 215, 0, 0.1);
         }
-        .menu-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.5);
-            border-color: #ffd700;
-        }
+        
+        /* Resplandor de fondo en hover */
         .menu-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        
+        .menu-card:hover::before {
+            opacity: 1;
+        }
+        
+        /* Efecto de levitación 3D */
+        .menu-card:hover {
+            transform: translateY(-20px) translateZ(30px) rotateX(5deg);
+            border-color: #ffd700;
+            box-shadow: 
+                0 30px 70px rgba(255, 215, 0, 0.5),
+                0 0 50px rgba(0, 255, 136, 0.3),
+                inset 0 0 50px rgba(255, 140, 0, 0.2);
+        }
+        
+        /* Anillo de energía verde */
+        .menu-card::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
-            transition: 0.5s;
+            border: 2px solid #00ff88;
+            border-radius: 20px;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            transition: all 0.5s;
         }
-        .menu-card:hover::before {
-            left: 100%;
+        
+        .menu-card:hover::after {
+            transform: translate(-50%, -50%) scale(1.1);
+            opacity: 1;
+            animation: energyPulse 2s ease-out infinite;
         }
+        
+        @keyframes energyPulse {
+            0% { 
+                transform: translate(-50%, -50%) scale(1.1);
+                opacity: 0.8;
+            }
+            100% { 
+                transform: translate(-50%, -50%) scale(1.4);
+                opacity: 0;
+            }
+        }
+        
         .menu-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
+            font-size: 4rem;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.8));
+            animation: iconFloat 3s ease-in-out infinite;
         }
+        
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
         .menu-title {
             color: #ffd700;
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            text-shadow: 
+                0 0 10px #ffd700,
+                0 0 20px #ffd700;
         }
+        
         .menu-desc {
             color: #fff;
-            font-size: 0.9rem;
-            line-height: 1.5;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
         }
+        
+        /* Footer con resplandor */
         .footer {
             text-align: center;
-            margin-top: 50px;
+            margin-top: 60px;
+            padding: 30px;
             color: #888;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            background: linear-gradient(145deg, rgba(0, 0, 0, 0.8), rgba(26, 0, 51, 0.5));
+            border-radius: 15px;
+            border: 1px solid #d4af37;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
+        
         .footer strong {
-            color: #d4af37;
+            color: #ffd700;
+            text-shadow: 0 0 10px #ffd700;
+        }
+        
+        .footer a {
+            color: #00ff88;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .footer a:hover {
+            color: #ffd700;
+            text-shadow: 0 0 10px #ffd700;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .empresa { font-size: 1.5rem; }
+            .menu-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
+    <div class="cinema-bg"></div>
+    
+    <!-- Partículas de energía dorada y verde -->
+    <script>
+        for (let i = 0; i < 40; i++) {
+            const particle = document.createElement('div');
+            particle.className = i % 3 === 0 ? 'particle green' : 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+            document.body.appendChild(particle);
+        }
+    </script>
+    
     <div class="container">
         <h1>👑 THRONE PROTOCOL V3.0</h1>
         <div class="subtitle">Sistema de Comando Central</div>
@@ -157,8 +348,8 @@
         
         <div class="footer">
             <p><strong>Roberto Rivera Gamas - Royal (Arquitecto)</strong></p>
-            <p>contacto@streetemporioroyal.com | www.streetemporioroyal.com</p>
-            <p style="margin-top: 10px; color: #666;">AHT - Alpha High Tech | Desarrollo de Empresas</p>
+            <p><a href="mailto:contacto@streetemporioroyal.com">contacto@streetemporioroyal.com</a> | <a href="https://www.streetemporioroyal.com">www.streetemporioroyal.com</a></p>
+            <p style="margin-top: 15px; color: #666;">AHT - Alpha High Tech | Desarrollo de Empresas</p>
         </div>
     </div>
 </body>
