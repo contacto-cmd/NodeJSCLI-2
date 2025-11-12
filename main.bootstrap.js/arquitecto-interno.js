@@ -16,6 +16,10 @@ const { GoogleGenAI } = require('@google/genai');
 // Inicializar Gemini 2.5 para análisis inteligente
 const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
 
+// Integración Resend para notificaciones empresariales
+const { Resend } = require('resend');
+const resend = new Resend(process.env.RESEND_API_KEY || "");
+
 // =================================================================
 // VISIÓN ARQUITECTÓNICA DE ROBERTO RIVERA GAMAS
 // =================================================================
@@ -417,6 +421,155 @@ Proporciona recomendaciones específicas y técnicas para mejorar el sistema bas
             vision: this.vision,
             historial_reciente: this.tablero.historial.slice(-10)
         };
+    }
+    
+    // =================================================================
+    // SISTEMA DE NOTIFICACIONES EMPRESARIALES
+    // =================================================================
+    
+    async enviarNotificacionEmpresarial(tipo, datos) {
+        this.log(`📧 Enviando notificación empresarial: ${tipo}`, 'INFO');
+        
+        if (!process.env.RESEND_API_KEY) {
+            this.log('⚠️  Resend API Key no configurada, omitiendo envío de email', 'WARN');
+            return { success: false, error: 'API key no configurada' };
+        }
+        
+        try {
+            const emailConfig = {
+                from: 'Throne Protocol V3.0 <sistema@streetemporioroyal.com>',
+                to: ['contacto@streetemporioroyal.com'],
+                subject: `[THRONE V3.0] ${tipo.toUpperCase()}`,
+                html: this.generarHTMLEmail(tipo, datos)
+            };
+            
+            const result = await resend.emails.send(emailConfig);
+            
+            this.log(`✅ Email enviado correctamente: ${result.id}`, 'INFO');
+            return { success: true, id: result.id };
+            
+        } catch (error) {
+            this.log(`❌ Error enviando email: ${error.message}`, 'ERROR');
+            return { success: false, error: error.message };
+        }
+    }
+    
+    generarHTMLEmail(tipo, datos) {
+        const timestamp = new Date().toISOString();
+        const estadoGlobal = this.tablero.obtenerEstadoGlobal();
+        
+        let contenido = '';
+        
+        switch(tipo) {
+            case 'ANOMALIA_CRITICA':
+                contenido = `
+                    <h2 style="color: #ff0000;">⚠️ ANOMALÍA CRÍTICA DETECTADA</h2>
+                    <p><strong>Componente:</strong> ${datos.componente}</p>
+                    <p><strong>Estado:</strong> ${datos.estado}</p>
+                    <p><strong>Salud:</strong> ${datos.salud}%</p>
+                    <p><strong>Gravedad:</strong> ${datos.gravedad}</p>
+                    <hr>
+                    <p><strong>Acción Recomendada:</strong> Revisión inmediata requerida</p>
+                `;
+                break;
+                
+            case 'REPORTE_DIARIO':
+                contenido = `
+                    <h2 style="color: #00ff88;">📊 REPORTE DIARIO DEL SISTEMA</h2>
+                    <p><strong>Estado Global:</strong> ${estadoGlobal.estado}</p>
+                    <p><strong>Salud Promedio:</strong> ${estadoGlobal.salud_promedio}%</p>
+                    <p><strong>Componentes Activos:</strong> ${estadoGlobal.componentes_activos}/${estadoGlobal.componentes_totales}</p>
+                    <hr>
+                    <h3>Estadísticas:</h3>
+                    <ul>
+                        <li>Fallas detectadas: ${this.estadisticas.fallas_detectadas}</li>
+                        <li>Fallas corregidas: ${this.estadisticas.fallas_corregidas}</li>
+                        <li>Tiempo de actividad: ${(this.estadisticas.tiempo_actividad/3600).toFixed(2)} horas</li>
+                    </ul>
+                `;
+                break;
+                
+            case 'CERTIFICADO_GENERADO':
+                contenido = `
+                    <h2 style="color: #ffd700;">📜 CERTIFICADO DIGITAL GENERADO</h2>
+                    <p><strong>ID Certificado:</strong> ${datos.certificadoId}</p>
+                    <p><strong>Diseño:</strong> ${datos.diseno}</p>
+                    <p><strong>Hash SHA-256:</strong> ${datos.hash}</p>
+                    <p><strong>Valoración:</strong> ${datos.valoracion}</p>
+                    <hr>
+                    <p>El certificado ha sido registrado en blockchain de forma permanente.</p>
+                `;
+                break;
+                
+            default:
+                contenido = `
+                    <h2>📬 NOTIFICACIÓN DEL SISTEMA</h2>
+                    <pre>${JSON.stringify(datos, null, 2)}</pre>
+                `;
+        }
+        
+        return `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background: #0a0a0a;
+            color: #ffffff;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+            border: 3px solid #ffd700;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+        }
+        h1 {
+            color: #ffd700;
+            text-align: center;
+            text-shadow: 0 0 20px #ffd700;
+        }
+        hr {
+            border: 1px solid #ffd700;
+            margin: 20px 0;
+        }
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #00ff88;
+            font-size: 0.9em;
+            color: #888;
+        }
+        .timestamp {
+            color: #00ff88;
+            font-size: 0.85em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>👑 THRONE PROTOCOL V3.0</h1>
+        <div class="timestamp">🕐 ${timestamp}</div>
+        
+        ${contenido}
+        
+        <div class="footer">
+            <p><strong>Roberto Rivera Gamas - Royal (Arquitecto)</strong></p>
+            <p>Street Emporio Royal</p>
+            <p>Sistema de $229.8 Billones</p>
+            <p style="margin-top: 15px; color: #666;">
+                Este email fue generado automáticamente por el Arquitecto AI Interno.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
+        `;
     }
 }
 
