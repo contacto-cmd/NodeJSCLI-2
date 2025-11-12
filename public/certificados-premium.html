@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificados Profesionales Premium - Throne Protocol V3.0</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background: linear-gradient(135deg, #000000 0%, #1a0033 100%);
+            color: #d4af37;
+            font-family: 'Courier New', monospace;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #ffd700;
+            text-shadow: 
+                0 0 20px #ffd700,
+                0 0 40px #ffd700,
+                0 0 60px #ff8c00;
+            animation: headerGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes headerGlow {
+            0%, 100% { 
+                text-shadow: 0 0 20px #ffd700, 0 0 40px #ffd700;
+            }
+            50% { 
+                text-shadow: 0 0 30px #ffd700, 0 0 60px #ffd700, 0 0 90px #ff8c00;
+            }
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #fff;
+            font-size: 1.3rem;
+            margin-bottom: 50px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        
+        .card {
+            background: linear-gradient(145deg, rgba(0, 0, 0, 0.9), rgba(26, 0, 51, 0.7));
+            border: 3px solid #d4af37;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+        }
+        
+        .card h2 {
+            color: #ffd700;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px #ffd700;
+        }
+        
+        .card p {
+            color: #fff;
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+        
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .example-img {
+            border: 3px solid #d4af37;
+            border-radius: 10px;
+            width: 100%;
+            height: auto;
+            transition: transform 0.3s;
+        }
+        
+        .example-img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+        }
+        
+        .btn-container {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #d4af37, #ffd700);
+            color: #000;
+            border: none;
+            padding: 18px 35px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.6);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #00ff88, #00cc66);
+        }
+        
+        .loading {
+            text-align: center;
+            color: #ffd700;
+            font-size: 1.2rem;
+            margin: 20px 0;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .resultado {
+            background: rgba(0, 255, 136, 0.1);
+            border: 2px solid #00ff88;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            color: #fff;
+        }
+        
+        .resultado h3 {
+            color: #00ff88;
+            margin-bottom: 15px;
+        }
+        
+        .resultado a {
+            color: #ffd700;
+            text-decoration: none;
+            padding: 10px 20px;
+            background: rgba(255, 215, 0, 0.2);
+            border-radius: 5px;
+            display: inline-block;
+            margin: 5px;
+            transition: all 0.3s;
+        }
+        
+        .resultado a:hover {
+            background: rgba(255, 215, 0, 0.4);
+            transform: translateX(5px);
+        }
+        
+        .error {
+            background: rgba(255, 0, 0, 0.1);
+            border: 2px solid #ff0000;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            color: #ff6666;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1rem;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #d4af37;
+            border-radius: 8px;
+            color: #ffd700;
+            margin-bottom: 20px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+        
+        .info-box {
+            background: rgba(0, 255, 136, 0.05);
+            border-left: 4px solid #00ff88;
+            padding: 15px 20px;
+            margin: 20px 0;
+            color: #fff;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: #d4af37;
+            color: #000;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .btn { min-width: 100%; }
+            .example-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>👑 CERTIFICADOS PROFESIONALES PREMIUM</h1>
+        <div class="subtitle">Sistema de Certificación con Firma RSA-4096 + Blockchain</div>
+        
+        <div class="card">
+            <h2>🌟 Ejemplos de Certificados</h2>
+            <p>Certificados profesionales de alto valor con diseño elegante, marcos dorados ornamentales y sellos de verificación AI:</p>
+            
+            <div class="example-grid">
+                <div>
+                    <h3 style="color: #ffd700; margin-bottom: 10px;">Certificado de Valoración</h3>
+                    <img src="image_1762949345320.png" alt="Certificado Valoración" class="example-img" onerror="this.style.display='none'">
+                    <p style="margin-top: 10px;">
+                        <span class="badge">$229.8B USD</span>
+                        <span class="badge">GPT-5 + Gemini AI</span>
+                    </p>
+                </div>
+                <div>
+                    <h3 style="color: #ffd700; margin-bottom: 10px;">Certificado de Validación Técnica</h3>
+                    <img src="image_1762949500503.png" alt="Certificado Validación" class="example-img" onerror="this.style.display='none'">
+                    <p style="margin-top: 10px;">
+                        <span class="badge">RSA-4096</span>
+                        <span class="badge">Blockchain Verified</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>🔧 Generador de Certificados</h2>
+            <p>Genera certificados profesionales con firma digital RSA-4096 y registro en blockchain inmutable.</p>
+            
+            <div class="info-box">
+                <strong>✨ Características:</strong>
+                <ul style="margin-top: 10px; padding-left: 20px;">
+                    <li>Diseño elegante con marcos dorados ornamentales</li>
+                    <li>Firma digital RSA-4096 (nivel gubernamental/bancario)</li>
+                    <li>Hash SHA-256 único e irreversible</li>
+                    <li>Sellos de verificación AI (GPT-5 + Gemini)</li>
+                    <li>Código QR para verificación instantánea</li>
+                    <li>Registro permanente en blockchain</li>
+                </ul>
+            </div>
+            
+            <label for="nombreProyecto" style="display: block; color: #ffd700; margin-bottom: 8px; font-weight: bold;">
+                Nombre del Proyecto o Sistema:
+            </label>
+            <input 
+                type="text" 
+                id="nombreProyecto" 
+                placeholder="Ej: Throne Protocol V3.0"
+                value="Throne Protocol V3.0"
+            >
+            
+            <div class="btn-container">
+                <button class="btn" onclick="generarValoracion()">
+                    💰 Generar Certificado de Valoración
+                </button>
+                <button class="btn" onclick="generarValidacion()">
+                    🔬 Generar Certificado de Validación Técnica
+                </button>
+                <button class="btn btn-secondary" onclick="generarCompleto()">
+                    📜 GENERAR PACK COMPLETO
+                </button>
+            </div>
+            
+            <div id="resultado"></div>
+        </div>
+        
+        <div class="card">
+            <h2>📋 Especificaciones Técnicas</h2>
+            <p><strong>Algoritmo de Firma:</strong> SHA256withRSA4096</p>
+            <p><strong>Nivel de Seguridad:</strong> Gubernamental/Bancario</p>
+            <p><strong>Validación AI:</strong> GPT-5 + Gemini 2.5</p>
+            <p><strong>Blockchain:</strong> Registro inmutable permanente</p>
+            <p><strong>Formato:</strong> PDF de alta calidad con diseño premium</p>
+        </div>
+    </div>
+    
+    <script>
+        async function generarValoracion() {
+            const nombreProyecto = document.getElementById('nombreProyecto').value || 'Throne Protocol V3.0';
+            const resultadoDiv = document.getElementById('resultado');
+            
+            resultadoDiv.innerHTML = '<div class="loading">⏳ Generando certificado de valoración con firma RSA-4096...</div>';
+            
+            try {
+                const response = await fetch('/api/certificados/valoracion', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nombreProyecto })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    resultadoDiv.innerHTML = `
+                        <div class="resultado">
+                            <h3>✅ Certificado de Valoración Generado</h3>
+                            <p><strong>ID:</strong> ${data.certificado.certificado_id}</p>
+                            <p><strong>Valor:</strong> ${data.certificado.valor}</p>
+                            <p><strong>Hash SHA-256:</strong> ${data.certificado.hash_sha256.substring(0, 32)}...</p>
+                            <p><strong>Firma RSA-4096:</strong> ${data.certificado.firma_rsa4096 ? '✅ Firmado' : '❌ No disponible'}</p>
+                            <p style="margin-top: 15px;">
+                                <a href="${data.url_descarga}" download>📥 Descargar Certificado PDF</a>
+                            </p>
+                        </div>
+                    `;
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (error) {
+                resultadoDiv.innerHTML = `
+                    <div class="error">
+                        <h3>❌ Error</h3>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+        
+        async function generarValidacion() {
+            const nombreSistema = document.getElementById('nombreProyecto').value || 'Throne Protocol V3.0';
+            const resultadoDiv = document.getElementById('resultado');
+            
+            resultadoDiv.innerHTML = '<div class="loading">⏳ Generando certificado de validación técnica con sellos AI...</div>';
+            
+            try {
+                const response = await fetch('/api/certificados/validacion', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nombreSistema })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    resultadoDiv.innerHTML = `
+                        <div class="resultado">
+                            <h3>✅ Certificado de Validación Técnica Generado</h3>
+                            <p><strong>ID:</strong> ${data.certificado.certificado_id}</p>
+                            <p><strong>Sistema:</strong> ${data.certificado.sistema}</p>
+                            <p><strong>Hash SHA-256:</strong> ${data.certificado.hash_sha256.substring(0, 32)}...</p>
+                            <p><strong>Firma RSA-4096:</strong> ${data.certificado.firma_rsa4096 ? '✅ Firmado' : '❌ No disponible'}</p>
+                            <p style="margin-top: 15px;">
+                                <a href="${data.url_descarga}" download>📥 Descargar Certificado PDF</a>
+                            </p>
+                        </div>
+                    `;
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (error) {
+                resultadoDiv.innerHTML = `
+                    <div class="error">
+                        <h3>❌ Error</h3>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+        
+        async function generarCompleto() {
+            const nombreProyecto = document.getElementById('nombreProyecto').value || 'Throne Protocol V3.0';
+            const resultadoDiv = document.getElementById('resultado');
+            
+            resultadoDiv.innerHTML = '<div class="loading">⏳ Generando pack completo de certificados profesionales...</div>';
+            
+            try {
+                const response = await fetch('/api/certificados/completo', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nombreProyecto })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    let html = `
+                        <div class="resultado">
+                            <h3>✅ Pack Completo de Certificados Generado</h3>
+                            <p><strong>Proyecto:</strong> ${nombreProyecto}</p>
+                            <p><strong>Certificados Generados:</strong> ${data.certificados.length}</p>
+                    `;
+                    
+                    data.certificados.forEach((cert, index) => {
+                        html += `
+                            <div style="margin: 15px 0; padding: 15px; background: rgba(0, 0, 0, 0.3); border-radius: 8px;">
+                                <h4 style="color: #ffd700;">${index + 1}. ${cert.tipo === 'VALORACION' ? 'Certificado de Valoración' : 'Certificado de Validación Técnica'}</h4>
+                                <p><strong>ID:</strong> ${cert.certificado_id}</p>
+                                <p><strong>Hash:</strong> ${cert.hash_sha256.substring(0, 32)}...</p>
+                                <p><strong>Firma RSA:</strong> ${cert.firma_rsa4096 ? '✅ Verificada' : '❌ No disponible'}</p>
+                                <p><a href="${data.urls_descarga[index].url}" download>📥 Descargar</a></p>
+                            </div>
+                        `;
+                    });
+                    
+                    html += `
+                            <p style="margin-top: 20px; font-size: 0.9rem; color: #888;">
+                                💌 Notificación enviada a: contacto@streetemporioroyal.com
+                            </p>
+                        </div>
+                    `;
+                    
+                    resultadoDiv.innerHTML = html;
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (error) {
+                resultadoDiv.innerHTML = `
+                    <div class="error">
+                        <h3>❌ Error</h3>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

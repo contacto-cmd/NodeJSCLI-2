@@ -13,6 +13,7 @@ const ArquitecturaService = require('./services/arquitectura.service');
 const { COMBINACIONES_UNICAS } = require('./generador-masivo');
 const { generarCertificadoPDF, obtenerCertificado, enviarCertificadoPorCorreo, verificarBlockchain, obtenerBlockchain, buscarCertificadoEnBlockchain, CERT_DIR } = require('./throne-certificados');
 const { arquitectoInterno } = require('./arquitecto-interno');
+const { generarCertificadoValoracion, generarCertificadoValidacionTecnica, generarCertificadosCompletos } = require('./certificados-profesionales');
 
 // Configurar Resend para envío de emails
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -1008,6 +1009,153 @@ Responde de manera profesional, clara y concisa. Usa emojis moderadamente.`;
 // =================================================================
 // SERVIDOR ESTÁTICO Y LISTENER
 // =================================================================
+
+// =================================================================
+// CERTIFICADOS PROFESIONALES PREMIUM
+// =================================================================
+
+// Generar certificado de valoración
+app.post('/api/certificados/valoracion', async (req, res) => {
+    try {
+        if (!MASTER_KEY_RSA_PRIVADA) {
+            return res.status(400).json({
+                success: false,
+                error: 'Clave RSA-4096 no configurada. Sistema en modo demo.'
+            });
+        }
+        
+        const { nombreProyecto } = req.body;
+        const proyecto = nombreProyecto || 'Throne Protocol V3.0';
+        
+        console.log(`💰 Generando certificado de valoración para: ${proyecto}`);
+        
+        const resultado = await generarCertificadoValoracion(proyecto, MASTER_KEY_RSA_PRIVADA);
+        
+        res.json({
+            success: true,
+            certificado: resultado,
+            mensaje: 'Certificado de valoración generado exitosamente',
+            url_descarga: `/api/certificados/profesionales/descargar/${resultado.certificado_id}`
+        });
+        
+    } catch (error) {
+        console.error('❌ Error generando certificado de valoración:', error);
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// Generar certificado de validación técnica
+app.post('/api/certificados/validacion', async (req, res) => {
+    try {
+        if (!MASTER_KEY_RSA_PRIVADA) {
+            return res.status(400).json({
+                success: false,
+                error: 'Clave RSA-4096 no configurada. Sistema en modo demo.'
+            });
+        }
+        
+        const { nombreSistema } = req.body;
+        const sistema = nombreSistema || 'Throne Protocol V3.0';
+        
+        console.log(`🔬 Generando certificado de validación técnica para: ${sistema}`);
+        
+        const resultado = await generarCertificadoValidacionTecnica(sistema, MASTER_KEY_RSA_PRIVADA);
+        
+        res.json({
+            success: true,
+            certificado: resultado,
+            mensaje: 'Certificado de validación técnica generado exitosamente',
+            url_descarga: `/api/certificados/profesionales/descargar/${resultado.certificado_id}`
+        });
+        
+    } catch (error) {
+        console.error('❌ Error generando certificado de validación:', error);
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// Generar AMBOS certificados profesionales (pack completo)
+app.post('/api/certificados/completo', async (req, res) => {
+    try {
+        if (!MASTER_KEY_RSA_PRIVADA) {
+            return res.status(400).json({
+                success: false,
+                error: 'Clave RSA-4096 no configurada. Sistema en modo demo.'
+            });
+        }
+        
+        const { nombreProyecto } = req.body;
+        const proyecto = nombreProyecto || 'Throne Protocol V3.0';
+        
+        console.log(`📜 Generando pack completo de certificados para: ${proyecto}`);
+        
+        const resultados = await generarCertificadosCompletos(proyecto, MASTER_KEY_RSA_PRIVADA);
+        
+        // Notificar al arquitecto interno sobre la generación
+        try {
+            await arquitectoInterno.enviarNotificacionEmpresarial('CERTIFICADO_GENERADO', {
+                certificadoId: resultados[0].certificado_id,
+                diseno: proyecto,
+                hash: resultados[0].hash_sha256,
+                valoracion: resultados[0].valor || '$229,800,000,000'
+            });
+            console.log('✅ Notificación empresarial enviada exitosamente');
+        } catch (err) {
+            console.warn('⚠️ Error enviando notificación:', err.message);
+        }
+        
+        res.json({
+            success: true,
+            certificados: resultados,
+            mensaje: 'Pack completo de certificados profesionales generados',
+            urls_descarga: resultados.map(r => ({
+                tipo: r.tipo,
+                url: `/api/certificados/profesionales/descargar/${r.certificado_id}`
+            }))
+        });
+        
+    } catch (error) {
+        console.error('❌ Error generando certificados completos:', error);
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// Descargar certificado profesional por ID
+app.get('/api/certificados/profesionales/descargar/:certId', async (req, res) => {
+    try {
+        const { certId } = req.params;
+        
+        // Buscar el certificado en el directorio
+        const files = fs.readdirSync(path.join(__dirname, '..', 'certificados'));
+        const certFile = files.find(f => f.includes(certId));
+        
+        if (!certFile) {
+            return res.status(404).json({
+                success: false,
+                error: 'Certificado no encontrado'
+            });
+        }
+        
+        const pdfPath = path.join(__dirname, '..', 'certificados', certFile);
+        res.download(pdfPath, certFile);
+        
+    } catch (error) {
+        console.error('❌ Error descargando certificado:', error);
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
 
 // Sirve archivos estáticos (HTML, JS, CSS)
 app.use(express.static(path.join(__dirname, '..', 'public')));
