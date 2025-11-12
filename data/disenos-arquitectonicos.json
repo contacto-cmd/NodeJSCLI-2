@@ -2353,5 +2353,163 @@
       "verificable": true,
       "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
     }
+  },
+  {
+    "id_proyecto": "ARCH-1762976133903-PI9UWB8FH",
+    "timestamp": "2025-11-12T19:35:33.903Z",
+    "diseño": {
+      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "caracteristicas": [
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos",
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 45,
+        "ancho_m": 30,
+        "profundidad_m": 25,
+        "area_construida_m2": "6000.00",
+        "volumen_total_m3": "11812.50"
+      },
+      "numero_pisos": 8,
+      "material_principal": "bronze_arquitectonico",
+      "material_secundario": "titanio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 11812.5,
+        "material": "bronze_arquitectonico",
+        "densidad_kg_m3": 8800,
+        "peso_total_kg": 103950000,
+        "peso_toneladas": "103950.00",
+        "fuerza_gravitacional_newtons": "1019749500.00",
+        "resistencia_material_mpa": 450,
+        "costo_material_usd": "141750000.00"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 10.5,
+        "momento_flexion_nm": "1338421218.75",
+        "esfuerzo_necesario_mpa": "12139875.00",
+        "esfuerzo_material_mpa": 450,
+        "factor_seguridad": "0.00",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.35",
+        "centro_gravedad_y": "0.63",
+        "centro_gravedad_z": "23.85",
+        "masa_total_kg": "103950000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": -17.82122,
+        "longitud": -118.801177,
+        "terreno": "oceano",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "oceano",
+      "zona_climatica": "Tropical"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "141750000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "1,530,900,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1762976133904-K1DLMCB8K",
+    "timestamp": "2025-11-12T19:35:33.904Z",
+    "diseño": {
+      "nombre": "Casa Flotante Orgánica + Villa Orgánica Curveada",
+      "tipo_hibrido": "casa_flotante × villa_organica",
+      "caracteristicas": [
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos",
+        "Múltiples niveles",
+        "Formas fluidas",
+        "Integración natural"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 20,
+        "ancho_m": 35,
+        "profundidad_m": 30,
+        "area_construida_m2": "4200.00",
+        "volumen_total_m3": "8400.00"
+      },
+      "numero_pisos": 4,
+      "material_principal": "bronze_arquitectonico",
+      "material_secundario": "fibra_carbono"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 8400,
+        "material": "bronze_arquitectonico",
+        "densidad_kg_m3": 8800,
+        "peso_total_kg": 73920000,
+        "peso_toneladas": "73920.00",
+        "fuerza_gravitacional_newtons": "725155200.00",
+        "resistencia_material_mpa": 450,
+        "costo_material_usd": "100800000.00"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 8.75,
+        "momento_flexion_nm": "793138500.00",
+        "esfuerzo_necesario_mpa": "10359360.00",
+        "esfuerzo_material_mpa": 450,
+        "factor_seguridad": "0.00",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.57",
+        "centro_gravedad_y": "0.75",
+        "centro_gravedad_z": "10.60",
+        "masa_total_kg": "73920000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": 36.75522,
+        "longitud": -115.392752,
+        "terreno": "lago",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "lago",
+      "zona_climatica": "Templado"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "100800000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "567,000,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
   }
 ]
