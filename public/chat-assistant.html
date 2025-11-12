@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royal Assistant - Chatbot IA</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: linear-gradient(135deg, #000000 0%, #1a0033 100%);
+            color: #d4af37;
+            font-family: 'Courier New', monospace;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background: rgba(0, 0, 0, 0.8);
+            border-bottom: 3px solid #d4af37;
+            padding: 20px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 2rem;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.8);
+        }
+        .header p {
+            color: #fff;
+            margin-top: 5px;
+        }
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(212, 175, 55, 0.2);
+            border: 2px solid #d4af37;
+            padding: 10px 20px;
+            color: #d4af37;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        .back-btn:hover {
+            background: #d4af37;
+            color: #000;
+        }
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        .message {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+            animation: fadeIn 0.3s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .message.user {
+            flex-direction: row-reverse;
+        }
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        .message.user .message-avatar {
+            background: linear-gradient(135deg, #d4af37, #ffd700);
+        }
+        .message.assistant .message-avatar {
+            background: linear-gradient(135deg, #1a0033, #4a0080);
+            border: 2px solid #d4af37;
+        }
+        .message-content {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #d4af37;
+            border-radius: 15px;
+            padding: 15px;
+            max-width: 70%;
+        }
+        .message.user .message-content {
+            background: rgba(212, 175, 55, 0.2);
+            border-color: #ffd700;
+        }
+        .message-text {
+            color: #fff;
+            line-height: 1.6;
+        }
+        .typing-indicator {
+            display: none;
+            align-items: center;
+            gap: 5px;
+            color: #d4af37;
+            padding: 10px;
+        }
+        .typing-indicator.active {
+            display: flex;
+        }
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #d4af37;
+            animation: typing 1.4s infinite;
+        }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.7; }
+            30% { transform: translateY(-10px); opacity: 1; }
+        }
+        .input-container {
+            background: rgba(0, 0, 0, 0.8);
+            border-top: 3px solid #d4af37;
+            padding: 20px;
+            display: flex;
+            gap: 10px;
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        #user-input {
+            flex: 1;
+            background: rgba(212, 175, 55, 0.1);
+            border: 2px solid #d4af37;
+            color: #fff;
+            padding: 15px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-family: 'Courier New', monospace;
+        }
+        #user-input:focus {
+            outline: none;
+            background: rgba(212, 175, 55, 0.2);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+        #send-btn {
+            background: linear-gradient(135deg, #d4af37, #ffd700);
+            border: none;
+            color: #000;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        #send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.5);
+        }
+        #send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .quick-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+            padding: 0 20px;
+        }
+        .quick-btn {
+            background: rgba(212, 175, 55, 0.2);
+            border: 1px solid #d4af37;
+            color: #d4af37;
+            padding: 8px 15px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .quick-btn:hover {
+            background: #d4af37;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="/menu.html" class="back-btn">← Menú</a>
+        <h1>👑 ROYAL ASSISTANT</h1>
+        <p>Chatbot IA Powered by Gemini 2.5 Flash</p>
+    </div>
+    
+    <div class="quick-actions">
+        <button class="quick-btn" onclick="sendQuickMessage('Muéstrame el portafolio completo')">📊 Ver Portafolio</button>
+        <button class="quick-btn" onclick="sendQuickMessage('¿Cuál es el diseño más caro?')">💰 Diseño más caro</button>
+        <button class="quick-btn" onclick="sendQuickMessage('Genera un certificado')">📜 Generar certificado</button>
+        <button class="quick-btn" onclick="sendQuickMessage('Muestra las casas flotantes')">🌊 Casas flotantes</button>
+        <button class="quick-btn" onclick="sendQuickMessage('¿Cuánto vale el portafolio total?')">💎 Valor total</button>
+    </div>
+    
+    <div class="chat-container" id="chat-container">
+        <div class="message assistant">
+            <div class="message-avatar">🤖</div>
+            <div class="message-content">
+                <div class="message-text">
+                    ¡Hola! Soy <strong>Royal Assistant</strong>, tu asistente IA especializado en arquitectura futurista.<br><br>
+                    Puedo ayudarte con:<br>
+                    • Ver información de los 30 diseños arquitectónicos<br>
+                    • Generar certificados digitales<br>
+                    • Mostrar estadísticas del portafolio ($229.8 billones USD)<br>
+                    • Responder preguntas sobre los proyectos<br><br>
+                    ¿En qué puedo ayudarte hoy?
+                </div>
+            </div>
+        </div>
+        
+        <div class="typing-indicator" id="typing-indicator">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <span style="margin-left: 10px;">Royal Assistant está escribiendo...</span>
+        </div>
+    </div>
+    
+    <div class="input-container">
+        <input 
+            type="text" 
+            id="user-input" 
+            placeholder="Escribe tu mensaje o comando..."
+            onkeypress="handleKeyPress(event)"
+        >
+        <button id="send-btn" onclick="sendMessage()">Enviar 📤</button>
+    </div>
+    
+    <script>
+        const chatContainer = document.getElementById('chat-container');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        const typingIndicator = document.getElementById('typing-indicator');
+        
+        function addMessage(text, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'assistant'}`;
+            
+            const avatar = document.createElement('div');
+            avatar.className = 'message-avatar';
+            avatar.textContent = isUser ? '👤' : '🤖';
+            
+            const content = document.createElement('div');
+            content.className = 'message-content';
+            
+            const textDiv = document.createElement('div');
+            textDiv.className = 'message-text';
+            textDiv.innerHTML = text;
+            
+            content.appendChild(textDiv);
+            messageDiv.appendChild(avatar);
+            messageDiv.appendChild(content);
+            
+            chatContainer.insertBefore(messageDiv, typingIndicator);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+        
+        function showTyping() {
+            typingIndicator.classList.add('active');
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+        
+        function hideTyping() {
+            typingIndicator.classList.remove('active');
+        }
+        
+        async function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+            
+            // Agregar mensaje del usuario
+            addMessage(message, true);
+            userInput.value = '';
+            
+            // Deshabilitar input
+            sendBtn.disabled = true;
+            userInput.disabled = true;
+            showTyping();
+            
+            try {
+                // Enviar a la API
+                const response = await fetch('/api/chat-assistant', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message })
+                });
+                
+                const data = await response.json();
+                
+                hideTyping();
+                
+                if (data.success) {
+                    addMessage(data.response);
+                    
+                    // Si hay una acción ejecutada, mostrarla
+                    if (data.action) {
+                        addMessage(`<em style="color: #ffd700;">✅ Acción ejecutada: ${data.action}</em>`);
+                    }
+                } else {
+                    addMessage('❌ Error: ' + data.error);
+                }
+                
+            } catch (error) {
+                hideTyping();
+                addMessage('❌ Error de conexión: ' + error.message);
+            } finally {
+                sendBtn.disabled = false;
+                userInput.disabled = false;
+                userInput.focus();
+            }
+        }
+        
+        function sendQuickMessage(message) {
+            userInput.value = message;
+            sendMessage();
+        }
+        
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+        
+        // Focus en el input al cargar
+        userInput.focus();
+    </script>
+</body>
+</html>

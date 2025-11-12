@@ -1,0 +1,125 @@
+CERTIFICADOS GENERADOS - Wed Nov 12 03:50:00 AM UTC 2025
+Autor: Roberto Rivera Gamas - Royal (Arquitecto)
+Empresa: Street Emporio Royal
+======================================
+
+1. Proyecto: ARCH-1762846236558-Q4S3LDLBL
+   Certificado: CERT-1762919400090-VDT6FW3QB
+   Verificar: https://4b742e9c-7f79-441f-a42b-ba9dd5aef5dc-00-3lon3qdnc2zvl.janeway.replit.dev/verificar/CERT-1762919400090-VDT6FW3QB
+
+2. Proyecto: ARCH-1762846236559-0FAYLVHIP
+   Certificado: CERT-1762919400821-8FO4XIXJW
+   Verificar: https://4b742e9c-7f79-441f-a42b-ba9dd5aef5dc-00-3lon3qdnc2zvl.janeway.replit.dev/verificar/CERT-1762919400821-8FO4XIXJW
+
+3. Proyecto: ARCH-1762846236559-VT2RC7LJD
+   Certificado: CERT-1762919401469-ABVQBPKQS
+   Verificar: https://4b742e9c-7f79-441f-a42b-ba9dd5aef5dc-00-3lon3qdnc2zvl.janeway.replit.dev/verificar/CERT-1762919401469-ABVQBPKQS
+
+4. Proyecto: ARCH-1762846236560-VFHRJD7PA
+   Certificado: CERT-1762919402124-2NI2VG4R1
+   Verificar: https://4b742e9c-7f79-441f-a42b-ba9dd5aef5dc-00-3lon3qdnc2zvl.janeway.replit.dev/verificar/CERT-1762919402124-2NI2VG4R1
+
+5. Proyecto: ARCH-1762846236560-NL4A2IH03
+   Certificado: CERT-1762919402791-ORGCUJFFB
+   Verificar: https://4b742e9c-7f79-441f-a42b-ba9dd5aef5dc-00-3lon3qdnc2zvl.janeway.replit.dev/verificar/CERT-1762919402791-ORGCUJFFB
+
+6. Proyecto: ARCH-1762846236560-TZANR5OX7
+   Certificado: CERT-1762919403454-99PI62HC5
+   Verificar: https://4b742e9c-7f79-441f-a42b-ba9dd5aef5dc-00-3lon3qdnc2zvl.janeway.replit.dev/verificar/CERT-1762919403454-99PI62HC5
+
+7. Proyecto: ARCH-1762846236560-ONEFAGJDB
+   Certificado: CERT-1762919404149-M99Y4VTMK
+   Verificar: https://4b742e9c-7f79-441f-a42b-ba9dd5aef5dc-00-3lon3qdnc2zvl.janeway.replit.dev/verificar/CERT-1762919404149-M99Y4VTMK
+
+8. Proyecto: ARCH-1762846236560-FG3QNOY32
+   Certificado: CERT-1762919404805-O2W820WTQ
+   Verificar: https://4b742e9c-7f79-441f-a42b-ba9dd5aef5dc-00-3lon3qdnc2zvl.janeway.replit.dev/verificar/CERT-1762919404805-O2W820WTQ
+
+9. Proyecto: ARCH-1762846236560-DPIT8M8SO
+   Certificado: CERT-1762919405461-C3AE5DEUQ
+   Verificar: https://4b742e9c-7f79-441f-a42b-ba9dd5aef5dc-00-3lon3qdnc2zvl.janeway.replit.dev/verificar/CERT-1762919405461-C3AE5DEUQ
+
+10. Proyecto: ARCH-1762846236561-5NQGKR85C
+   Certificado: CERT-1762919406118-JGJZ419AY
+   Verificar: https://4b742e9c-7f79-441f-a42b-ba9dd5aef5dc-00-3lon3qdnc2zvl.janeway.replit.dev/verificar/CERT-1762919406118-JGJZ419AY
+
+11. Proyecto: ARCH-1762846236561-0VBUNQWVG
+   Certificado: CERT-1762919406818-9ULU9B6PC
+   Verificar: https://4b742e9c-7f79-441f-a42b-ba9dd5aef5dc-00-3lon3qdnc2zvl.janeway.replit.dev/verificar/CERT-1762919406818-9ULU9B6PC
+
+12. Proyecto: ARCH-1762846236561-EEQUO5W8Q
+   Certificado: CERT-1762919407470-7XJUE05BU
+   Verificar: https://4b742e9c-7f79-441f-a42b-ba9dd5aef5dc-00-3lon3qdnc2zvl.janeway.replit.dev/verificar/CERT-1762919407470-7XJUE05BU
+
+13. Proyecto: ARCH-1762846236561-X2WR4N5FE
+   Certificado: CERT-1762919408147-111W97BSB
+   Verificar: https://4b742e9c-7f79-441f-a42b-ba9dd5aef5dc-00-3lon3qdnc2zvl.janeway.replit.dev/verificar/CERT-1762919408147-111W97BSB
+
+14. Proyecto: ARCH-1762846236561-F8X952YEE
+   Certificado: CERT-1762919408820-5B2OIPJRY
+   Verificar: https://4b742e9c-7f79-441f-a42b-ba9dd5aef5dc-00-3lon3qdnc2zvl.janeway.replit.dev/verificar/CERT-1762919408820-5B2OIPJRY
+
+15. Proyecto: ARCH-1762846236561-XGB5KSXI1
+   Certificado: CERT-1762919409556-UBVGEX7GA
+   Verificar: https://4b742e9c-7f79-441f-a42b-ba9dd5aef5dc-00-3lon3qdnc2zvl.janeway.replit.dev/verificar/CERT-1762919409556-UBVGEX7GA
+
+16. Proyecto: ARCH-1762846236561-H4A4MWEZ4
+   Certificado: CERT-1762919410236-Q397LGGFT
+   Verificar: https://4b742e9c-7f79-441f-a42b-ba9dd5aef5dc-00-3lon3qdnc2zvl.janeway.replit.dev/verificar/CERT-1762919410236-Q397LGGFT
+
+17. Proyecto: ARCH-1762846236561-2K2HOUM3M
+   Certificado: CERT-1762919410908-BLDXYCF0G
+   Verificar: https://4b742e9c-7f79-441f-a42b-ba9dd5aef5dc-00-3lon3qdnc2zvl.janeway.replit.dev/verificar/CERT-1762919410908-BLDXYCF0G
+
+18. Proyecto: ARCH-1762846236561-HN0WE73F2
+   Certificado: CERT-1762919411573-X41Z9EBOC
+   Verificar: https://4b742e9c-7f79-441f-a42b-ba9dd5aef5dc-00-3lon3qdnc2zvl.janeway.replit.dev/verificar/CERT-1762919411573-X41Z9EBOC
+
+19. Proyecto: ARCH-1762846236562-J9L93IYD3
+   Certificado: CERT-1762919412269-Y9627RA1R
+   Verificar: https://4b742e9c-7f79-441f-a42b-ba9dd5aef5dc-00-3lon3qdnc2zvl.janeway.replit.dev/verificar/CERT-1762919412269-Y9627RA1R
+
+20. Proyecto: ARCH-1762846236562-8UC8EUYTS
+   Certificado: CERT-1762919412997-4GZ7408LW
+   Verificar: https://4b742e9c-7f79-441f-a42b-ba9dd5aef5dc-00-3lon3qdnc2zvl.janeway.replit.dev/verificar/CERT-1762919412997-4GZ7408LW
+
+21. Proyecto: ARCH-1762846236562-ZZL9WGTHF
+   Certificado: CERT-1762919413680-6A4MOTEL6
+   Verificar: https://4b742e9c-7f79-441f-a42b-ba9dd5aef5dc-00-3lon3qdnc2zvl.janeway.replit.dev/verificar/CERT-1762919413680-6A4MOTEL6
+
+22. Proyecto: ARCH-1762846236562-9PVWX3HL6
+   Certificado: CERT-1762919414339-Q2VWPDALU
+   Verificar: https://4b742e9c-7f79-441f-a42b-ba9dd5aef5dc-00-3lon3qdnc2zvl.janeway.replit.dev/verificar/CERT-1762919414339-Q2VWPDALU
+
+23. Proyecto: ARCH-1762846236562-RT4B8PKHL
+   Certificado: CERT-1762919415000-0PGOXMNQU
+   Verificar: https://4b742e9c-7f79-441f-a42b-ba9dd5aef5dc-00-3lon3qdnc2zvl.janeway.replit.dev/verificar/CERT-1762919415000-0PGOXMNQU
+
+24. Proyecto: ARCH-1762846236562-4SLFB06B5
+   Certificado: CERT-1762919415640-HUFKM3OBZ
+   Verificar: https://4b742e9c-7f79-441f-a42b-ba9dd5aef5dc-00-3lon3qdnc2zvl.janeway.replit.dev/verificar/CERT-1762919415640-HUFKM3OBZ
+
+25. Proyecto: ARCH-1762846236562-QS6VR3IAK
+   Certificado: CERT-1762919416298-MS5F09ND0
+   Verificar: https://4b742e9c-7f79-441f-a42b-ba9dd5aef5dc-00-3lon3qdnc2zvl.janeway.replit.dev/verificar/CERT-1762919416298-MS5F09ND0
+
+26. Proyecto: ARCH-1762846236562-GBI103DEN
+   Certificado: CERT-1762919416932-FYF6DTLI7
+   Verificar: https://4b742e9c-7f79-441f-a42b-ba9dd5aef5dc-00-3lon3qdnc2zvl.janeway.replit.dev/verificar/CERT-1762919416932-FYF6DTLI7
+
+27. Proyecto: ARCH-1762846236562-RS2XGMTUB
+   Certificado: CERT-1762919417579-UA8ATO866
+   Verificar: https://4b742e9c-7f79-441f-a42b-ba9dd5aef5dc-00-3lon3qdnc2zvl.janeway.replit.dev/verificar/CERT-1762919417579-UA8ATO866
+
+28. Proyecto: ARCH-1762846236562-5RO9OHQ7J
+   Certificado: CERT-1762919418289-EPYOF95BN
+   Verificar: https://4b742e9c-7f79-441f-a42b-ba9dd5aef5dc-00-3lon3qdnc2zvl.janeway.replit.dev/verificar/CERT-1762919418289-EPYOF95BN
+
+29. Proyecto: ARCH-1762846236562-55A4WPRWA
+   Certificado: CERT-1762919418948-H7UE750GQ
+   Verificar: https://4b742e9c-7f79-441f-a42b-ba9dd5aef5dc-00-3lon3qdnc2zvl.janeway.replit.dev/verificar/CERT-1762919418948-H7UE750GQ
+
+30. Proyecto: ARCH-1762846236562-D2RIAU0U4
+   Certificado: CERT-1762919419598-TPXPPH9BP
+   Verificar: https://4b742e9c-7f79-441f-a42b-ba9dd5aef5dc-00-3lon3qdnc2zvl.janeway.replit.dev/verificar/CERT-1762919419598-TPXPPH9BP
+

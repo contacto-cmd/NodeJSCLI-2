@@ -1,0 +1,15 @@
+{
+  "chain": [
+    {
+      "index": 0,
+      "timestamp": "2025-11-12T06:25:06.303Z",
+      "data": {
+        "tipo": "GENESIS_BLOCK",
+        "mensaje": "Street Emporio Royal - Throne Protocol V3.0 - Blockchain Iniciado",
+        "autor": "Roberto Rivera Gamas - Royal (Arquitecto)"
+      },
+      "previousHash": "0",
+      "hash": "d849201979ca8f774b43c29239d41a09fa7de7d65e1c2818cb777c90ffe9aeb3"
+    }
+  ]
+}
