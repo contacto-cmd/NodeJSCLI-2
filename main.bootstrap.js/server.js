@@ -12,9 +12,15 @@ const { addSecret, getSecret, listSecrets, deleteSecret, saveVault, getVaultStat
 const ArquitecturaService = require('./services/arquitectura.service');
 const { COMBINACIONES_UNICAS } = require('./generador-masivo');
 const { generarCertificadoPDF, obtenerCertificado, enviarCertificadoPorCorreo, verificarBlockchain, obtenerBlockchain, buscarCertificadoEnBlockchain, CERT_DIR } = require('./throne-certificados');
+const { arquitectoInterno } = require('./arquitecto-interno');
 
 // Configurar Resend para envío de emails
 const resend = new Resend(process.env.RESEND_API_KEY);
+
+// 🧠 ACTIVAR ARQUITECTO AI INTERNO - Monitoreo Continuo
+console.log('🧠 Activando Arquitecto AI Interno...');
+arquitectoInterno.activarMonitoreoContinuo(120000); // Monitorear cada 2 minutos
+console.log('✅ Arquitecto AI Interno: ACTIVO');
 
 const app = express();
 app.use(cors()); // Usar CORS
@@ -774,6 +780,76 @@ app.get('/api/blockchain/certificado/:certId', (req, res) => {
             proyecto_id: resultado.datos.proyecto_id,
             nombre_diseno: resultado.datos.nombre_diseno,
             hash_certificado: resultado.datos.hash_certificado
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// =================================================================
+// ARQUITECTO AI INTERNO 🧠
+// =================================================================
+
+// Obtener estado del Arquitecto AI
+app.get('/api/arquitecto-ai/estado', (req, res) => {
+    try {
+        const estado = arquitectoInterno.obtenerEstado();
+        res.json({
+            success: true,
+            arquitecto: estado
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// Ejecutar diagnóstico manual del sistema
+app.post('/api/arquitecto-ai/diagnosticar', async (req, res) => {
+    try {
+        const { mensaje } = req.body;
+        const diagnostico = await arquitectoInterno.diagnosticarSistema(mensaje);
+        res.json({
+            success: true,
+            diagnostico: diagnostico
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// Forzar monitoreo inmediato
+app.post('/api/arquitecto-ai/monitorear', async (req, res) => {
+    try {
+        const resultado = await arquitectoInterno.monitorear();
+        res.json({
+            success: true,
+            resultado: resultado
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// Obtener tablero de ajedrez (estado de componentes)
+app.get('/api/arquitecto-ai/tablero', (req, res) => {
+    try {
+        res.json({
+            success: true,
+            tablero: arquitectoInterno.tablero.tablero,
+            estado_global: arquitectoInterno.tablero.obtenerEstadoGlobal(),
+            anomalias: arquitectoInterno.tablero.detectarAnomalias()
         });
     } catch (error) {
         res.status(500).json({
