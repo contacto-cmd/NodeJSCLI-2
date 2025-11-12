@@ -11,7 +11,7 @@ const { generateWithGPT5, generateWithGemini, generateDual, INDUSTRY_TEMPLATES }
 const { addSecret, getSecret, listSecrets, deleteSecret, saveVault, getVaultStats } = require('./throne-vault');
 const ArquitecturaService = require('./services/arquitectura.service');
 const { COMBINACIONES_UNICAS } = require('./generador-masivo');
-const { generarCertificadoPDF, obtenerCertificado, enviarCertificadoPorCorreo, CERT_DIR } = require('./throne-certificados');
+const { generarCertificadoPDF, obtenerCertificado, enviarCertificadoPorCorreo, verificarBlockchain, obtenerBlockchain, buscarCertificadoEnBlockchain, CERT_DIR } = require('./throne-certificados');
 
 // Configurar Resend para envío de emails
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -702,6 +702,85 @@ app.get('/api/certificados/descargar/:certId', async (req, res) => {
 // Ruta corta para verificación con QR (redirige a página de verificación)
 app.get('/verificar/:certId', (req, res) => {
     res.redirect(`/verificar-certificado.html?id=${req.params.certId}`);
+});
+
+// =================================================================
+// ENDPOINTS DE BLOCKCHAIN 🔗
+// =================================================================
+
+// Verificar integridad de la blockchain completa
+app.get('/api/blockchain/verificar', (req, res) => {
+    try {
+        const resultado = verificarBlockchain();
+        res.json({
+            success: true,
+            blockchain_valida: resultado.valido,
+            total_bloques: resultado.bloques,
+            ultimo_bloque: resultado.ultimo_bloque,
+            error: resultado.error || null
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// Obtener blockchain completa (solo para admin/debug)
+app.get('/api/blockchain/completa', (req, res) => {
+    try {
+        const blockchain = obtenerBlockchain();
+        if (!blockchain) {
+            return res.status(404).json({
+                success: false,
+                error: 'Blockchain no encontrada'
+            });
+        }
+        res.json({
+            success: true,
+            blockchain: blockchain
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// Buscar certificado en blockchain (verificación pública)
+app.get('/api/blockchain/certificado/:certId', (req, res) => {
+    try {
+        const { certId } = req.params;
+        const resultado = buscarCertificadoEnBlockchain(certId);
+        
+        if (!resultado.encontrado) {
+            return res.status(404).json({
+                success: false,
+                encontrado: false,
+                mensaje: 'Certificado no registrado en blockchain'
+            });
+        }
+        
+        res.json({
+            success: true,
+            encontrado: true,
+            bloque_numero: resultado.bloque_numero,
+            timestamp: resultado.timestamp,
+            hash_bloque: resultado.hash_bloque,
+            hash_previo: resultado.hash_previo,
+            certificado_id: resultado.datos.certificado_id,
+            proyecto_id: resultado.datos.proyecto_id,
+            nombre_diseno: resultado.datos.nombre_diseno,
+            hash_certificado: resultado.datos.hash_certificado
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
 });
 
 // =================================================================
