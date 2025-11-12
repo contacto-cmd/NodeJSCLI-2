@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Throne Protocol V3.0 - Sistema de Comando 3D</title>
+    <link href="https://cesium.com/downloads/cesiumjs/releases/1.109/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+    <script src="https://unpkg.com/satellite.js/dist/satellite.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+            color: #00ff88;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        #header {
+            background: rgba(0, 0, 0, 0.9);
+            border-bottom: 2px solid #00ff88;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            position: relative;
+        }
+
+        #header h1 {
+            font-size: 24px;
+            text-shadow: 0 0 10px #00ff88;
+        }
+
+        #status {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ff3333;
+            box-shadow: 0 0 10px #ff3333;
+            animation: pulse 2s infinite;
+        }
+
+        .status-dot.active {
+            background: #00ff88;
+            box-shadow: 0 0 10px #00ff88;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        #main-container {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            height: calc(100vh - 70px);
+            gap: 0;
+        }
+
+        #cesiumContainer {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        #control-panel {
+            background: rgba(10, 10, 30, 0.95);
+            border-left: 2px solid #00ff88;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .panel-section {
+            margin-bottom: 30px;
+            border: 1px solid #00ff88;
+            padding: 15px;
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .panel-section h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #00ffff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .info-line {
+            margin: 8px 0;
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .info-label {
+            color: #888;
+        }
+
+        .info-value {
+            color: #00ff88;
+            font-weight: bold;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            background: linear-gradient(135deg, #00ff88 0%, #00cc66 100%);
+            border: none;
+            color: #000;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 255, 136, 0.5);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button.danger {
+            background: linear-gradient(135deg, #ff3333 0%, #cc0000 100%);
+            color: #fff;
+        }
+
+        #console {
+            background: #000;
+            border: 1px solid #00ff88;
+            padding: 15px;
+            height: 250px;
+            overflow-y: auto;
+            font-size: 11px;
+            border-radius: 5px;
+        }
+
+        .console-line {
+            margin: 3px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .console-success { color: #00ff88; }
+        .console-error { color: #ff3333; }
+        .console-info { color: #00ffff; }
+        .console-warning { color: #ffaa00; }
+
+        .seal-display {
+            background: #000;
+            padding: 10px;
+            border-radius: 5px;
+            word-break: break-all;
+            font-size: 10px;
+            margin: 10px 0;
+        }
+
+        #loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+
+        .loader {
+            border: 5px solid #333;
+            border-top: 5px solid #00ff88;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #loading-text {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #00ff88;
+        }
+
+        .node-item {
+            background: rgba(0, 255, 136, 0.1);
+            border-left: 3px solid #00ff88;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        .node-item:hover {
+            background: rgba(0, 255, 136, 0.2);
+            transform: translateX(5px);
+        }
+
+        .node-token {
+            font-weight: bold;
+            color: #00ffff;
+            font-size: 11px;
+            margin-bottom: 3px;
+        }
+
+        .node-url {
+            font-size: 9px;
+            color: #888;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <div id="loading">
+        <div class="loader"></div>
+        <div id="loading-text">INICIANDO PROTOCOLO TRONO V3.0...</div>
+    </div>
+
+    <div id="header">
+        <h1>⚡ THRONE PROTOCOL V3.0 - SISTEMA DE COMANDO</h1>
+        <div style="font-size: 11px; color: #00ffff; margin-top: 3px;">
+            👑 Arte Visualista-Royal | Diseñador de Arquitectura Empresarial Futurista
+        </div>
+        <div id="status">
+            <div class="status-item">
+                <div class="status-dot" id="server-status"></div>
+                <span>SERVIDOR</span>
+            </div>
+            <div class="status-item">
+                <div class="status-dot" id="auth-status"></div>
+                <span>AUTENTICACIÓN</span>
+            </div>
+            <div class="status-item">
+                <div class="status-dot" id="cesium-status"></div>
+                <span>CESIUM 3D</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="main-container">
+        <div id="cesiumContainer"></div>
+        
+        <div id="control-panel">
+            <div class="panel-section">
+                <h2>🔐 Estado del Sistema</h2>
+                <div class="info-line">
+                    <span class="info-label">Protocolo:</span>
+                    <span class="info-value" id="protocol-status">ESPERANDO...</span>
+                </div>
+                <div class="info-line">
+                    <span class="info-label">Maestro:</span>
+                    <span class="info-value" id="maestro-name">-</span>
+                </div>
+                <div class="info-line">
+                    <span class="info-label">Orden:</span>
+                    <span class="info-value" id="maestro-orden">-</span>
+                </div>
+                <div class="info-line">
+                    <span class="info-label">Nodos Cargados:</span>
+                    <span class="info-value" id="nodos-count">0</span>
+                </div>
+            </div>
+
+            <div class="panel-section">
+                <h2>⚡ Arsenal de Nodos</h2>
+                <div id="nodes-list" style="max-height: 200px; overflow-y: auto;"></div>
+            </div>
+
+            <div class="panel-section">
+                <h2>🎯 Sellos de Seguridad</h2>
+                <div class="info-line">
+                    <span class="info-label">Throne Seal:</span>
+                </div>
+                <div class="seal-display" id="throne-seal">...</div>
+                
+                <div class="info-line">
+                    <span class="info-label">Diplomat Seal:</span>
+                </div>
+                <div class="seal-display" id="diplomat-seal">...</div>
+            </div>
+
+            <div class="panel-section">
+                <h2>⚡ Comandos</h2>
+                <button id="btn-init" onclick="initProtocol()">INICIAR PROTOCOLO</button>
+                <button id="btn-certificacion" onclick="verCertificacionFinal()" style="background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); color: #000; font-weight: bold;">🏆 CERTIFICACIÓN FINAL</button>
+                <button id="btn-certificado-digital" onclick="generarCertificadoDigital()" style="background: linear-gradient(135deg, #00ff88 0%, #00cc66 100%); color: #000; font-weight: bold;">📜 GENERAR CERTIFICADO FIRMADO</button>
+                <button id="btn-adquisicion" onclick="executeAdquisicion()" disabled>EJECUTAR ADQUISICIÓN</button>
+                <button id="btn-refresh" onclick="refreshToken()">ACTUALIZAR TOKEN</button>
+                <button class="danger" onclick="clearConsole()">LIMPIAR CONSOLA</button>
+            </div>
+
+            <div class="panel-section">
+                <h2>🔐 THRONE VAULT</h2>
+                <div style="margin-bottom: 15px;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                        <div style="text-align: center; padding: 10px; background: rgba(0,255,136,0.1); border-radius: 5px;">
+                            <div style="font-size: 20px; font-weight: bold; color: #00ff88;" id="vault-total">0</div>
+                            <div style="font-size: 10px; color: #888;">TOTAL</div>
+                        </div>
+                        <div style="text-align: center; padding: 10px; background: rgba(0,255,255,0.1); border-radius: 5px;">
+                            <div style="font-size: 20px; font-weight: bold; color: #00ffff;" id="vault-passwords">0</div>
+                            <div style="font-size: 10px; color: #888;">PASSWORDS</div>
+                        </div>
+                    </div>
+                    <select id="vault-category" style="width: 100%; padding: 8px; background: #000; color: #00ff88; border: 1px solid #00ff88; border-radius: 3px; margin-bottom: 10px;">
+                        <option value="passwords">🔑 Passwords</option>
+                        <option value="apiKeys">🔐 API Keys</option>
+                        <option value="certificates">📜 Certificados</option>
+                        <option value="documents">📄 Documentos</option>
+                    </select>
+                    <input type="text" id="vault-name" placeholder="Nombre (ej: Gmail Password)" style="width: 100%; padding: 8px; background: #000; color: #00ff88; border: 1px solid #00ff88; border-radius: 3px; margin-bottom: 5px; font-family: inherit;">
+                    <textarea id="vault-value" rows="2" placeholder="Valor (se encriptará con tu RSA-4096)" style="width: 100%; padding: 8px; background: #000; color: #00ff88; border: 1px solid #00ff88; border-radius: 3px; resize: vertical; font-family: inherit; margin-bottom: 10px;"></textarea>
+                    <button onclick="addVaultSecret()" style="background: linear-gradient(135deg, #00ff88 0%, #00cc66 100%);">
+                        ➕ GUARDAR SECRETO
+                    </button>
+                    <button onclick="loadVaultSecrets()" style="background: linear-gradient(135deg, #00ffff 0%, #0099cc 100%);">
+                        📋 LISTAR
+                    </button>
+                    <button onclick="loadVaultStats()">📊 STATS</button>
+                </div>
+                <div id="vault-list" style="max-height: 200px; overflow-y: auto; background: #000; padding: 10px; border: 1px solid #00ff88; border-radius: 3px; font-size: 10px;"></div>
+            </div>
+
+            <div class="panel-section">
+                <h2>🤖 Laboratorio de IA</h2>
+                <div style="margin-bottom: 10px;">
+                    <label style="display: block; margin-bottom: 5px; color: #00ffff;">Industria:</label>
+                    <select id="ai-industry" style="width: 100%; padding: 8px; background: #000; color: #00ff88; border: 1px solid #00ff88; border-radius: 3px;">
+                        <option value="">General</option>
+                        <option value="medicina">Medicina</option>
+                        <option value="arquitectura">Arquitectura</option>
+                        <option value="legal">Legal</option>
+                        <option value="ingenieria">Ingeniería</option>
+                        <option value="negocios">Negocios</option>
+                    </select>
+                </div>
+                
+                <div style="margin-bottom: 10px;">
+                    <label style="display: block; margin-bottom: 5px; color: #00ffff;">Descripción de App:</label>
+                    <textarea id="ai-prompt" rows="3" placeholder="Ej: Crear una app para gestionar pacientes con historial clínico..." style="width: 100%; padding: 8px; background: #000; color: #00ff88; border: 1px solid #00ff88; border-radius: 3px; resize: vertical; font-family: inherit;"></textarea>
+                </div>
+
+                <button onclick="generateApp('dual')" style="background: linear-gradient(135deg, #ff00ff 0%, #00ffff 100%);">
+                    🔥 DUAL (GPT-5 + Gemini)
+                </button>
+                <button onclick="generateApp('gpt5')">GENERAR con GPT-5</button>
+                <button onclick="generateApp('gemini')">GENERAR con Gemini</button>
+                <button onclick="showTemplates()" style="background: linear-gradient(135deg, #ffaa00 0%, #ff6600 100%);">
+                    📋 VER TEMPLATES
+                </button>
+            </div>
+
+            <div class="panel-section" id="ai-results" style="display: none;">
+                <h2>💻 Código Generado</h2>
+                <div style="margin-bottom: 10px;">
+                    <span id="ai-model-used" style="color: #ffaa00; font-size: 11px;"></span>
+                </div>
+                <div id="ai-code-display" style="background: #000; padding: 10px; max-height: 300px; overflow-y: auto; border: 1px solid #00ff88; border-radius: 3px; white-space: pre-wrap; font-size: 10px; word-break: break-word;"></div>
+                <button onclick="downloadCode()" style="margin-top: 10px;">💾 DESCARGAR CÓDIGO</button>
+                <button onclick="copyCode()" style="margin-top: 10px;">📋 COPIAR</button>
+            </div>
+
+            <div class="panel-section">
+                <h2>📡 Consola de Sistema</h2>
+                <div id="console"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cesium.com/downloads/cesiumjs/releases/1.109/Build/Cesium/Cesium.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

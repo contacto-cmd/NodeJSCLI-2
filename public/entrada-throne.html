@@ -12,91 +12,129 @@
             font-family: 'Arial', sans-serif;
         }
         
-        /* Imagen como VIDEO 3D ANIMADO */
+        /* Imagen de fondo completa con movimiento sutil */
         .background-image {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background-image: url('tablero-principal.png');
-            background-size: 110% 110%;
+            background-image: url('throne-background.png');
+            background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             z-index: 1;
-            animation: 
-                videoParallax 10s ease-in-out infinite,
-                videoZoom 8s ease-in-out infinite,
-                videoBrillo 6s ease-in-out infinite;
-            transform-style: preserve-3d;
-            will-change: transform, filter;
+            animation: bgGlow 4s ease-in-out infinite, bgShift 20s ease-in-out infinite;
         }
         
-        @keyframes videoParallax {
+        @keyframes bgGlow {
+            0%, 100% { filter: brightness(1) contrast(1.1); }
+            50% { filter: brightness(1.2) contrast(1.2); }
+        }
+        
+        @keyframes bgShift {
             0%, 100% { 
-                background-position: 50% 50%;
+                transform: scale(1.02);
+                background-position: center center;
             }
             25% { 
-                background-position: 48% 48%;
+                transform: scale(1.05);
+                background-position: 51% 51%;
             }
             50% { 
-                background-position: 50% 52%;
+                transform: scale(1.03);
+                background-position: center center;
             }
             75% { 
-                background-position: 52% 50%;
+                transform: scale(1.05);
+                background-position: 49% 49%;
             }
         }
         
-        @keyframes videoZoom {
-            0%, 100% { 
-                transform: scale(1) perspective(1500px) rotateX(0deg) rotateY(0deg);
-            }
-            33% { 
-                transform: scale(1.08) perspective(1500px) rotateX(2deg) rotateY(-1deg);
-            }
-            66% { 
-                transform: scale(1.05) perspective(1500px) rotateX(-1deg) rotateY(1deg);
-            }
+        /* Canvas para partículas flotantes encima */
+        #particlesCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 2;
+            pointer-events: none;
         }
         
-        @keyframes videoBrillo {
+        /* Título sobre la imagen */
+        .title {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ffd700;
+            font-size: 3.5rem;
+            text-shadow: 
+                0 0 30px #000,
+                0 0 40px #ffd700,
+                0 0 60px #ffd700,
+                0 0 80px #ff8c00;
+            z-index: 10;
+            animation: titleGlow 2s ease-in-out infinite;
+            letter-spacing: 8px;
+            font-weight: bold;
+        }
+        
+        @keyframes titleGlow {
             0%, 100% { 
-                filter: brightness(1) contrast(1.1) saturate(1.2);
+                text-shadow: 0 0 30px #000, 0 0 40px #ffd700, 0 0 60px #ffd700;
+                transform: translateX(-50%) scale(1);
             }
             50% { 
-                filter: brightness(1.3) contrast(1.2) saturate(1.4);
+                text-shadow: 0 0 30px #000, 0 0 60px #ffd700, 0 0 90px #ffd700, 0 0 120px #ff8c00;
+                transform: translateX(-50%) scale(1.05);
             }
         }
         
-        /* Canvas OCULTO - sin partículas */
-        #particlesCanvas {
-            display: none;
-        }
-        
-        /* Título OCULTO */
-        .title, .subtitle {
-            display: none;
-        }
-        
-        /* Botón invisible sobre la explosión central */
-        .explosion-button {
+        .subtitle {
             position: fixed;
-            top: 30%;
+            top: 90px;
             left: 50%;
-            transform: translate(-50%, -50%);
-            width: 500px;
-            height: 500px;
+            transform: translateX(-50%);
+            color: #00ff88;
+            font-size: 1.8rem;
+            text-shadow: 
+                0 0 20px #000,
+                0 0 30px #00ff88;
+            z-index: 10;
+            letter-spacing: 3px;
+        }
+        
+        /* Botón de entrada */
+        .enter-button {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 20px 60px;
+            background: linear-gradient(145deg, #ffd700, #ff8c00);
+            border: 3px solid #ffd700;
+            border-radius: 15px;
+            color: #000;
+            font-size: 1.8rem;
+            font-weight: bold;
             cursor: pointer;
-            z-index: 15;
-            border-radius: 50%;
+            z-index: 10;
+            box-shadow: 
+                0 0 40px rgba(255, 215, 0, 0.8),
+                0 10px 30px rgba(0, 0, 0, 0.5);
             transition: all 0.3s ease;
+            letter-spacing: 3px;
         }
         
-        .explosion-button:hover {
-            background: radial-gradient(circle, rgba(255,215,0,0.2), transparent);
-            box-shadow: 0 0 100px rgba(255, 215, 0, 0.8);
+        .enter-button:hover {
+            transform: translateX(-50%) scale(1.1);
+            box-shadow: 
+                0 0 60px rgba(255, 215, 0, 1),
+                0 15px 40px rgba(0, 0, 0, 0.7);
+            background: linear-gradient(145deg, #ff8c00, #ffd700);
         }
-        
     </style>
 </head>
 <body>
@@ -109,8 +147,10 @@
     <!-- Canvas de partículas flotantes -->
     <canvas id="particlesCanvas"></canvas>
     
-    <!-- Botón invisible sobre la explosión (centro de la imagen) -->
-    <div class="explosion-button" onclick="location.href='/menu.html'"></div>
+    <!-- Botón de entrada -->
+    <button class="enter-button" onclick="location.href='/menu.html'">
+        ENTRAR AL SISTEMA
+    </button>
     
     <script>
         const canvas = document.getElementById('particlesCanvas');

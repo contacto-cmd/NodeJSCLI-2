@@ -11,20 +11,94 @@
             color: #d4af37;
             font-family: 'Arial', sans-serif;
             padding: 20px;
+            overflow-x: hidden;
+        }
+        
+        /* Fondo cinematográfico */
+        .cinema-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at top, rgba(255, 140, 0, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at center, rgba(0, 255, 136, 0.08) 0%, transparent 70%),
+                linear-gradient(180deg, #000 0%, #0a0a0a 50%, #000 100%);
+            z-index: 0;
+            animation: bgPulse 6s ease-in-out infinite;
+        }
+        
+        @keyframes bgPulse {
+            0%, 100% { opacity: 0.9; }
+            50% { opacity: 1; }
+        }
+        
+        /* Partículas flotantes de energía */
+        .particle {
+            position: fixed;
+            width: 3px;
+            height: 3px;
+            background: #ffd700;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700;
+            animation: float 15s infinite;
+            opacity: 0.7;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        @keyframes float {
+            0% { transform: translate(0, 100vh) scale(0); opacity: 0; }
+            10% { opacity: 0.7; }
+            90% { opacity: 0.7; }
+            100% { transform: translate(50px, -100vh) scale(1.5); opacity: 0; }
+        }
+        
+        .particle.green {
+            background: #00ff88;
+            box-shadow: 0 0 12px #00ff88, 0 0 25px #00ff88;
+        }
+        
+        .content-wrapper {
+            position: relative;
+            z-index: 2;
         }
         h1 {
             text-align: center;
-            font-size: 2.5rem;
+            font-size: 3rem;
             margin-bottom: 10px;
-            color: #d4af37;
+            color: #ffd700;
+            text-shadow: 
+                0 0 20px #ffd700,
+                0 0 40px #ffd700,
+                0 0 60px #ff8c00;
+            animation: headerGlow 3s ease-in-out infinite;
+            letter-spacing: 3px;
+        }
+        
+        @keyframes headerGlow {
+            0%, 100% { 
+                text-shadow: 0 0 20px #ffd700, 0 0 40px #ffd700;
+            }
+            50% { 
+                text-shadow: 0 0 30px #ffd700, 0 0 60px #ffd700, 0 0 90px #ff8c00;
+            }
         }
         h2 {
             text-align: center;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             margin: 40px 0 20px 0;
-            color: #d4af37;
-            border-bottom: 2px solid #d4af37;
+            color: #00ff88;
+            border-bottom: 2px solid #00ff88;
             padding-bottom: 10px;
+            text-shadow: 0 0 15px #00ff88, 0 0 30px #00ff88;
+            animation: sectionGlow 2s ease-in-out infinite;
+        }
+        
+        @keyframes sectionGlow {
+            0%, 100% { text-shadow: 0 0 15px #00ff88; }
+            50% { text-shadow: 0 0 25px #00ff88, 0 0 50px #00ff88; }
         }
         .subtitle {
             text-align: center;
@@ -39,16 +113,43 @@
             margin: 0 auto;
         }
         .project {
-            background: #111;
-            border: 2px solid #d4af37;
-            border-radius: 10px;
+            background: linear-gradient(145deg, rgba(0, 0, 0, 0.95), rgba(26, 0, 51, 0.8));
+            border: 3px solid #d4af37;
+            border-radius: 15px;
             overflow: hidden;
-            transition: transform 0.3s;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             cursor: pointer;
+            position: relative;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.6),
+                inset 0 0 20px rgba(255, 215, 0, 0.1);
         }
+        
+        .project::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .project:hover::before {
+            opacity: 1;
+        }
+        
         .project:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+            transform: translateY(-15px) scale(1.05);
+            border-color: #ffd700;
+            box-shadow: 
+                0 25px 60px rgba(255, 215, 0, 0.5),
+                0 0 40px rgba(0, 255, 136, 0.3),
+                inset 0 0 40px rgba(255, 140, 0, 0.2);
         }
         .project img {
             width: 100%;
@@ -61,17 +162,35 @@
         }
         .project-title {
             font-size: 1.2rem;
-            color: #d4af37;
-            margin-bottom: 5px;
+            color: #ffd700;
+            margin-bottom: 8px;
+            text-shadow: 0 0 10px #ffd700;
+            font-weight: bold;
         }
         .project-price {
-            color: #fff;
+            color: #00ff88;
             font-size: 1.5rem;
             font-weight: bold;
+            text-shadow: 0 0 15px #00ff88;
         }
     </style>
 </head>
 <body>
+    <div class="cinema-bg"></div>
+    
+    <!-- Partículas de energía flotantes -->
+    <script>
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = i % 3 === 0 ? 'particle green' : 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+            document.body.appendChild(particle);
+        }
+    </script>
+    
+    <div class="content-wrapper">
     <h1>🏆 PORTAFOLIO ARQUITECTÓNICO FUTURISTA</h1>
     <p class="subtitle">Roberto Rivera Gamas - Arte Visualista-Royal</p>
 
@@ -232,6 +351,7 @@
                 <div class="project-price">$50,000+ USD</div>
             </div>
         </div>
+    </div>
     </div>
 
 </body>
