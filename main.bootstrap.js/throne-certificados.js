@@ -647,6 +647,42 @@ function obtenerCertificado(certificadoId) {
 }
 
 // =================================================================
+// VERIFICACIÓN BLOCKCHAIN PÚBLICA
+// =================================================================
+
+function obtenerBlockchain() {
+    try {
+        const blockchain = JSON.parse(fs.readFileSync(BLOCKCHAIN_FILE, 'utf8'));
+        return blockchain;
+    } catch (error) {
+        return null;
+    }
+}
+
+function buscarCertificadoEnBlockchain(certificadoId) {
+    try {
+        const blockchain = JSON.parse(fs.readFileSync(BLOCKCHAIN_FILE, 'utf8'));
+        
+        for (let bloque of blockchain.chain) {
+            if (bloque.data.certificado_id === certificadoId) {
+                return {
+                    encontrado: true,
+                    bloque_numero: bloque.index,
+                    timestamp: bloque.timestamp,
+                    hash_bloque: bloque.hash,
+                    hash_previo: bloque.previousHash,
+                    datos: bloque.data
+                };
+            }
+        }
+        
+        return { encontrado: false };
+    } catch (error) {
+        return { encontrado: false, error: error.message };
+    }
+}
+
+// =================================================================
 // EXPORTAR FUNCIONES
 // =================================================================
 
@@ -655,5 +691,8 @@ module.exports = {
     verificarFirmaDigital,
     obtenerCertificado,
     enviarCertificadoPorCorreo,
+    verificarBlockchain,
+    obtenerBlockchain,
+    buscarCertificadoEnBlockchain,
     CERT_DIR
 };
