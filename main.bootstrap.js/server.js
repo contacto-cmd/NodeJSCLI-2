@@ -11,6 +11,7 @@ const { generateWithGPT5, generateWithGemini, generateDual, INDUSTRY_TEMPLATES }
 const { addSecret, getSecret, listSecrets, deleteSecret, saveVault, getVaultStats } = require('./throne-vault');
 const ArquitecturaService = require('./services/arquitectura.service');
 const { COMBINACIONES_UNICAS } = require('./generador-masivo');
+const { generarCertificadoPDF, obtenerCertificado, CERT_DIR } = require('./throne-certificados');
 
 // Configurar Resend para envío de emails
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -589,6 +590,93 @@ app.get('/api/protocol-init', (req, res) => {
             instrucciones: "Verifica que RSA_4096_PRIVADA sea una clave PEM válida con saltos de línea correctos"
         });
     }
+});
+
+// =================================================================
+// RUTAS DE CERTIFICADOS DIGITALES
+// =================================================================
+
+// Generar certificado para un diseño arquitectónico
+app.post('/api/certificados/generar/:proyectoId', async (req, res) => {
+    try {
+        if (!MASTER_KEY_RSA_PRIVADA) {
+            return res.status(400).json({
+                success: false,
+                error: 'Clave RSA no configurada. Configura RSA_4096_PRIVADA en Secrets.'
+            });
+        }
+        
+        const { proyectoId } = req.params;
+        const disenoResult = await ArquitecturaService.getDesignById(proyectoId);
+        
+        if (!disenoResult.success) {
+            return res.status(404).json({
+                success: false,
+                error: 'Diseño no encontrado'
+            });
+        }
+        
+        const certificado = await generarCertificadoPDF(disenoResult.diseno, MASTER_KEY_RSA_PRIVADA);
+        
+        res.json({
+            success: true,
+            certificado: {
+                certificado_id: certificado.certificado_id,
+                proyecto_id: certificado.proyecto_id,
+                url_verificacion: certificado.url_verificacion,
+                url_descarga: `/api/certificados/descargar/${certificado.certificado_id}`,
+                timestamp: certificado.timestamp_emision
+            }
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// Verificar autenticidad de un certificado
+app.get('/api/certificados/verificar/:certId', async (req, res) => {
+    try {
+        const { certId } = req.params;
+        const certificado = obtenerCertificado(certId);
+        
+        if (!certificado) {
+            return res.json({
+                valido: false,
+                mensaje: 'Certificado no encontrado en el sistema'
+            });
+        }
+        
+        res.json({
+            valido: true,
+            certificado: certificado
+        });
+    } catch (error) {
+        res.status(500).json({ valido: false, error: error.message });
+    }
+});
+
+// Descargar PDF del certificado
+app.get('/api/certificados/descargar/:certId', async (req, res) => {
+    try {
+        const { certId } = req.params;
+        const pdfPath = path.join(CERT_DIR, `${certId}.pdf`);
+        
+        if (!fs.existsSync(pdfPath)) {
+            return res.status(404).json({
+                success: false,
+                error: 'Certificado no encontrado'
+            });
+        }
+        
+        res.download(pdfPath, `Certificado-${certId}.pdf`);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// Ruta corta para verificación con QR (redirige a página de verificación)
+app.get('/verificar/:certId', (req, res) => {
+    res.redirect(`/verificar-certificado.html?id=${req.params.certId}`);
 });
 
 // =================================================================

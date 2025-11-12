@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificación de Certificado - Throne Protocol</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: linear-gradient(135deg, #000000 0%, #1a0033 100%);
+            color: #d4af37;
+            font-family: 'Courier New', monospace;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+        }
+        .subtitle {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 40px;
+            font-size: 1.2rem;
+        }
+        .verificador {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #d4af37;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            color: #d4af37;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #d4af37;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 1rem;
+            font-family: 'Courier New', monospace;
+        }
+        .btn {
+            background: linear-gradient(135deg, #d4af37, #ffd700);
+            color: #000;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.8);
+        }
+        .resultado {
+            display: none;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #d4af37;
+            border-radius: 10px;
+            padding: 30px;
+            margin-top: 30px;
+        }
+        .resultado.show {
+            display: block;
+        }
+        .valido {
+            border-color: #00ff00;
+        }
+        .invalido {
+            border-color: #ff0000;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .status-valido {
+            background: #00ff00;
+            color: #000;
+        }
+        .status-invalido {
+            background: #ff0000;
+            color: #fff;
+        }
+        .detalle {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .detalle-label {
+            color: #d4af37;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .detalle-valor {
+            color: #fff;
+            word-break: break-all;
+        }
+        .shield-icon {
+            text-align: center;
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 VERIFICACIÓN DE CERTIFICADO</h1>
+        <p class="subtitle">Sistema de Autenticidad Throne Protocol V3.0</p>
+
+        <div class="verificador">
+            <div class="input-group">
+                <label for="certificado-id">ID del Certificado:</label>
+                <input 
+                    type="text" 
+                    id="certificado-id" 
+                    placeholder="CERT-1234567890-ABC123XYZ"
+                    autocomplete="off"
+                >
+            </div>
+            <button class="btn" onclick="verificarCertificado()">🔍 VERIFICAR AUTENTICIDAD</button>
+        </div>
+
+        <div id="resultado" class="resultado">
+            <div class="shield-icon" id="shield-icon">🛡️</div>
+            <div class="status-badge" id="status-badge">VERIFICANDO...</div>
+            <div id="detalles-container"></div>
+        </div>
+    </div>
+
+    <script>
+        // Obtener ID del certificado desde URL si existe
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const certId = urlParams.get('id');
+            
+            if (certId) {
+                document.getElementById('certificado-id').value = certId;
+                verificarCertificado();
+            }
+        });
+
+        async function verificarCertificado() {
+            const certId = document.getElementById('certificado-id').value.trim();
+            
+            if (!certId) {
+                alert('Por favor ingresa un ID de certificado');
+                return;
+            }
+
+            const resultadoDiv = document.getElementById('resultado');
+            const statusBadge = document.getElementById('status-badge');
+            const shieldIcon = document.getElementById('shield-icon');
+            const detallesContainer = document.getElementById('detalles-container');
+            
+            // Mostrar resultado en estado de carga
+            resultadoDiv.classList.add('show');
+            resultadoDiv.classList.remove('valido', 'invalido');
+            statusBadge.className = 'status-badge';
+            statusBadge.textContent = 'VERIFICANDO...';
+            shieldIcon.textContent = '⏳';
+            detallesContainer.innerHTML = '<p style="color: #fff;">Consultando blockchain de certificados...</p>';
+
+            try {
+                const response = await fetch(`/api/certificados/verificar/${certId}`);
+                const data = await response.json();
+
+                if (data.valido) {
+                    // CERTIFICADO VÁLIDO
+                    resultadoDiv.classList.add('valido');
+                    statusBadge.className = 'status-badge status-valido';
+                    statusBadge.textContent = '✅ CERTIFICADO AUTÉNTICO';
+                    shieldIcon.textContent = '✅';
+
+                    detallesContainer.innerHTML = `
+                        <div class="detalle">
+                            <div class="detalle-label">ID del Certificado:</div>
+                            <div class="detalle-valor">${data.certificado.certificado_id}</div>
+                        </div>
+                        <div class="detalle">
+                            <div class="detalle-label">ID del Proyecto:</div>
+                            <div class="detalle-valor">${data.certificado.proyecto_id}</div>
+                        </div>
+                        <div class="detalle">
+                            <div class="detalle-label">Nombre del Proyecto:</div>
+                            <div class="detalle-valor">${data.certificado.datos_firmados.nombre_diseno}</div>
+                        </div>
+                        <div class="detalle">
+                            <div class="detalle-label">Autor Certificado:</div>
+                            <div class="detalle-valor">${data.certificado.datos_firmados.autor}</div>
+                        </div>
+                        <div class="detalle">
+                            <div class="detalle-label">Fecha de Emisión:</div>
+                            <div class="detalle-valor">${new Date(data.certificado.timestamp).toLocaleString('es-MX')}</div>
+                        </div>
+                        <div class="detalle">
+                            <div class="detalle-label">Hash SHA-256:</div>
+                            <div class="detalle-valor" style="font-size: 0.8rem;">${data.certificado.firma_digital.hash_sha256}</div>
+                        </div>
+                        <div class="detalle">
+                            <div class="detalle-label">Algoritmo de Firma:</div>
+                            <div class="detalle-valor">${data.certificado.firma_digital.algoritmo}</div>
+                        </div>
+                        <div class="detalle">
+                            <div class="detalle-label">Estado de Integridad:</div>
+                            <div class="detalle-valor" style="color: #00ff00;">✓ Firma digital verificada</div>
+                            <div class="detalle-valor" style="color: #00ff00;">✓ Datos no alterados</div>
+                            <div class="detalle-valor" style="color: #00ff00;">✓ Certificado original</div>
+                        </div>
+                    `;
+                } else {
+                    // CERTIFICADO INVÁLIDO
+                    resultadoDiv.classList.add('invalido');
+                    statusBadge.className = 'status-badge status-invalido';
+                    statusBadge.textContent = '❌ CERTIFICADO NO ENCONTRADO';
+                    shieldIcon.textContent = '❌';
+
+                    detallesContainer.innerHTML = `
+                        <div class="detalle">
+                            <div class="detalle-label">Estado:</div>
+                            <div class="detalle-valor" style="color: #ff0000;">El certificado no existe en nuestro sistema</div>
+                        </div>
+                        <div class="detalle">
+                            <div class="detalle-label">Posibles causas:</div>
+                            <div class="detalle-valor">• ID de certificado incorrecto</div>
+                            <div class="detalle-valor">• Certificado falsificado</div>
+                            <div class="detalle-valor">• Certificado revocado</div>
+                        </div>
+                        <div class="detalle">
+                            <div class="detalle-label">⚠️ ADVERTENCIA:</div>
+                            <div class="detalle-valor" style="color: #ff6600;">
+                                Este certificado NO es auténtico. No confíes en documentos con este ID.
+                            </div>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                // ERROR DE CONEXIÓN
+                resultadoDiv.classList.add('invalido');
+                statusBadge.className = 'status-badge status-invalido';
+                statusBadge.textContent = '⚠️ ERROR DE VERIFICACIÓN';
+                shieldIcon.textContent = '⚠️';
+
+                detallesContainer.innerHTML = `
+                    <div class="detalle">
+                        <div class="detalle-label">Error:</div>
+                        <div class="detalle-valor" style="color: #ff0000;">${error.message}</div>
+                    </div>
+                    <div class="detalle">
+                        <div class="detalle-valor">No se pudo conectar con el servidor de verificación. Intenta nuevamente.</div>
+                    </div>
+                `;
+            }
+        }
+
+        // Permitir verificar con Enter
+        document.getElementById('certificado-id').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                verificarCertificado();
+            }
+        });
+    </script>
+</body>
+</html>

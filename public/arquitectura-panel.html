@@ -151,6 +151,7 @@
             <button class="btn" onclick="generarPortafolio()">🚀 GENERAR 30 DISEÑOS ÚNICOS</button>
             <button class="btn" onclick="cargarEstadisticas()">📊 VER ESTADÍSTICAS</button>
             <button class="btn" onclick="listarDisenos()">📋 LISTAR TODOS LOS DISEÑOS</button>
+            <button class="btn" onclick="generarCertificados()">🔐 GENERAR CERTIFICADOS (30 PDFs)</button>
             
             <div class="loading" id="loading">
                 <p>⚙️ Generando diseños con física real...</p>
@@ -277,6 +278,7 @@
                             <div class="design-detail">💰 $${d.valoracion.valor_mercado_usd}</div>
                             <div class="design-detail">📍 ${d.ubicacion.terreno_tipo}</div>
                             <div class="design-detail" style="font-size:0.8rem; margin-top:5px; color:#888;">ID: ${d.id_proyecto}</div>
+                            <button class="btn" style="padding:8px 15px; font-size:0.9rem; margin-top:10px;" onclick="generarCertificado('${d.id_proyecto}')">🔐 Certificar</button>
                         </div>
                     `).join('');
                     
@@ -290,9 +292,75 @@
             }
         }
 
+        async function generarCertificado(proyectoId) {
+            log(`🔐 Generando certificado para ${proyectoId}...`, 'info');
+            
+            try {
+                const response = await fetch(`/api/certificados/generar/${proyectoId}`, {
+                    method: 'POST'
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    log(`✅ Certificado generado: ${data.certificado.certificado_id}`, 'success');
+                    log(`📄 Descarga: ${data.certificado.url_descarga}`, 'info');
+                    log(`🔍 Verificación: ${data.certificado.url_verificacion}`, 'info');
+                    
+                    // Abrir descarga automáticamente
+                    window.open(data.certificado.url_descarga, '_blank');
+                } else {
+                    log(`❌ Error: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                log(`❌ Error: ${error.message}`, 'error');
+            }
+        }
+        
+        async function generarCertificados() {
+            const btn = event.target;
+            btn.disabled = true;
+            
+            log('🔐 Generando certificados para todos los diseños...', 'info');
+            
+            try {
+                const response = await fetch('/api/arquitectura/proyectos');
+                const data = await response.json();
+                
+                if (data.success) {
+                    let generados = 0;
+                    
+                    for (const diseno of data.disenos) {
+                        try {
+                            const certResponse = await fetch(`/api/certificados/generar/${diseno.id_proyecto}`, {
+                                method: 'POST'
+                            });
+                            const certData = await certResponse.json();
+                            
+                            if (certData.success) {
+                                generados++;
+                                log(`✅ [${generados}/${data.disenos.length}] Certificado para ${diseno.diseño.nombre}`, 'success');
+                            }
+                        } catch (e) {
+                            log(`❌ Error certificando ${diseno.id_proyecto}`, 'error');
+                        }
+                    }
+                    
+                    log(`🎉 Proceso completado: ${generados} certificados generados`, 'success');
+                } else {
+                    log(`❌ Error: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                log(`❌ Error: ${error.message}`, 'error');
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
         // Log inicial
         log('🏆 Panel Arquitectónico Cuántico iniciado', 'success');
         log('💎 Sistema con física real: gravedad, materiales, voladizos', 'info');
+        log('🔐 Sistema de certificados digitales RSA-4096 activo', 'info');
     </script>
 </body>
 </html>
