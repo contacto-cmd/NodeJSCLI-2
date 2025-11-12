@@ -314,29 +314,33 @@ class ThroneTour {
                 this.spotlight.style.width = (rect.width + 20) + 'px';
                 this.spotlight.style.height = (rect.height + 20) + 'px';
                 
+                // Calcular centro del elemento target
+                const targetCenterX = rect.left + (rect.width / 2);
+                
                 // Posicionar modal
                 if (step.position === 'bottom') {
                     this.modal.style.left = '50%';
                     this.modal.style.transform = 'translateX(-50%)';
-                    this.modal.style.top = (rect.bottom + 60) + 'px';
+                    this.modal.style.top = Math.min(rect.bottom + 60, window.innerHeight - 300) + 'px';
+                    this.modal.style.bottom = 'auto';
                     
-                    // Flecha apuntando arriba
+                    // Flecha apuntando arriba, anclada al centro del elemento
                     this.arrow.innerHTML = '▲';
                     this.arrow.style.display = 'block';
-                    this.arrow.style.left = '50%';
+                    this.arrow.style.left = targetCenterX + 'px';
                     this.arrow.style.transform = 'translateX(-50%)';
                     this.arrow.style.top = (rect.bottom + 20) + 'px';
                     
                 } else if (step.position === 'top') {
                     this.modal.style.left = '50%';
                     this.modal.style.transform = 'translateX(-50%)';
-                    this.modal.style.bottom = (window.innerHeight - rect.top + 60) + 'px';
+                    this.modal.style.bottom = Math.max(window.innerHeight - rect.top + 60, 100) + 'px';
                     this.modal.style.top = 'auto';
                     
-                    // Flecha apuntando abajo
+                    // Flecha apuntando abajo, anclada al centro del elemento
                     this.arrow.innerHTML = '▼';
                     this.arrow.style.display = 'block';
-                    this.arrow.style.left = '50%';
+                    this.arrow.style.left = targetCenterX + 'px';
                     this.arrow.style.transform = 'translateX(-50%)';
                     this.arrow.style.top = (rect.top - 70) + 'px';
                 }
