@@ -3,240 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Throne Protocol - Entrada Principal</title>
+    <title>Throne Protocol V3.0 - Entrada Cinematográfica</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            background: #000;
+        body { 
+            background: #000; 
             overflow: hidden;
-            font-family: 'Arial', sans-serif;
+            font-family: Arial, sans-serif;
         }
         
-        /* Imagen como VIDEO 3D ANIMADO */
-        .background-image {
+        .background-cinematic {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background-image: url('tablero-principal.png');
-            background-size: 110% 110%;
+            background-image: url('throne-entrance-cinematic.png');
+            background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             z-index: 1;
-            animation: 
-                videoParallax 10s ease-in-out infinite,
-                videoZoom 8s ease-in-out infinite,
-                videoBrillo 6s ease-in-out infinite;
-            transform-style: preserve-3d;
-            will-change: transform, filter;
+            animation: subtleBreathing 8s ease-in-out infinite;
         }
         
-        @keyframes videoParallax {
+        @keyframes subtleBreathing {
             0%, 100% { 
-                background-position: 50% 50%;
-            }
-            25% { 
-                background-position: 48% 48%;
+                transform: scale(1);
+                filter: brightness(1) contrast(1.05);
             }
             50% { 
-                background-position: 50% 52%;
-            }
-            75% { 
-                background-position: 52% 50%;
+                transform: scale(1.02);
+                filter: brightness(1.15) contrast(1.1);
             }
         }
         
-        @keyframes videoZoom {
-            0%, 100% { 
-                transform: scale(1) perspective(1500px) rotateX(0deg) rotateY(0deg);
-            }
-            33% { 
-                transform: scale(1.08) perspective(1500px) rotateX(2deg) rotateY(-1deg);
-            }
-            66% { 
-                transform: scale(1.05) perspective(1500px) rotateX(-1deg) rotateY(1deg);
-            }
-        }
-        
-        @keyframes videoBrillo {
-            0%, 100% { 
-                filter: brightness(1) contrast(1.1) saturate(1.2);
-            }
-            50% { 
-                filter: brightness(1.3) contrast(1.2) saturate(1.4);
-            }
-        }
-        
-        /* Canvas OCULTO - sin partículas */
-        #particlesCanvas {
-            display: none;
-        }
-        
-        /* Título OCULTO */
-        .title, .subtitle {
-            display: none;
-        }
-        
-        /* Botón invisible sobre la explosión central */
-        .explosion-button {
+        .title {
             position: fixed;
-            top: 30%;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #FFD700;
+            text-shadow: 
+                0 0 30px rgba(255, 215, 0, 1),
+                0 0 60px rgba(255, 215, 0, 0.7),
+                0 0 90px rgba(255, 215, 0, 0.5);
+            z-index: 100;
+            text-align: center;
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes titleGlow {
+            0%, 100% {
+                text-shadow: 
+                    0 0 30px rgba(255, 215, 0, 1),
+                    0 0 60px rgba(255, 215, 0, 0.7);
+            }
+            50% {
+                text-shadow: 
+                    0 0 50px rgba(255, 215, 0, 1),
+                    0 0 100px rgba(255, 215, 0, 0.9),
+                    0 0 150px rgba(255, 215, 0, 0.6);
+            }
+        }
+        
+        .subtitle {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.2rem;
+            color: #00FFFF;
+            text-shadow: 
+                0 0 20px rgba(0, 255, 255, 0.8),
+                0 0 40px rgba(0, 255, 255, 0.5);
+            z-index: 100;
+            text-align: center;
+        }
+        
+        .enter-button {
+            position: fixed;
+            top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 500px;
-            height: 500px;
-            cursor: pointer;
-            z-index: 15;
+            width: 250px;
+            height: 250px;
             border-radius: 50%;
+            background: radial-gradient(circle, 
+                rgba(138, 43, 226, 0.2),
+                rgba(138, 43, 226, 0));
+            border: 4px solid rgba(138, 43, 226, 0.5);
+            cursor: pointer;
+            z-index: 50;
+            animation: explosionPulse 2s ease-in-out infinite;
             transition: all 0.3s ease;
         }
         
-        .explosion-button:hover {
-            background: radial-gradient(circle, rgba(255,215,0,0.2), transparent);
-            box-shadow: 0 0 100px rgba(255, 215, 0, 0.8);
+        .enter-button:hover {
+            background: radial-gradient(circle, 
+                rgba(138, 43, 226, 0.4),
+                rgba(138, 43, 226, 0.1));
+            border-color: rgba(138, 43, 226, 0.9);
+            box-shadow: 
+                0 0 50px rgba(138, 43, 226, 0.8),
+                0 0 100px rgba(138, 43, 226, 0.5);
         }
         
+        @keyframes explosionPulse {
+            0%, 100% { 
+                transform: translate(-50%, -50%) scale(1);
+                box-shadow: 0 0 40px rgba(138, 43, 226, 0.6);
+            }
+            50% { 
+                transform: translate(-50%, -50%) scale(1.15);
+                box-shadow: 
+                    0 0 80px rgba(138, 43, 226, 0.9),
+                    0 0 120px rgba(255, 215, 0, 0.5);
+            }
+        }
+        
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 10;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
+    <div class="background-cinematic"></div>
+    
+    <canvas id="particles-canvas"></canvas>
+    
     <div class="title">♟️ THRONE PROTOCOL V3.0 ♟️</div>
-    <div class="subtitle">Portal Dimensional - Street Emporio Royal</div>
+    <div class="subtitle">$229.8 Billion Command Center - Street Emporio Royal</div>
     
-    <!-- Imagen de fondo completa -->
-    <div class="background-image"></div>
-    
-    <!-- Canvas de partículas flotantes -->
-    <canvas id="particlesCanvas"></canvas>
-    
-    <!-- Botón invisible sobre la explosión (centro de la imagen) -->
-    <div class="explosion-button" onclick="location.href='/menu.html'"></div>
-    
+    <div class="enter-button" onclick="location.href='/menu.html'"></div>
+
     <script>
-        const canvas = document.getElementById('particlesCanvas');
+        const canvas = document.getElementById('particles-canvas');
         const ctx = canvas.getContext('2d');
         
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
+        const particles = [];
         
-        // Partículas de energía flotantes con colores arcoíris camaleón
         class Particle {
             constructor() {
-                this.hue = Math.random() * 360; // Color inicial en el espectro
-                this.reset();
-            }
-            
-            reset() {
                 this.x = Math.random() * canvas.width;
-                this.y = canvas.height + 20;
-                // Más movimiento dinámico (drones flotantes)
-                this.vx = (Math.random() - 0.5) * 4;
-                this.vy = -(Math.random() * 4 + 2);
-                this.size = Math.random() * 6 + 3;
-                this.life = 1;
-                this.decay = Math.random() * 0.008 + 0.003;
-                this.hueSpeed = Math.random() * 4 + 1.5;
-                // Rotación para efecto de drones girando
-                this.rotation = Math.random() * 360;
-                this.rotationSpeed = (Math.random() - 0.5) * 5;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.color = Math.random() > 0.5 ? 
+                    `rgba(157, 78, 221, ${Math.random() * 0.5 + 0.3})` : 
+                    `rgba(192, 192, 192, ${Math.random() * 0.4 + 0.2})`;
             }
             
             update() {
-                // Movimiento ondulatorio (efecto drones flotantes)
-                this.x += this.vx + Math.sin(Date.now() / 1000 + this.x) * 0.5;
-                this.y += this.vy;
-                this.life -= this.decay;
+                this.x += this.speedX;
+                this.y += this.speedY;
                 
-                // Cambiar color tipo camaleón (morado/gris diamante)
-                this.hue = (this.hue + this.hueSpeed) % 360;
-                
-                // Rotación de drones
-                this.rotation += this.rotationSpeed;
-                
-                if (this.life <= 0 || this.y < -20) {
-                    this.reset();
-                    this.hue = Math.random() * 360;
-                }
-            }
-            
-            getColor() {
-                // Alternar entre gris diamante y morado diamante (sin rosa)
-                if (this.hue < 180) {
-                    // Gris diamante brillante (plateado cristalino)
-                    const brightness = 65 + Math.sin(this.hue / 20) * 15;
-                    return `hsl(240, 10%, ${brightness}%)`; // Tono azulado gris
-                } else {
-                    // Morado diamante brillante profundo (270-290 = morado puro, evitar rosa)
-                    const purpleHue = 275 + Math.sin(this.hue / 15) * 10;
-                    return `hsl(${purpleHue}, 90%, 60%)`; // Morado intenso sin rosa
-                }
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
             }
             
             draw() {
-                const color = this.getColor();
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
                 
-                ctx.save();
-                ctx.translate(this.x, this.y);
-                ctx.rotate(this.rotation * Math.PI / 180); // Rotar el cuadrito (drone)
-                
-                // Sombra 3D (profundidad)
                 ctx.shadowBlur = 15;
-                ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
-                ctx.shadowOffsetX = 3;
-                ctx.shadowOffsetY = 3;
-                
-                // Marco exterior brillante (efecto diamante 3D)
-                ctx.globalAlpha = this.life;
-                ctx.strokeStyle = color;
-                ctx.lineWidth = 4;
-                ctx.shadowBlur = 40;
-                ctx.shadowColor = color;
-                ctx.strokeRect(-this.size/2, -this.size/2, this.size, this.size);
-                
-                // Marco interior (doble borde para efecto 3D)
-                ctx.lineWidth = 1.5;
-                ctx.globalAlpha = this.life * 0.7;
-                ctx.strokeRect(-this.size/2 + 1, -this.size/2 + 1, this.size - 2, this.size - 2);
-                
-                // Resplandor exterior
-                ctx.globalAlpha = this.life * 0.4;
-                ctx.lineWidth = 5;
-                ctx.shadowBlur = 40;
-                ctx.strokeRect(-this.size/2 - 1, -this.size/2 - 1, this.size + 2, this.size + 2);
-                
-                // Esquinas brillantes (efecto diamante cristalino)
-                ctx.globalAlpha = this.life;
-                ctx.fillStyle = '#fff';
-                ctx.shadowBlur = 15;
-                ctx.shadowColor = color;
-                const cornerSize = 3;
-                // Esquina superior izquierda
-                ctx.fillRect(-this.size/2, -this.size/2, cornerSize, cornerSize);
-                // Esquina superior derecha
-                ctx.fillRect(this.size/2 - cornerSize, -this.size/2, cornerSize, cornerSize);
-                // Esquina inferior izquierda
-                ctx.fillRect(-this.size/2, this.size/2 - cornerSize, cornerSize, cornerSize);
-                // Esquina inferior derecha
-                ctx.fillRect(this.size/2 - cornerSize, this.size/2 - cornerSize, cornerSize, cornerSize);
-                
-                ctx.restore();
+                ctx.shadowColor = this.color;
+                ctx.fill();
+                ctx.shadowBlur = 0;
             }
         }
         
-        // Crear partículas arcoíris
-        const particles = Array.from({ length: 200 }, () => new Particle());
+        for (let i = 0; i < 50; i++) {
+            particles.push(new Particle());
+        }
         
-        // Animación
         function animate() {
-            // Fondo transparente para que se vea la imagen
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
-            // Actualizar y dibujar partículas
             particles.forEach(particle => {
                 particle.update();
                 particle.draw();
@@ -246,6 +202,11 @@
         }
         
         animate();
+        
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
     </script>
 </body>
 </html>
