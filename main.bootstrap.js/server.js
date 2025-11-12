@@ -1031,10 +1031,33 @@ app.post('/api/certificados/valoracion', async (req, res) => {
         
         const resultado = await generarCertificadoValoracion(proyecto, MASTER_KEY_RSA_PRIVADA);
         
+        // Enviar certificado PDF por correo empresarial
+        try {
+            if (resultado.pdf_path && fs.existsSync(resultado.pdf_path)) {
+                const pdfBuffer = fs.readFileSync(resultado.pdf_path);
+                const pdfBase64 = pdfBuffer.toString('base64');
+                const nombreArchivo = path.basename(resultado.pdf_path);
+                
+                await arquitectoInterno.enviarNotificacionEmpresarial('CERTIFICADO_GENERADO', {
+                    certificadoId: resultado.certificado_id,
+                    diseno: proyecto,
+                    hash: resultado.hash_sha256,
+                    valoracion: resultado.valor || '$229,800,000,000'
+                }, [{
+                    filename: nombreArchivo,
+                    content: pdfBase64
+                }]);
+                
+                console.log(`✅ Email enviado con certificado PDF adjunto`);
+            }
+        } catch (err) {
+            console.warn('⚠️ Error enviando email:', err.message);
+        }
+        
         res.json({
             success: true,
             certificado: resultado,
-            mensaje: 'Certificado de valoración generado exitosamente',
+            mensaje: 'Certificado de valoración generado exitosamente y enviado a contacto@streetemporioroyal.com',
             url_descarga: `/api/certificados/profesionales/descargar/${resultado.certificado_id}`
         });
         
@@ -1064,10 +1087,33 @@ app.post('/api/certificados/validacion', async (req, res) => {
         
         const resultado = await generarCertificadoValidacionTecnica(sistema, MASTER_KEY_RSA_PRIVADA);
         
+        // Enviar certificado PDF por correo empresarial
+        try {
+            if (resultado.pdf_path && fs.existsSync(resultado.pdf_path)) {
+                const pdfBuffer = fs.readFileSync(resultado.pdf_path);
+                const pdfBase64 = pdfBuffer.toString('base64');
+                const nombreArchivo = path.basename(resultado.pdf_path);
+                
+                await arquitectoInterno.enviarNotificacionEmpresarial('CERTIFICADO_GENERADO', {
+                    certificadoId: resultado.certificado_id,
+                    diseno: sistema,
+                    hash: resultado.hash_sha256,
+                    valoracion: 'Validación Técnica'
+                }, [{
+                    filename: nombreArchivo,
+                    content: pdfBase64
+                }]);
+                
+                console.log(`✅ Email enviado con certificado PDF adjunto`);
+            }
+        } catch (err) {
+            console.warn('⚠️ Error enviando email:', err.message);
+        }
+        
         res.json({
             success: true,
             certificado: resultado,
-            mensaje: 'Certificado de validación técnica generado exitosamente',
+            mensaje: 'Certificado de validación técnica generado exitosamente y enviado a contacto@streetemporioroyal.com',
             url_descarga: `/api/certificados/profesionales/descargar/${resultado.certificado_id}`
         });
         
@@ -1097,17 +1143,36 @@ app.post('/api/certificados/completo', async (req, res) => {
         
         const resultados = await generarCertificadosCompletos(proyecto, MASTER_KEY_RSA_PRIVADA);
         
-        // Notificar al arquitecto interno sobre la generación
+        // Enviar certificados PDF por correo empresarial
         try {
+            const adjuntos = [];
+            
+            // Leer cada PDF generado y agregarlo como adjunto
+            for (const resultado of resultados) {
+                if (resultado.pdf_path && fs.existsSync(resultado.pdf_path)) {
+                    const pdfBuffer = fs.readFileSync(resultado.pdf_path);
+                    const pdfBase64 = pdfBuffer.toString('base64');
+                    const nombreArchivo = path.basename(resultado.pdf_path);
+                    
+                    adjuntos.push({
+                        filename: nombreArchivo,
+                        content: pdfBase64
+                    });
+                }
+            }
+            
+            // Enviar email con certificados adjuntos
             await arquitectoInterno.enviarNotificacionEmpresarial('CERTIFICADO_GENERADO', {
                 certificadoId: resultados[0].certificado_id,
                 diseno: proyecto,
                 hash: resultados[0].hash_sha256,
-                valoracion: resultados[0].valor || '$229,800,000,000'
-            });
-            console.log('✅ Notificación empresarial enviada exitosamente');
+                valoracion: resultados[0].valor || '$229,800,000,000',
+                cantidad: resultados.length
+            }, adjuntos);
+            
+            console.log(`✅ Email empresarial enviado con ${adjuntos.length} certificado(s) PDF adjunto(s)`);
         } catch (err) {
-            console.warn('⚠️ Error enviando notificación:', err.message);
+            console.warn('⚠️ Error enviando email con certificados:', err.message);
         }
         
         res.json({
@@ -1345,6 +1410,96 @@ app.get('/api/certificados/profesionales/descargar/:certId', async (req, res) =>
         
     } catch (error) {
         console.error('❌ Error descargando certificado:', error);
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// =================================================================
+// DOCUMENTACIÓN PROFESIONAL PARA INVERSIONISTAS
+// =================================================================
+
+app.get('/api/documentacion/listado', async (req, res) => {
+    try {
+        const docsDir = path.join(__dirname, '..', 'documentacion-oficial');
+        const files = fs.readdirSync(docsDir);
+        
+        const documentos = files.map(file => ({
+            nombre: file,
+            nombre_legible: file.replace(/\.md$/, '').replace(/_/g, ' '),
+            url: `/api/documentacion/descargar/${file}`,
+            tipo: 'markdown',
+            tamaño: fs.statSync(path.join(docsDir, file)).size
+        }));
+        
+        res.json({
+            success: true,
+            documentos,
+            total: documentos.length
+        });
+        
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+app.get('/api/documentacion/descargar/:filename', async (req, res) => {
+    try {
+        const { filename } = req.params;
+        const docPath = path.join(__dirname, '..', 'documentacion-oficial', filename);
+        
+        if (!fs.existsSync(docPath)) {
+            return res.status(404).json({
+                success: false,
+                error: 'Documento no encontrado'
+            });
+        }
+        
+        res.download(docPath, filename);
+        
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+app.get('/api/documentacion/paquete-completo', async (req, res) => {
+    try {
+        const docsDir = path.join(__dirname, '..', 'documentacion-oficial');
+        const files = fs.readdirSync(docsDir);
+        
+        let contenido = `# PAQUETE COMPLETO DE DOCUMENTACIÓN
+## THRONE PROTOCOL V3.0 - STREET EMPORIO ROYAL
+
+**Fecha de Generación:** ${new Date().toISOString()}
+**Generado para:** Inversionistas y Socios Potenciales
+
+---
+
+`;
+        
+        for (const file of files) {
+            const filePath = path.join(docsDir, file);
+            const fileContent = fs.readFileSync(filePath, 'utf-8');
+            contenido += `\n\n${'='.repeat(80)}\n`;
+            contenido += `DOCUMENTO: ${file}\n`;
+            contenido += `${'='.repeat(80)}\n\n`;
+            contenido += fileContent;
+            contenido += `\n\n`;
+        }
+        
+        res.setHeader('Content-Type', 'text/markdown');
+        res.setHeader('Content-Disposition', `attachment; filename="THRONE_V3_DOCUMENTACION_COMPLETA_${Date.now()}.md"`);
+        res.send(contenido);
+        
+    } catch (error) {
         res.status(500).json({
             success: false,
             error: error.message
