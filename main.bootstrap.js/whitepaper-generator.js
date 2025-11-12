@@ -42,11 +42,17 @@ class WhitepaperGenerator {
         doc.text('Throne Protocol V3.0 representa un sistema tecnológico de nivel presidencial que combina arquitectura cuántica avanzada, inteligencia artificial dual, criptografía de grado militar y física computacional real para crear una plataforma de comercialización arquitectónica sin precedentes en la industria.', { align: 'justify' });
         doc.moveDown();
         
+        doc.fontSize(13).fillColor('#FFD700').text('⚡ CARACTERÍSTICA CLAVE: 40 NODOS CUÁNTICOS BLINDADOS', { underline: true });
+        doc.moveDown(0.5);
+        doc.fontSize(11).fillColor('#000000');
+        doc.text('El sistema opera sobre 40 Nodos Geográficos Cuánticos distribuidos globalmente, cada uno protegido con claves RSA-4096 (4096 bits) + AES-256-GCM + SHA-256. Esta arquitectura distribuida crea una red de confianza criptográfica inexpugnable donde cada nodo valida a los otros 39, requiriendo quebrar simultáneamente 40 claves de grado militar para comprometer el sistema.', { align: 'justify' });
+        doc.moveDown();
+        
         doc.fontSize(14).fillColor('#DAA520').text('VALORACIÓN TOTAL DEL SISTEMA: $230.875 BILLONES USD');
         doc.moveDown();
         
         doc.fontSize(12).fillColor('#000000');
-        doc.text('Esta valoración se basa en: (1) Propiedad intelectual de 32 diseños arquitectónicos con cálculos físicos verificables, (2) Infraestructura tecnológica avanzada con IA dual y criptografía RSA-4096, (3) Sistema automatizado de certificación y documentación, (4) Plataforma de visualización 3D con tecnología Cesium.', { align: 'justify' });
+        doc.text('Esta valoración se basa en: (1) Propiedad intelectual de 32 diseños arquitectónicos con cálculos físicos verificables, (2) Infraestructura tecnológica de 40 Nodos Cuánticos Blindados con IA dual y criptografía RSA-4096, (3) Sistema automatizado de certificación y documentación, (4) Plataforma de visualización 3D con tecnología Cesium.', { align: 'justify' });
         
         // ==========================================
         // INFRAESTRUCTURA TECNOLÓGICA
@@ -79,6 +85,34 @@ class WhitepaperGenerator {
         doc.text('• JWT: Autenticación y autorización de sesiones', { indent: 20 });
         doc.text('• Hash SHA-256: Validación de integridad de documentos', { indent: 20 });
         
+        doc.moveDown();
+        doc.fontSize(14).fillColor('#FFD700').text('1.4 SISTEMA DE 40 NODOS CUÁNTICOS BLINDADOS', { underline: true });
+        doc.moveDown(0.5);
+        doc.fontSize(11).fillColor('#000000');
+        doc.text('El corazón del sistema: 40 Nodos Geográficos Cuánticos distribuidos globalmente, cada uno blindado con:', { align: 'justify' });
+        doc.moveDown(0.5);
+        doc.text('• Claves RSA-4096 (4096 bits): Potencia criptográfica de grado militar', { indent: 20 });
+        doc.text('  - 2^4096 combinaciones posibles = seguridad prácticamente inquebrantable', { indent: 30 });
+        doc.text('  - Firma digital de cada transacción en cada nodo', { indent: 30 });
+        doc.text('  - Verificación criptográfica distribuida', { indent: 30 });
+        doc.moveDown(0.5);
+        doc.text('• Cifrado AES-256-GCM (256 bits): Encriptación simétrica ultra-rápida', { indent: 20 });
+        doc.text('  - 2^256 combinaciones = 1.15×10^77 posibles claves', { indent: 30 });
+        doc.text('  - GCM (Galois/Counter Mode) con autenticación integrada', { indent: 30 });
+        doc.text('  - Protección contra ataques de modificación', { indent: 30 });
+        doc.moveDown(0.5);
+        doc.text('• Arquitectura de Seguridad Híbrida:', { indent: 20 });
+        doc.text('  - Datos encriptados con AES-256-GCM (velocidad)', { indent: 30 });
+        doc.text('  - Clave AES encriptada con RSA-4096 (seguridad)', { indent: 30 });
+        doc.text('  - Hash SHA-256 de cada bloque (integridad)', { indent: 30 });
+        doc.text('  - Timestamp criptográfico inmutable', { indent: 30 });
+        doc.moveDown();
+        doc.fontSize(12).fillColor('#DAA520');
+        doc.text('POTENCIA TOTAL: 40 Nodos × (RSA-4096 + AES-256 + SHA-256) = Sistema Inexpugnable', { align: 'center' });
+        doc.moveDown();
+        doc.fontSize(11).fillColor('#000000');
+        doc.text('Cada nodo opera de forma autónoma pero verificada criptográficamente por los otros 39, creando una red de confianza distribuida imposible de comprometer sin quebrar simultáneamente las 40 claves RSA-4096.', { align: 'justify' });
+        
         // ==========================================
         // SISTEMA DE FÍSICA COMPUTACIONAL
         // ==========================================
@@ -105,14 +139,27 @@ class WhitepaperGenerator {
         });
         
         doc.moveDown();
-        doc.fontSize(14).text('2.2 Cálculos Físicos Implementados');
+        doc.fontSize(14).text('2.2 Sistema de Gravedad Cuántica GPS');
         doc.moveDown(0.5);
         doc.fontSize(11);
-        doc.text('• Peso Total = Densidad × Volumen (calculado por diseño)', { indent: 20 });
-        doc.text('• Análisis de Voladizos: Cálculo de momentos de flexión', { indent: 20 });
-        doc.text('• Centro de Gravedad: Distribución de masa en estructura', { indent: 20 });
-        doc.text('• Factor de Seguridad: Mínimo 2.5 para todas las estructuras', { indent: 20 });
-        doc.text('• Cargas Dinámicas: Viento, sismo, nieve según ubicación GPS', { indent: 20 });
+        doc.text('GRAVEDAD AL 100%: Cálculos precisos por ubicación geográfica:', { align: 'justify' });
+        doc.moveDown(0.5);
+        doc.text('• Fórmula WGS84 para variación gravitacional terrestre', { indent: 20 });
+        doc.text('• Gravedad varía: 9.78 m/s² (ecuador) a 9.83 m/s² (polos)', { indent: 20 });
+        doc.text('• Corrección por altitud: gravedad disminuye con altura', { indent: 20 });
+        doc.text('• Precisión: 6 decimales (ej: 9.806650 m/s²)', { indent: 20 });
+        doc.text('• Input: Latitud + Altitud GPS → Output: g local exacto', { indent: 20 });
+        doc.moveDown();
+        doc.fontSize(14).text('2.3 Cálculos Físicos Implementados');
+        doc.moveDown(0.5);
+        doc.fontSize(11);
+        doc.text('• Peso Total = Densidad × Volumen × Gravedad Local GPS', { indent: 20 });
+        doc.text('• Análisis de Voladizos: Momentos de flexión con g preciso', { indent: 20 });
+        doc.text('• Centro de Gravedad: Distribución tridimensional de masa', { indent: 20 });
+        doc.text('• Cargas Distribuidas: N/m con gravedad de ubicación', { indent: 20 });
+        doc.text('• Deflexión Máxima: Cálculo de deformación estructural', { indent: 20 });
+        doc.text('• Energía Potencial: mgh con gravedad GPS', { indent: 20 });
+        doc.text('• Factor de Seguridad: Mínimo 2.5 para todas estructuras', { indent: 20 });
         
         doc.moveDown();
         doc.fontSize(14).text('2.3 Validación Estructural');
