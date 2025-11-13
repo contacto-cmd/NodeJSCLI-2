@@ -40,7 +40,7 @@ class AdminDualControlMiddleware {
                     });
                 }
 
-                if (masterSecretProvided !== this.masterSecret) {
+                if (!this.timingSafeEqual(masterSecretProvided, this.masterSecret)) {
                     this.logFailedAttempt(ip, 'master_secret_invalid');
                     return res.status(403).json({
                         success: false,
@@ -100,6 +100,23 @@ class AdminDualControlMiddleware {
         const ip = req.ip || req.connection.remoteAddress;
         const apiKeyName = req.apiKeyData?.nombre || 'Unknown';
         console.log(`✅ ADMIN ACCESS GRANTED: IP=${ip}, APIKey=${apiKeyName}, Time=${new Date().toISOString()}`);
+    }
+
+    timingSafeEqual(a, b) {
+        if (typeof a !== 'string' || typeof b !== 'string') {
+            return false;
+        }
+        
+        if (a.length !== b.length) {
+            return false;
+        }
+        
+        let result = 0;
+        for (let i = 0; i < a.length; i++) {
+            result |= a.charCodeAt(i) ^ b.charCodeAt(i);
+        }
+        
+        return result === 0;
     }
 
     cleanupOldEntries() {

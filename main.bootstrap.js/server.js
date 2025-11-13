@@ -38,14 +38,17 @@ const dbService = new DatabaseService();
 const authMiddleware = new AuthMiddleware(dbService);
 
 // Inicializar Admin Dual-Control (requiere API Key admin + Master Secret)
-const ADMIN_ROOT_SECRET = process.env.ADMIN_ROOT_SECRET || process.env.RSA_4096_PRIVADA?.substring(0, 64);
+// 🔐 SEGURIDAD CRÍTICA: Solo acepta ADMIN_ROOT_SECRET independiente
+const ADMIN_ROOT_SECRET = process.env.ADMIN_ROOT_SECRET;
 let adminDualControl = null;
-if (ADMIN_ROOT_SECRET) {
+if (ADMIN_ROOT_SECRET && ADMIN_ROOT_SECRET.length >= 32) {
     adminDualControl = new AdminDualControlMiddleware(authMiddleware, ADMIN_ROOT_SECRET);
     global.adminDualControlMiddleware = adminDualControl;
     console.log("✅ AdminDualControlMiddleware inicializado - Dual-factor ready");
 } else {
-    console.warn("⚠️ ADMIN_ROOT_SECRET no configurado - Admin endpoints en modo degradado");
+    console.error("❌ ADMIN_ROOT_SECRET no configurado o muy corto (mínimo 32 caracteres)");
+    console.error("   Admin endpoints DESHABILITADOS por seguridad");
+    process.exit(1);
 }
 
 // 🧠 ACTIVAR ARQUITECTO AI INTERNO - Monitoreo Continuo
@@ -54,6 +57,10 @@ arquitectoInterno.activarMonitoreoContinuo(120000); // Monitorear cada 2 minutos
 console.log('✅ Arquitecto AI Interno: ACTIVO');
 
 const app = express();
+
+// 🔒 SEGURIDAD: Confiar en proxy headers para obtener IP real
+app.set('trust proxy', true);
+
 app.use(cors()); // Usar CORS
 app.use(express.json({ limit: '50mb' })); // Para manejar requests con JSON (incluyendo imágenes base64)
 const PORT = 5000; // El puerto estándar de Replit
