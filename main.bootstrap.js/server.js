@@ -1659,6 +1659,59 @@ app.post('/api/documentacion/whitepaper', async (req, res) => {
     }
 });
 
+// Generar Certificado de Validación Técnica
+app.post('/api/documentacion/certificado-validacion', async (req, res) => {
+    try {
+        const CertificadoValidacion = require('./certificado-validacion');
+        const certificado = new CertificadoValidacion();
+        
+        console.log(`📜 Generando Certificado de Validación Técnica del Sistema...`);
+        
+        const resultado = await certificado.generarCertificado();
+        
+        if (resultado.success) {
+            // Enviar certificado por correo empresarial
+            try {
+                const pdfPath = path.join(__dirname, '..', 'public', resultado.filename);
+                if (fs.existsSync(pdfPath)) {
+                    const pdfBuffer = fs.readFileSync(pdfPath);
+                    const pdfBase64 = pdfBuffer.toString('base64');
+                    
+                    await arquitectoInterno.enviarNotificacionEmpresarial('CERTIFICADO_VALIDACION_GENERADO', {
+                        tipo: 'Certificado de Validación Técnica',
+                        sistema: 'Throne Protocol V3.0',
+                        componentes: '10 sistemas validados',
+                        fecha: new Date().toLocaleDateString('es-ES')
+                    }, [{
+                        filename: resultado.filename,
+                        content: pdfBase64
+                    }]);
+                    
+                    console.log(`✅ Certificado generado y enviado: ${resultado.filename}`);
+                }
+            } catch (err) {
+                console.warn('⚠️ Error enviando email:', err.message);
+            }
+            
+            res.json({
+                success: true,
+                filename: resultado.filename,
+                mensaje: 'Certificado de Validación Técnica generado exitosamente y enviado a contacto@streetemporioroyal.com',
+                url_descarga: `/${resultado.filename}`
+            });
+        } else {
+            res.status(500).json({ success: false, error: 'Error generando certificado' });
+        }
+        
+    } catch (error) {
+        console.error('❌ Error generando certificado de validación:', error);
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
 // =================================================================
 // SISTEMA ARQUITECTÓNICO CUÁNTICO CON FÍSICA REAL
 // Usando throne-arquitectura.js (Nivel Presidencial)

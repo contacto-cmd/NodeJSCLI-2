@@ -587,42 +587,80 @@ class WhitepaperGenerator {
     }
     
     crearPortada(doc) {
-        // Fondo dorado
-        doc.rect(0, 0, doc.page.width, doc.page.height).fill('#1a0033');
+        // Fondo degradado profesional
+        doc.rect(0, 0, doc.page.width, doc.page.height).fill('#0a0a2e');
         
-        // Título principal
-        doc.fontSize(36).fillColor('#FFD700')
-           .text('THRONE PROTOCOL V3.0', 60, 150, { align: 'center', width: doc.page.width - 120 });
+        // Marco dorado externo tipo certificado
+        doc.rect(30, 30, doc.page.width - 60, doc.page.height - 60)
+           .lineWidth(3).stroke('#FFD700');
+        doc.rect(35, 35, doc.page.width - 70, doc.page.height - 70)
+           .lineWidth(1).stroke('#DAA520');
         
-        doc.moveDown(2);
-        doc.fontSize(22).fillColor('#FFFFFF')
-           .text('WHITEPAPER TÉCNICO PROFESIONAL', { align: 'center', width: doc.page.width - 120 });
+        // Sello oficial superior
+        doc.fontSize(10).fillColor('#FFD700')
+           .text('DOCUMENTO OFICIAL CERTIFICADO', { align: 'center', width: doc.page.width - 100 }, 60);
+        doc.fontSize(8).fillColor('#CCCCCC')
+           .text('SISTEMA PRESIDENCIAL DE ARQUITECTURA CUÁNTICA', { align: 'center', width: doc.page.width - 100 }, 75);
         
-        doc.moveDown(3);
-        doc.fontSize(18).fillColor('#00FF88')
-           .text('Sistema Presidencial de Arquitectura Cuántica', { align: 'center', width: doc.page.width - 120 });
+        // Título principal con efecto de certificado
+        doc.fontSize(42).fillColor('#FFD700').font('Helvetica-Bold')
+           .text('THRONE PROTOCOL V3.0', 60, 160, { align: 'center', width: doc.page.width - 120 });
         
-        doc.moveDown(1);
-        doc.fontSize(16).fillColor('#FFD700')
-           .text('Con Física Computacional Real + IA Dual', { align: 'center', width: doc.page.width - 120 });
+        doc.fontSize(24).fillColor('#FFFFFF').font('Helvetica')
+           .text('WHITEPAPER TÉCNICO CERTIFICADO', { align: 'center', width: doc.page.width - 120 }, 215);
         
-        // Línea separadora dorada
-        doc.moveTo(100, 400).lineTo(doc.page.width - 100, 400).stroke('#FFD700');
+        // Línea decorativa superior
+        doc.moveTo(150, 260).lineTo(doc.page.width - 150, 260).lineWidth(2).stroke('#FFD700');
+        doc.moveTo(150, 265).lineTo(doc.page.width - 150, 265).lineWidth(1).stroke('#DAA520');
         
-        doc.moveDown(4);
-        doc.fontSize(20).fillColor('#FFFFFF')
-           .text(`Valoración Total: ${this.valoracionTotal}`, { align: 'center', width: doc.page.width - 120 });
+        // Características principales
+        doc.fontSize(14).fillColor('#00FF88')
+           .text('40 Nodos Cuánticos Blindados | RSA-4096 + AES-256-GCM', { align: 'center' }, 290);
+        doc.fontSize(14).fillColor('#FFFFFF')
+           .text('IA Dual (GPT-4 + Gemini 2.5) | Física Computacional GPS', { align: 'center' }, 310);
         
-        doc.moveDown(6);
-        doc.fontSize(14).fillColor('#CCCCCC')
-           .text(this.company, { align: 'center' });
-        doc.fontSize(12)
-           .text(this.owner, { align: 'center' });
-        doc.text(this.email, { align: 'center' });
+        // Valoración destacada con marco
+        doc.rect(100, 350, doc.page.width - 200, 60)
+           .lineWidth(2).stroke('#FFD700').fillOpacity(0.1).fill('#FFD700');
+        doc.fillOpacity(1);
+        doc.fontSize(22).fillColor('#FFD700').font('Helvetica-Bold')
+           .text('VALORACIÓN TOTAL DEL SISTEMA', { align: 'center' }, 365);
+        doc.fontSize(26).fillColor('#FFFFFF')
+           .text(this.valoracionTotal, { align: 'center' }, 388);
         
-        doc.moveDown(2);
+        // Línea decorativa inferior
+        doc.moveTo(150, 440).lineTo(doc.page.width - 150, 440).lineWidth(2).stroke('#FFD700');
+        doc.moveTo(150, 445).lineTo(doc.page.width - 150, 445).lineWidth(1).stroke('#DAA520');
+        
+        // Información corporativa
+        doc.fontSize(16).fillColor('#FFFFFF').font('Helvetica-Bold')
+           .text(this.company, { align: 'center' }, 480);
+        doc.fontSize(13).fillColor('#CCCCCC').font('Helvetica')
+           .text(this.owner, { align: 'center' }, 505);
+        doc.fontSize(11).fillColor('#DAA520')
+           .text(this.email, { align: 'center' }, 525);
+        
+        // Firma y fecha
+        const fecha = new Date().toLocaleDateString('es-ES', { 
+            year: 'numeric', month: 'long', day: 'numeric'
+        });
         doc.fontSize(10).fillColor('#888888')
-           .text(`Documento Confidencial - ${new Date().getFullYear()}`, { align: 'center' });
+           .text('_________________________________', 150, 580);
+        doc.text('Firma Autorizada', 150, 600);
+        
+        doc.text('_________________________________', doc.page.width - 250, 580);
+        doc.text(fecha, doc.page.width - 250, 600);
+        
+        // Sello de confidencialidad
+        doc.fontSize(8).fillColor('#FF4444').font('Helvetica-Bold')
+           .text('DOCUMENTO CONFIDENCIAL Y PROPIETARIO', { align: 'center' }, 650);
+        doc.fontSize(7).fillColor('#888888').font('Helvetica')
+           .text(`© ${new Date().getFullYear()} ${this.company}. Todos los derechos reservados.`, { align: 'center' }, 665);
+        
+        // Número de serie del documento
+        const serial = `WP-${Date.now().toString(36).toUpperCase()}`;
+        doc.fontSize(8).fillColor('#666666')
+           .text(`No. Serie: ${serial}`, { align: 'center' }, 710);
     }
 }
 
