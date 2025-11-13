@@ -24,6 +24,7 @@ const CryptoService = require('./crypto-service');
 const DatabaseService = require('./db-service');
 const FusionService = require('./fusion-service');
 const AuthMiddleware = require('./auth-middleware');
+const CertificationService = require('./certification-service');
 
 // Configurar Resend para envío de emails
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -2621,6 +2622,143 @@ app.delete('/api/admin/keys/:id', async (req, res) => {
             success: false,
             error: error.message
         });
+    }
+});
+
+// ========================================================================
+// CERTIFICACIÓN PROFESIONAL - Certificado Oficial con Firma RSA-4096
+// ========================================================================
+
+// Generar certificado profesional (ADMIN ONLY)
+app.post('/api/admin/certificado/generar', async (req, res) => {
+    try {
+        const adminSecret = req.headers['x-admin-secret'];
+        
+        if (!adminSecret || adminSecret !== process.env.RSA_4096_PRIVADA?.substring(0, 50)) {
+            return res.status(403).json({
+                success: false,
+                error: 'No autorizado'
+            });
+        }
+
+        const desarrollador = 'Roberto Rivera Gamas (RFC: RIGR840827PJ0)';
+
+        const experiencia = {
+            meses: 6,
+            tecnologias: [
+                'Node.js + Express.js',
+                'PostgreSQL + Drizzle ORM',
+                'RSA-4096 Cryptography',
+                'JWT (JSON Web Tokens)',
+                'REST API Design',
+                'API Key Authentication',
+                'Rate Limiting & Security'
+            ],
+            logros: [
+                'Sistema FUSION: 5 tokens premium ($235K USD)',
+                'Autenticación empresarial con API Keys',
+                'Criptografía RSA-4096 en producción',
+                'Base de datos PostgreSQL (8 tablas)',
+                '9 endpoints REST protegidos',
+                'Sistema de auditoría completo',
+                'Rate limiting 100 req/min',
+                'Firmas digitales verificables'
+            ]
+        };
+
+        // Generar firma completa ANTES de llamar al módulo (para incluirla en response)
+        const datosHash = {
+            tipo: 'CERTIFICADO_DESARROLLO_PROFESIONAL',
+            desarrollador: desarrollador,
+            experiencia: experiencia,
+            timestamp: new Date().toISOString(),
+            emisor: 'Street Emporio Royal',
+            sistema: 'Throne Protocol V3.0'
+        };
+        
+        const hash = cryptoService.generarHash(JSON.stringify(datosHash));
+        const firmaCompleta = cryptoService.firmarRSA(datosHash);
+
+        const resultado = await generarCertificadoDesarrollador(
+            desarrollador,
+            experiencia,
+            MASTER_KEY_RSA_PRIVADA
+        );
+
+        if (resultado.certificado_id) {
+            const clavePublica = cryptoService.extraerClavePublica();
+            const fingerprint = cryptoService.generarFingerprint(clavePublica);
+            
+            res.json({
+                success: true,
+                certificado: {
+                    ...resultado,
+                    firma_rsa4096_completa: firmaCompleta.firma,
+                    hash_sha256: hash,
+                    fingerprint_rsa: fingerprint
+                },
+                verificacion: {
+                    instrucciones: 'Para verificar: 1) Calcule SHA-256 del payload_firmado, 2) Verifique con la firma RSA-4096 usando clave_publica',
+                    payload_firmado: datosHash,
+                    payload_json_canonico: JSON.stringify(datosHash),
+                    firma_rsa4096: firmaCompleta.firma,
+                    hash_esperado: hash,
+                    clave_publica: clavePublica,
+                    fingerprint: fingerprint,
+                    comando_verificacion: 'echo "[payload_json_canonico]" | openssl dgst -sha256 -verify public.pem -signature signature.bin'
+                },
+                mensaje: '✅ Certificado profesional generado con firma RSA-4096 verificable',
+                url_descarga: `/certificados/${path.basename(resultado.pdf_path)}`
+            });
+        } else {
+            res.status(500).json({
+                success: false,
+                error: 'Error generando certificado'
+            });
+        }
+
+    } catch (error) {
+        console.error('Error generando certificado:', error);
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// Endpoint para descargar certificados (SEGURO - sin path traversal)
+app.get('/certificados/:filename', (req, res) => {
+    try {
+        const filename = req.params.filename;
+        
+        // Validar que el filename no contenga caracteres peligrosos
+        if (filename.includes('..') || filename.includes('/') || filename.includes('\\')) {
+            return res.status(400).json({ error: 'Nombre de archivo inválido' });
+        }
+        
+        // Solo permitir archivos PDF
+        if (!filename.endsWith('.pdf')) {
+            return res.status(400).json({ error: 'Solo se permiten archivos PDF' });
+        }
+        
+        const certDir = path.join(__dirname, '..', 'certificados');
+        const certPath = path.join(certDir, filename);
+        
+        // Verificar que el path resuelto está dentro del directorio de certificados
+        const resolvedPath = path.resolve(certPath);
+        const resolvedDir = path.resolve(certDir);
+        
+        if (!resolvedPath.startsWith(resolvedDir)) {
+            return res.status(403).json({ error: 'Acceso denegado' });
+        }
+        
+        if (fs.existsSync(certPath)) {
+            res.download(certPath);
+        } else {
+            res.status(404).json({ error: 'Certificado no encontrado' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
 });
 
