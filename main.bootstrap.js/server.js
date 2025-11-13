@@ -25,6 +25,7 @@ const DatabaseService = require('./db-service');
 const FusionService = require('./fusion-service');
 const AuthMiddleware = require('./auth-middleware');
 const CertificationService = require('./certification-service');
+const ClientCertificateService = require('./client-certificate-service');
 
 // Configurar Resend para envío de emails
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -80,6 +81,7 @@ try {
 // 🔐 INICIALIZAR SERVICIO DE CRIPTOGRAFÍA REAL
 let cryptoService = null;
 let fusionService = null;
+let clientCertificateService = null;
 if (MASTER_KEY_RSA_PRIVADA) {
     cryptoService = new CryptoService(MASTER_KEY_RSA_PRIVADA);
     console.log("✅ CryptoService inicializado con RSA-4096");
@@ -97,6 +99,10 @@ if (MASTER_KEY_RSA_PRIVADA) {
     fusionService = new FusionService(cryptoService, dbService);
     console.log("✅ FusionService inicializado - 40 tokens FUSION ready");
     console.log("🔐 AuthMiddleware inicializado - Sistema de API Keys activo");
+    
+    // 📄 INICIALIZAR CLIENT CERTIFICATE SERVICE - Certificados para Clientes
+    clientCertificateService = new ClientCertificateService(cryptoService, dbService);
+    console.log("✅ ClientCertificateService inicializado - Certificados PDF ready");
 }
 
 const CESIUM_TOKEN = process.env.CESIUM_TOKEN;
@@ -2530,6 +2536,89 @@ app.get('/api/fusion/stats', async (req, res) => {
 
         const result = await fusionService.obtenerEstadisticas();
         res.json(result);
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// ========================================================================
+// CERTIFICADOS PARA CLIENTES - PDFs Profesionales
+// ========================================================================
+
+// Generar certificado PDF para una licencia (🔐 PROTEGIDO con API Key)
+app.post('/api/fusion/licenses/:id/certificate', authMiddleware.middleware(['issue']), async (req, res) => {
+    try {
+        if (!clientCertificateService) {
+            return res.status(503).json({
+                success: false,
+                error: 'Client Certificate Service no disponible'
+            });
+        }
+
+        const licenseId = req.params.id;
+        const result = await clientCertificateService.generarCertificadoCliente(licenseId);
+
+        if (result.success) {
+            res.status(201).json({
+                ...result,
+                rateLimitRestantes: req.rateLimitRestantes,
+                generadoPor: req.apiKeyData.nombre
+            });
+        } else {
+            res.status(400).json(result);
+        }
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// Descargar certificado PDF (🔓 Público - No requiere autenticación)
+app.get('/api/fusion/licenses/:id/certificate/download', async (req, res) => {
+    try {
+        if (!clientCertificateService) {
+            return res.status(503).json({
+                success: false,
+                error: 'Client Certificate Service no disponible'
+            });
+        }
+
+        const licenseId = req.params.id;
+
+        // Verificar que la licencia existe
+        const licenseQuery = await dbService.pool.query(
+            'SELECT license_id, cliente_nombre FROM fusion_licenses WHERE license_id = $1',
+            [licenseId]
+        );
+
+        if (licenseQuery.rows.length === 0) {
+            return res.status(404).json({
+                success: false,
+                error: 'Licencia no encontrada'
+            });
+        }
+
+        // Verificar que existe el certificado
+        if (!clientCertificateService.certificateExists(licenseId)) {
+            return res.status(404).json({
+                success: false,
+                error: 'Certificado no generado. Use POST /api/fusion/licenses/:id/certificate primero.'
+            });
+        }
+
+        const pdfPath = clientCertificateService.getCertificatePath(licenseId);
+        const clienteNombre = licenseQuery.rows[0].cliente_nombre;
+
+        // Enviar archivo PDF
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', `attachment; filename="Certificado_FUSION_${clienteNombre.replace(/\s+/g, '_')}.pdf"`);
+        res.sendFile(pdfPath);
+
     } catch (error) {
         res.status(500).json({
             success: false,
