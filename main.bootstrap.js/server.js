@@ -26,6 +26,7 @@ const FusionService = require('./fusion-service');
 const AuthMiddleware = require('./auth-middleware');
 const CertificationService = require('./certification-service');
 const ClientCertificateService = require('./client-certificate-service');
+const AdminDualControlMiddleware = require('./admin-dual-control-middleware');
 
 // Configurar Resend para envío de emails
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -35,6 +36,17 @@ const dbService = new DatabaseService();
 
 // Inicializar autenticación
 const authMiddleware = new AuthMiddleware(dbService);
+
+// Inicializar Admin Dual-Control (requiere API Key admin + Master Secret)
+const ADMIN_ROOT_SECRET = process.env.ADMIN_ROOT_SECRET || process.env.RSA_4096_PRIVADA?.substring(0, 64);
+let adminDualControl = null;
+if (ADMIN_ROOT_SECRET) {
+    adminDualControl = new AdminDualControlMiddleware(authMiddleware, ADMIN_ROOT_SECRET);
+    global.adminDualControlMiddleware = adminDualControl;
+    console.log("✅ AdminDualControlMiddleware inicializado - Dual-factor ready");
+} else {
+    console.warn("⚠️ ADMIN_ROOT_SECRET no configurado - Admin endpoints en modo degradado");
+}
 
 // 🧠 ACTIVAR ARQUITECTO AI INTERNO - Monitoreo Continuo
 console.log('🧠 Activando Arquitecto AI Interno...');
@@ -2628,21 +2640,13 @@ app.get('/api/fusion/licenses/:id/certificate/download', async (req, res) => {
 });
 
 // ========================================================================
-// ADMIN ENDPOINTS - Gestión de API Keys (Requiere secret de Roberto)
+// ADMIN ENDPOINTS - Gestión de API Keys (🔐 DUAL-CONTROL PROTEGIDO)
+// Requiere: API Key con rol 'admin' + Master Secret en header x-master-secret
 // ========================================================================
 
-// Crear nueva API key (ADMIN ONLY)
-app.post('/api/admin/keys/create', async (req, res) => {
+// Crear nueva API key (🔐 DUAL-CONTROL)
+app.post('/api/admin/keys/create', adminDualControl ? adminDualControl.middleware() : (req, res) => res.status(503).json({ error: 'Admin dual-control no disponible' }), async (req, res) => {
     try {
-        const adminSecret = req.headers['x-admin-secret'];
-        
-        if (!adminSecret || adminSecret !== process.env.RSA_4096_PRIVADA?.substring(0, 50)) {
-            return res.status(403).json({
-                success: false,
-                error: 'No autorizado'
-            });
-        }
-
         const { nombre, propietario, email, permisos, rateLimit, expiresInDays } = req.body;
 
         if (!nombre || !propietario || !email) {
@@ -2657,11 +2661,15 @@ app.post('/api/admin/keys/create', async (req, res) => {
             propietario,
             email,
             permisos || ['read', 'issue', 'verify'],
-            rateLimit || 10,
+            rateLimit || 50,
             expiresInDays || 365
         );
 
-        res.status(201).json(result);
+        res.status(201).json({
+            ...result,
+            aprobadoPor: req.apiKeyData.nombre,
+            timestamp: new Date().toISOString()
+        });
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -2670,20 +2678,15 @@ app.post('/api/admin/keys/create', async (req, res) => {
     }
 });
 
-// Listar todas las API keys (ADMIN ONLY)
-app.get('/api/admin/keys', async (req, res) => {
+// Listar todas las API keys (🔐 DUAL-CONTROL)
+app.get('/api/admin/keys', adminDualControl ? adminDualControl.middleware() : (req, res) => res.status(503).json({ error: 'Admin dual-control no disponible' }), async (req, res) => {
     try {
-        const adminSecret = req.headers['x-admin-secret'];
-        
-        if (!adminSecret || adminSecret !== process.env.RSA_4096_PRIVADA?.substring(0, 50)) {
-            return res.status(403).json({
-                success: false,
-                error: 'No autorizado'
-            });
-        }
-
         const result = await authMiddleware.listarApiKeys();
-        res.json(result);
+        res.json({
+            ...result,
+            consultadoPor: req.apiKeyData.nombre,
+            timestamp: new Date().toISOString()
+        });
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -2692,20 +2695,15 @@ app.get('/api/admin/keys', async (req, res) => {
     }
 });
 
-// Desactivar API key (ADMIN ONLY)
-app.delete('/api/admin/keys/:id', async (req, res) => {
+// Desactivar API key (🔐 DUAL-CONTROL)
+app.delete('/api/admin/keys/:id', adminDualControl ? adminDualControl.middleware() : (req, res) => res.status(503).json({ error: 'Admin dual-control no disponible' }), async (req, res) => {
     try {
-        const adminSecret = req.headers['x-admin-secret'];
-        
-        if (!adminSecret || adminSecret !== process.env.RSA_4096_PRIVADA?.substring(0, 50)) {
-            return res.status(403).json({
-                success: false,
-                error: 'No autorizado'
-            });
-        }
-
         const result = await authMiddleware.desactivarApiKey(parseInt(req.params.id));
-        res.json(result);
+        res.json({
+            ...result,
+            desactivadoPor: req.apiKeyData.nombre,
+            timestamp: new Date().toISOString()
+        });
     } catch (error) {
         res.status(500).json({
             success: false,
