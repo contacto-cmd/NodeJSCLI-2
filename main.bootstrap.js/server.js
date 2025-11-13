@@ -20,9 +20,19 @@ const { CATALOGO_ARQUITECTONICO, VALORACION_TOTAL } = require('./catalogo-arquit
 const { generarPlanoTecnico } = require('./planos-tecnicos');
 const { generarCertificadoPropiedad } = require('./certificado-propiedad');
 const { generarDisenoCompleto, DESIGN_TYPES, MATERIALS } = require('./throne-arquitectura');
+const CryptoService = require('./crypto-service');
+const DatabaseService = require('./db-service');
+const FusionService = require('./fusion-service');
+const AuthMiddleware = require('./auth-middleware');
 
 // Configurar Resend para envío de emails
 const resend = new Resend(process.env.RESEND_API_KEY);
+
+// Inicializar servicio de base de datos
+const dbService = new DatabaseService();
+
+// Inicializar autenticación
+const authMiddleware = new AuthMiddleware(dbService);
 
 // 🧠 ACTIVAR ARQUITECTO AI INTERNO - Monitoreo Continuo
 console.log('🧠 Activando Arquitecto AI Interno...');
@@ -65,6 +75,29 @@ try {
 } catch (e) {
     console.warn("⚠️  Error cargando clave RSA:", e.message);
 }
+
+// 🔐 INICIALIZAR SERVICIO DE CRIPTOGRAFÍA REAL
+let cryptoService = null;
+let fusionService = null;
+if (MASTER_KEY_RSA_PRIVADA) {
+    cryptoService = new CryptoService(MASTER_KEY_RSA_PRIVADA);
+    console.log("✅ CryptoService inicializado con RSA-4096");
+    
+    // Generar y mostrar fingerprint de la clave pública
+    try {
+        const publicKey = cryptoService.extraerClavePublica();
+        const fingerprint = cryptoService.generarFingerprint(publicKey);
+        console.log(`🔑 Fingerprint SHA-256: ${fingerprint}`);
+    } catch (e) {
+        console.warn("⚠️  Error generando fingerprint:", e.message);
+    }
+
+    // 🎯 INICIALIZAR FUSION SERVICE - Sistema de Tokens Real
+    fusionService = new FusionService(cryptoService, dbService);
+    console.log("✅ FusionService inicializado - 40 tokens FUSION ready");
+    console.log("🔐 AuthMiddleware inicializado - Sistema de API Keys activo");
+}
+
 const CESIUM_TOKEN = process.env.CESIUM_TOKEN;
 const ECC_KEY_PUBLIC = process.env.ECC_KEY_PUBLIC; 
 const PASAPORTE_MAESTRO = process.env.PASAPORTE_MAESTRO ? JSON.parse(process.env.PASAPORTE_MAESTRO) : {
@@ -2099,6 +2132,499 @@ app.get('/api/documentacion/paquete-completo', async (req, res) => {
         });
     }
 });
+
+// =================================================================
+// 🔐 ENDPOINTS DE VERIFICACIÓN CRIPTOGRÁFICA REAL
+// =================================================================
+
+// Obtener clave pública RSA-4096
+app.get('/api/crypto/clave-publica', (req, res) => {
+    try {
+        if (!cryptoService) {
+            return res.status(503).json({
+                success: false,
+                error: 'Servicio criptográfico no disponible'
+            });
+        }
+
+        const publicKey = cryptoService.extraerClavePublica();
+        const fingerprint = cryptoService.generarFingerprint(publicKey);
+
+        res.json({
+            success: true,
+            clave_publica: publicKey,
+            fingerprint_sha256: fingerprint,
+            algoritmo: 'RSA-4096',
+            propietario: 'Roberto Rivera Gamas',
+            rfc: 'RIGR840827PJ0'
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// Firmar datos con RSA-4096 y guardar en blockchain
+app.post('/api/crypto/firmar', async (req, res) => {
+    try {
+        if (!cryptoService) {
+            return res.status(503).json({
+                success: false,
+                error: 'Servicio criptográfico no disponible'
+            });
+        }
+
+        const { datos } = req.body;
+        if (!datos) {
+            return res.status(400).json({
+                success: false,
+                error: 'Datos requeridos para firmar'
+            });
+        }
+
+        const resultado = cryptoService.firmarRSA(datos);
+
+        try {
+            await dbService.guardarTransaccion('firma', datos, resultado.firma, null, resultado.hash);
+        } catch (dbError) {
+            console.warn('⚠️ Error guardando en DB:', dbError.message);
+        }
+
+        res.json({
+            success: true,
+            ...resultado,
+            propietario: 'Roberto Rivera Gamas',
+            rfc: 'RIGR840827PJ0'
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// Verificar firma RSA-4096 (SOLO verifica firmas del servidor)
+app.post('/api/crypto/verificar', async (req, res) => {
+    try {
+        if (!cryptoService) {
+            return res.status(503).json({
+                success: false,
+                error: 'Servicio criptográfico no disponible'
+            });
+        }
+
+        const { datos, firma } = req.body;
+        if (!datos || !firma) {
+            return res.status(400).json({
+                success: false,
+                error: 'Se requieren datos y firma para verificar'
+            });
+        }
+
+        const publicKey = cryptoService.extraerClavePublica();
+        const resultado = cryptoService.verificarFirmaRSA(datos, firma, publicKey);
+
+        try {
+            await dbService.guardarVerificacion(resultado.hash, firma, 'RS256', resultado.valido, req.ip);
+        } catch (dbError) {
+            console.warn('⚠️ Error guardando verificación:', dbError.message);
+        }
+
+        res.json({
+            success: true,
+            ...resultado,
+            verificado_contra: 'Clave Pública de Roberto Rivera Gamas',
+            rfc: 'RIGR840827PJ0'
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// Generar JWT firmado con RSA-4096
+app.post('/api/crypto/generar-jwt', (req, res) => {
+    try {
+        if (!cryptoService) {
+            return res.status(503).json({
+                success: false,
+                error: 'Servicio criptográfico no disponible'
+            });
+        }
+
+        const { payload, expiresIn } = req.body;
+        if (!payload) {
+            return res.status(400).json({
+                success: false,
+                error: 'Payload requerido para generar JWT'
+            });
+        }
+
+        const payloadCompleto = {
+            ...payload,
+            iss: 'Throne Protocol V3.0',
+            sub: 'Roberto Rivera Gamas',
+            rfc: 'RIGR840827PJ0',
+            iat: Math.floor(Date.now() / 1000)
+        };
+
+        const token = cryptoService.generarJWT(payloadCompleto, expiresIn || '365d');
+
+        res.json({
+            success: true,
+            token,
+            payload: payloadCompleto,
+            algoritmo: 'RS256',
+            validez: expiresIn || '365d'
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// Verificar JWT (SOLO verifica tokens del servidor)
+app.post('/api/crypto/verificar-jwt', (req, res) => {
+    try {
+        if (!cryptoService) {
+            return res.status(503).json({
+                success: false,
+                error: 'Servicio criptográfico no disponible'
+            });
+        }
+
+        const { token } = req.body;
+        if (!token) {
+            return res.status(400).json({
+                success: false,
+                error: 'Token JWT requerido'
+            });
+        }
+
+        const publicKey = cryptoService.extraerClavePublica();
+        const resultado = cryptoService.verificarJWT(token, publicKey);
+
+        if (resultado.valido) {
+            const expectedIssuer = ['Throne Protocol V3.0', 'Royal Emporio', 'AHT-THRONE-CORE'];
+            if (!expectedIssuer.includes(resultado.payload?.iss)) {
+                return res.json({
+                    success: false,
+                    valido: false,
+                    error: 'Token no emitido por Throne Protocol'
+                });
+            }
+        }
+
+        res.json({
+            success: true,
+            ...resultado,
+            verificado_contra: 'Clave Pública de Roberto Rivera Gamas',
+            rfc: 'RIGR840827PJ0'
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// Información del sistema criptográfico
+app.get('/api/crypto/info', (req, res) => {
+    try {
+        const info = {
+            sistema: 'Throne Protocol V3.0 - Enterprise Cryptography',
+            propietario: 'Roberto Rivera Gamas',
+            rfc: 'RIGR840827PJ0',
+            titulo: 'Royal - Arquitecto',
+            criptografia: {
+                rsa_disponible: !!cryptoService,
+                algoritmo_rsa: 'RSA-4096',
+                algoritmo_firma: 'RS256 (RSA + SHA-256)',
+                algoritmo_hash: 'SHA-256',
+                jwt: 'JsonWebToken con RS256'
+            },
+            capacidades: [
+                'Firma digital RSA-4096',
+                'Verificación de firmas',
+                'Generación de JWT firmados',
+                'Verificación de JWT',
+                'Fingerprints SHA-256',
+                'Certificados digitales'
+            ],
+            estado: cryptoService ? 'OPERATIVO' : 'MODO DEMO'
+        };
+
+        if (cryptoService) {
+            const publicKey = cryptoService.extraerClavePublica();
+            const fingerprint = cryptoService.generarFingerprint(publicKey);
+            info.fingerprint_sha256 = fingerprint;
+        }
+
+        res.json({
+            success: true,
+            ...info
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// ========================================================================
+// FUSION TOKENS API - Sistema de Licencias Criptográficas REAL
+// ========================================================================
+
+// Listar tokens disponibles
+app.get('/api/fusion/tokens', async (req, res) => {
+    try {
+        if (!fusionService) {
+            return res.status(503).json({
+                success: false,
+                error: 'Fusion Service no disponible'
+            });
+        }
+
+        const result = await fusionService.listarTokens(true);
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// Ver detalles de un token específico
+app.get('/api/fusion/tokens/:code', async (req, res) => {
+    try {
+        if (!fusionService) {
+            return res.status(503).json({
+                success: false,
+                error: 'Fusion Service no disponible'
+            });
+        }
+
+        const result = await fusionService.obtenerToken(req.params.code);
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// Emitir licencia a cliente (🔐 PROTEGIDO con API Key)
+app.post('/api/fusion/licenses/issue', authMiddleware.middleware(['issue']), async (req, res) => {
+    try {
+        if (!fusionService) {
+            return res.status(503).json({
+                success: false,
+                error: 'Fusion Service no disponible'
+            });
+        }
+
+        const { tokenCode, cliente } = req.body;
+        
+        if (!tokenCode || !cliente || !cliente.nombre || !cliente.email) {
+            return res.status(400).json({
+                success: false,
+                error: 'tokenCode, cliente.nombre y cliente.email son requeridos'
+            });
+        }
+
+        const clienteData = {
+            ...cliente,
+            ipOrigen: req.ip || req.connection.remoteAddress,
+            userAgent: req.get('user-agent')
+        };
+
+        const result = await fusionService.emitirLicencia(tokenCode, clienteData);
+        
+        if (result.success) {
+            res.status(201).json({
+                ...result,
+                rateLimitRestantes: req.rateLimitRestantes,
+                emitidoPor: req.apiKeyData.nombre
+            });
+        } else {
+            res.status(400).json(result);
+        }
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// Verificar licencia
+app.post('/api/fusion/licenses/verify', async (req, res) => {
+    try {
+        if (!fusionService) {
+            return res.status(503).json({
+                success: false,
+                error: 'Fusion Service no disponible'
+            });
+        }
+
+        const { licenseId, jwtToken } = req.body;
+        
+        if (!licenseId || !jwtToken) {
+            return res.status(400).json({
+                success: false,
+                error: 'licenseId y jwtToken son requeridos'
+            });
+        }
+
+        const result = await fusionService.verificarLicencia(licenseId, jwtToken);
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// Consultar licencia por ID
+app.get('/api/fusion/licenses/:id', async (req, res) => {
+    try {
+        if (!fusionService) {
+            return res.status(503).json({
+                success: false,
+                error: 'Fusion Service no disponible'
+            });
+        }
+
+        const result = await fusionService.obtenerLicencia(req.params.id);
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// Estadísticas de sistema FUSION
+app.get('/api/fusion/stats', async (req, res) => {
+    try {
+        if (!fusionService) {
+            return res.status(503).json({
+                success: false,
+                error: 'Fusion Service no disponible'
+            });
+        }
+
+        const result = await fusionService.obtenerEstadisticas();
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// ========================================================================
+// ADMIN ENDPOINTS - Gestión de API Keys (Requiere secret de Roberto)
+// ========================================================================
+
+// Crear nueva API key (ADMIN ONLY)
+app.post('/api/admin/keys/create', async (req, res) => {
+    try {
+        const adminSecret = req.headers['x-admin-secret'];
+        
+        if (!adminSecret || adminSecret !== process.env.RSA_4096_PRIVADA?.substring(0, 50)) {
+            return res.status(403).json({
+                success: false,
+                error: 'No autorizado'
+            });
+        }
+
+        const { nombre, propietario, email, permisos, rateLimit, expiresInDays } = req.body;
+
+        if (!nombre || !propietario || !email) {
+            return res.status(400).json({
+                success: false,
+                error: 'nombre, propietario y email son requeridos'
+            });
+        }
+
+        const result = await authMiddleware.createApiKey(
+            nombre,
+            propietario,
+            email,
+            permisos || ['read', 'issue', 'verify'],
+            rateLimit || 10,
+            expiresInDays || 365
+        );
+
+        res.status(201).json(result);
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// Listar todas las API keys (ADMIN ONLY)
+app.get('/api/admin/keys', async (req, res) => {
+    try {
+        const adminSecret = req.headers['x-admin-secret'];
+        
+        if (!adminSecret || adminSecret !== process.env.RSA_4096_PRIVADA?.substring(0, 50)) {
+            return res.status(403).json({
+                success: false,
+                error: 'No autorizado'
+            });
+        }
+
+        const result = await authMiddleware.listarApiKeys();
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// Desactivar API key (ADMIN ONLY)
+app.delete('/api/admin/keys/:id', async (req, res) => {
+    try {
+        const adminSecret = req.headers['x-admin-secret'];
+        
+        if (!adminSecret || adminSecret !== process.env.RSA_4096_PRIVADA?.substring(0, 50)) {
+            return res.status(403).json({
+                success: false,
+                error: 'No autorizado'
+            });
+        }
+
+        const result = await authMiddleware.desactivarApiKey(parseInt(req.params.id));
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// ========================================================================
 
 // Sirve archivos estáticos (HTML, JS, CSS)
 app.use(express.static(path.join(__dirname, '..', 'public')));
