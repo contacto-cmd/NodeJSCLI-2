@@ -129,3 +129,15 @@ export const fusionApiKeys = pgTable('fusion_api_keys', {
   createdAt: timestamp('created_at').defaultNow(),
   expiresAt: timestamp('expires_at'),
 });
+
+// Auditoría de intentos de acceso admin (Dual-Control)
+export const adminAuditLog = pgTable('admin_audit_log', {
+  id: serial('id').primaryKey(),
+  ipOrigen: text('ip_origen').notNull(),
+  apiKeyId: integer('api_key_id').references(() => fusionApiKeys.id),
+  evento: text('evento').notNull(), // 'master_secret_missing', 'master_secret_invalid', 'api_key_failed', 'access_granted', 'rate_limit_exceeded'
+  exitoso: boolean('exitoso').notNull(),
+  detalles: jsonb('detalles'),
+  userAgent: text('user_agent'),
+  timestamp: timestamp('timestamp').defaultNow(),
+});
