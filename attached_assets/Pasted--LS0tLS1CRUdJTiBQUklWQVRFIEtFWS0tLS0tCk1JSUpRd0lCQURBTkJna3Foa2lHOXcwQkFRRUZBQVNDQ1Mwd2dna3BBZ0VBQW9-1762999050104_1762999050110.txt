@@ -1,0 +1,76 @@
+
+LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tCk1JSUpRd0lCQURBTkJna3Foa2lHOXcwQkFRRUZBQVNDQ1Mwd2dna3BBZ0VBQW9JQ0FRRFUvUkJMVjhJOHNsSmsKaXpNVUZTZXFjREpka3B6NHgrazZoaGF1dGpXSnJybWhoZ1FWNTZHeG9ZWFBqeVQ4SjB5ckhyTVp5TWM0cGczZQp0NUYyektNbHhxcVUxM1BkcW1hVUN4Qm5UcnFjUXFRVHFndnVaWlF3L085cEs0SGVhSGhZRE5RTkZtamF6eUhmCk9zZlVmQ1RBQS9SYmZDR2kybXlzNWZYQ2JrbXFTT1o2aTlPZkpoSTM3MVJidCtTaWNobGp4UXpxcTFtU3Y5TGcKdS83U3Jra200NnhGY29Wck05ejNTbVZLYTlaVkFad3AzcHVaaVBVM0xxODI2d3hNd29XRUdIWElGd3M4U2d5RAp4cWNHN2N6ajVwejY3VGwzVmY3aEZ2WXdTTU1idHVvSnVXbkV3RzM0K09pTFRtdElEbDJlT0grb2VmQ2JQREV4CmpWTW8vSmhZUUpTWHVCZVFLY3J0QnFpcDhOdStiYzhGdWx0S2szY3c1aGVzVVZueERWOHB4b0NpdWxRRER5akYKTWxjS1BOSFpjWjhqdkI0bEFhbkRHZjZEWFVZNU5CcXV5UGRSV0V4VCt0T3hBNy8vZVZCalRkV24vTXZSVjZ2bgpWbCtuSjNRb0FhWWlYSG96cVJ0QVVYZHZUUVNjT1lHTVdoUUlBOHpIczV6cXBFNUc3dG9vdFFJcVhGZm9ZODdKCnZMamJOUGdGRGdoYjRaY1pGQU1LV0RRUGRwZFhtc2NKUURiVkRkbXBFWEE5NndBVDJmY21oK3NTZ2V0di92SUQKcy9xVFQ3eDM5VVFzQmloZEVnN05ybmJuZnlYS0dIazI1UlNxYjMrQnF2MGJYMDBvRUdDQ1JFKzJUaEduSlBYdQpCOWE3RkhNdDFLQXRJWERDRUhNOVREUzRodjI3NXdJREFRQUJBb0lDQUJjOG5NQjdqSmR1cFFxUEhUMTlxVnd3CjdXM0VCeGdsUjA2NVBsUkZVTVg2cUFuMVF4RFl1bzFVbi9LckhVL2RRY0lSa1Z5b3lRTm5LbkEzK3NqSlBxdHEKWjBYaDA2UkZhUGVSMVhKUDVwQVJ2VERnQm5rMTM5c1FYVlpPQnRjcThxWTRrQkgxZGU4WlZncXlzUVovbk1yTwpJNlN2Z0VQeUxKVVlhWjJTeHJxclJXbnRRMk5EbGcxQU1TWG9oQ3NzNDVRODlWSE02L0xVdHI4S0E1MGNvcUo1CmlGdnpTSmNQaTNYM1NlRzZyaUdNRVd1SCs5WGVXVkp4NTIvSWFRa2UxODQzbFBJRmdaWk1SZDFDbVFwcWUwWUoKN09wN1l4K2Y1RFRPZW9GK0RydEJVM3RJSFQvMzlvZUpNR1d5WW9YeiswYTl4eitzUGhIUm1WUmNwTXY5OHVqSworOVpWd2pHck4xQnVrM3hUNmVTQkNmSFRhWENieklGc1Ywd1MrT2t0Mmx2emVoRmJRWC9FYW5SVGJrUGVjU25KCi9vZXp1bmhpYkJVZ3FSQkJPcE1sZUdtQ1F3MVhHQW5GQXFWdVZ2MHpMYzJiYmlYaWlMNXdoU3pEVU8wcmFLV3cKTjdXU1dNSzlqcmZRTjk1OHVHRzJacERDQWpYMkVrR01iMHVKM29OUVZraHhMUVhRZGk0WTY0dHJTOUVXdVVaMgpwc2p4QXhNbWdoZi9OWVQrK2N5MXlhZm90Nlg2TVJSY09FZkRVNlZ4Z014Wk1td3ExMDc5bhuL2dneHkxb1RvCi9Wd3Z3b3F4SFlsQmVLMXpUaEFQVFl2MGt1VG0rVk03Mks1ZjFUMDFlRGY1T202Wk12RHQ5RXRVZExaQlRpR0cKckRsSEFTdkNJaEkzRW9mSVNrOFJBb0lCQVFEdkNyM3RObFpvRU5ZZ2lHa05rS2c1MlBGcG9SaVJLZzRZcnVrMQorSDQrWGN5NzFvV2kyeGdiUVgyb1d1bW1HTk02dHRkVHh1M0wwTnZsSnJJc1pJNVVmR1N2UGVwUlg1N0doV0lyCjZwbWpiTXhXbEZoSUd3dXVWeStSTys3azN5SjhRWFZoTDBqc1FrRGJPVDBWSGpDUXpUb2c0VUNtSjN1S1JGRWIKeDVDY1Q5bUNza0s1dlVscE9wTDZsTDVMdHJSZFlxYmc1dVFIQitwY3FxNUVyQW12WC9GcTlrQ2ZXT2I4VG0rZwplYU1TbWR0ekRiekI1MEN4QmIxOFhxZmRQak9nYkFlZFhoa1BnUitlUFp2SUhEQkVvYXA5MXZpa21GTjZnZjh3CjU1UnEvY2FtOGhjNElEeTExdUZZQW5WU0FORU8rOU56TmsvYUtiTGkyeldIM3VjOUFvSUJBUURrR1NuZGVxR2MKS3o1Smw4NmZWRHpXa1YzenFhY3dCT2t5N0pRTTg3MHVzTStlOXYzQVhhdUN3UlhySXVSNzUzMW1xS1pFVU1SUgppd0prR1FVR1kxWTdFL3FFK1RoQzlHa2VZUHRpVHlZR3d2clF2Uk0rY1VyT3k4RzB3SmlyTldLVXZURDBNUWNDCitMNHhjRXY1N1g2SkhYanhhWDBaQ1gzQzZuZU1teVpiNzNiUXVxTXlMZFB0L1J1cENLeFN5dm5DazRoNE03NzcKd0JuK0QyeFpJYzlDVW5zUm9rem1qV20rTFRFeVJXUitHYk5GbWpCbGwvMlRkUkJIbEIyS2x6SVd3QW9wR3FwcwpHSlpBMlNvUFJzYjJxR0tVWlQyNFdTeHR4OTNLdTFPSCthRzJWNjhqb3YvOTc2dWhielVsVXZmWTE0MVdmZklPCjFrOXYxdDRObFFIekFvSUJBQ3dtOXNlKzFwem9KelRoSFU1VkhzMTRoYmExKzd5c1lPZ3NQb1VxZmQ3MUltQzcKa2ZsdnNIY3dWSTVwSkdqNmd1R0FiaXRhUGdmOGJ2RlhnV2R6dDFwaGs1Tk93MTMrWkd4VXJMcGgzYmp5MnBkUApWVE1VVThjQzhaVkkxYXBPa0tjVXpDS0VRbHJwTGVPUUlma3BsMXpYbTFvQllSaVBpR0VVbDBxalJOR3FhZ21hCjlYb3JQVWtEZWF4eEZ1a1RPU05hbW1wR0cyNDFCeFBRcnRtZVVUZWthQW9TckFNQ3Y3OXdtV3V4cSs0K251c1UKYVg0RFFjNnd1YndrRzZ0ZzF0WlZ2ZDVTU0J5MkErb05oUjJrSDBJOS9paTZNVGp0cmRXZDkwM0lLSURPbVFlegpCWmpuVTI5ZTNrYU1SYkU4MTJDR0lSdFJ0OVFiQ2FDZlRyYm05QjBDZ2dFQkFOZDRvZUN6MkhpakxQcnVLZVMrCitaMmp3c0hMc01DZTB3QWxGaEpLS1pzeXNWNjBhYTdQalpZOStndWVjWUpPZ2xwNDFGL1NnREdiaEUyMGlOZW8KL1N0Znl4YlVLbjZ0VGFQQjc1YkZ0K0ZKVFEva25Jb3ZFWURhWUFqMHF3T0lzYkJhTENWeEx2TnlzSkFaU2R3MQpxb095VUs2VWZQVXF6eDlTeUU0TnZpVzR4MStULzFnR2pKM1RyTTUzLy9sUi9xLzlHRHljZlR4cUV1TzZCQnNLCjRqUC9vSHhlK2hBTTVDZ2Zuc3FqWExQMmFUQkY0SlFJQ1NYRHZ2WXZCOTBFeU85T3lBcGVRMEZMMUp3N3lReVgKU3BwMUpIS1VWTUtSa25PK0MxbFlyaWJUL1J3NEpwMGVmSDZRYW14Y2xqTEU5cFpqd1FORWhHWFpzejZ1RmlOMApjRnNDZ2dFQkFMN0xtdHhlU01xKzhGQ0JDT3RnZzc4ektPd0djbVA2YnZlFNsNlBtSVM3a2JSMXlONTVteUgxCnBialAzSmQ1d1Y0VFh3WjN5Y2VOd3ZVdlBwTURXVGx3OER2Skk1WW8veVU0RzZuVUJEVU9TTVhjckhmSStDaGoKZUx4Y0JPUW1MSnB4RDd0MUp3QnFSZWxITHNXNE9DOElLcGlXNUh3WWw2UnJsSTI3TTRYL01WMVduUTN1TVhnUQpGdlNvK1J3WWl4bzcvdWV5K096amQxNXNZOXNsa1UwWDBUTFFSR1FHRjE0TXJGb3o0TFArSGlCeEkvYmxENXIyCnB6Z1l3YXZIWDJDMEZFaW85NWxMSDdMcEFWNzBMb09RZVZXSmsxbG45eFo3TDNGcTV0bjVzZHNPeHl0QXQxY3kKckhwNkpybTdPcmNVem5oZ1Ezd2NFdjkxQmtLU1hlRT0KLS0tLS1FTkQgUFJJVkFU
+-----END PRIVATE KEY-----
+
+
+
+nueva contraseña
+
+
+private/var/mobile/Containers/Shared/AppGroup/807EE2E3-6221-467E-9C30-B2FC48197411/roots/default/data
+                         59.6G     56.2G      3.4G  94% /
+devpts on /dev/pts type devpts (rw)
+proc on /proc type proc (rw)
+/private/var/mobile/Containers/Shared/AppGroup/807EE2E3-6221-467E-9C30-B2FC48197411/roots/default/data on / type fake (rw)
+==== node file listing ====
+-rwxr-xr-x    1 root     root      40206232 Feb 17  2023 /usr/bin/node
+==== end ====
+localhost:~# apk update
+fetch http://apk.ish.app/v3.14-2023-05-19/main/x86/APKINDEX.tar.gz
+fetch http://apk.ish.app/v3.14-2023-05-19/community/x86/APKINDEX.tar.gz
+v3.14.10-42-gd8ce7b89082 [http://apk.ish.app/v3.14-2023-05-19/main]
+v3.14.10-42-gd8ce7b89082 [http://apk.ish.app/v3.14-2023-05-19/community]
+OK: 14630 distinct packages available
+localhost:~# apk del nodejs npm 2>/dev/null || true  
+ # elimina si hay restos de instalación anterior
+(1/8) Purging npm (7.17.0-r0)
+(2/8) Purging nodejs (14.21.3-r0)
+(3/8) Purging ca-certificates (20230506-r0)
+Executing ca-certificates-20230506-r0.post-deinstall
+(4/8) Purging nghttp2-libs (1.43.0-r0)
+(5/8) Purging brotli-libs (1.0.9-r5)
+(6/8) Purging c-ares (1.17.2-r0)
+(7/8) Purging libstdc++ (10.3.1_git20210424-r2)
+(8/8) Purging libgcc (10.3.1_git20210424-r2)
+Executing busybox-1.33.1-r6.trigger
+OK: 7 MiB in 17 packages
+localhost:~# apk add nodejs npm
+(1/8) Installing ca-certificates (20230506-r0)
+(2/8) Installing nghttp2-libs (1.43.0-r0)
+(3/8) Installing brotli-libs (1.0.9-r5)
+(4/8) Installing c-ares (1.17.2-r0)
+(5/8) Installing libgcc (10.3.1_git20210424-r2)
+(6/8) Installing libstdc++ (10.3.1_git20210424-r2)
+(7/8) Installing nodejs (14.21.3-r0)
+(8/8) Installing npm (7.17.0-r0)
+Executing busybox-1.33.1-r6.trigger
+Executing ca-certificates-20230506-r0.trigger
+OK: 63 MiB in 25 packages
+localhost:~# apk update
+fetch http://apk.ish.app/v3.14-2023-05-19/main/x86/APKINDEX.tar.gz
+fetch http://apk.ish.app/v3.14-2023-05-19/community/x86/APKINDEX.tar.gz
+v3.14.10-42-gd8ce7b89082 [http://apk.ish.app/v3.14-2023-05-19/main]
+v3.14.10-42-gd8ce7b89082 [http://apk.ish.app/v3.14-2023-05-19/community]
+OK: 14630 distinct packages available
+localhost:~# apk del nodejs npm 2>/dev/null || true  
+ # elimina si hay restos de instalación anterior
+(1/8) Purging npm (7.17.0-r0)
+(2/8) Purging nodejs (14.21.3-r0)
+(3/8) Purging ca-certificates (20230506-r0)
+Executing ca-certificates-20230506-r0.post-deinstall
+(4/8) Purging nghttp2-libs (1.43.0-r0)
+(5/8) Purging brotli-libs (1.0.9-r5)
+(6/8) Purging c-ares (1.17.2-r0)
+(7/8) Purging libstdc++ (10.3.1_git20210424-r2)
+(8/8) Purging libgcc (10.3.1_git20210424-r2)
+Executing busybox-1.33.1-r6.trigger
+OK: 7 MiB in 17 packages
+localhost:~# apk add nodejs npm
+(1/8) Installing ca-certificates (20230506-r0)
+(2/8) Installing nghttp2-libs (1.43.0-r0)
+(3/8) Installing brotli-libs (1.0.9-r5)
+(4/8) Installing c-ares (1.17.2-r0)
+(5/8) Installing libgcc (10.3.1_git20210424-r2)
+(6/8) Installing libstdc++ (10.3.1_git20210424-r2)
+(7/8) Installing nodejs (14.21.3-r0)
+(8/8) Installing npm (7.17.0-r0)
