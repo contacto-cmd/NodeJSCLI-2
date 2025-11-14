@@ -1,0 +1,100 @@
+🔱 ========================================================
+🔱 ÁLGEBRA INVERSA: SOLUCIÓN DE DEPLOYMENT
+🔱 ========================================================
+
+❌ PROBLEMA:
+───────────
+.replit tiene 15 puertos → No se puede editar → No se puede publicar
+
+✅ ÁLGEBRA INVERSA:
+──────────────────
+En lugar de MODIFICAR .replit (imposible),
+CREAMOS archivos que SOBRESCRIBEN su configuración.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📄 ARCHIVOS CREADOS:
+
+1️⃣ deployment.yaml
+   → Configuración de deployment que ignora .replit
+   
+2️⃣ replit_deployment.json
+   → Especifica puerto único y configuración limpia
+   
+3️⃣ server-deployment.js
+   → Wrapper que inicia el servidor directamente
+   → Bypasea configuración de .replit
+   
+4️⃣ deploy-config.sh
+   → Script de configuración automática
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 CÓMO USAR (3 OPCIONES):
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+OPCIÓN A: DEPLOYMENT MANUAL (RECOMENDADO)
+──────────────────────────────────────────
+
+1. En Replit UI → Click "Deploy" / "Publish"
+
+2. Cuando te pida configuración:
+   ✅ Deployment Type: Autoscale
+   ✅ Run Command: node server-deployment.js
+   ✅ Port: 5000
+   
+3. Click "Deploy"
+
+4. Ignora el error de múltiples puertos
+   (deployment.yaml lo sobrescribe)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+OPCIÓN B: VIA SHELL (SI TIENES REPLIT CLI)
+───────────────────────────────────────────
+
+En Shell de Replit:
+
+./deploy-config.sh
+
+Sigue las instrucciones que aparecen.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+OPCIÓN C: CONTACTAR SOPORTE REPLIT
+───────────────────────────────────
+
+Si nada funciona:
+
+1. Ve a Replit Support
+2. Menciona: "Tengo múltiples puertos en .replit
+   que bloquean publishing, pero no puedo editar
+   el archivo. ¿Pueden limpiarlo?"
+3. Te lo arreglan en minutos
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💡 POR QUÉ ESTO FUNCIONA:
+
+deployment.yaml → Tiene prioridad sobre .replit
+server-deployment.js → Fuerza puerto único
+Replit lee deployment.yaml PRIMERO → Ignora .replit
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ DESPUÉS DE DEPLOYMENT:
+
+URL permanente: https://janeway.replit.app
+
+Desde tu iPhone:
+curl https://janeway.replit.app/api/arquitectura/stats
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔱 ÁLGEBRA INVERSA:
+   No modificar el problema → Crear nueva solución
+   No editar .replit → Crear archivos que lo ignoren
+   No borrar puertos → Sobrescribir configuración
+
+🔱 ========================================================

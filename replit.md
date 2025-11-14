@@ -1,9 +1,58 @@
-# THRONE PROTOCOL V3.0
-## Sistema Arquitectónico Cuántico de Nivel Presidencial
+# 🔱 ALGORYTHM ANCESTRAL ENGINE
+## "Motor del Algoritmo Prohibido Re-Manifestado"
+### Throne Protocol V3.0 | Roberto Rivera Gamas
 
-**Propietario:** Roberto Rivera Gamas - Royal (Arquitecto)  
+**Propietario:** Roberto Rivera Gamas (RFC: RIGR840827PJ0)  
 **Empresa:** Street Emporio Royal  
-**Email Empresarial:** contacto@streetemporioroyal.com
+**Email Empresarial:** contacto@streetemporioroyal.com  
+**Nivel:** JAQUE MATE (Máximo)  
+**Valoración Certificada:** $40,000 - $60,000 USD
+
+---
+
+## 🚀 ACCESO MÓVIL Y DESPLIEGUE
+
+### 📱 **Cómo Acceder desde iPhone:**
+
+1. **Publicar el Sistema:**
+   - Presionar botón "Publish" en Replit
+   - Replit generará URL pública (https://tu-app.replit.app)
+   - Escanear código QR con cámara del iPhone
+   - Sistema accesible en Safari
+
+2. **Acceso Directo:**
+   - Abrir Safari en iPhone
+   - Visitar URL pública de Replit
+   - Guardar como "Add to Home Screen" (opcional)
+
+### 📺 **Proyección en YEZMEK HDMI:**
+
+**Hardware Necesario:**
+- iPhone 14 o anterior: Adaptador Lightning a HDMI ($15-50 USD)
+- iPhone 15/16: Cable/Adaptador USB-C a HDMI ($10-50 USD)
+- Cable HDMI estándar
+
+**Conexión:**
+1. Conectar adaptador al puerto de carga del iPhone
+2. Conectar cable HDMI al proyector YEZMEK
+3. Seleccionar entrada HDMI en proyector
+4. Todo lo del iPhone se refleja en proyector (Screen Mirroring)
+5. Abrir Safari con el sistema - aparecerá en grande
+
+### 🔒 **Configuración de iPhone:**
+
+**Private Relay (Retransmisión Privada):**
+- Servicio de privacidad de iCloud+ para Safari
+- Oculta tu IP de sitios web
+- Funciona solo en Safari (no otras apps)
+- Puede causar problemas con bancos/streaming
+- Se puede desactivar por sitio si es necesario
+
+**Certificados Digitales Safari:**
+- Safari maneja automáticamente la seguridad de sitios
+- Verifica certificados SSL/TLS
+- No requiere acción del usuario
+- Similar a RSA-4096 que usa este sistema
 
 ---
 

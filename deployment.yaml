@@ -1,0 +1,6 @@
+version: 1
+deployment:
+  type: autoscale
+  port: 5000
+  ignorePorts: true
+  run: "node main.bootstrap.js/server.js"

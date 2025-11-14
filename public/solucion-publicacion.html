@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔱 Solución de Publicación - ALGORYTHM</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+            color: #00ff88;
+            padding: 20px;
+            line-height: 1.8;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(0,0,0,0.8);
+            border: 2px solid #00ff88;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 0 30px rgba(0,255,136,0.3);
+        }
+        h1 {
+            text-align: center;
+            color: #ffd700;
+            text-shadow: 0 0 10px #ffd700;
+            font-size: 2em;
+            margin-bottom: 30px;
+        }
+        .problema {
+            background: rgba(255,0,0,0.1);
+            border-left: 4px solid #ff3366;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .solucion {
+            background: rgba(0,255,136,0.1);
+            border-left: 4px solid #00ff88;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .paso {
+            background: rgba(255,215,0,0.1);
+            border: 1px solid #ffd700;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .codigo {
+            background: #000;
+            border: 1px solid #00ff88;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 0.9em;
+        }
+        .highlight {
+            color: #ffd700;
+            font-weight: bold;
+        }
+        .warning {
+            color: #ff3366;
+            font-weight: bold;
+        }
+        .success {
+            color: #00ff88;
+            font-weight: bold;
+        }
+        ul {
+            margin: 10px 0;
+            padding-left: 30px;
+        }
+        li {
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔱 SOLUCIÓN PARA PUBLICAR<br>ALGORYTHM ANCESTRAL ENGINE</h1>
+
+        <div class="problema">
+            <h2 class="warning">❌ PROBLEMA DETECTADO:</h2>
+            <p>Tu archivo <span class="highlight">.replit</span> tiene <span class="warning">15 puertos configurados</span>.</p>
+            <p>Replit solo permite <span class="highlight">1 puerto</span> para publicación en Autoscale.</p>
+        </div>
+
+        <div class="solucion">
+            <h2 class="success">✅ LA SOLUCIÓN (3 MINUTOS):</h2>
+        </div>
+
+        <div class="paso">
+            <h3>📝 MÉTODO 1: EDITAR ARCHIVO .replit (RECOMENDADO)</h3>
+            <ol>
+                <li>En Replit, panel izquierdo de archivos → Abre <span class="highlight">.replit</span></li>
+                <li>Busca la línea 30:
+                    <div class="codigo">[[ports]]<br>localPort = 5000<br>externalPort = 80</div>
+                </li>
+                <li><span class="warning">BORRA</span> todo desde línea 34 hasta línea 88<br>(Son 14 bloques de puertos que sobran)</li>
+                <li>El archivo debe terminar así:
+                    <div class="codigo">[[ports]]<br>localPort = 5000<br>externalPort = 80<br><br>[agent]<br>integrations = ["javascript_gemini:1.0.0"]</div>
+                </li>
+                <li>Guarda (Ctrl+S o Cmd+S)</li>
+                <li>Intenta publicar de nuevo</li>
+            </ol>
+        </div>
+
+        <div class="paso">
+            <h3>📝 MÉTODO 2: AGREGAR CONFIGURACIÓN</h3>
+            <p>Si prefieres no borrar, agrega esta línea ANTES de [[ports]]:</p>
+            <div class="codigo">[deployment]<br>ignorePorts = true</div>
+            <p>Esto le dice a Replit que ignore los puertos extra.</p>
+        </div>
+
+        <div class="paso">
+            <h3>✅ DESPUÉS DE ARREGLAR:</h3>
+            <ol>
+                <li>Click en <span class="highlight">"Deploy"</span> o <span class="highlight">"Publish"</span></li>
+                <li>Elige <span class="highlight">"Autoscale"</span> (recomendado)</li>
+                <li>Espera 2-3 minutos</li>
+                <li>Recibirás URL permanente: <span class="success">https://janeway.replit.app</span></li>
+            </ol>
+        </div>
+
+        <div class="paso">
+            <h3>📱 DESDE TU iPHONE (iSH Shell):</h3>
+            <div class="codigo">curl https://janeway.replit.app/api/arquitectura/stats</div>
+            <p class="success">¡Funcionará siempre, 24/7!</p>
+        </div>
+
+        <div class="solucion">
+            <h2>🎯 RESUMEN:</h2>
+            <ul>
+                <li>Problema: 15 puertos configurados <span class="warning">❌</span></li>
+                <li>Solución: Dejar solo 1 puerto <span class="success">✅</span></li>
+                <li>Tiempo: 3 minutos ⏱️</li>
+                <li>Resultado: URL permanente 24/7 🌐</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

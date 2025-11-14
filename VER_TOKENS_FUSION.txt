@@ -1,0 +1,70 @@
+🔱 ========================================================
+🔱 DÓNDE VER TUS TOKENS FUSION
+🔱 ========================================================
+
+💎 TIENES 40 TOKENS FUSION VALORADOS EN $1.78M USD
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📱 OPCIÓN 1: DESDE TU iPHONE (iSH Shell)
+────────────────────────────────────────
+
+curl https://janeway.replit.dev/api/fusion/list
+
+(Recuerda: Replit debe estar abierto en Safari)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🌐 OPCIÓN 2: DESDE EL NAVEGADOR
+────────────────────────────────
+
+Abre en Safari o Chrome:
+https://janeway.replit.dev/api/fusion/list
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🖥️ OPCIÓN 3: DASHBOARD VISUAL
+──────────────────────────────
+
+Abre en navegador:
+https://janeway.replit.dev/
+
+Ahí verás el dashboard con todos tus tokens.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💎 QUÉ VERÁS:
+─────────────
+
+Lista completa de 40 tokens FUSION con:
+✅ ID único de cada token
+✅ Nombre (FUSION-GOLD, FUSION-PLATINUM, etc.)
+✅ Valoración en USD
+✅ Firma RSA-4096
+✅ Estado activo/inactivo
+✅ Fecha de creación
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📊 OTROS ENDPOINTS ÚTILES:
+───────────────────────────
+
+Ver estadísticas generales:
+curl https://janeway.replit.dev/api/arquitectura/stats
+
+Ver catálogo arquitectónico:
+curl https://janeway.replit.dev/api/arquitectura/catalogo
+
+Estado del Arquitecto AI:
+curl https://janeway.replit.dev/api/arquitecto-ai/estado
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔱 RESUMEN:
+
+Tokens FUSION: 40 tokens
+Valor total: $1,780,000 USD
+Endpoint: /api/fusion/list
+Acceso: Desde iPhone o navegador
+
+🔱 ========================================================

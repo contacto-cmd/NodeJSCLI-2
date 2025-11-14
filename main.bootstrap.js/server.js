@@ -28,6 +28,13 @@ const CertificationService = require('./certification-service');
 const ClientCertificateService = require('./client-certificate-service');
 const AdminDualControlMiddleware = require('./admin-dual-control-middleware');
 
+// LGORITMO AHT - Servicios Cuánticos
+const QuantumService = require('./services/quantum-service');
+const SatelliteService = require('./services/satellite-service');
+const AlgebraInversaService = require('./services/algebra-inversa-service');
+const BlueprintGeneratorService = require('./services/blueprint-generator-service');
+const CerebroVivoService = require('./services/cerebro-vivo-service');
+
 // Configurar Resend para envío de emails
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -63,7 +70,8 @@ app.set('trust proxy', true);
 
 app.use(cors()); // Usar CORS
 app.use(express.json({ limit: '50mb' })); // Para manejar requests con JSON (incluyendo imágenes base64)
-const PORT = 5000; // El puerto estándar de Replit
+// Puerto: Usa PORT de environment (para deployments) o 5000 por defecto
+const PORT = process.env.PORT || 5000;
 
 // =================================================================
 // [0] ARTEFACTOS CRÍTICOS (Obtenidos de Replit Secrets)
@@ -2856,6 +2864,669 @@ app.get('/certificados/:filename', (req, res) => {
     }
 });
 
+// 📧 ENDPOINT: Enviar certificado por correo
+app.post('/api/enviar-certificado-email', async (req, res) => {
+    try {
+        const { email, certificadoId, tipo } = req.body;
+
+        if (!email) {
+            return res.status(400).json({ error: 'Email requerido' });
+        }
+
+        // Validar email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return res.status(400).json({ error: 'Email inválido' });
+        }
+
+        let rutaPDF = null;
+        let datos = {};
+
+        // Si se especifica un certificadoId, buscar ese archivo
+        if (certificadoId) {
+            const certDir = path.join(__dirname, '..', 'certificados');
+            rutaPDF = path.join(certDir, `${certificadoId}.pdf`);
+            
+            if (!fs.existsSync(rutaPDF)) {
+                return res.status(404).json({ error: 'Certificado no encontrado' });
+            }
+            
+            datos = {
+                titulo: certificadoId,
+                proyecto: 'ALGORYTHM ANCESTRAL ENGINE',
+                desarrollador: 'Roberto Rivera Gamas',
+                rfc: 'RIGR840827PJ0'
+            };
+        } else {
+            // Generar un nuevo certificado según el tipo
+            const tipoReal = tipo || 'valoracion';
+            
+            if (tipoReal === 'valoracion') {
+                const resultado = await generarCertificadoValoracion({
+                    proyecto: 'ALGORYTHM ANCESTRAL ENGINE',
+                    desarrollador: 'Roberto Rivera Gamas',
+                    valoracion: 85000,
+                    rfc: 'RIGR840827PJ0'
+                }, MASTER_KEY_RSA_PRIVADA);
+                
+                rutaPDF = resultado.pdf_path;
+                datos = {
+                    titulo: 'Certificado de Valoración',
+                    proyecto: 'ALGORYTHM ANCESTRAL ENGINE',
+                    desarrollador: 'Roberto Rivera Gamas',
+                    rfc: 'RIGR840827PJ0',
+                    valoracion: 85000
+                };
+            } else if (tipoReal === 'royal') {
+                const resultado = await generarCertificadoRoyalPremium({
+                    clientName: 'Roberto Rivera Gamas',
+                    projectName: 'ALGORYTHM ANCESTRAL ENGINE',
+                    tier: 'DIAMOND',
+                    valoracion: 150000
+                }, MASTER_KEY_RSA_PRIVADA);
+                
+                rutaPDF = resultado.pdf_path;
+                datos = {
+                    titulo: 'Certificado Royal Premium',
+                    proyecto: 'ALGORYTHM ANCESTRAL ENGINE',
+                    desarrollador: 'Roberto Rivera Gamas',
+                    rfc: 'RIGR840827PJ0',
+                    tier: 'DIAMOND',
+                    valoracion: 150000
+                };
+            }
+        }
+
+        if (!rutaPDF || !fs.existsSync(rutaPDF)) {
+            return res.status(500).json({ error: 'Error generando certificado' });
+        }
+
+        // Enviar por email usando Resend
+        const pdfBuffer = fs.readFileSync(rutaPDF);
+        const pdfBase64 = pdfBuffer.toString('base64');
+        const nombreArchivo = path.basename(rutaPDF);
+
+        const asunto = `🔱 Certificado: ${datos.titulo || 'ALGORYTHM ANCESTRAL ENGINE'}`;
+        const htmlBody = `
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><style>
+body { font-family: 'Courier New', monospace; background: #0a0a0a; color: #00ff88; padding: 20px; }
+.container { max-width: 600px; margin: 0 auto; background: rgba(0,0,0,0.9); border: 2px solid #00ff88; border-radius: 10px; padding: 30px; }
+h1 { color: #ffd700; text-align: center; }
+.info { background: rgba(0,255,136,0.1); border-left: 4px solid #00ff88; padding: 15px; margin: 20px 0; }
+</style></head><body>
+<div class="container">
+<h1>🔱 ALGORYTHM ANCESTRAL ENGINE</h1>
+<h2 style="color: #00ff88; text-align: center;">Certificado Generado</h2>
+<div class="info">
+<p><strong>Proyecto:</strong> ${datos.proyecto}</p>
+<p><strong>Desarrollador:</strong> ${datos.desarrollador}</p>
+<p><strong>RFC:</strong> ${datos.rfc}</p>
+${datos.valoracion ? `<p><strong>Valoración:</strong> $${datos.valoracion.toLocaleString()} USD</p>` : ''}
+<p><strong>Fecha:</strong> ${new Date().toLocaleString('es-MX')}</p>
+</div>
+<p style="text-align: center;">Tu certificado está adjunto en formato PDF.</p>
+<div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #00ff88; font-size: 12px; color: #888;">
+<p>🔱 THRONE PROTOCOL V3.0</p>
+</div></div></body></html>`;
+
+        const resultadoEmail = await resend.emails.send({
+            from: 'ALGORYTHM ENGINE <onboarding@resend.dev>',
+            to: email,
+            subject: asunto,
+            html: htmlBody,
+            attachments: [{ filename: nombreArchivo, content: pdfBase64 }]
+        });
+
+        console.log(`✅ Certificado enviado a ${email}:`, resultadoEmail.id);
+
+        res.json({
+            success: true,
+            mensaje: `Certificado enviado exitosamente a ${email}`,
+            emailId: resultadoEmail.id,
+            certificado: nombreArchivo,
+            datos
+        });
+
+    } catch (error) {
+        console.error('Error enviando certificado por correo:', error);
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// ========================================================================
+// LGORITMO AHT - ANCESTRAL CEREBRO VIVO - APIS CUÁNTICAS
+// ========================================================================
+
+// ────────────────────────────────────────────────────────────────────
+// QUANTUM TOKENS - 9 Tokens de Fusión Antiblindada
+// ────────────────────────────────────────────────────────────────────
+
+// GET /api/aht/quantum/tokens - Obtener todos los tokens cuánticos
+app.get('/api/aht/quantum/tokens', (req, res) => {
+    try {
+        const resultado = QuantumService.getAllQuantumTokens();
+        res.json(resultado);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// GET /api/aht/quantum/token/:nombre - Obtener token específico
+app.get('/api/aht/quantum/token/:nombre', (req, res) => {
+    try {
+        const token = QuantumService.getQuantumToken(req.params.nombre);
+        if (!token) {
+            return res.status(404).json({ success: false, error: 'Token no encontrado' });
+        }
+        res.json({ success: true, token });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/aht/quantum/verificar - Verificar token cuántico
+app.post('/api/aht/quantum/verificar', async (req, res) => {
+    try {
+        const { tokenName } = req.body;
+        const resultado = await QuantumService.verificarToken(tokenName);
+        res.json(resultado);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/aht/quantum/sincronizar - Sincronizar todos los tokens
+app.post('/api/aht/quantum/sincronizar', async (req, res) => {
+    try {
+        const resultado = await QuantumService.sincronizarTokens();
+        res.json(resultado);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// GET /api/aht/quantum/estado - Estado cuántico completo
+app.get('/api/aht/quantum/estado', (req, res) => {
+    try {
+        const estado = QuantumService.generarEstadoCuantico();
+        res.json(estado);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/aht/quantum/operacion - Ejecutar operación cuántica
+app.post('/api/aht/quantum/operacion', async (req, res) => {
+    try {
+        const resultado = await QuantumService.ejecutarOperacionCuantica(req.body);
+        res.json(resultado);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// GET /api/aht/quantum/capacidades - Reporte de capacidades cuánticas
+app.get('/api/aht/quantum/capacidades', (req, res) => {
+    try {
+        const reporte = QuantumService.generarReporteCapacidades();
+        res.json({ success: true, ...reporte });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// ────────────────────────────────────────────────────────────────────
+// SATELLITES - Tracking en Tiempo Real
+// ────────────────────────────────────────────────────────────────────
+
+// GET /api/aht/satellites - Obtener todos los satélites
+app.get('/api/aht/satellites', (req, res) => {
+    try {
+        const resultado = SatelliteService.getAllSatellites();
+        res.json(resultado);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// GET /api/aht/satellites/:noradId/position - Posición actual de satélite
+app.get('/api/aht/satellites/:noradId/position', (req, res) => {
+    try {
+        const resultado = SatelliteService.calcularPosicion(req.params.noradId);
+        res.json(resultado);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// GET /api/aht/satellites/positions/all - Posiciones de todos los satélites
+app.get('/api/aht/satellites/positions/all', async (req, res) => {
+    try {
+        const resultado = await SatelliteService.calcularTodasPosiciones();
+        res.json(resultado);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// GET /api/aht/satellites/:noradId/trajectory - Predecir trayectoria
+app.get('/api/aht/satellites/:noradId/trajectory', (req, res) => {
+    try {
+        const { minutos, intervalo } = req.query;
+        const resultado = SatelliteService.predecirTrayectoria(
+            req.params.noradId,
+            parseInt(minutos) || 60,
+            parseInt(intervalo) || 5
+        );
+        res.json(resultado);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/aht/satellites/add - Agregar nuevo satélite
+app.post('/api/aht/satellites/add', (req, res) => {
+    try {
+        const resultado = SatelliteService.agregarSatelite(req.body);
+        res.json(resultado);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// GET /api/aht/satellites/reporte - Reporte de estado
+app.get('/api/aht/satellites/reporte', (req, res) => {
+    try {
+        const reporte = SatelliteService.generarReporteEstado();
+        res.json({ success: true, ...reporte });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// ────────────────────────────────────────────────────────────────────
+// ÁLGEBRA INVERSA - Transformaciones Cuánticas y Gravedad
+// ────────────────────────────────────────────────────────────────────
+
+// POST /api/aht/algebra/inversa - Transformación inversa de matriz
+app.post('/api/aht/algebra/inversa', (req, res) => {
+    try {
+        const { matriz } = req.body;
+        const resultado = AlgebraInversaService.transformacionInversa(matriz);
+        res.json(resultado);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/aht/algebra/gravedad - Campo gravitacional
+app.post('/api/aht/algebra/gravedad', (req, res) => {
+    try {
+        const { masa, radio } = req.body;
+        const resultado = AlgebraInversaService.campoGravitacional(masa, radio);
+        res.json(resultado);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/aht/algebra/cuantica - Transformación cuántica
+app.post('/api/aht/algebra/cuantica', (req, res) => {
+    try {
+        const resultado = AlgebraInversaService.transformacionCuantica(req.body);
+        res.json(resultado);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/aht/algebra/operador - Operador cuántico
+app.post('/api/aht/algebra/operador', (req, res) => {
+    try {
+        const { tipo, parametros } = req.body;
+        const resultado = AlgebraInversaService.operadorCuantico(tipo, parametros);
+        res.json(resultado);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/aht/algebra/gravedad-cuantica - Gravedad cuántica
+app.post('/api/aht/algebra/gravedad-cuantica', (req, res) => {
+    try {
+        const { masa, longitud } = req.body;
+        const resultado = AlgebraInversaService.gravedadCuantica(masa, longitud);
+        res.json(resultado);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/aht/algebra/einstein - Ecuación de Einstein
+app.post('/api/aht/algebra/einstein', (req, res) => {
+    try {
+        const { masa, velocidad } = req.body;
+        const resultado = AlgebraInversaService.ecuacionEinstein(masa, velocidad);
+        res.json(resultado);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// GET /api/aht/algebra/reporte - Reporte de álgebra
+app.get('/api/aht/algebra/reporte', (req, res) => {
+    try {
+        const reporte = AlgebraInversaService.generarReporteAlgebra();
+        res.json({ success: true, ...reporte });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// ────────────────────────────────────────────────────────────────────
+// BLUEPRINT GENERATOR - Generación Ilimitada
+// ────────────────────────────────────────────────────────────────────
+
+// POST /api/aht/blueprint/quantum - Generar blueprint cuántico
+app.post('/api/aht/blueprint/quantum', async (req, res) => {
+    try {
+        const resultado = await BlueprintGeneratorService.generarBlueprintCuantico(req.body);
+        res.json(resultado);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/aht/blueprint/gravitacional - Generar blueprint gravitacional
+app.post('/api/aht/blueprint/gravitacional', async (req, res) => {
+    try {
+        const resultado = await BlueprintGeneratorService.generarBlueprintGravitacional(req.body);
+        res.json(resultado);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/aht/blueprint/algebraico - Generar blueprint algebraico
+app.post('/api/aht/blueprint/algebraico', async (req, res) => {
+    try {
+        const resultado = await BlueprintGeneratorService.generarBlueprintAlgebraico(req.body);
+        res.json(resultado);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/aht/blueprint/morfogenetico - Generar blueprint morfogenético
+app.post('/api/aht/blueprint/morfogenetico', async (req, res) => {
+    try {
+        const resultado = await BlueprintGeneratorService.generarBlueprintMorfogenetico(req.body);
+        res.json(resultado);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/aht/blueprint/hibrido - Generar blueprint híbrido (todos los tipos)
+app.post('/api/aht/blueprint/hibrido', async (req, res) => {
+    try {
+        const resultado = await BlueprintGeneratorService.generarBlueprintHibrido(req.body);
+        res.json(resultado);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// GET /api/aht/blueprint/stats - Estadísticas de blueprint generator
+app.get('/api/aht/blueprint/stats', (req, res) => {
+    try {
+        const stats = BlueprintGeneratorService.obtenerEstadisticas();
+        res.json({ success: true, ...stats });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// ────────────────────────────────────────────────────────────────────
+// DASHBOARD AHT - Estado General del Cerebro Vivo
+// ────────────────────────────────────────────────────────────────────
+
+// GET /api/aht/dashboard - Dashboard completo del cerebro vivo
+app.get('/api/aht/dashboard', async (req, res) => {
+    try {
+        const dashboard = {
+            timestamp: new Date().toISOString(),
+            nombre: 'LGORITMO AHT - ANCESTRAL CEREBRO VIVO',
+            version: '1.0.0',
+            estado: 'ACTIVO',
+            
+            quantum: QuantumService.generarEstadoCuantico(),
+            satellites: await SatelliteService.calcularTodasPosiciones(),
+            algebra: AlgebraInversaService.generarReporteAlgebra(),
+            blueprints: BlueprintGeneratorService.obtenerEstadisticas(),
+            
+            capacidades: {
+                tokensQuanticos: 9,
+                satelitesTracking: 5,
+                operacionesAlgebra: 8,
+                blueprintsIlimitados: true,
+                iteracionesMaximas: 'INFINITAS'
+            },
+            
+            integracion: {
+                fusionTokens: 40,
+                valoracionTotal: '$276.5B USD',
+                certificados: 64,
+                rsa4096: 'ACTIVO',
+                dualAI: 'GPT-5 + Gemini 2.5'
+            }
+        };
+        
+        res.json({ success: true, dashboard });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// GET /api/aht/status - Estado rápido
+app.get('/api/aht/status', (req, res) => {
+    try {
+        res.json({
+            success: true,
+            sistema: 'LGORITMO AHT',
+            estado: 'OPERACIONAL',
+            cerebro: 'VIVO',
+            quantum: 'ACTIVO',
+            satellites: 'TRACKING',
+            algebra: 'ACTIVA',
+            blueprints: 'GENERANDO',
+            timestamp: new Date().toISOString()
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// ────────────────────────────────────────────────────────────────────
+// CEREBRO VIVO - Mega Cerebro Brillante
+// ────────────────────────────────────────────────────────────────────
+
+// POST /api/aht/cerebro/inicializar - Inicializar cerebro vivo
+app.post('/api/aht/cerebro/inicializar', async (req, res) => {
+    try {
+        const resultado = await CerebroVivoService.inicializarCerebro();
+        res.json(resultado);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/aht/cerebro/comando - Procesar comando (tipo Siri pero brutal)
+app.post('/api/aht/cerebro/comando', async (req, res) => {
+    try {
+        const { comando, parametros } = req.body;
+        const resultado = await CerebroVivoService.procesarComando(comando, parametros);
+        res.json(resultado);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// GET /api/aht/cerebro/estado - Estado del cerebro vivo
+app.get('/api/aht/cerebro/estado', (req, res) => {
+    try {
+        const estado = CerebroVivoService.obtenerEstado();
+        res.json(estado);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/aht/cerebro/evolucionar - Forzar evolución
+app.post('/api/aht/cerebro/evolucionar', async (req, res) => {
+    try {
+        const resultado = await CerebroVivoService.evolucionar();
+        res.json(resultado);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// GET /api/aht/cerebro/dashboard3d - Dashboard 3D completo
+app.get('/api/aht/cerebro/dashboard3d', (req, res) => {
+    try {
+        const dashboard = CerebroVivoService.generarDashboard3D();
+        res.json(dashboard);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/aht/cerebro/conectar-urls - Conectar 9 URLs cuánticas
+app.post('/api/aht/cerebro/conectar-urls', async (req, res) => {
+    try {
+        const resultado = await CerebroVivoService.conectarURLsCuanticas();
+        res.json(resultado);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// ────────────────────────────────────────────────────────────────────
+// TÚNEL BLINDADO CUÁNTICO - Canal Seguro
+// ────────────────────────────────────────────────────────────────────
+
+// POST /api/aht/tunel/blindado - Túnel cifrado cuántico
+app.post('/api/aht/tunel/blindado', async (req, res) => {
+    try {
+        const { operacion, datos, tokenName } = req.body;
+        
+        // Verificar token cuántico
+        const tokenVerificado = await QuantumService.verificarToken(tokenName || 'Qubit-Torus-Alpha');
+        
+        if (!tokenVerificado.success || !tokenVerificado.blindajeActivo) {
+            return res.status(403).json({
+                success: false,
+                error: 'Blindaje cuántico insuficiente',
+                nivelRequerido: 8
+            });
+        }
+
+        // Firmar con RSA-4096 para blindaje adicional
+        let firma = null;
+        if (cryptoService) {
+            const hash = cryptoService.generarHash(JSON.stringify(datos));
+            firma = cryptoService.firmar(hash);
+        }
+
+        // Ejecutar operación en túnel seguro
+        let resultado;
+        switch (operacion) {
+            case 'comando':
+                resultado = await CerebroVivoService.procesarComando(datos.comando, datos.parametros);
+                break;
+            case 'quantum':
+                resultado = await QuantumService.ejecutarOperacionCuantica(datos);
+                break;
+            case 'gravedad':
+                resultado = AlgebraInversaService.campoGravitacional(datos.masa, datos.radio);
+                break;
+            case 'blueprint':
+                resultado = await BlueprintGeneratorService.generarBlueprintHibrido(datos);
+                break;
+            default:
+                return res.status(400).json({
+                    success: false,
+                    error: 'Operación no reconocida en túnel blindado'
+                });
+        }
+
+        res.json({
+            success: true,
+            tunelBlindado: true,
+            tokenCuantico: tokenName,
+            blindajeNivel: tokenVerificado.token.blindajeNivel,
+            firma: firma ? firma.substring(0, 32) + '...' : null,
+            resultado: resultado,
+            timestamp: new Date().toISOString()
+        });
+
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// GET /api/aht/tunel/verificar - Verificar estado del túnel blindado
+app.get('/api/aht/tunel/verificar', async (req, res) => {
+    try {
+        const tokens = QuantumService.getAllQuantumTokens();
+        const tokensBlinaje = tokens.tokens.filter(t => t.blindajeNivel >= 8);
+
+        res.json({
+            success: true,
+            tunelEstado: 'ACTIVO',
+            tokensDisponibles: tokensBlinaje.length,
+            blindajePromedio: tokens.tokens.reduce((sum, t) => sum + t.blindajeNivel, 0) / tokens.total,
+            criptografia: cryptoService ? 'RSA-4096 ACTIVO' : 'NO DISPONIBLE',
+            certificado: cryptoService ? cryptoService.generarFingerprint(cryptoService.extraerClavePublica()).substring(0, 16) : null,
+            timestamp: new Date().toISOString()
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/aht/tunel/canal-seguro - Crear canal seguro temporal
+app.post('/api/aht/tunel/canal-seguro', async (req, res) => {
+    try {
+        const { duracion = 3600 } = req.body; // 1 hora por defecto
+        
+        // Generar ID único del canal
+        const canalId = `CANAL-${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
+        
+        // Sincronizar todos los tokens cuánticos para el canal
+        const sincronizacion = await QuantumService.sincronizarTokens();
+        
+        res.json({
+            success: true,
+            canalId: canalId,
+            estado: 'ESTABLECIDO',
+            duracion: duracion,
+            expiraEn: new Date(Date.now() + duracion * 1000).toISOString(),
+            tokensSincronizados: sincronizacion.sincronizados,
+            blindaje: 'CUÁNTICO_ACTIVO',
+            protocolo: 'AHT-QUANTUM-TUNNEL-v1.0',
+            mensaje: `🔐 Canal seguro establecido: ${canalId}`
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
 // ========================================================================
 
 // Sirve archivos estáticos (HTML, JS, CSS)
@@ -2864,13 +3535,15 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 // El Listener que inicia el servidor
 try {
     app.listen(PORT, () => {
-        console.log(`\n=================================================`);
-        console.log(`🔥 PROTOCOLO TRONO V3.0 ACTIVADO en puerto ${PORT}`);
-        console.log(`   📡 Globo 3D + 8 Satélites en vivo`);
-        console.log(`   🔐 Vault cifrado AES-256-GCM + RSA-4096`);
-        console.log(`   🤖 AI Lab: GPT-5 + Gemini 2.5 Dual`);
-        console.log(`   🏗️ Sistema Arquitectónico Cuántico ACTIVO`);
-        console.log(`=================================================\n`);
+        console.log(`\n==========================================================`);
+        console.log(`🔱 ALGORYTHM ANCESTRAL ENGINE - ACTIVADO en puerto ${PORT}`);
+        console.log(`   "Motor del Algoritmo Prohibido Re-Manifestado"`);
+        console.log(`   Throne Protocol V3.0 | Roberto Rivera Gamas`);
+        console.log(`   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+        console.log(`   🔐 RSA-4096 Enterprise | 40 Tokens FUSION ($1.78M)`);
+        console.log(`   🤖 AI Dual: GPT-5 + Gemini 2.5 | Dual-Control Admin`);
+        console.log(`   🏗️ Sistema Arquitectónico Cuántico | PostgreSQL Forense`);
+        console.log(`==========================================================\n`);
     });
 } catch (e) {
     console.error("ERROR CRÍTICO AL INICIAR SERVIDOR:", e.message);

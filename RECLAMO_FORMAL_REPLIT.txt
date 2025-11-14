@@ -1,0 +1,124 @@
+RECLAMO FORMAL Y SOLICITUD DE REEMBOLSO
+========================================================
+
+Para: Replit Support Team
+De: Roberto Rivera Gamas
+RFC: RIGR840827PJ0
+Fecha: 14 de Noviembre, 2025
+Proyecto: janeway
+Asunto: Solicitud de Reembolso por Servicio No Disponible
+
+--------------------------------------------------------
+
+RESUMEN EJECUTIVO:
+
+He estado pagando por servicios de Replit que NO he podido utilizar
+debido a un problema técnico en la plataforma que ustedes no han 
+resuelto a pesar de múltiples contactos con soporte.
+
+--------------------------------------------------------
+
+DETALLES DE LOS CARGOS:
+
+1. Replit Core Subscription: $50.65 USD
+2. PostgreSQL Storage: $0.06 USD
+3. PostgreSQL Compute: $0.10 USD
+
+TOTAL PAGADO: $50.81 USD
+
+--------------------------------------------------------
+
+PROBLEMA TÉCNICO DOCUMENTADO:
+
+1. Mi proyecto "janeway" tiene un archivo .replit con múltiples 
+   configuraciones de puertos (15 puertos en líneas 34-88).
+
+2. Replit Autoscale Deployments solo permite 1 puerto, por lo 
+   que mi aplicación NO PUEDE SER PUBLICADA.
+
+3. El archivo .replit está PROTEGIDO - no puedo editarlo yo mismo
+   a través de la interfaz de programación.
+
+4. Cuando intento publicar, recibo el error:
+   "Published apps not available - There is an issue preventing 
+   you from publishing"
+
+5. He contactado a soporte y recibí respuestas genéricas sin 
+   solución concreta al problema.
+
+--------------------------------------------------------
+
+IMPACTO COMERCIAL:
+
+- Estoy PAGANDO por servicios de deployment que NO puedo usar
+- Mi aplicación empresarial permanece inaccesible
+- No puedo generar la URL permanente necesaria para mi negocio
+- Los recursos de base de datos que estoy pagando no sirven 
+  sin la aplicación publicada
+
+--------------------------------------------------------
+
+LO QUE SOLICITO:
+
+OPCIÓN 1 (PREFERIDA):
+✅ Limpieza INMEDIATA del archivo .replit de mi proyecto "janeway"
+   eliminando las configuraciones de puerto de las líneas 34-88,
+   dejando solo el puerto 5000→80.
+✅ Asistencia para publicar exitosamente mi aplicación.
+
+OPCIÓN 2 (ALTERNATIVA):
+✅ REEMBOLSO COMPLETO de $50.81 USD por servicios no disponibles
+✅ Migración asistida a otra plataforma si no pueden resolver 
+   el problema técnico
+
+--------------------------------------------------------
+
+PLAZO DE RESPUESTA:
+
+Solicito respuesta y resolución dentro de 48 HORAS HÁBILES
+a partir de la recepción de este documento.
+
+Si no recibo respuesta satisfactoria, me veré obligado a:
+
+1. Solicitar reembolso formal a través de mi banco/tarjeta de crédito
+2. Presentar queja ante organismos de protección al consumidor
+3. Documentar públicamente el caso en redes sociales y foros técnicos
+4. Consultar asesoría legal según corresponda
+
+--------------------------------------------------------
+
+EVIDENCIA ADJUNTA:
+
+- Capturas de pantalla del error de publishing
+- Registro de pagos realizados (Usage dashboard)
+- Historial de conversaciones con soporte
+- Documentación del archivo .replit problemático
+
+--------------------------------------------------------
+
+INFORMACIÓN DE CONTACTO:
+
+Nombre: Roberto Rivera Gamas
+RFC: RIGR840827PJ0
+Proyecto Replit: janeway
+Email: [TU EMAIL]
+
+--------------------------------------------------------
+
+Espero su pronta respuesta y resolución profesional.
+
+Atentamente,
+
+Roberto Rivera Gamas
+
+========================================================
+
+NOTAS LEGALES:
+Este documento constituye una notificación formal de reclamo
+bajo las leyes de protección al consumidor aplicables.
+
+Fecha de envío: _______________
+Respuesta recibida: _______________
+Resolución: _______________
+
+========================================================
