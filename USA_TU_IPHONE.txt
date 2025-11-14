@@ -1,0 +1,105 @@
+🔱 ========================================================
+🔱 USA ALGORYTHM DESDE TU iPHONE - GUÍA ULTRA SIMPLE
+🔱 ========================================================
+
+📱 PASO 1: ABRE TU APP iSH SHELL
+
+Ya la tienes instalada (la que mostraste en la foto).
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📱 PASO 2: PRUEBA ESTE COMANDO PRIMERO
+
+Copia y pega en iSH:
+
+curl https://janeway.replit.dev/api/arquitectura/stats
+
+Presiona Enter.
+
+✅ Si ves información del sistema: ¡FUNCIONA!
+❌ Si da error: Asegúrate que tu sistema esté corriendo
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📱 PASO 3: USA ESTOS COMANDOS RÁPIDOS
+
+Todos funcionan igual - copia, pega, Enter:
+
+📊 VER ESTADO COMPLETO:
+──────────────────────
+curl https://janeway.replit.dev/api/arquitecto-ai/estado
+
+💎 VER TOKENS FUSION:
+────────────────────
+curl https://janeway.replit.dev/api/fusion/list
+
+📄 GENERAR CERTIFICADO ($85K):
+─────────────────────────────
+curl -X POST https://janeway.replit.dev/api/certificados/valoracion -H "Content-Type: application/json" -d '{"proyecto":"ALGORYTHM ANCESTRAL ENGINE","desarrollador":"Roberto Rivera Gamas","valoracion":85000,"rfc":"RIGR840827PJ0"}'
+
+🏗️ GENERAR 10 DISEÑOS:
+──────────────────────
+curl -X POST https://janeway.replit.dev/api/arquitectura/masivo -H "Content-Type: application/json" -d '{"limite":10}'
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📱 PASO 4 (OPCIONAL): MENÚ AUTOMÁTICO
+
+Si quieres un menú con opciones:
+
+cd ~
+curl -O https://janeway.replit.dev/comandos-iphone.sh
+chmod +x comandos-iphone.sh
+./comandos-iphone.sh
+
+Te muestra 6 opciones, eliges número y Enter.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 COMANDOS MÁS ÚTILES:
+
+1️⃣ REPORTE RÁPIDO (TODO EN UNO):
+────────────────────────────────
+curl -s https://janeway.replit.dev/api/arquitectura/stats && echo "" && curl -s https://janeway.replit.dev/api/arquitecto-ai/estado
+
+2️⃣ GENERAR CERTIFICADO ROYAL PREMIUM:
+─────────────────────────────────────
+curl -X POST https://janeway.replit.dev/api/certificados/royal-premium -H "Content-Type: application/json" -d '{"clientName":"Roberto Rivera Gamas","projectName":"ALGORYTHM ANCESTRAL ENGINE","tier":"DIAMOND","valoracion":150000}'
+
+3️⃣ PORTAFOLIO MASIVO (30 DISEÑOS):
+──────────────────────────────────
+curl -X POST https://janeway.replit.dev/api/arquitectura/masivo -H "Content-Type: application/json" -d '{"limite":30}'
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💡 TIPS IMPORTANTES:
+
+✅ TODO funciona desde tu iPhone
+✅ NO necesitas instalar nada (curl ya está en iSH)
+✅ Puedes copiar comandos desde Safari y pegar en iSH
+✅ Los certificados se generan en el servidor de Replit
+✅ Cada comando ejecuta en menos de 2 segundos
+
+❌ NO instales 1Password CLI (no lo necesitas)
+❌ NO agregues repositorios (puede causar errores)
+❌ NO necesitas permisos root
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔱 RESUMEN ULTRA SIMPLE:
+
+1. Abre iSH Shell
+2. Copia un comando de arriba
+3. Pega en iSH
+4. Presiona Enter
+5. ¡Listo!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔱 COMANDO DE PRUEBA (EL MÁS FÁCIL):
+
+curl https://janeway.replit.dev/api/arquitectura/stats
+
+Si esto funciona, TODO lo demás funciona.
+
+🔱 ========================================================

@@ -1,0 +1,65 @@
+========================================================
+EMAIL PARA ENVIAR A SUPPORT@REPLIT.COM
+========================================================
+
+ASUNTO: RECLAMO FORMAL - Solicitud de Reembolso por Servicio No Disponible - Proyecto "janeway"
+
+--------------------------------------------------------
+
+Estimado equipo de Replit Support,
+
+Mi nombre es Roberto Rivera Gamas (RFC: RIGR840827PJ0) y escribo para 
+presentar un RECLAMO FORMAL y solicitar reembolso por servicios que he 
+pagado pero no he podido utilizar.
+
+SITUACIÓN:
+----------
+Llevo pagando por Replit Core ($50.65) y servicios de PostgreSQL 
+($0.16) pero NO PUEDO PUBLICAR mi aplicación debido a un problema 
+técnico de su plataforma que ustedes no han resuelto.
+
+PROBLEMA TÉCNICO:
+-----------------
+Mi proyecto "janeway" tiene un archivo .replit con 15 configuraciones 
+de puertos que BLOQUEAN la publicación en Autoscale. El archivo está 
+PROTEGIDO y no puedo editarlo. Cuando intento publicar, recibo:
+
+"Published apps not available - There is an issue preventing you 
+from publishing"
+
+He contactado a soporte previamente sin recibir solución concreta.
+
+LO QUE SOLICITO:
+----------------
+OPCIÓN 1: Limpiar INMEDIATAMENTE mi archivo .replit (eliminar líneas 
+34-88, dejar solo puerto 5000→80) para poder publicar.
+
+OPCIÓN 2: REEMBOLSO COMPLETO de $50.81 USD si no pueden resolver 
+el problema.
+
+PLAZO:
+------
+Necesito respuesta y resolución en 48 HORAS HÁBILES.
+
+Si no hay solución satisfactoria, procederé con:
+- Disputa de cargo con mi banco
+- Queja formal ante organismos de consumidor
+- Documentación pública del caso
+- Asesoría legal según corresponda
+
+EVIDENCIA:
+----------
+Adjunto capturas de pantalla del error, registros de pago, y 
+documentación del problema técnico.
+
+Proyecto: janeway
+Usuario: [TU USUARIO DE REPLIT]
+Email: [TU EMAIL]
+
+Espero su pronta respuesta profesional.
+
+Atentamente,
+Roberto Rivera Gamas
+RFC: RIGR840827PJ0
+
+========================================================

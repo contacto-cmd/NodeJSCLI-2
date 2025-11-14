@@ -1,0 +1,44 @@
+🔱 MENSAJE PARA ENVIAR A SOPORTE DE REPLIT
+========================================================
+
+ASUNTO: No puedo publicar - Múltiples puertos en .replit
+
+MENSAJE:
+--------
+
+Hola,
+
+Tengo un problema con mi proyecto "janeway" que me impide publicarlo.
+
+PROBLEMA:
+- Cuando intento publicar (Deploy/Publish) me sale el error:
+  "Published apps not available - There is an issue preventing you from publishing"
+  
+- El problema es que mi archivo .replit tiene 15 configuraciones 
+  de puertos (líneas 34-88) y Replit solo permite 1 puerto para 
+  Autoscale deployments.
+
+- No puedo editar el archivo .replit manualmente (está protegido).
+
+LO QUE NECESITO:
+- Por favor, limpien mi archivo .replit para que SOLO tenga 
+  esta configuración de puerto:
+
+  [[ports]]
+  localPort = 5000
+  externalPort = 80
+
+- Eliminen todos los demás bloques [[ports]] (líneas 34-88).
+
+INFORMACIÓN DEL PROYECTO:
+- Nombre: janeway
+- Usuario: [TU USUARIO DE REPLIT]
+- El servidor corre en puerto 5000
+- Ya tengo Replit Core subscription
+
+Muchas gracias por su ayuda.
+
+Saludos,
+Roberto Rivera Gamas
+
+========================================================

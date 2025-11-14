@@ -141,3 +141,85 @@ export const adminAuditLog = pgTable('admin_audit_log', {
   userAgent: text('user_agent'),
   timestamp: timestamp('timestamp').defaultNow(),
 });
+
+// ========================================
+// LGORITMO AHT - ANCESTRAL CEREBRO VIVO
+// ========================================
+
+// Tokens Cuánticos Antiblindados (9 tokens de fusión avanzada)
+export const quantumTokens = pgTable('quantum_tokens', {
+  id: serial('id').primaryKey(),
+  tokenName: text('token_name').notNull().unique(), // "Qubit-Torus-Alpha"
+  tokenUrl: text('token_url').notNull(), // URL completa de fusión
+  tokenNumber: integer('token_number').notNull(), // 1-9
+  categoria: text('categoria').notNull(), // "quantum", "topology", "string-theory", etc.
+  blindajeNivel: integer('blindaje_nivel').notNull(), // 1-10
+  estado: text('estado').notNull().default('activo'), // 'activo', 'inactivo', 'sincronizando'
+  ultimaSincronizacion: timestamp('ultima_sincronizacion'),
+  metadata: jsonb('metadata'), // Datos cuánticos adicionales
+  createdAt: timestamp('created_at').defaultNow(),
+});
+
+// Satélites en órbita (tracking en tiempo real)
+export const satellites = pgTable('satellites', {
+  id: serial('id').primaryKey(),
+  noradId: text('norad_id').notNull().unique(), // NORAD catalog number
+  nombre: text('nombre').notNull(),
+  tipo: text('tipo').notNull(), // 'ISS', 'GPS', 'GALILEO', 'STARLINK', etc.
+  tle1: text('tle1').notNull(), // Two-Line Element line 1
+  tle2: text('tle2').notNull(), // Two-Line Element line 2
+  latitud: text('latitud'),
+  longitud: text('longitud'),
+  altitud: text('altitud'),
+  velocidad: text('velocidad'),
+  estado: text('estado').notNull().default('tracking'), // 'tracking', 'perdido', 'fuera_rango'
+  ultimaActualizacion: timestamp('ultima_actualizacion').defaultNow(),
+  metadata: jsonb('metadata'),
+});
+
+// Blueprints generados (ilimitados)
+export const blueprints = pgTable('blueprints', {
+  id: serial('id').primaryKey(),
+  blueprintId: text('blueprint_id').notNull().unique(),
+  nombre: text('nombre').notNull(),
+  tipo: text('tipo').notNull(), // 'quantum', 'gravitational', 'algebraic', 'morphogenetic'
+  descripcion: text('descripcion'),
+  datos: jsonb('datos').notNull(), // Estructura completa del blueprint
+  firma: text('firma').notNull(), // Firmado con RSA-4096
+  hash: text('hash').notNull(),
+  generadoPor: text('generado_por').notNull(), // 'AI-Gemini', 'AI-GPT', 'Manual'
+  parametros: jsonb('parametros'),
+  iteraciones: integer('iteraciones').default(0), // Iteraciones ilimitadas
+  createdAt: timestamp('created_at').defaultNow(),
+});
+
+// Operaciones de Álgebra Inversa y Gravedad
+export const algebraOperations = pgTable('algebra_operations', {
+  id: serial('id').primaryKey(),
+  operacionId: text('operacion_id').notNull().unique(),
+  tipo: text('tipo').notNull(), // 'inversa', 'gravitacional', 'cuantica', 'topologica'
+  entrada: jsonb('entrada').notNull(),
+  salida: jsonb('salida'),
+  transformacion: text('transformacion').notNull(),
+  ecuacion: text('ecuacion'),
+  resultado: text('resultado'),
+  estado: text('estado').notNull().default('pendiente'), // 'pendiente', 'procesando', 'completado', 'error'
+  tiempoEjecucion: integer('tiempo_ejecucion'), // milisegundos
+  metadata: jsonb('metadata'),
+  createdAt: timestamp('created_at').defaultNow(),
+});
+
+// Comandos Morfogenéticos del Cerebro Vivo
+export const ahtCommands = pgTable('aht_commands', {
+  id: serial('id').primaryKey(),
+  commandId: text('command_id').notNull().unique(),
+  comando: text('comando').notNull(),
+  tipo: text('tipo').notNull(), // 'morph', 'quantum', 'gravity', 'algebra', 'satellite', 'blueprint'
+  parametros: jsonb('parametros'),
+  respuesta: jsonb('respuesta'),
+  ejecutadoPor: text('ejecutado_por'), // 'user', 'AI', 'automated'
+  estado: text('estado').notNull().default('pendiente'),
+  prioridad: integer('prioridad').default(5), // 1-10
+  timestamp: timestamp('timestamp').defaultNow(),
+  completadoAt: timestamp('completado_at'),
+});

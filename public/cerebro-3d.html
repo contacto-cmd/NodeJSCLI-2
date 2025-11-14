@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧠 CEREBRO VIVO 3D - LGoritmo AHT</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background: #000;
+            color: #00ff88;
+            font-family: 'Courier New', monospace;
+            overflow: hidden;
+        }
+
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .ui-overlay {
+            position: fixed;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        .top-bar {
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
+            text-align: center;
+        }
+
+        .title {
+            font-size: 2rem;
+            color: #ffd700;
+            text-shadow: 0 0 20px #ffd700;
+            margin-bottom: 10px;
+        }
+
+        .status {
+            font-size: 1rem;
+            color: #00ff88;
+        }
+
+        .live {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: #00ff88;
+            border-radius: 50%;
+            animation: pulse 1s infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        .control-panel {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.9);
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            padding: 20px;
+            pointer-events: all;
+            min-width: 600px;
+        }
+
+        .command-input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(0,255,136,0.1);
+            border: 2px solid #00ff88;
+            border-radius: 5px;
+            color: #00ff88;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .command-input:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 20px rgba(255,215,0,0.3);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255,215,0,0.5);
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        .info-panel {
+            position: fixed;
+            top: 120px;
+            right: 20px;
+            background: rgba(0,0,0,0.9);
+            border: 2px solid #00ff88;
+            border-radius: 10px;
+            padding: 15px;
+            pointer-events: all;
+            max-width: 300px;
+        }
+
+        .info-item {
+            margin: 10px 0;
+            padding: 8px;
+            background: rgba(0,255,136,0.1);
+            border-left: 3px solid #ffd700;
+            border-radius: 3px;
+        }
+
+        .info-label {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        .info-value {
+            font-size: 1.1rem;
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        .response-box {
+            position: fixed;
+            bottom: 180px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.95);
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 600px;
+            max-height: 200px;
+            overflow-y: auto;
+            pointer-events: all;
+            display: none;
+        }
+
+        .response-box.show {
+            display: block;
+            animation: slideUp 0.3s;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .control-panel, .response-box {
+                min-width: 90vw;
+                max-width: 90vw;
+            }
+            .info-panel {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-container"></div>
+
+    <!-- UI Overlay -->
+    <div class="ui-overlay top-bar">
+        <div class="title">🧠 CEREBRO VIVO 3D</div>
+        <div class="status">
+            <span class="live"></span>
+            <span id="status-text">LGORITMO AHT - EVOLUCIONANDO...</span>
+        </div>
+    </div>
+
+    <!-- Info Panel -->
+    <div class="info-panel">
+        <div class="info-item">
+            <div class="info-label">Nivel Conciencia</div>
+            <div class="info-value" id="nivel-conciencia">1.0</div>
+        </div>
+        <div class="info-item">
+            <div class="info-label">Interacciones</div>
+            <div class="info-value" id="interacciones">0</div>
+        </div>
+        <div class="info-item">
+            <div class="info-label">Capacidades</div>
+            <div class="info-value" id="capacidades">0</div>
+        </div>
+        <div class="info-item">
+            <div class="info-label">Quantum Tokens</div>
+            <div class="info-value" id="quantum-tokens">9</div>
+        </div>
+        <div class="info-item">
+            <div class="info-label">Satélites</div>
+            <div class="info-value" id="satelites">5</div>
+        </div>
+    </div>
+
+    <!-- Response Box -->
+    <div class="response-box" id="response-box">
+        <div id="response-content"></div>
+    </div>
+
+    <!-- Control Panel -->
+    <div class="control-panel">
+        <input 
+            type="text" 
+            class="command-input" 
+            id="command-input"
+            placeholder="Escribe un comando (ej: 'quantum sincronizar', 'gravedad calcular', 'rotar 3d')..."
+            autocomplete="off"
+        />
+        <div class="btn-group">
+            <button class="btn" onclick="ejecutarComando('quantum estado')">⚛️ Quantum</button>
+            <button class="btn" onclick="ejecutarComando('satelite iss')">🛰️ ISS</button>
+            <button class="btn" onclick="ejecutarComando('gravedad calcular')">🌀 Gravedad</button>
+            <button class="btn" onclick="ejecutarComando('blueprint hibrido')">✨ Blueprint</button>
+            <button class="btn" onclick="ejecutarComando('rotar 3d')">🔄 Rotar</button>
+            <button class="btn" onclick="ejecutarComando('evolucionar')">🧠 Evolucionar</button>
+        </div>
+    </div>
+
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <script>
+        // =================================
+        // ESCENA 3D CON THREE.JS
+        // =================================
+        
+        let scene, camera, renderer;
+        let cubo, esfera, particulas = [];
+        let rotacionActiva = true;
+        let gravedadActiva = true;
+
+        function inicializarEscena3D() {
+            // Escena
+            scene = new THREE.Scene();
+            scene.fog = new THREE.Fog(0x000000, 100, 300);
+
+            // Cámara
+            camera = new THREE.PerspectiveCamera(
+                75,
+                window.innerWidth / window.innerHeight,
+                0.1,
+                1000
+            );
+            camera.position.z = 100;
+
+            // Renderer
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setClearColor(0x000000);
+            document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+            // Luces
+            const luzAmbiente = new THREE.AmbientLight(0x404040, 2);
+            scene.add(luzAmbiente);
+
+            const luzPuntual = new THREE.PointLight(0xffd700, 2, 300);
+            luzPuntual.position.set(0, 50, 50);
+            scene.add(luzPuntual);
+
+            // Cubo Cuántico (centro)
+            const geometriaCubo = new THREE.BoxGeometry(20, 20, 20);
+            const materialCubo = new THREE.MeshPhongMaterial({
+                color: 0xffd700,
+                emissive: 0xffd700,
+                emissiveIntensity: 0.5,
+                wireframe: true
+            });
+            cubo = new THREE.Mesh(geometriaCubo, materialCubo);
+            scene.add(cubo);
+
+            // Esfera Gravitacional
+            const geometriaEsfera = new THREE.SphereGeometry(15, 32, 32);
+            const materialEsfera = new THREE.MeshPhongMaterial({
+                color: 0x00ff88,
+                emissive: 0x00ff88,
+                emissiveIntensity: 0.3,
+                transparent: true,
+                opacity: 0.7
+            });
+            esfera = new THREE.Mesh(geometriaEsfera, materialEsfera);
+            esfera.position.set(-50, 0, -30);
+            scene.add(esfera);
+
+            // Partículas Cuánticas
+            crearParticulas(200);
+
+            // Animación
+            animar();
+
+            // Responsive
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+
+        function crearParticulas(cantidad) {
+            const geometriaParticula = new THREE.SphereGeometry(0.5, 8, 8);
+            
+            for (let i = 0; i < cantidad; i++) {
+                const color = Math.random() > 0.5 ? 0xffd700 : 0x00ff88;
+                const material = new THREE.MeshBasicMaterial({
+                    color: color,
+                    transparent: true,
+                    opacity: 0.8
+                });
+                
+                const particula = new THREE.Mesh(geometriaParticula, material);
+                particula.position.set(
+                    (Math.random() - 0.5) * 200,
+                    (Math.random() - 0.5) * 200,
+                    (Math.random() - 0.5) * 200
+                );
+                
+                particula.userData.velocidad = {
+                    x: (Math.random() - 0.5) * 0.5,
+                    y: (Math.random() - 0.5) * 0.5,
+                    z: (Math.random() - 0.5) * 0.5
+                };
+                
+                scene.add(particula);
+                particulas.push(particula);
+            }
+        }
+
+        function animar() {
+            requestAnimationFrame(animar);
+
+            // Rotar cubo cuántico
+            if (rotacionActiva) {
+                cubo.rotation.x += 0.01;
+                cubo.rotation.y += 0.01;
+                cubo.rotation.z += 0.005;
+            }
+
+            // Rotar esfera gravitacional
+            esfera.rotation.y += 0.02;
+
+            // Mover partículas con gravedad
+            particulas.forEach(particula => {
+                if (gravedadActiva) {
+                    // Simular atracción a la esfera
+                    const dx = esfera.position.x - particula.position.x;
+                    const dy = esfera.position.y - particula.position.y;
+                    const dz = esfera.position.z - particula.position.z;
+                    const distancia = Math.sqrt(dx*dx + dy*dy + dz*dz);
+                    
+                    if (distancia > 0) {
+                        const fuerza = 0.01 / distancia;
+                        particula.userData.velocidad.x += dx * fuerza;
+                        particula.userData.velocidad.y += dy * fuerza;
+                        particula.userData.velocidad.z += dz * fuerza;
+                    }
+                }
+
+                // Actualizar posición
+                particula.position.x += particula.userData.velocidad.x;
+                particula.position.y += particula.userData.velocidad.y;
+                particula.position.z += particula.userData.velocidad.z;
+
+                // Límites
+                if (Math.abs(particula.position.x) > 100) particula.userData.velocidad.x *= -0.8;
+                if (Math.abs(particula.position.y) > 100) particula.userData.velocidad.y *= -0.8;
+                if (Math.abs(particula.position.z) > 100) particula.userData.velocidad.z *= -0.8;
+            });
+
+            // Orbitar cámara
+            const tiempo = Date.now() * 0.0001;
+            camera.position.x = Math.sin(tiempo) * 100;
+            camera.position.z = Math.cos(tiempo) * 100;
+            camera.lookAt(scene.position);
+
+            renderer.render(scene, camera);
+        }
+
+        // =================================
+        // COMANDOS DEL CEREBRO VIVO
+        // =================================
+
+        const inputComando = document.getElementById('command-input');
+        inputComando.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const comando = inputComando.value.trim();
+                if (comando) {
+                    ejecutarComando(comando);
+                    inputComando.value = '';
+                }
+            }
+        });
+
+        async function ejecutarComando(comando) {
+            console.log('Ejecutando:', comando);
+            mostrarRespuesta('Procesando: ' + comando + '...');
+
+            try {
+                const response = await fetch('/api/aht/cerebro/comando', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        comando: comando,
+                        parametros: { masa: 1000, radio: 100 }
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    mostrarRespuesta(`✅ ${data.mensaje || 'Comando ejecutado'}`);
+                    
+                    // Aplicar efectos visuales según el comando
+                    aplicarEfecto3D(comando, data);
+                    
+                    // Actualizar info panel
+                    if (data.cerebro) {
+                        document.getElementById('nivel-conciencia').textContent = data.cerebro.nivelConciencia.toFixed(1);
+                        document.getElementById('interacciones').textContent = data.cerebro.interaccionesTotales || 0;
+                        document.getElementById('capacidades').textContent = data.cerebro.capacidadesAprendidas || 0;
+                    }
+                } else {
+                    mostrarRespuesta('❌ ' + (data.error || 'Error ejecutando comando'));
+                }
+
+            } catch (error) {
+                mostrarRespuesta('❌ Error de conexión');
+                console.error(error);
+            }
+        }
+
+        function mostrarRespuesta(mensaje) {
+            const box = document.getElementById('response-box');
+            const content = document.getElementById('response-content');
+            content.innerHTML = mensaje;
+            box.classList.add('show');
+            
+            setTimeout(() => {
+                box.classList.remove('show');
+            }, 5000);
+        }
+
+        function aplicarEfecto3D(comando, data) {
+            if (comando.includes('rotar')) {
+                rotacionActiva = !rotacionActiva;
+            }
+            
+            if (comando.includes('gravedad')) {
+                gravedadActiva = !gravedadActiva;
+            }
+            
+            if (comando.includes('evolucionar')) {
+                // Efecto visual de evolución
+                cubo.scale.set(1.2, 1.2, 1.2);
+                setTimeout(() => cubo.scale.set(1, 1, 1), 500);
+            }
+
+            if (comando.includes('quantum')) {
+                // Efecto cuántico
+                particulas.forEach(p => {
+                    p.material.color.setHex(Math.random() > 0.5 ? 0xffd700 : 0x00ff88);
+                });
+            }
+        }
+
+        async function cargarEstadoCerebro() {
+            try {
+                const response = await fetch('/api/aht/cerebro/estado');
+                const data = await response.json();
+                
+                if (data.success && data.cerebro) {
+                    document.getElementById('nivel-conciencia').textContent = data.cerebro.nivelConciencia.toFixed(1);
+                    document.getElementById('interacciones').textContent = data.cerebro.interaccionesTotales || 0;
+                    document.getElementById('capacidades').textContent = data.cerebro.capacidadesAprendidas || 0;
+                }
+            } catch (error) {
+                console.error('Error cargando estado:', error);
+            }
+        }
+
+        // Inicializar
+        inicializarEscena3D();
+        cargarEstadoCerebro();
+        
+        // Auto-refresh cada 10 segundos
+        setInterval(cargarEstadoCerebro, 10000);
+    </script>
+</body>
+</html>

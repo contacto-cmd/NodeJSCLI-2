@@ -1,0 +1,85 @@
+🔱 ========================================================
+🔱 CÓMO ENVIAR CERTIFICADOS A TU CORREO
+🔱 ========================================================
+
+✅ NUEVO SISTEMA ACTIVADO:
+──────────────────────────
+Ahora puedes recibir certificados directamente en tu email.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📧 DESDE TU iPHONE (iSH Shell):
+──────────────────────────────
+
+1️⃣ ENVIAR CERTIFICADO DE VALORACIÓN ($85K):
+────────────────────────────────────────────
+
+curl -X POST https://janeway.replit.dev/api/enviar-certificado-email \
+-H "Content-Type: application/json" \
+-d '{"email":"TU_EMAIL@gmail.com","tipo":"valoracion"}'
+
+Reemplaza: TU_EMAIL@gmail.com con tu email real
+
+
+2️⃣ ENVIAR CERTIFICADO ROYAL PREMIUM ($150K):
+──────────────────────────────────────────────
+
+curl -X POST https://janeway.replit.dev/api/enviar-certificado-email \
+-H "Content-Type: application/json" \
+-d '{"email":"TU_EMAIL@gmail.com","tipo":"royal"}'
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📱 LO QUE RECIBIRÁS:
+────────────────────
+
+✅ Email con tu nombre (Roberto Rivera Gamas)
+✅ Certificado PDF adjunto
+✅ Valoración del proyecto
+✅ Firma RSA-4096
+✅ RFC: RIGR840827PJ0
+✅ Diseño profesional con branding ALGORYTHM
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💡 EJEMPLO COMPLETO:
+────────────────────
+
+# En tu iSH Shell:
+curl -X POST https://janeway.replit.dev/api/enviar-certificado-email \
+-H "Content-Type: application/json" \
+-d '{"email":"roberto@example.com","tipo":"royal"}'
+
+# Respuesta:
+{
+  "success": true,
+  "mensaje": "Certificado enviado exitosamente a roberto@example.com",
+  "certificado": "certificado-royal-premium-xxx.pdf"
+}
+
+# Revisa tu email - ¡certificado adjunto!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚡ ENVÍO AUTOMÁTICO:
+───────────────────
+
+El sistema:
+✅ Genera el certificado
+✅ Lo firma con RSA-4096
+✅ Lo envía a tu correo
+✅ TODO en un solo comando
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔱 RESUMEN:
+
+1. Abre iSH Shell en tu iPhone
+2. Copia el comando de arriba
+3. Cambia TU_EMAIL@gmail.com por tu email
+4. Ejecuta
+5. Revisa tu correo
+6. ¡Listo! Certificado PDF adjunto
+
+🔱 ========================================================

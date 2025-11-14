@@ -2511,5 +2511,855 @@
       "verificable": true,
       "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
     }
+  },
+  {
+    "id_proyecto": "ARCH-1763066826616-GD53QV8MN",
+    "timestamp": "2025-11-13T20:47:06.616Z",
+    "diseño": {
+      "nombre": "Casa Flotante Orgánica + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "casa_flotante × torre_piramide",
+      "caracteristicas": [
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos",
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 45,
+        "ancho_m": 30,
+        "profundidad_m": 25,
+        "area_construida_m2": "6000.00",
+        "volumen_total_m3": "11812.50"
+      },
+      "numero_pisos": 8,
+      "material_principal": "bronze_arquitectonico",
+      "material_secundario": "titanio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 11812.5,
+        "material": "bronze_arquitectonico",
+        "densidad_kg_m3": 8800,
+        "peso_total_kg": 103950000,
+        "peso_toneladas": "103950.00",
+        "gravedad_local_ms2": 9.780327,
+        "fuerza_gravitacional_newtons": "1016664991.65",
+        "resistencia_material_mpa": 450,
+        "costo_material_usd": "141750000.00",
+        "ubicacion": "Lat: 0°, Alt: 0m"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 10.5,
+        "gravedad_local_ms2": 9.780327,
+        "momento_flexion_nm": "1334372801.54",
+        "esfuerzo_necesario_mpa": "12103154.66",
+        "esfuerzo_material_mpa": 450,
+        "factor_seguridad": "0.00",
+        "carga_distribuida_n_m": "24206309.32",
+        "deflexion_maxima_mm": "191555470.53",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural",
+        "ubicacion": "Lat: 0°, Alt: 0m"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.35",
+        "centro_gravedad_y": "0.63",
+        "centro_gravedad_z": "23.85",
+        "masa_total_kg": "103950000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": 4.433703,
+        "longitud": -146.876028,
+        "terreno": "oceano",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "oceano",
+      "zona_climatica": "Tropical"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "141750000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "1,530,900,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1763066826616-2CYTJ17VS",
+    "timestamp": "2025-11-13T20:47:06.616Z",
+    "diseño": {
+      "nombre": "Casa Flotante Orgánica + Villa Orgánica Curveada",
+      "tipo_hibrido": "casa_flotante × villa_organica",
+      "caracteristicas": [
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos",
+        "Múltiples niveles",
+        "Formas fluidas",
+        "Integración natural"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 20,
+        "ancho_m": 35,
+        "profundidad_m": 30,
+        "area_construida_m2": "4200.00",
+        "volumen_total_m3": "8400.00"
+      },
+      "numero_pisos": 4,
+      "material_principal": "bronze_arquitectonico",
+      "material_secundario": "fibra_carbono"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 8400,
+        "material": "bronze_arquitectonico",
+        "densidad_kg_m3": 8800,
+        "peso_total_kg": 73920000,
+        "peso_toneladas": "73920.00",
+        "gravedad_local_ms2": 9.780327,
+        "fuerza_gravitacional_newtons": "722961771.84",
+        "resistencia_material_mpa": 450,
+        "costo_material_usd": "100800000.00",
+        "ubicacion": "Lat: 0°, Alt: 0m"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 8.75,
+        "gravedad_local_ms2": 9.780327,
+        "momento_flexion_nm": "790739437.95",
+        "esfuerzo_necesario_mpa": "10328025.31",
+        "esfuerzo_material_mpa": 450,
+        "factor_seguridad": "0.00",
+        "carga_distribuida_n_m": "20656050.62",
+        "deflexion_maxima_mm": "78829411.74",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural",
+        "ubicacion": "Lat: 0°, Alt: 0m"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.57",
+        "centro_gravedad_y": "0.75",
+        "centro_gravedad_z": "10.60",
+        "masa_total_kg": "73920000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": 38.033374,
+        "longitud": -79.352554,
+        "terreno": "lago",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "lago",
+      "zona_climatica": "Templado"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "100800000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "567,000,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1763066826616-IR00UDCOT",
+    "timestamp": "2025-11-13T20:47:06.616Z",
+    "diseño": {
+      "nombre": "Torre Pirámide Anti-Gravedad + Complejo Modular Flotante",
+      "tipo_hibrido": "torre_piramide × complejo_modular",
+      "caracteristicas": [
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes",
+        "Pods conectados",
+        "Distribución espacial",
+        "Puentes de vidrio"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 85,
+        "ancho_m": 40,
+        "profundidad_m": 35,
+        "area_construida_m2": "25200.00",
+        "volumen_total_m3": "35700.00"
+      },
+      "numero_pisos": 18,
+      "material_principal": "titanio",
+      "material_secundario": "aluminio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 35700,
+        "material": "titanio",
+        "densidad_kg_m3": 4500,
+        "peso_total_kg": 160650000,
+        "peso_toneladas": "160650.00",
+        "gravedad_local_ms2": 9.780327,
+        "fuerza_gravitacional_newtons": "1571209532.55",
+        "resistencia_material_mpa": 900,
+        "costo_material_usd": "1606500000.00",
+        "ubicacion": "Lat: 0°, Alt: 0m"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 10,
+        "gravedad_local_ms2": 9.780327,
+        "momento_flexion_nm": "1964011915.69",
+        "esfuerzo_necesario_mpa": "19640119.16",
+        "esfuerzo_material_mpa": 900,
+        "factor_seguridad": "0.00",
+        "carga_distribuida_n_m": "39280238.31",
+        "deflexion_maxima_mm": "255730718.19",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural",
+        "ubicacion": "Lat: 0°, Alt: 0m"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.80",
+        "centro_gravedad_y": "0.88",
+        "centro_gravedad_z": "45.05",
+        "masa_total_kg": "160650000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": 34.689474,
+        "longitud": 52.396153,
+        "terreno": "desierto",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "desierto",
+      "zona_climatica": "Árido"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "1606500000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "6,117,552,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1763066826616-B51DCFJGH",
+    "timestamp": "2025-11-13T20:47:06.616Z",
+    "diseño": {
+      "nombre": "Villa Orgánica Curveada + Complejo Modular Flotante",
+      "tipo_hibrido": "villa_organica × complejo_modular",
+      "caracteristicas": [
+        "Múltiples niveles",
+        "Formas fluidas",
+        "Integración natural",
+        "Pods conectados",
+        "Distribución espacial",
+        "Puentes de vidrio"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 28,
+        "ancho_m": 50,
+        "profundidad_m": 45,
+        "area_construida_m2": "13500.00",
+        "volumen_total_m3": "25200.00"
+      },
+      "numero_pisos": 6,
+      "material_principal": "fibra_carbono",
+      "material_secundario": "aluminio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 25200,
+        "material": "fibra_carbono",
+        "densidad_kg_m3": 1600,
+        "peso_total_kg": 40320000,
+        "peso_toneladas": "40320.00",
+        "gravedad_local_ms2": 9.780327,
+        "fuerza_gravitacional_newtons": "394342784.64",
+        "resistencia_material_mpa": 3500,
+        "costo_material_usd": "2142000000.00",
+        "ubicacion": "Lat: 0°, Alt: 0m"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 17.5,
+        "gravedad_local_ms2": 9.780327,
+        "momento_flexion_nm": "862624841.40",
+        "esfuerzo_necesario_mpa": "2816734.18",
+        "esfuerzo_material_mpa": 3500,
+        "factor_seguridad": "0.00",
+        "carga_distribuida_n_m": "5633468.35",
+        "deflexion_maxima_mm": "343982887.60",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural",
+        "ubicacion": "Lat: 0°, Alt: 0m"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "2.25",
+        "centro_gravedad_y": "1.13",
+        "centro_gravedad_z": "14.84",
+        "masa_total_kg": "40320000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": 12.176799,
+        "longitud": -141.39804,
+        "terreno": "oceano",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "oceano",
+      "zona_climatica": "Tropical"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "2142000000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "3,402,000,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1763066826617-F0A34I08T",
+    "timestamp": "2025-11-13T20:47:06.617Z",
+    "diseño": {
+      "nombre": "Casa Flotante Orgánica + Complejo Modular Flotante",
+      "tipo_hibrido": "casa_flotante × complejo_modular",
+      "caracteristicas": [
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos",
+        "Pods conectados",
+        "Distribución espacial",
+        "Puentes de vidrio"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 35,
+        "ancho_m": 60,
+        "profundidad_m": 50,
+        "area_construida_m2": "21000.00",
+        "volumen_total_m3": "42000.00"
+      },
+      "numero_pisos": 7,
+      "material_principal": "bronze_arquitectonico",
+      "material_secundario": "aluminio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 42000,
+        "material": "bronze_arquitectonico",
+        "densidad_kg_m3": 8800,
+        "peso_total_kg": 369600000,
+        "peso_toneladas": "369600.00",
+        "gravedad_local_ms2": 9.780327,
+        "fuerza_gravitacional_newtons": "3614808859.20",
+        "resistencia_material_mpa": 450,
+        "costo_material_usd": "504000000.00",
+        "ubicacion": "Lat: 0°, Alt: 0m"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 15,
+        "gravedad_local_ms2": 9.780327,
+        "momento_flexion_nm": "6777766611.00",
+        "esfuerzo_necesario_mpa": "30123407.16",
+        "esfuerzo_material_mpa": 450,
+        "factor_seguridad": "0.00",
+        "carga_distribuida_n_m": "60246814.32",
+        "deflexion_maxima_mm": "1985673811.82",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural",
+        "ubicacion": "Lat: 0°, Alt: 0m"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "2.70",
+        "centro_gravedad_y": "1.25",
+        "centro_gravedad_z": "18.55",
+        "masa_total_kg": "369600000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": 33.296443,
+        "longitud": -86.880001,
+        "terreno": "lago",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "lago",
+      "zona_climatica": "Templado"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "504000000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "3,969,000,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1763066826617-MH8VPM3BU",
+    "timestamp": "2025-11-13T20:47:06.617Z",
+    "diseño": {
+      "nombre": "Torre Pirámide Anti-Gravedad + Casa Flotante Orgánica",
+      "tipo_hibrido": "torre_piramide × casa_flotante",
+      "caracteristicas": [
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes",
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 120,
+        "ancho_m": 35,
+        "profundidad_m": 30,
+        "area_construida_m2": "29400.00",
+        "volumen_total_m3": "37800.00"
+      },
+      "numero_pisos": 28,
+      "material_principal": "titanio",
+      "material_secundario": "bronze_arquitectonico"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 37800,
+        "material": "titanio",
+        "densidad_kg_m3": 4500,
+        "peso_total_kg": 170100000,
+        "peso_toneladas": "170100.00",
+        "gravedad_local_ms2": 9.780327,
+        "fuerza_gravitacional_newtons": "1663633622.70",
+        "resistencia_material_mpa": 900,
+        "costo_material_usd": "1701000000.00",
+        "ubicacion": "Lat: 0°, Alt: 0m"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 8.75,
+        "gravedad_local_ms2": 9.780327,
+        "momento_flexion_nm": "1819599274.83",
+        "esfuerzo_necesario_mpa": "23766194.61",
+        "esfuerzo_material_mpa": 900,
+        "factor_seguridad": "0.00",
+        "carga_distribuida_n_m": "47532389.22",
+        "deflexion_maxima_mm": "181397225.88",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural",
+        "ubicacion": "Lat: 0°, Alt: 0m"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.57",
+        "centro_gravedad_y": "0.75",
+        "centro_gravedad_z": "63.60",
+        "masa_total_kg": "170100000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": 20.897007,
+        "longitud": 50.057986,
+        "terreno": "desierto",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "desierto",
+      "zona_climatica": "Árido"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "1701000000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "7,620,480,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1763066826617-737HX90ZP",
+    "timestamp": "2025-11-13T20:47:06.617Z",
+    "diseño": {
+      "nombre": "Torre Pirámide Anti-Gravedad + Villa Orgánica Curveada",
+      "tipo_hibrido": "torre_piramide × villa_organica",
+      "caracteristicas": [
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes",
+        "Múltiples niveles",
+        "Formas fluidas",
+        "Integración natural"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 95,
+        "ancho_m": 42,
+        "profundidad_m": 38,
+        "area_construida_m2": "35112.00",
+        "volumen_total_m3": "45486.00"
+      },
+      "numero_pisos": 22,
+      "material_principal": "titanio",
+      "material_secundario": "fibra_carbono"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 45486,
+        "material": "titanio",
+        "densidad_kg_m3": 4500,
+        "peso_total_kg": 204687000,
+        "peso_toneladas": "204687.00",
+        "gravedad_local_ms2": 9.780327,
+        "fuerza_gravitacional_newtons": "2001905792.65",
+        "resistencia_material_mpa": 900,
+        "costo_material_usd": "2046870000.00",
+        "ubicacion": "Lat: 0°, Alt: 0m"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 10.5,
+        "gravedad_local_ms2": 9.780327,
+        "momento_flexion_nm": "2627501352.85",
+        "esfuerzo_necesario_mpa": "23832211.82",
+        "esfuerzo_material_mpa": 900,
+        "factor_seguridad": "0.00",
+        "carga_distribuida_n_m": "47664423.63",
+        "deflexion_maxima_mm": "377190135.61",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural",
+        "ubicacion": "Lat: 0°, Alt: 0m"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.89",
+        "centro_gravedad_y": "0.95",
+        "centro_gravedad_z": "50.35",
+        "masa_total_kg": "204687000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": 41.149684,
+        "longitud": -103.9789,
+        "terreno": "montana",
+        "elevacion_m": 880
+      },
+      "terreno_tipo": "montana",
+      "zona_climatica": "Templado"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "2046870000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "8,907,978,240",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1763066826617-G1CHITGBS",
+    "timestamp": "2025-11-13T20:47:06.617Z",
+    "diseño": {
+      "nombre": "Villa Orgánica Curveada + Casa Flotante Orgánica",
+      "tipo_hibrido": "villa_organica × casa_flotante",
+      "caracteristicas": [
+        "Múltiples niveles",
+        "Formas fluidas",
+        "Integración natural",
+        "Estructura sobre agua",
+        "Forma curveada",
+        "Voladizos"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 18,
+        "ancho_m": 40,
+        "profundidad_m": 35,
+        "area_construida_m2": "4200.00",
+        "volumen_total_m3": "10080.00"
+      },
+      "numero_pisos": 3,
+      "material_principal": "fibra_carbono",
+      "material_secundario": "bronze_arquitectonico"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 10080,
+        "material": "fibra_carbono",
+        "densidad_kg_m3": 1600,
+        "peso_total_kg": 16128000,
+        "peso_toneladas": "16128.00",
+        "gravedad_local_ms2": 9.780327,
+        "fuerza_gravitacional_newtons": "157737113.86",
+        "resistencia_material_mpa": 3500,
+        "costo_material_usd": "856800000.00",
+        "ubicacion": "Lat: 0°, Alt: 0m"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 14,
+        "gravedad_local_ms2": 9.780327,
+        "momento_flexion_nm": "276039949.25",
+        "esfuerzo_necesario_mpa": "1408367.09",
+        "esfuerzo_material_mpa": 3500,
+        "factor_seguridad": "0.00",
+        "carga_distribuida_n_m": "2816734.18",
+        "deflexion_maxima_mm": "70447695.38",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural",
+        "ubicacion": "Lat: 0°, Alt: 0m"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "1.80",
+        "centro_gravedad_y": "0.88",
+        "centro_gravedad_z": "9.54",
+        "masa_total_kg": "16128000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": 14.721078,
+        "longitud": -134.030213,
+        "terreno": "oceano",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "oceano",
+      "zona_climatica": "Tropical"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "856800000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "1,360,800,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1763066826617-WXWY8KYDD",
+    "timestamp": "2025-11-13T20:47:06.617Z",
+    "diseño": {
+      "nombre": "Complejo Modular Flotante + Torre Pirámide Anti-Gravedad",
+      "tipo_hibrido": "complejo_modular × torre_piramide",
+      "caracteristicas": [
+        "Pods conectados",
+        "Distribución espacial",
+        "Puentes de vidrio",
+        "Estructura vertical",
+        "Geometría imposible",
+        "Secciones flotantes"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 65,
+        "ancho_m": 55,
+        "profundidad_m": 48,
+        "area_construida_m2": "36960.00",
+        "volumen_total_m3": "60060.00"
+      },
+      "numero_pisos": 14,
+      "material_principal": "aluminio",
+      "material_secundario": "titanio"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 60059.99999999999,
+        "material": "aluminio",
+        "densidad_kg_m3": 2700,
+        "peso_total_kg": 162161999.99999997,
+        "peso_toneladas": "162162.00",
+        "gravedad_local_ms2": 9.780327,
+        "fuerza_gravitacional_newtons": "1585997386.97",
+        "resistencia_material_mpa": 300,
+        "costo_material_usd": "210210000.00",
+        "ubicacion": "Lat: 0°, Alt: 0m"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 13.75,
+        "gravedad_local_ms2": 9.780327,
+        "momento_flexion_nm": "2725933008.86",
+        "esfuerzo_necesario_mpa": "14418158.06",
+        "esfuerzo_material_mpa": 300,
+        "factor_seguridad": "0.00",
+        "carga_distribuida_n_m": "28836316.13",
+        "deflexion_maxima_mm": "671056913.40",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural",
+        "ubicacion": "Lat: 0°, Alt: 0m"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "2.47",
+        "centro_gravedad_y": "1.20",
+        "centro_gravedad_z": "34.45",
+        "masa_total_kg": "162162000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": 40.524191,
+        "longitud": -86.014771,
+        "terreno": "lago",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "lago",
+      "zona_climatica": "Templado"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "210210000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "6,301,152,000",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
+  },
+  {
+    "id_proyecto": "ARCH-1763066826618-YO6IKNO8B",
+    "timestamp": "2025-11-13T20:47:06.618Z",
+    "diseño": {
+      "nombre": "Complejo Modular Flotante + Villa Orgánica Curveada",
+      "tipo_hibrido": "complejo_modular × villa_organica",
+      "caracteristicas": [
+        "Pods conectados",
+        "Distribución espacial",
+        "Puentes de vidrio",
+        "Múltiples niveles",
+        "Formas fluidas",
+        "Integración natural"
+      ],
+      "nivel": "Ultra-Premium Futurista"
+    },
+    "especificaciones": {
+      "dimensiones": {
+        "altura_total_m": 32,
+        "ancho_m": 70,
+        "profundidad_m": 60,
+        "area_construida_m2": "33600.00",
+        "volumen_total_m3": "53760.00"
+      },
+      "numero_pisos": 8,
+      "material_principal": "aluminio",
+      "material_secundario": "fibra_carbono"
+    },
+    "analisis_estructural": {
+      "peso_estructura": {
+        "volumen_m3": 53760,
+        "material": "aluminio",
+        "densidad_kg_m3": 2700,
+        "peso_total_kg": 145152000,
+        "peso_toneladas": "145152.00",
+        "gravedad_local_ms2": 9.780327,
+        "fuerza_gravitacional_newtons": "1419634024.70",
+        "resistencia_material_mpa": 300,
+        "costo_material_usd": "188160000.00",
+        "ubicacion": "Lat: 0°, Alt: 0m"
+      },
+      "analisis_voladizos": {
+        "longitud_voladizo_m": 24.5,
+        "gravedad_local_ms2": 9.780327,
+        "momento_flexion_nm": "4347629200.66",
+        "esfuerzo_necesario_mpa": "7243030.74",
+        "esfuerzo_material_mpa": 300,
+        "factor_seguridad": "0.00",
+        "carga_distribuida_n_m": "14486061.48",
+        "deflexion_maxima_mm": "3398000556.89",
+        "viable": false,
+        "recomendacion": "Requiere refuerzo estructural",
+        "ubicacion": "Lat: 0°, Alt: 0m"
+      },
+      "centro_gravedad": {
+        "centro_gravedad_x": "3.15",
+        "centro_gravedad_y": "1.50",
+        "centro_gravedad_z": "16.96",
+        "masa_total_kg": "145152000.00"
+      },
+      "estabilidad": "REQUIERE OPTIMIZACIÓN"
+    },
+    "ubicacion": {
+      "coordenadas_gps": {
+        "latitud": -7.312297,
+        "longitud": -100.817065,
+        "terreno": "oceano",
+        "elevacion_m": 0
+      },
+      "terreno_tipo": "oceano",
+      "zona_climatica": "Tropical"
+    },
+    "valoracion": {
+      "costo_construccion_usd": "188160000.00",
+      "costo_planos_diseno_usd": "50,000",
+      "valor_mercado_usd": "4,877,107,200",
+      "roi_estimado": "300-500%"
+    },
+    "certificacion": {
+      "nivel_seguridad": "RSA-4096",
+      "algoritmo": "SHA256withRSA4096",
+      "verificable": true,
+      "autor": "Roberto Rivera Gamas - Arte Visualista-Royal"
+    }
   }
 ]

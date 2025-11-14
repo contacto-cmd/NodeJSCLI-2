@@ -1,0 +1,129 @@
+🔱 ========================================================
+🔱 CÓMO USAR ALGORYTHM DESDE TU iPHONE (iSH Shell)
+🔱 ========================================================
+
+📱 TIENES 2 OPCIONES:
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+OPCIÓN 1: COMANDOS DIRECTOS (MÁS RÁPIDO)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Abre tu app iSH Shell y ejecuta estos comandos:
+
+📊 VER STATS DEL SISTEMA:
+────────────────────────
+curl https://janeway.replit.dev/api/arquitectura/stats
+
+💎 VER TODOS LOS TOKENS FUSION:
+──────────────────────────────
+curl https://janeway.replit.dev/api/fusion/list
+
+🧠 ESTADO ARQUITECTO AI:
+───────────────────────
+curl https://janeway.replit.dev/api/arquitecto-ai/estado
+
+📄 GENERAR CERTIFICADO DE $85K:
+──────────────────────────────
+curl -X POST https://janeway.replit.dev/api/certificados/valoracion \
+  -H "Content-Type: application/json" \
+  -d '{"proyecto":"ALGORYTHM ANCESTRAL ENGINE","desarrollador":"Roberto Rivera Gamas","valoracion":85000,"rfc":"RIGR840827PJ0"}'
+
+👑 CERTIFICADO ROYAL PREMIUM DIAMOND:
+────────────────────────────────────
+curl -X POST https://janeway.replit.dev/api/certificados/royal-premium \
+  -H "Content-Type: application/json" \
+  -d '{"clientName":"Roberto Rivera Gamas","projectName":"ALGORYTHM ANCESTRAL ENGINE","tier":"DIAMOND","valoracion":150000}'
+
+🏗️ GENERAR 10 DISEÑOS ARQUITECTÓNICOS:
+──────────────────────────────────────
+curl -X POST https://janeway.replit.dev/api/arquitectura/masivo \
+  -H "Content-Type: application/json" \
+  -d '{"limite":10}'
+
+🚀 GENERAR 30 DISEÑOS (PORTAFOLIO MASIVO):
+─────────────────────────────────────────
+curl -X POST https://janeway.replit.dev/api/arquitectura/masivo \
+  -H "Content-Type: application/json" \
+  -d '{"limite":30}'
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+OPCIÓN 2: SCRIPT CON MENÚ (MÁS ORGANIZADO)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Paso 1: Descargar el script
+──────────────────────────
+En tu iSH Shell:
+
+cd ~
+curl -O https://janeway.replit.dev/comandos-iphone.sh
+chmod +x comandos-iphone.sh
+
+Paso 2: Ejecutar el menú
+────────────────────────
+./comandos-iphone.sh
+
+Verás un menú con 6 opciones:
+1) Ver Stats del Sistema
+2) Generar Certificado de Valoración ($85K)
+3) Generar Certificado Royal Premium
+4) Crear 10 Diseños Arquitectónicos
+5) Estado Arquitecto AI
+6) Reporte Completo Rápido
+0) Salir
+
+Solo escribe el número y presiona Enter.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💡 CONSEJOS PARA iSH:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ curl ya está instalado en iSH
+✅ No necesitas instalar nada más
+✅ Los comandos funcionan inmediatamente
+✅ Puedes copiar/pegar desde Safari a iSH
+
+❌ NO necesitas instalar 1Password CLI
+❌ NO necesitas repositorios adicionales
+❌ NO necesitas permisos root
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📊 COMBO RÁPIDO (TODO EN UN COMANDO):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+echo "🔱 ALGORYTHM ANCESTRAL ENGINE - REPORTE" && \
+echo "=======================================" && \
+curl -s https://janeway.replit.dev/api/arquitectura/stats && \
+echo "" && \
+curl -s https://janeway.replit.dev/api/arquitecto-ai/estado && \
+echo "✅ Sistema 100% Operacional"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔑 RESUMEN:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Tu URL: https://janeway.replit.dev
+Tu App: iSH Shell (Alpine Linux en iPhone)
+
+Comando más fácil para probar:
+curl https://janeway.replit.dev/api/arquitectura/stats
+
+Si funciona, ¡listo! Usa los demás comandos.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔱 IMPORTANTE:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+• Tu sistema ya está corriendo en Replit
+• Solo necesitas hacer peticiones HTTP con curl
+• TODO funciona desde tu iPhone
+• No necesitas instalar nada en iSH
+
+¡Prueba el primer comando y verás que funciona!
+
+🔱 ========================================================

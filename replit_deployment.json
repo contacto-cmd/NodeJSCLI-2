@@ -1,0 +1,16 @@
+{
+  "deployment": {
+    "type": "autoscale",
+    "run": "node main.bootstrap.js/server.js",
+    "port": {
+      "internal": 5000,
+      "external": 80
+    },
+    "ignorePorts": true,
+    "environment": "production",
+    "resources": {
+      "memory": "1GB",
+      "cpu": "1vCPU"
+    }
+  }
+}

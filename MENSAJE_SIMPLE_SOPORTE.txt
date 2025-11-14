@@ -1,0 +1,31 @@
+========================================================
+MENSAJE SIMPLE PARA SOPORTE REPLIT
+========================================================
+
+Para: support@replit.com
+Asunto: Consulta sobre cargos - Proyecto "janeway"
+
+--------------------------------------------------------
+
+Hola,
+
+Tengo una pregunta sobre los cargos en mi cuenta:
+
+- Replit Core: $50.65
+- PostgreSQL Storage: $0.06  
+- PostgreSQL Compute: $0.10
+- Total: $50.81
+
+¿Pueden confirmarme estos cargos en mi cuenta?
+
+Mi proyecto "janeway" no se puede publicar (me sale error 
+"Published apps not available"). 
+
+¿Estos cargos se pueden consolidar o ajustar mientras 
+resuelven el problema de publishing?
+
+Gracias,
+Roberto Rivera Gamas
+Proyecto: janeway
+
+========================================================

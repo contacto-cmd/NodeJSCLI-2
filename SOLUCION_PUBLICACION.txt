@@ -1,0 +1,104 @@
+🔱 ========================================================
+🔱 SOLUCIÓN PARA PUBLICAR ALGORYTHM ANCESTRAL ENGINE
+🔱 ========================================================
+
+❌ PROBLEMA DETECTADO:
+──────────────────────
+Tu archivo .replit tiene 15 puertos configurados.
+Replit solo permite 1 puerto para publicación.
+
+✅ SOLUCIÓN (3 MINUTOS):
+────────────────────────
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📝 MÉTODO 1: EDITAR DESDE REPLIT (RECOMENDADO)
+
+1. En Replit, en el panel izquierdo de archivos:
+   - Busca el archivo llamado: .replit
+   - Click en él para abrirlo
+
+2. Busca la línea 30 que dice:
+   [[ports]]
+   localPort = 5000
+   externalPort = 80
+
+3. BORRA TODO desde la línea 34 hasta la línea 88
+   (Son 14 bloques de puertos que sobran)
+
+4. El archivo debe terminar así:
+
+   [[ports]]
+   localPort = 5000
+   externalPort = 80
+
+   [agent]
+   integrations = ["javascript_gemini:1.0.0"]
+
+5. Guarda el archivo (Ctrl+S o Cmd+S)
+
+6. Intenta publicar de nuevo
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📝 MÉTODO 2: OPCIÓN ALTERNATIVA
+
+Si no quieres borrar los puertos, agrega esta línea
+ANTES de la sección [[ports]]:
+
+[deployment]
+ignorePorts = true
+
+Esto le dice a Replit que ignore los puertos extra.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📝 MÉTODO 3: DESDE LA UI DE PUBLISHING
+
+1. Ve al panel de "Publishing" en Replit
+2. Busca "Port Configuration" o "Settings"
+3. Si hay opción para seleccionar puerto:
+   - Elige solo el puerto 5000
+   - Desmarca todos los demás
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ DESPUÉS DE ARREGLAR:
+
+1. Click en "Deploy" o "Publish"
+2. Elige "Autoscale" (recomendado)
+3. Espera 2-3 minutos
+4. Recibirás URL permanente:
+   https://janeway.replit.app
+
+5. Desde tu iPhone (iSH Shell):
+   curl https://janeway.replit.app/api/arquitectura/stats
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 RESUMEN:
+
+Problema: 15 puertos configurados ❌
+Solución: Dejar solo 1 puerto ✅
+Tiempo: 3 minutos ⏱️
+Resultado: URL permanente 24/7 🌐
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔱 LÍNEAS A BORRAR EN .replit:
+
+DESDE LÍNEA 34:
+[[ports]]
+localPort = 33027
+externalPort = 8008
+
+HASTA LÍNEA 88:
+[[ports]]
+localPort = 45941
+externalPort = 5000
+
+BORRA TODO ESO (55 líneas)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔱 ========================================================
