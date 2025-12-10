@@ -223,3 +223,78 @@ export const ahtCommands = pgTable('aht_commands', {
   timestamp: timestamp('timestamp').defaultNow(),
   completadoAt: timestamp('completado_at'),
 });
+
+// ========================================
+// SISTEMA DE ACTIVACIÓN CON CÓDIGOS SECRETOS
+// ========================================
+
+// Activaciones con múltiples códigos (Roberto ingresa manualmente)
+export const activaciones = pgTable('activaciones', {
+  id: serial('id').primaryKey(),
+  activacionId: text('activacion_id').notNull().unique(),
+  usuarioNombre: text('usuario_nombre').notNull(), // Roberto Rivera Gamas
+  usuarioRfc: text('usuario_rfc').notNull(), // RIGR840827PJ0
+  codigosHash: jsonb('codigos_hash').notNull(), // Hashes SHA-256 de códigos secretos
+  tokenIds: jsonb('token_ids'), // IDs de tokens asociados
+  ipOrigen: text('ip_origen'),
+  userAgent: text('user_agent'),
+  estado: text('estado').notNull().default('activa'), // 'activa', 'expirada', 'revocada'
+  fechaActivacion: timestamp('fecha_activacion').defaultNow(),
+  fechaExpiracion: timestamp('fecha_expiracion'),
+  metadata: jsonb('metadata'),
+});
+
+// ========================================
+// SISTEMA DE AJEDREZ EN TIEMPO REAL
+// ========================================
+
+// Partidas de ajedrez con análisis de gravedad
+export const chessGames = pgTable('chess_games', {
+  id: serial('id').primaryKey(),
+  gameId: text('game_id').notNull().unique(),
+  nombrePartida: text('nombre_partida'),
+  jugadorBlancas: text('jugador_blancas'),
+  jugadorNegras: text('jugador_negras'),
+  movimientos: jsonb('movimientos').notNull(), // Array de movimientos en notación
+  analisisGravedad: jsonb('analisis_gravedad'), // Gravedad calculada por movimiento
+  analisisStockfish: jsonb('analisis_stockfish'), // Evaluación de motor
+  estado: text('estado').notNull().default('en_curso'), // 'en_curso', 'finalizada', 'abandonada'
+  resultado: text('resultado'), // '1-0', '0-1', '1/2-1/2'
+  tiempoTotal: integer('tiempo_total'), // segundos
+  createdAt: timestamp('created_at').defaultNow(),
+  finalizadaAt: timestamp('finalizada_at'),
+});
+
+// ========================================
+// IA QUE APRENDE HERRAMIENTAS
+// ========================================
+
+// Acciones de herramientas para aprendizaje automático
+export const toolActions = pgTable('tool_actions', {
+  id: serial('id').primaryKey(),
+  actionId: text('action_id').notNull().unique(),
+  objetivo: text('objetivo').notNull(), // Descripción del objetivo del usuario
+  herramientaUsada: text('herramienta_usada').notNull(), // Nombre de la herramienta seleccionada
+  parametros: jsonb('parametros'),
+  resultado: text('resultado').notNull(), // 'exitoso', 'fallido', 'parcial'
+  contexto: jsonb('contexto'), // Contexto en el que se usó
+  feedback: integer('feedback'), // -1 (malo), 0 (neutral), 1 (bueno)
+  tiempoEjecucion: integer('tiempo_ejecucion'), // milisegundos
+  timestamp: timestamp('timestamp').defaultNow(),
+});
+
+// ========================================
+// TELEMETRÍA EN TIEMPO REAL
+// ========================================
+
+// Métricas del sistema en tiempo real
+export const telemetry = pgTable('telemetry', {
+  id: serial('id').primaryKey(),
+  metricType: text('metric_type').notNull(), // 'gravity', 'physics', 'chess_move', 'tool_selection', 'system'
+  metricName: text('metric_name').notNull(),
+  metricValue: text('metric_value').notNull(),
+  unidad: text('unidad'), // 'm/s2', 'ms', 'count', etc.
+  entityId: text('entity_id'), // ID de la entidad relacionada
+  metadata: jsonb('metadata'),
+  timestamp: timestamp('timestamp').defaultNow(),
+});

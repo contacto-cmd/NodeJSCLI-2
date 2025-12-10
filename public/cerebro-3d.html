@@ -2,7 +2,12 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#ffd700">
+    <link rel="manifest" href="/manifest.json">
     <title>🧠 CEREBRO VIVO 3D - LGoritmo AHT</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -509,6 +514,80 @@
                 console.error('Error cargando estado:', error);
             }
         }
+
+        // =================================
+        // CONECTAR TU LINK PERSONALIZADO
+        // =================================
+
+        async function conectarLinkExterno() {
+            const link = prompt('Pega tu link para conectar al sistema cuántico-gravedad:');
+            if (!link) return;
+
+            try {
+                const response = await fetch('/api/aht/tunel/conectar-link', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        link: link,
+                        tipo: 'cuantico-gravedad'
+                    })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    mostrarRespuesta(`✅ Link conectado: ${data.mensaje}`);
+                } else {
+                    mostrarRespuesta(`❌ Error: ${data.error}`);
+                }
+            } catch (error) {
+                mostrarRespuesta('❌ Error conectando link');
+            }
+        }
+
+        // Agregar botón para conectar link
+        window.addEventListener('load', () => {
+            const btnGroup = document.querySelector('.btn-group');
+            const btnConectar = document.createElement('button');
+            btnConectar.className = 'btn';
+            btnConectar.textContent = '🔗 Conectar Link';
+            btnConectar.onclick = conectarLinkExterno;
+            btnGroup.appendChild(btnConectar);
+        });
+
+        // =================================
+        // PWA - INSTALAR EN CELULAR
+        // =================================
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(() => console.log('✅ PWA instalable'))
+                .catch(err => console.log('❌ PWA error:', err));
+        }
+
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // Mostrar botón de instalación
+            const btnInstall = document.createElement('button');
+            btnInstall.className = 'btn';
+            btnInstall.textContent = '📱 Instalar App';
+            btnInstall.style.position = 'fixed';
+            btnInstall.style.top = '20px';
+            btnInstall.style.right = '20px';
+            btnInstall.style.zIndex = '1000';
+            btnInstall.onclick = async () => {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    mostrarRespuesta('✅ App instalada en tu celular');
+                }
+                deferredPrompt = null;
+                btnInstall.remove();
+            };
+            document.body.appendChild(btnInstall);
+        });
 
         // Inicializar
         inicializarEscena3D();

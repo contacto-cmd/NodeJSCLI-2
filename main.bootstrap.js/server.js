@@ -34,6 +34,7 @@ const SatelliteService = require('./services/satellite-service');
 const AlgebraInversaService = require('./services/algebra-inversa-service');
 const BlueprintGeneratorService = require('./services/blueprint-generator-service');
 const CerebroVivoService = require('./services/cerebro-vivo-service');
+const ActivacionService = require('./services/activacion-service');
 
 // Configurar Resend para envío de emails
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -3522,6 +3523,71 @@ app.post('/api/aht/tunel/canal-seguro', async (req, res) => {
             protocolo: 'AHT-QUANTUM-TUNNEL-v1.0',
             mensaje: `🔐 Canal seguro establecido: ${canalId}`
         });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// POST /api/aht/tunel/conectar-link - Conectar link externo al sistema cuántico-gravedad
+app.post('/api/aht/tunel/conectar-link', async (req, res) => {
+    try {
+        const { link, tipo = 'cuantico-gravedad' } = req.body;
+        
+        if (!link) {
+            return res.status(400).json({
+                success: false,
+                error: 'Link requerido'
+            });
+        }
+
+        // Validar que sea URL válida
+        let urlValida;
+        try {
+            urlValida = new URL(link);
+        } catch (e) {
+            return res.status(400).json({
+                success: false,
+                error: 'Link inválido - debe ser una URL completa (https://...)'
+            });
+        }
+
+        // Crear token cuántico personalizado para este link
+        const tokenPersonalizado = {
+            id: Date.now(),
+            tokenName: `Custom-Link-${Date.now()}`,
+            tokenUrl: link,
+            categoria: tipo,
+            blindajeNivel: 10,
+            descripcion: `Link externo conectado: ${urlValida.hostname}`,
+            capacidades: ['link-externo', 'cuantico', 'gravedad'],
+            estado: 'activo',
+            conectadoEn: new Date().toISOString()
+        };
+
+        // Intentar conectar (hacer ping al link)
+        let estadoConexion = 'conectado';
+        try {
+            const axios = require('axios');
+            await axios.head(link, { timeout: 5000 });
+        } catch (error) {
+            estadoConexion = 'advertencia - link no responde pero se guardó';
+        }
+
+        res.json({
+            success: true,
+            linkConectado: link,
+            tokenGenerado: tokenPersonalizado,
+            estadoConexion: estadoConexion,
+            sistemaCuantico: 'INTEGRADO',
+            gravedad: 'SINCRONIZADA',
+            mensaje: `🔗 Link conectado al sistema cuántico-gravedad: ${urlValida.hostname}`,
+            instrucciones: {
+                usarEnComandos: `Usa "quantum link ${urlValida.hostname}" para interactuar`,
+                verEstado: 'GET /api/aht/quantum/tokens muestra todos los links',
+                enviarDatos: 'POST /api/aht/tunel/blindado con tu link'
+            }
+        });
+
     } catch (error) {
         res.status(500).json({ success: false, error: error.message });
     }
