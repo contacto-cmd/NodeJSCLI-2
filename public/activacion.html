@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>🔐 Activación - LGORITMO AHT ANCESTRAL</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #000000 0%, #0a0a2e 50%, #000000 100%);
+            color: #ffd700;
+            font-family: 'Courier New', monospace;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .activation-container {
+            background: rgba(0, 0, 0, 0.9);
+            border: 3px solid #ffd700;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 0 60px rgba(255, 215, 0, 0.6), inset 0 0 40px rgba(255, 215, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .activation-container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #ffd700, #00ff88, #ffd700);
+            border-radius: 20px;
+            z-index: -1;
+            opacity: 0;
+            animation: borderGlow 3s infinite;
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 0.5; }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        h1 {
+            font-size: 2rem;
+            text-shadow: 0 0 20px #ffd700;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #00ff88;
+            font-size: 1.1rem;
+        }
+
+        .status-bar {
+            background: rgba(0, 255, 136, 0.1);
+            border: 2px solid #00ff88;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 10px;
+            animation: blink 1s infinite;
+        }
+
+        .status-indicator.waiting { background: #ffaa00; }
+        .status-indicator.active { background: #00ff88; }
+        .status-indicator.error { background: #ff0000; }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .code-input-group {
+            margin: 25px 0;
+        }
+
+        .code-label {
+            display: block;
+            margin-bottom: 10px;
+            color: #ffd700;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .code-input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid #00ff88;
+            border-radius: 10px;
+            color: #00ff88;
+            font-family: 'Courier New', monospace;
+            font-size: 1.2rem;
+            text-align: center;
+            letter-spacing: 3px;
+            transition: all 0.3s;
+        }
+
+        .code-input:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .code-input.valid {
+            border-color: #00ff88;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
+        }
+
+        .code-input.invalid {
+            border-color: #ff0000;
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .activate-button {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #ffd700, #ffaa00);
+            border: none;
+            border-radius: 10px;
+            color: #000;
+            font-family: 'Courier New', monospace;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 25px;
+        }
+
+        .activate-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.5);
+        }
+
+        .activate-button:active {
+            transform: translateY(0);
+        }
+
+        .activate-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .info-box {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 25px;
+        }
+
+        .info-box h3 {
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+
+        .info-box ul {
+            list-style: none;
+            color: #00ff88;
+        }
+
+        .info-box li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .info-box li::before {
+            content: '🔱';
+            position: absolute;
+            left: 0;
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: center;
+            display: none;
+        }
+
+        .message.success {
+            background: rgba(0, 255, 136, 0.2);
+            border: 2px solid #00ff88;
+            color: #00ff88;
+        }
+
+        .message.error {
+            background: rgba(255, 0, 0, 0.2);
+            border: 2px solid #ff0000;
+            color: #ff0000;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+            .activation-container {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .icon {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="activation-container">
+        <div class="header">
+            <div class="icon">🔐</div>
+            <h1>🔱 ACTIVACIÓN ANCESTRAL</h1>
+            <p class="subtitle">Sistema de Códigos Secretos Múltiples</p>
+        </div>
+
+        <div class="status-bar">
+            <span class="status-indicator waiting"></span>
+            <span id="status-text">Esperando códigos de activación...</span>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="code-input-group">
+            <label class="code-label">🔑 Código Primario:</label>
+            <input type="password" id="code1" class="code-input" placeholder="••••••••••••">
+        </div>
+
+        <div class="code-input-group">
+            <label class="code-label">🔑 Código Secundario:</label>
+            <input type="password" id="code2" class="code-input" placeholder="••••••••••••">
+        </div>
+
+        <div class="code-input-group">
+            <label class="code-label">🔑 Código Cuántico:</label>
+            <input type="password" id="code3" class="code-input" placeholder="••••••••••••">
+        </div>
+
+        <div class="code-input-group">
+            <label class="code-label">🔐 Token Personal:</label>
+            <input type="password" id="token" class="code-input" placeholder="ANTI-SHIELD-KAPPA-39">
+        </div>
+
+        <button id="activate-btn" class="activate-button">
+            ⚡ ACTIVAR SISTEMA ANCESTRAL ⚡
+        </button>
+
+        <div class="info-box">
+            <h3>📋 Sistema de Activación:</h3>
+            <ul>
+                <li>Verificación RSA-4096</li>
+                <li>30 Tokens Cuánticos Conectados</li>
+                <li>Álgebra Inversa + Gravedad</li>
+                <li>Análisis de Ajedrez en Tiempo Real</li>
+                <li>IA Aprendizaje Automático</li>
+                <li>Visualización 3D Completa</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <p>🔱 Roberto Rivera Gamas - RFC: RIGR840827PJ0</p>
+            <p>Sistema LGORITMO AHT ANCESTRAL</p>
+            <p>Valoración: $276.5 mil millones USD</p>
+        </div>
+    </div>
+
+    <script>
+        const statusIndicator = document.querySelector('.status-indicator');
+        const statusText = document.getElementById('status-text');
+        const messageDiv = document.getElementById('message');
+        const activateBtn = document.getElementById('activate-btn');
+        const inputs = ['code1', 'code2', 'code3', 'token'].map(id => document.getElementById(id));
+
+        // Validación en tiempo real
+        inputs.forEach(input => {
+            input.addEventListener('input', () => {
+                if (input.value.length > 0) {
+                    input.classList.add('valid');
+                    input.classList.remove('invalid');
+                } else {
+                    input.classList.remove('valid', 'invalid');
+                }
+            });
+        });
+
+        activateBtn.addEventListener('click', async () => {
+            const codes = {
+                code1: document.getElementById('code1').value,
+                code2: document.getElementById('code2').value,
+                code3: document.getElementById('code3').value,
+                token: document.getElementById('token').value
+            };
+
+            // Validar que todos los campos estén llenos
+            if (!codes.code1 || !codes.code2 || !codes.code3 || !codes.token) {
+                showMessage('Todos los códigos son requeridos', 'error');
+                inputs.forEach(input => {
+                    if (!input.value) {
+                        input.classList.add('invalid');
+                    }
+                });
+                return;
+            }
+
+            activateBtn.disabled = true;
+            statusIndicator.className = 'status-indicator waiting';
+            statusText.textContent = 'Verificando códigos...';
+
+            try {
+                const response = await fetch('/api/aht/activacion/verificar', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(codes)
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    statusIndicator.className = 'status-indicator active';
+                    statusText.textContent = '✅ SISTEMA ACTIVADO';
+                    showMessage('¡Activación exitosa! Redirigiendo...', 'success');
+                    
+                    setTimeout(() => {
+                        window.location.href = '/cerebro-3d.html?activado=true';
+                    }, 2000);
+                } else {
+                    statusIndicator.className = 'status-indicator error';
+                    statusText.textContent = '❌ Activación fallida';
+                    showMessage(data.mensaje || 'Códigos incorrectos', 'error');
+                    activateBtn.disabled = false;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                statusIndicator.className = 'status-indicator error';
+                statusText.textContent = '❌ Error de conexión';
+                showMessage('Error al conectar con el servidor', 'error');
+                activateBtn.disabled = false;
+            }
+        });
+
+        function showMessage(text, type) {
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${type}`;
+            messageDiv.style.display = 'block';
+            
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        // Permitir Enter para enviar
+        inputs.forEach((input, index) => {
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    if (index < inputs.length - 1) {
+                        inputs[index + 1].focus();
+                    } else {
+                        activateBtn.click();
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📱 Instalar LGORITMO AHT - QR Code</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #000000 0%, #1a1a2e 100%);
+            color: #ffd700;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.8);
+            border: 3px solid #ffd700;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.5);
+            max-width: 600px;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px #ffd700;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #00ff88;
+            margin-bottom: 30px;
+        }
+
+        #qrcode {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            margin: 30px 0;
+        }
+
+        .instructions {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .instructions h3 {
+            color: #ffd700;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .instructions ol {
+            color: #00ff88;
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+
+        .instructions li {
+            margin: 10px 0;
+        }
+
+        .url-display {
+            background: rgba(0, 255, 136, 0.1);
+            border: 2px solid #00ff88;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            color: #00ff88;
+            word-break: break-all;
+            font-size: 1.1rem;
+        }
+
+        .live {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            background: #00ff88;
+            border-radius: 50%;
+            animation: pulse 1s infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.5); }
+        }
+
+        .footer {
+            margin-top: 30px;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon">🧠</div>
+        <h1 class="title">🔱 LGORITMO AHT</h1>
+        <p class="subtitle">CEREBRO VIVO ANCESTRAL</p>
+
+        <div class="instructions">
+            <h3>📱 INSTALAR EN IPHONE:</h3>
+            <ol>
+                <li><strong>Abre la Cámara</strong> de tu iPhone</li>
+                <li><strong>Apunta al QR</strong> de abajo</li>
+                <li>Toca la <strong>notificación</strong> que aparece</li>
+                <li>Se abre en <strong>Safari</strong></li>
+                <li>Toca <strong>Compartir 📤</strong></li>
+                <li><strong>"Añadir a pantalla de inicio"</strong></li>
+                <li>¡App instalada! 🧠</li>
+            </ol>
+        </div>
+
+        <div id="qrcode"></div>
+
+        <div class="url-display">
+            <span class="live"></span>
+            <span id="app-url">Cargando URL...</span>
+        </div>
+
+        <div class="footer">
+            <p>🔱 Roberto Rivera Gamas - RFC: RIGR840827PJ0</p>
+            <p>Valoración: $276.5 mil millones USD</p>
+            <p>30 Tokens Personales Conectados ✅</p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        // Obtener URL actual
+        const baseUrl = window.location.origin;
+        const appUrl = baseUrl + '/cerebro-3d.html';
+        
+        // Mostrar URL
+        document.getElementById('app-url').textContent = appUrl;
+
+        // Generar QR Code
+        new QRCode(document.getElementById("qrcode"), {
+            text: appUrl,
+            width: 300,
+            height: 300,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+
+        console.log('🔱 QR Code generado para:', appUrl);
+    </script>
+</body>
+</html>
