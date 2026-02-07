@@ -133,6 +133,10 @@ if (MASTER_KEY_RSA_PRIVADA) {
     console.log("✅ ClientCertificateService inicializado - Certificados PDF ready");
 }
 
+// 🔐 INICIALIZAR SERVICIO DE ACTIVACIÓN
+const activacionService = new ActivacionService(dbService, cryptoService);
+console.log("✅ ActivacionService inyectado en el servidor");
+
 const CESIUM_TOKEN = process.env.CESIUM_TOKEN;
 const ECC_KEY_PUBLIC = process.env.ECC_KEY_PUBLIC; 
 const PASAPORTE_MAESTRO = process.env.PASAPORTE_MAESTRO ? JSON.parse(process.env.PASAPORTE_MAESTRO) : {
@@ -3588,6 +3592,30 @@ app.post('/api/aht/tunel/conectar-link', async (req, res) => {
             }
         });
 
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// ────────────────────────────────────────────────────────────────────
+// ACTIVACIÓN - Sistema de Códigos Secretos
+// ────────────────────────────────────────────────────────────────────
+
+// POST /api/aht/activacion/verificar - Verificar códigos de activación
+app.post('/api/aht/activacion/verificar', async (req, res) => {
+    try {
+        const resultado = await activacionService.verificarCodigos(req.body);
+        res.json(resultado);
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// GET /api/aht/activacion/estado - Obtener estado de activación
+app.get('/api/aht/activacion/estado', (req, res) => {
+    try {
+        const estado = activacionService.obtenerEstado();
+        res.json(estado);
     } catch (error) {
         res.status(500).json({ success: false, error: error.message });
     }
