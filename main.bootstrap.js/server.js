@@ -36,6 +36,9 @@ const BlueprintGeneratorService = require('./services/blueprint-generator-servic
 const CerebroVivoService = require('./services/cerebro-vivo-service');
 const ActivacionService = require('./services/activacion-service');
 
+// EAGI Pipeline Core
+const ingest = require("../eagi/ingest");
+
 // Configurar Resend para envío de emails
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -503,6 +506,7 @@ app.post('/api/generar-certificado', async (req, res) => {
 // PROTOCOLO DE VERIFICACIÓN V3 - CERTIFICACIÓN FINAL
 // =================================================================
 
+// GET /api/protocolo-verificacion - Estado de verificación
 app.get('/api/protocolo-verificacion', (req, res) => {
     try {
         const protocoloVerificacion = {
@@ -561,6 +565,29 @@ app.get('/api/protocolo-verificacion', (req, res) => {
 
         res.json(protocoloVerificacion);
     } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// ────────────────────────────────────────────────────────────────────
+// EAGI PIPELINE CORE - Protocol On Board
+// ────────────────────────────────────────────────────────────────────
+
+// POST /api/eagi/command - Ingesta de comandos al pipeline
+app.post('/api/eagi/command', async (req, res) => {
+    try {
+        const { command } = req.body;
+        if (!command) {
+            return res.status(400).json({ success: false, error: "Comando requerido" });
+        }
+        const result = await ingest(command);
+        res.json({
+            success: true,
+            pipeline: "EAGI-CORE-V1",
+            result
+        });
+    } catch (error) {
+        console.error("EAGI Pipeline Error:", error);
         res.status(500).json({ success: false, error: error.message });
     }
 });
