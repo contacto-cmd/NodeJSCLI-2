@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Throne Protocolo v3.0 — Enterprise Ceremonial Premium</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; margin:0; background:#0a0a0a; color:#fff; }
+    header, footer { background:#111; padding:20px; text-align:center; border-bottom:3px solid #444; }
+    header h1 { font-size:2.5em; margin:0; color:#ffd700; }
+    section { padding:40px; max-width:1200px; margin:auto; }
+    .card { background:#222; border-radius:12px; padding:20px; margin-bottom:30px; box-shadow:0 0 20px rgba(0,0,0,0.6); }
+    .card h2 { margin-top:0; color:#ffd700; }
+    .certificate { background:#333; padding:15px; border-radius:8px; margin-top:20px; font-size:0.9em; }
+    button { background:#ffd700; border:none; padding:12px 20px; border-radius:6px; font-weight:bold; cursor:pointer; margin-top:20px; }
+    button:hover { background:#e6c200; }
+    video, iframe { width:100%; border-radius:12px; margin-top:20px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Throne Protocolo v3.0</h1>
+    <p>Enterprise Ceremonial Premium Layout UI — Variación 25%</p>
+  </header>
+
+  <section>
+    <!-- Vitrina 1: Arquitectura Evolutiva -->
+    <div class="card">
+      <h2>🏗️ Arquitectura Evolutiva</h2>
+      <p><strong>Proyecto:</strong> Complejo Modular Flotante + Torre Pirámide Anti-Gravedad</p>
+      <p><strong>Variación:</strong> Giro arquitectónico del 25% aplicado</p>
+      <p><strong>Dimensiones:</strong> Altura 65m, Ancho 55m, Profundidad 48m, Área 36,960 m², Volumen 60,060 m³, 14 pisos</p>
+      <p><strong>Materiales:</strong> Aluminio + Titanio, Peso 162,162 toneladas</p>
+      <p><strong>Ubicación:</strong> Lago (44.570455°, -73.827052°)</p>
+      <p><strong>Valoración:</strong> $6,301,152,000 USD | ROI 300–500%</p>
+    </div>
+
+    <!-- Vitrina 2: Plano Maestro AI -->
+    <div class="card">
+      <h2>📐 Plano Maestro AI</h2>
+      <p>Diagrama 3D digital perfeccionado con todas las medidas exactas y secuencia de construcción paso a paso.</p>
+      <iframe src="https://your-3d-diagram-link.com" height="400"></iframe>
+    </div>
+
+    <!-- Vitrina 3: Video de Construcción -->
+    <div class="card">
+      <h2>🎥 Video de Construcción</h2>
+      <p>Animación ceremonial mostrando cómo se levanta la estructura paso a paso.</p>
+      <video controls>
+        <source src="construction-video.mp4" type="video/mp4">
+        Tu navegador no soporta video.
+      </video>
+    </div>
+
+    <!-- Vitrina 4: Video de Presentación Premium -->
+    <div class="card">
+      <h2>🎬 Video de Presentación Premium</h2>
+      <p>Branding presidencial, narrativa de lujo y vistas supersónicas del proyecto terminado.</p>
+      <video controls>
+        <source src="presentation-video.mp4" type="video/mp4">
+        Tu navegador no soporta video.
+      </video>
+    </div>
+
+    <!-- Vitrina 5: Certificado Soberano -->
+    <div class="card">
+      <h2>📜 Certificado Soberano</h2>
+      <button onclick="fetchDesign()">🔗 Generar Certificado</button>
+      <div id="certificate" class="certificate">
+        <p>Haz clic en el botón para generar el certificado con QR, RSA‑4096, SHA‑256 y registro Blockchain.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    © 2026 Throne Protocolo v3.0 — Audit Layer + Blockchain
+  </footer>
+
+  <script>
+    async function fetchDesign() {
+      const response = await fetch('/design/penthouse');
+      const data = await response.json();
+      document.getElementById('certificate').innerHTML = `
+        <p><strong>Status:</strong> ${data.certificate.status}</p>
+        <p><strong>Hash:</strong> ${data.certificate.hash}</p>
+        <p><strong>Signature:</strong> ${data.certificate.signature}</p>
+        <p><strong>Blockchain:</strong> ${data.certificate.blockchain}</p>
+        <p><strong>QR:</strong> ${data.certificate.qr}</p>
+        <p><strong>WS:</strong> ${data.certificate.ws}</p>
+      `;
+    }
+  </script>
+</body>
+</html>

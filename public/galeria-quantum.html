@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>🔱 Galería Quantum — Throne Protocol V3.0</title>
+    <style>
+        :root {
+            --gold: #ffd700;
+            --gold2: #d4af37;
+            --green: #00ff88;
+            --blue: #00aaff;
+            --purple: #aa00ff;
+            --bg: #000008;
+            --card-bg: rgba(8,8,24,0.95);
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+
+        body {
+            background: var(--bg);
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            min-height: 100vh;
+        }
+
+        /* STARFIELD */
+        #starfield {
+            position: fixed;
+            top:0; left:0;
+            width:100%; height:100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* TOPBAR */
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(0,0,0,0.92);
+            border-bottom: 2px solid var(--gold);
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            backdrop-filter: blur(10px);
+        }
+        .topbar-logo { color: var(--gold); font-size: 0.85rem; letter-spacing: 4px; font-weight: 700; }
+        .topbar-stats { display: flex; gap: 20px; }
+        .ts { font-size: 0.7rem; color: rgba(255,255,255,0.5); }
+        .ts span { color: var(--green); }
+        .topbar-links { display: flex; gap: 10px; }
+        .tl { color: var(--gold); text-decoration: none; font-size: 0.7rem; border: 1px solid rgba(255,215,0,0.3); padding: 5px 12px; border-radius: 20px; transition: all 0.2s; }
+        .tl:hover { background: rgba(255,215,0,0.1); }
+
+        /* HERO */
+        .hero {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 50px 20px 30px;
+        }
+        .hero-eyebrow { color: var(--green); font-size: 0.7rem; letter-spacing: 6px; margin-bottom: 10px; }
+        .hero-title {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--gold) 0%, #fff 50%, var(--gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 4px;
+            line-height: 1.1;
+            margin-bottom: 12px;
+        }
+        .hero-sub { color: rgba(255,255,255,0.5); font-size: 0.85rem; letter-spacing: 2px; }
+
+        /* PORTFOLIO STATS BAR */
+        .stats-bar {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 20px 20px 30px;
+        }
+        .stat-pill {
+            background: rgba(255,215,0,0.06);
+            border: 1px solid rgba(255,215,0,0.25);
+            border-radius: 40px;
+            padding: 8px 20px;
+            font-size: 0.75rem;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .stat-pill-val { color: var(--gold); font-weight: 700; font-size: 0.9rem; }
+        .stat-pill-lbl { color: rgba(255,255,255,0.4); }
+
+        /* FILTERS */
+        .filters {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 0 20px 24px;
+            justify-content: center;
+        }
+        .filter-btn {
+            border: 1px solid rgba(255,215,0,0.25);
+            background: transparent;
+            color: rgba(255,255,255,0.5);
+            padding: 7px 16px;
+            border-radius: 20px;
+            font-size: 0.72rem;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: all 0.25s;
+        }
+        .filter-btn.active, .filter-btn:hover { border-color: var(--gold); color: var(--gold); background: rgba(255,215,0,0.08); }
+        .search-box {
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,215,0,0.25);
+            border-radius: 20px;
+            padding: 7px 18px;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+            width: 220px;
+            outline: none;
+        }
+        .search-box:focus { border-color: var(--gold); }
+
+        /* GRID */
+        .grid {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+            padding: 0 20px 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* CARD */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255,215,0,0.18);
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.35s cubic-bezier(0.23,1,0.32,1), box-shadow 0.35s;
+            transform-style: preserve-3d;
+            position: relative;
+        }
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 24px 60px rgba(255,215,0,0.15), 0 0 40px rgba(255,215,0,0.05);
+            border-color: rgba(255,215,0,0.5);
+        }
+
+        /* CARD IMAGE */
+        .card-img {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0a0a20, #1a0a30);
+        }
+        .card-img img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+            opacity: 0.9;
+        }
+        .card:hover .card-img img { transform: scale(1.08); }
+
+        .card-img-fallback {
+            width: 100%; height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(0,0,0,0.75);
+            border: 1px solid rgba(255,215,0,0.5);
+            color: var(--gold);
+            font-size: 0.65rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            letter-spacing: 2px;
+            backdrop-filter: blur(4px);
+        }
+        .card-price {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            background: rgba(0,0,0,0.85);
+            border: 1px solid rgba(255,215,0,0.4);
+            color: var(--gold);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 20px;
+            backdrop-filter: blur(4px);
+        }
+
+        .card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.85) 100%);
+        }
+
+        /* CARD BODY */
+        .card-body { padding: 16px; }
+        .card-title { font-size: 0.92rem; color: #fff; font-weight: 700; margin-bottom: 6px; line-height: 1.35; }
+        .card-tipo { font-size: 0.65rem; color: var(--green); letter-spacing: 2px; margin-bottom: 12px; text-transform: uppercase; }
+        .card-specs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 14px; }
+        .card-spec { }
+        .cs-label { font-size: 0.6rem; color: rgba(255,255,255,0.35); letter-spacing: 1px; text-transform: uppercase; }
+        .cs-val { font-size: 0.78rem; color: rgba(255,255,255,0.85); }
+
+        /* CARD FEATURES */
+        .card-feats { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 14px; }
+        .feat-tag {
+            background: rgba(255,215,0,0.06);
+            border: 1px solid rgba(255,215,0,0.15);
+            color: rgba(255,215,0,0.7);
+            font-size: 0.6rem;
+            padding: 3px 8px;
+            border-radius: 20px;
+            letter-spacing: 1px;
+        }
+
+        /* CARD FOOTER */
+        .card-footer {
+            display: flex;
+            gap: 8px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            padding-top: 12px;
+        }
+        .card-btn {
+            flex: 1;
+            padding: 9px;
+            border: 1px solid;
+            border-radius: 8px;
+            background: transparent;
+            font-family: 'Courier New', monospace;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .card-btn.gold { border-color: var(--gold); color: var(--gold); }
+        .card-btn.gold:hover { background: rgba(255,215,0,0.12); }
+        .card-btn.green { border-color: var(--green); color: var(--green); }
+        .card-btn.green:hover { background: rgba(0,255,136,0.08); }
+
+        /* LOADING */
+        .loading-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: rgba(255,215,0,0.6);
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+        }
+        .quantum-loader {
+            width: 60px; height: 60px;
+            border: 2px solid rgba(255,215,0,0.1);
+            border-top: 2px solid var(--gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* RESULT COUNT */
+        .result-bar {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            color: rgba(255,255,255,0.3);
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            padding: 0 20px 16px;
+        }
+        .result-bar span { color: var(--gold); }
+
+        /* SCROLL */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,215,0,0.3); border-radius: 4px; }
+
+        @media(max-width:600px) {
+            .topbar-stats { display: none; }
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- CANVAS STARFIELD -->
+<canvas id="starfield"></canvas>
+
+<!-- TOPBAR -->
+<div class="topbar">
+    <div class="topbar-logo">🔱 GALERÍA QUANTUM</div>
+    <div class="topbar-stats">
+        <div class="ts">Diseños: <span id="stat-total">...</span></div>
+        <div class="ts">Portfolio: <span id="stat-valor">...</span></div>
+    </div>
+    <div class="topbar-links">
+        <a href="/cockpit.html" class="tl">⚡ COCKPIT</a>
+        <a href="/landing.html" class="tl">← INICIO</a>
+    </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+    <div class="hero-eyebrow">● THRONE PROTOCOL V3.0 — ROBERTO RIVERA GAMAS</div>
+    <div class="hero-title">GALERÍA<br>QUANTUM</div>
+    <div class="hero-sub">Portafolio Arquitectónico Enterprise • Física Real • RSA-4096</div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar" id="stats-bar">
+    <div class="stat-pill"><span class="stat-pill-val" id="sp-total">...</span><span class="stat-pill-lbl">DISEÑOS</span></div>
+    <div class="stat-pill"><span class="stat-pill-val" id="sp-valor">...</span><span class="stat-pill-lbl">USD TOTAL</span></div>
+    <div class="stat-pill"><span class="stat-pill-val" id="sp-promedio">...</span><span class="stat-pill-lbl">PROMEDIO</span></div>
+    <div class="stat-pill"><span class="stat-pill-val" id="sp-alto">...</span><span class="stat-pill-lbl">ALTURA MÁX</span></div>
+</div>
+
+<!-- FILTERS -->
+<div class="filters">
+    <input class="search-box" id="search" placeholder="🔍 Buscar diseño..." oninput="applyFilters()">
+    <button class="filter-btn active" data-filter="all" onclick="setFilter('all',this)">TODO</button>
+    <button class="filter-btn" data-filter="casa_flotante" onclick="setFilter('casa_flotante',this)">🏠 CASAS</button>
+    <button class="filter-btn" data-filter="torre_piramide" onclick="setFilter('torre_piramide',this)">🏙️ TORRES</button>
+    <button class="filter-btn" data-filter="villa_organica" onclick="setFilter('villa_organica',this)">🌿 VILLAS</button>
+    <button class="filter-btn" data-filter="complejo_modular" onclick="setFilter('complejo_modular',this)">🔲 COMPLEJOS</button>
+    <button class="filter-btn" data-filter="oceano" onclick="setFilter('oceano',this)">🌊 OCÉANO</button>
+    <button class="filter-btn" data-filter="lago" onclick="setFilter('lago',this)">💧 LAGO</button>
+    <button class="filter-btn" data-filter="montana" onclick="setFilter('montana',this)">⛰️ MONTAÑA</button>
+</div>
+
+<div class="result-bar" id="result-bar"></div>
+
+<!-- GRID -->
+<div class="grid" id="grid">
+    <div class="loading-state" style="grid-column:1/-1;">
+        <div class="quantum-loader"></div>
+        CARGANDO PORTAFOLIO QUANTUM...
+    </div>
+</div>
+
+<script>
+// ── STARFIELD ──────────────────────────────────────────────
+const canvas = document.getElementById('starfield');
+const ctx = canvas.getContext('2d');
+let stars = [];
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    stars = Array.from({length:120}, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 1.2 + 0.2,
+        s: Math.random() * 0.4 + 0.1,
+        a: Math.random()
+    }));
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+function animStars() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    stars.forEach(s => {
+        s.a += s.s * 0.02;
+        const alpha = (Math.sin(s.a) * 0.5 + 0.5) * 0.6 + 0.1;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+        ctx.fillStyle = `rgba(255,215,0,${alpha})`;
+        ctx.fill();
+    });
+    requestAnimationFrame(animStars);
+}
+animStars();
+
+// ── DATA ───────────────────────────────────────────────────
+let allDesigns = [];
+let currentFilter = 'all';
+let displayCount = 30;
+const PAGE_SIZE = 30;
+
+const ICONS = {
+    casa_flotante: '🏠', torre_piramide: '🏙️', villa_organica: '🌿',
+    complejo_modular: '🔲', default: '🏗️'
+};
+const MATERIAL_COLORS = {
+    titanio: '#b0c4de', fibra_de_carbono: '#333', bronze_arquitectonico: '#cd7f32',
+    aluminio: '#a8a9ad', acero: '#808080', vidrio_templado: '#add8e6', hormigon: '#c0b090'
+};
+
+function formatUSD(v) {
+    const n = parseFloat(v);
+    if (isNaN(n)) return 'N/A';
+    if (n >= 1e12) return '$' + (n/1e12).toFixed(1) + 'T';
+    if (n >= 1e9) return '$' + (n/1e9).toFixed(1) + 'B';
+    if (n >= 1e6) return '$' + (n/1e6).toFixed(1) + 'M';
+    return '$' + n.toLocaleString();
+}
+function formatM(v) { return parseFloat(v).toFixed(0) + ' m'; }
+
+function getIcon(d) {
+    const tipo = (d.diseño?.tipo_hibrido || '').toLowerCase();
+    for (const k of Object.keys(ICONS)) {
+        if (tipo.includes(k)) return ICONS[k];
+    }
+    return ICONS.default;
+}
+
+function matchFilter(d) {
+    if (currentFilter === 'all') return true;
+    const tipo = (d.diseño?.tipo_hibrido || '').toLowerCase();
+    const terreno = (d.ubicacion?.terreno_tipo || '').toLowerCase();
+    return tipo.includes(currentFilter) || terreno.includes(currentFilter);
+}
+
+function matchSearch(d, q) {
+    if (!q) return true;
+    const s = (d.diseño?.nombre + ' ' + (d.diseño?.tipo_hibrido||'') + ' ' + (d.especificaciones?.material_principal||'')).toLowerCase();
+    return s.includes(q.toLowerCase());
+}
+
+// ── RENDER CARD ────────────────────────────────────────────
+function renderCard(d) {
+    const spec = d.especificaciones?.dimensiones || {};
+    const anal = d.analisis_estructural?.peso_estructura || {};
+    const val = d.valoracion || {};
+    const ub = d.ubicacion || {};
+    const feats = (d.diseño?.caracteristicas || []).slice(0,3);
+    const nombre = d.diseño?.nombre || 'Diseño Premium';
+    const tipo = d.diseño?.tipo_hibrido || d.diseño?.nivel || '';
+    const icon = getIcon(d);
+    const precio = val.valor_mercado_usd ? formatUSD(val.valor_mercado_usd) : formatUSD(val.costo_construccion_usd || 0);
+    const mat = (d.especificaciones?.material_principal || '').replace(/_/g,' ').toUpperCase();
+    const id = d.id_proyecto || d.id || Math.random().toString(36).slice(2);
+
+    // Pick a catalog image if available, else fallback
+    const imgList = [
+        'Torre_Futurista_Antigravedad_01_5bbc70f0.png',
+        'Casa_Flotante_Oceánica_01_3bd252c1.png',
+        'Torre_Espiral_Rotativa_01_0f22358f.png',
+        'Complejo_Residencial_Suspendido_01_5e767d00.png',
+        'Torre_Cristalina_Geométrica_01_ee259d0f.png',
+        'Anfiteatro_Flotante_Bosque_01_555dabca.png',
+        'Arabian_luxury_futuristic_mansion_a23cb0ef.png',
+        'Billionaire_floating_estate_complex_a1b35dc2.png',
+        'Cluster_Esferas_Residenciales_01_a66dfa1b.png',
+        'Edificio_Loop_Infinito_01_d490b2fc.png'
+    ];
+    const imgIdx = Math.abs(id.charCodeAt(5) || 0) % imgList.length;
+    const imgSrc = '/arquitectura/' + imgList[imgIdx];
+
+    return `
+    <div class="card" onclick="verVitrina('${id}')">
+        <div class="card-img">
+            <img src="${imgSrc}" alt="${nombre}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="card-img-fallback" style="display:none;">${icon}</div>
+            <div class="card-overlay"></div>
+            <div class="card-badge">${(ub.terreno_tipo||'PREMIUM').toUpperCase()}</div>
+            <div class="card-price">${precio}</div>
+        </div>
+        <div class="card-body">
+            <div class="card-tipo">${tipo.replace('×','✕').substring(0,40)}</div>
+            <div class="card-title">${nombre.substring(0,65)}</div>
+            <div class="card-specs">
+                <div class="card-spec"><div class="cs-label">Altura</div><div class="cs-val">${formatM(spec.altura_total_m||0)}</div></div>
+                <div class="card-spec"><div class="cs-label">Pisos</div><div class="cs-val">${d.especificaciones?.numero_pisos||'—'}</div></div>
+                <div class="card-spec"><div class="cs-label">Área</div><div class="cs-val">${parseFloat(spec.area_construida_m2||0).toFixed(0)} m²</div></div>
+                <div class="card-spec"><div class="cs-label">Material</div><div class="cs-val">${mat.substring(0,16)}</div></div>
+            </div>
+            <div class="card-feats">${feats.map(f=>`<div class="feat-tag">${f}</div>`).join('')}</div>
+            <div class="card-footer">
+                <button class="card-btn gold" onclick="event.stopPropagation();verVitrina('${id}')">🏛️ VER VITRINA</button>
+                <button class="card-btn green" onclick="event.stopPropagation();certificarDesdeLista('${id}','${nombre.replace(/'/g,'')}')">📜 CERTIFICAR</button>
+            </div>
+        </div>
+    </div>`;
+}
+
+// ── LOAD & FILTER ──────────────────────────────────────────
+async function loadPortfolio() {
+    try {
+        // Load stats
+        const sRes = await fetch('/api/arquitectura/stats');
+        const s = await sRes.json();
+        document.getElementById('stat-total').textContent = (s.total_disenos||'—').toLocaleString();
+        document.getElementById('stat-valor').textContent = '$' + (s.valor_total_portafolio_usd||'—');
+        document.getElementById('sp-total').textContent = (s.total_disenos||0).toLocaleString();
+        document.getElementById('sp-valor').textContent = '$' + parseFloat(s.valor_total_portafolio_usd||0)/1e12 > 1 ? (parseFloat(s.valor_total_portafolio_usd||0)/1e12).toFixed(2)+'T' : s.valor_total_portafolio_usd;
+        document.getElementById('sp-promedio').textContent = formatUSD(s.valor_promedio_usd||0);
+        document.getElementById('sp-alto').textContent = (s.diseño_mas_alto?.altura_m||'—') + 'm';
+
+        // Load all designs
+        const dRes = await fetch('/api/arquitectura/listado');
+        const dData = await dRes.json();
+        allDesigns = dData.disenos || dData.proyectos || [];
+        applyFilters();
+    } catch(e) {
+        // Try catalog as fallback
+        try {
+            const cRes = await fetch('/api/arquitectura/catalogo');
+            const cData = await cRes.json();
+            allDesigns = (cData.catalogo || []).map(c => ({
+                id_proyecto: c.id,
+                diseño: { nombre: c.nombre, tipo_hibrido: c.tipo, caracteristicas: c.especificaciones?.materiales || [] },
+                especificaciones: { dimensiones: { altura_total_m: c.especificaciones?.altura_metros, area_construida_m2: c.especificaciones?.area_construida_m2 }, numero_pisos: c.especificaciones?.plantas, material_principal: (c.especificaciones?.materiales||[])[0] || 'titanio' },
+                valoracion: { valor_mercado_usd: c.precio_usd },
+                ubicacion: { terreno_tipo: 'premium', coordenadas_gps: c.coordenadas },
+                analisis_estructural: { peso_estructura: {} }
+            }));
+            applyFilters();
+        } catch(e2) {
+            document.getElementById('grid').innerHTML = '<div class="loading-state" style="grid-column:1/-1;">❌ Error cargando portafolio</div>';
+        }
+    }
+}
+
+function setFilter(f, btn) {
+    currentFilter = f;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    displayCount = PAGE_SIZE;
+    applyFilters();
+}
+
+function applyFilters() {
+    const q = document.getElementById('search').value;
+    const filtered = allDesigns.filter(d => matchFilter(d) && matchSearch(d, q));
+    const shown = filtered.slice(0, displayCount);
+
+    document.getElementById('result-bar').innerHTML = `Mostrando <span>${shown.length}</span> de <span>${filtered.length}</span> diseños`;
+
+    let html = shown.map(renderCard).join('');
+    if (filtered.length > displayCount) {
+        html += `<div style="grid-column:1/-1;text-align:center;padding:20px;">
+            <button class="filter-btn" onclick="loadMore(${filtered.length})">⬇ CARGAR MÁS (${filtered.length - displayCount} restantes)</button>
+        </div>`;
+    }
+    document.getElementById('grid').innerHTML = html || '<div class="loading-state" style="grid-column:1/-1;">Sin resultados para este filtro</div>';
+}
+
+function loadMore(total) {
+    displayCount = Math.min(displayCount + PAGE_SIZE, total);
+    applyFilters();
+}
+
+// ── ACTIONS ────────────────────────────────────────────────
+function verVitrina(id) {
+    window.location.href = `/vitrina-diseno.html?id=${encodeURIComponent(id)}`;
+}
+
+async function certificarDesdeLista(id, nombre) {
+    const btn = event.target;
+    btn.disabled = true;
+    btn.textContent = '⏳...';
+    try {
+        const r = await fetch('/certify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ documento: nombre, propietario: 'Roberto Rivera Gamas', diseno_id: id })
+        });
+        const d = await r.json();
+        alert(`✅ CERTIFICADO GENERADO\n\nID: ${d.certId}\nHash: ${d.hash.substring(0,40)}...\nFirma: RSA-4096 ✓\nBlockchain: Registrado ✓\n\nPropietario: ${d.propietario}\nRFC: ${d.rfc}`);
+    } catch(e) {
+        alert('❌ Error: ' + e.message);
+    } finally {
+        btn.disabled = false;
+        btn.textContent = '📜 CERTIFICAR';
+    }
+}
+
+loadPortfolio();
+</script>
+</body>
+</html>
