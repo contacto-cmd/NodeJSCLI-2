@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>ÁLGEBRA INVERSA + GRAVEDAD — Motor Cuántico</title>
+    <style>
+        :root {
+            --p: #cc00ff; --p2: #ff00cc; --p3: rgba(180,0,255,0.08);
+            --gold: #ffd700; --green: #00ff41; --b: #0080ff;
+            --bg: #030008;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background:var(--bg); color:var(--p); font-family:'Courier New',monospace; overflow-x:hidden; }
+        body::before { content:''; position:fixed; inset:0; background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(180,0,255,0.012) 2px,rgba(180,0,255,0.012) 4px); pointer-events:none; z-index:9000; }
+
+        .hdr { background:rgba(3,0,8,0.97); border-bottom:1px solid rgba(180,0,255,0.2); padding:12px 20px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
+        .hdr-title { font-size:clamp(0.75rem,2.2vw,0.95rem); letter-spacing:4px; color:#ff80ff; }
+        .hdr-nav { display:flex; gap:8px; }
+        .hdr-nav a { color:rgba(180,0,255,0.5); text-decoration:none; font-size:0.62rem; border:1px solid rgba(180,0,255,0.2); padding:4px 10px; border-radius:4px; transition:all 0.2s; }
+        .hdr-nav a:hover { color:#ff80ff; border-color:var(--p); }
+
+        .hero { padding:24px 20px; text-align:center; border-bottom:1px solid rgba(180,0,255,0.1); }
+        .hero-title { font-size:clamp(1.6rem,5vw,2.6rem); letter-spacing:6px; color:#ff80ff; text-shadow:0 0 40px rgba(200,0,255,0.5); margin-bottom:6px; }
+        .hero-sub { font-size:0.7rem; color:rgba(200,0,255,0.4); letter-spacing:4px; }
+
+        /* LAYOUT */
+        .main-layout { display:grid; grid-template-columns:1fr 1fr; gap:16px; padding:16px; }
+        @media(max-width:800px) { .main-layout { grid-template-columns:1fr; } }
+
+        .card { background:rgba(5,0,15,0.9); border:1px solid rgba(180,0,255,0.15); border-radius:12px; padding:16px; }
+        .card-title { font-size:0.65rem; color:rgba(200,0,255,0.4); letter-spacing:4px; margin-bottom:14px; border-bottom:1px solid rgba(180,0,255,0.08); padding-bottom:8px; }
+
+        /* INPUTS */
+        .input-row { display:flex; flex-direction:column; gap:6px; margin-bottom:10px; }
+        .input-lbl { font-size:0.62rem; color:rgba(200,0,255,0.4); letter-spacing:2px; }
+        .inp {
+            background:rgba(180,0,255,0.04); border:1px solid rgba(180,0,255,0.2);
+            border-radius:6px; padding:8px 12px; color:#ff80ff;
+            font-family:'Courier New',monospace; font-size:0.8rem; outline:none;
+        }
+        .inp:focus { border-color:var(--p); }
+        select.inp option { background:#030008; }
+        .btn {
+            width:100%; padding:11px; margin-top:6px;
+            background:rgba(180,0,255,0.07); border:1px solid rgba(180,0,255,0.3);
+            border-radius:8px; color:#ff80ff;
+            font-family:'Courier New',monospace; font-size:0.78rem; font-weight:700;
+            letter-spacing:3px; cursor:pointer; transition:all 0.2s;
+        }
+        .btn:hover { background:rgba(180,0,255,0.15); border-color:var(--p); }
+        .btn.gold { border-color:rgba(255,215,0,0.4); color:var(--gold); }
+        .btn.gold:hover { background:rgba(255,215,0,0.08); border-color:var(--gold); }
+
+        /* CANVAS */
+        #grav-canvas { width:100%; height:280px; display:block; border:1px solid rgba(180,0,255,0.12); border-radius:8px; background:var(--bg); }
+
+        /* RESULTS */
+        .results { background:rgba(3,0,10,0.9); border:1px solid rgba(180,0,255,0.1); border-radius:8px; padding:14px; font-size:0.72rem; line-height:1.9; color:rgba(200,0,255,0.7); min-height:120px; margin-top:10px; white-space:pre-wrap; }
+
+        /* CHESS BOARD */
+        .chess-section { padding:0 16px 16px; }
+        .sec-title { font-size:0.65rem; color:rgba(200,0,255,0.4); letter-spacing:4px; margin-bottom:14px; border-bottom:1px solid rgba(180,0,255,0.08); padding-bottom:8px; }
+        .chess-layout { display:grid; grid-template-columns:auto 1fr; gap:20px; align-items:start; }
+        @media(max-width:700px) { .chess-layout { grid-template-columns:1fr; } }
+        #chess-board { display:grid; grid-template-columns:repeat(8,1fr); width:min(320px,100%); aspect-ratio:1; border:2px solid rgba(180,0,255,0.3); border-radius:4px; overflow:hidden; flex-shrink:0; }
+        .chess-cell {
+            aspect-ratio:1; display:flex; align-items:center; justify-content:center;
+            font-size:clamp(1rem,3.5vw,1.5rem); cursor:pointer; transition:all 0.2s; position:relative;
+        }
+        .chess-cell.light { background:rgba(180,0,255,0.06); }
+        .chess-cell.dark { background:rgba(180,0,255,0.15); }
+        .chess-cell:hover { background:rgba(255,215,0,0.15) !important; }
+        .chess-cell.selected { background:rgba(255,215,0,0.25) !important; }
+        .chess-cell .grav-val { position:absolute; bottom:1px; right:2px; font-size:0.45rem; color:rgba(200,0,255,0.5); }
+        .chess-info { background:rgba(5,0,15,0.9); border:1px solid rgba(180,0,255,0.12); border-radius:8px; padding:14px; }
+        .chess-stat-row { display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px solid rgba(180,0,255,0.06); }
+        .chess-stat-lbl { font-size:0.63rem; color:rgba(200,0,255,0.35); }
+        .chess-stat-val { font-size:0.7rem; color:#ff80ff; }
+        .chess-moves { margin-top:12px; }
+        .chess-move { font-size:0.65rem; color:rgba(200,0,255,0.6); padding:3px 0; border-bottom:1px solid rgba(180,0,255,0.05); }
+
+        /* FORMULA DISPLAY */
+        .formula-box { background:rgba(3,0,10,0.9); border:1px solid rgba(180,0,255,0.1); border-radius:8px; padding:12px; margin-top:10px; }
+        .formula { font-size:0.78rem; color:rgba(200,0,255,0.8); letter-spacing:2px; text-align:center; margin-bottom:4px; }
+        .formula-desc { font-size:0.6rem; color:rgba(200,0,255,0.35); text-align:center; letter-spacing:1px; }
+
+        ::-webkit-scrollbar { width:4px; } ::-webkit-scrollbar-track { background:transparent; } ::-webkit-scrollbar-thumb { background:rgba(180,0,255,0.2); border-radius:4px; }
+    </style>
+</head>
+<body>
+
+<div class="hdr">
+    <div class="hdr-title">∞ ÁLGEBRA INVERSA + GRAVEDAD — MOTOR CUÁNTICO</div>
+    <nav class="hdr-nav">
+        <a href="/ser27.html">SER-27</a>
+        <a href="/blueprint.html">BLUEPRINT</a>
+        <a href="/cockpit.html">COCKPIT</a>
+        <a href="/landing.html">INICIO</a>
+    </nav>
+</div>
+
+<div class="hero">
+    <div class="hero-title">ÁLGEBRA INVERSA</div>
+    <div class="hero-sub">MOTOR DE GRAVEDAD CUÁNTICA — ANÁLISIS DE AJEDREZ ESTRUCTURAL</div>
+</div>
+
+<!-- MAIN CALC -->
+<div class="main-layout">
+    <div class="card">
+        <div class="card-title">◈ PARÁMETROS ESTRUCTURALES</div>
+        <div class="input-row">
+            <div class="input-lbl">MASA (toneladas)</div>
+            <input class="inp" id="masa" type="number" value="50000" min="1">
+        </div>
+        <div class="input-row">
+            <div class="input-lbl">ALTURA (metros)</div>
+            <input class="inp" id="altura" type="number" value="120" min="1">
+        </div>
+        <div class="input-row">
+            <div class="input-lbl">VOLADIZO (metros)</div>
+            <input class="inp" id="voladizo" type="number" value="25" min="0">
+        </div>
+        <div class="input-row">
+            <div class="input-lbl">ÁNGULO DE INCLINACIÓN (°)</div>
+            <input class="inp" id="angulo" type="number" value="0" min="-45" max="45">
+        </div>
+        <div class="input-row">
+            <div class="input-lbl">MATERIAL</div>
+            <select class="inp" id="material">
+                <option value="9000,4500">Titanio — σ=900 MPa / ρ=4500 kg/m³</option>
+                <option value="3500,1600">Fibra de Carbono — σ=3500 MPa / ρ=1600 kg/m³</option>
+                <option value="450,8800">Bronce Arquitectónico — σ=450 MPa / ρ=8800 kg/m³</option>
+                <option value="500,7850">Acero — σ=500 MPa / ρ=7850 kg/m³</option>
+                <option value="300,2700">Aluminio — σ=300 MPa / ρ=2700 kg/m³</option>
+                <option value="200,2500">Vidrio Templado — σ=200 MPa / ρ=2500 kg/m³</option>
+                <option value="40,2400">Hormigón — σ=40 MPa / ρ=2400 kg/m³</option>
+            </select>
+        </div>
+        <button class="btn" onclick="calcular()">∑ CALCULAR ÁLGEBRA INVERSA</button>
+        <button class="btn gold" onclick="calcularAntigrav()">🌌 MODO ANTIGRAVEDAD</button>
+
+        <div class="formula-box">
+            <div class="formula">F = m · g₀ = m · 9.81 m/s²</div>
+            <div class="formula-desc">Fuerza gravitacional estándar — WGS84</div>
+            <div class="formula" style="margin-top:6px;">M_f = F · L_v (momento de flexión)</div>
+            <div class="formula-desc">L_v = longitud del voladizo</div>
+            <div class="formula" style="margin-top:6px;">FS = σ · I / M_f · h (factor de seguridad)</div>
+            <div class="formula-desc">FS > 2.5 = estructura viable</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-title">◈ VISUALIZACIÓN 3D EN TIEMPO REAL</div>
+        <canvas id="grav-canvas"></canvas>
+        <div class="results" id="results">// Ingresa parámetros y presiona CALCULAR_</div>
+    </div>
+</div>
+
+<!-- CHESS BOARD GRAVITACIONAL -->
+<div class="chess-section">
+    <div class="sec-title">◈ TABLERO DE AJEDREZ — ANÁLISIS GRAVITACIONAL DE MOVIMIENTOS</div>
+    <div class="chess-layout">
+        <div>
+            <div id="chess-board"></div>
+        </div>
+        <div class="chess-info">
+            <div class="card-title">ANÁLISIS DE POSICIÓN</div>
+            <div class="chess-stat-row"><span class="chess-stat-lbl">Pieza seleccionada</span><span class="chess-stat-val" id="ch-pieza">---</span></div>
+            <div class="chess-stat-row"><span class="chess-stat-lbl">Posición</span><span class="chess-stat-val" id="ch-pos">---</span></div>
+            <div class="chess-stat-row"><span class="chess-stat-lbl">Fuerza gravitacional</span><span class="chess-stat-val" id="ch-fuerza">---</span></div>
+            <div class="chess-stat-row"><span class="chess-stat-lbl">Vector de movimiento</span><span class="chess-stat-val" id="ch-vector">---</span></div>
+            <div class="chess-stat-row"><span class="chess-stat-lbl">Energía cinética</span><span class="chess-stat-val" id="ch-energia">---</span></div>
+            <div class="chess-stat-row"><span class="chess-stat-lbl">Óptimo álgebra inversa</span><span class="chess-stat-val" id="ch-optimo" style="color:var(--gold)">---</span></div>
+            <div class="chess-moves" id="ch-moves">
+                <div class="chess-move">// Selecciona una pieza para análisis gravitacional</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// GRAVITY CANVAS
+// ═══════════════════════════════════════════════════════
+const canvas = document.getElementById('grav-canvas');
+const ctx = canvas.getContext('2d');
+let angle = 0;
+let currentMasa = 50000, currentAltura = 120, currentVoladizo = 25, currentAngulo = 0;
+let antigravMode = false;
+
+function resizeCanvas() { canvas.width = canvas.offsetWidth; canvas.height = 280; }
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+function drawGrav() {
+    const W = canvas.width, H = canvas.height;
+    if (!W) { requestAnimationFrame(drawGrav); return; }
+    angle += antigravMode ? 0.04 : 0.015;
+    ctx.fillStyle = 'rgba(3,0,8,0.12)';
+    ctx.fillRect(0,0,W,H);
+
+    // Grid
+    ctx.strokeStyle='rgba(180,0,255,0.04)'; ctx.lineWidth=0.5;
+    for(let x=0;x<W;x+=25){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+    for(let y=0;y<H;y+=25){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+
+    const scH = Math.min((H-60)/Math.max(currentAltura,1),(W*0.3)/50);
+    const bh = Math.min(currentAltura*scH, H-80);
+    const bw = 38;
+    const cx = W/2, baseY = H-30;
+
+    if (antigravMode) {
+        // Levitating effect
+        const levY = baseY - bh - 20 - Math.sin(angle)*15;
+        ctx.shadowBlur = 20; ctx.shadowColor = '#cc00ff';
+        ctx.fillStyle = 'rgba(180,0,255,0.12)';
+        ctx.strokeStyle = 'rgba(200,0,255,0.6)'; ctx.lineWidth=1.5;
+        ctx.beginPath(); ctx.rect(cx-bw/2, levY, bw, bh); ctx.fill(); ctx.stroke();
+        ctx.shadowBlur=0;
+        // Anti-gravity beams
+        for(let i=0;i<4;i++) {
+            ctx.strokeStyle=`rgba(180,0,255,${0.1+i*0.05})`; ctx.lineWidth=1; ctx.setLineDash([3,5]);
+            ctx.beginPath(); ctx.moveTo(cx-bw/4+i*(bw/4), baseY); ctx.lineTo(cx-bw/4+i*(bw/4), levY+bh); ctx.stroke();
+        }
+        ctx.setLineDash([]);
+        ctx.fillStyle='rgba(200,0,255,0.5)'; ctx.font='9px Courier New'; ctx.textAlign='center';
+        ctx.fillText('ANTIGRAVEDAD ACTIVA', cx, levY-8);
+    } else {
+        // Normal structure with tilt
+        ctx.save(); ctx.translate(cx, baseY-bh/2);
+        ctx.rotate(currentAngulo * Math.PI/180);
+        ctx.fillStyle='rgba(180,0,255,0.1)';
+        ctx.strokeStyle='rgba(200,0,255,0.5)'; ctx.lineWidth=1.5;
+        ctx.beginPath(); ctx.rect(-bw/2, -bh/2, bw, bh); ctx.fill(); ctx.stroke();
+        // Structure details
+        for(let i=1;i<4;i++){
+            ctx.strokeStyle='rgba(180,0,255,0.2)'; ctx.lineWidth=0.5;
+            ctx.beginPath(); ctx.moveTo(-bw/2, -bh/2+bh*i/4); ctx.lineTo(bw/2, -bh/2+bh*i/4); ctx.stroke();
+        }
+        ctx.restore();
+    }
+
+    // Ground
+    ctx.fillStyle='rgba(180,0,255,0.06)'; ctx.fillRect(0,baseY,W,H-baseY);
+    ctx.strokeStyle='rgba(180,0,255,0.3)'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(0,baseY); ctx.lineTo(W,baseY); ctx.stroke();
+
+    // Voladizo
+    const cantPx = Math.min(currentVoladizo*scH, W*0.25);
+    ctx.strokeStyle='rgba(255,215,0,0.7)'; ctx.lineWidth=2; ctx.setLineDash([5,4]);
+    const volY = baseY - bh*0.65 - (antigravMode?20+Math.sin(angle)*15:0);
+    ctx.beginPath(); ctx.moveTo(cx+bw/2, volY); ctx.lineTo(cx+bw/2+cantPx, volY); ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Gravity vectors
+    const arrowCount = 3;
+    for(let i=0;i<arrowCount;i++) {
+        const ax = cx - bw/2 + bw/arrowCount * i + bw/(arrowCount*2);
+        ctx.strokeStyle='rgba(255,0,51,0.5)'; ctx.lineWidth=1;
+        ctx.beginPath(); ctx.moveTo(ax, baseY-bh+(antigravMode?-15+Math.sin(angle+i)*10:0)); ctx.lineTo(ax, baseY-bh+15+(antigravMode?-15+Math.sin(angle+i)*10:0)); ctx.stroke();
+        ctx.fillStyle='rgba(255,0,51,0.5)';
+        ctx.beginPath(); ctx.moveTo(ax,baseY-bh+18+(antigravMode?-15+Math.sin(angle+i)*10:0)); ctx.lineTo(ax-3,baseY-bh+11+(antigravMode?-15+Math.sin(angle+i)*10:0)); ctx.lineTo(ax+3,baseY-bh+11+(antigravMode?-15+Math.sin(angle+i)*10:0)); ctx.closePath(); ctx.fill();
+    }
+
+    // Labels
+    ctx.fillStyle='rgba(200,0,255,0.6)'; ctx.font='9px Courier New'; ctx.textAlign='center';
+    ctx.fillText(`h=${currentAltura}m`, cx, baseY-bh-(antigravMode?35:8));
+    ctx.fillStyle='rgba(200,0,255,0.5)'; ctx.textAlign='right';
+    ctx.fillText(`${(currentMasa/1000).toFixed(0)}kt`, cx-bw/2-4, baseY-bh/2-(antigravMode?20:0));
+    ctx.fillStyle='rgba(255,215,0,0.6)'; ctx.textAlign='left';
+    ctx.fillText(`vol=${currentVoladizo}m`, cx+bw/2+cantPx+6, volY-5);
+
+    if(antigravMode) {
+        ctx.fillStyle='rgba(180,0,255,0.3)'; ctx.textAlign='center';
+        ctx.font='10px Courier New';
+        ctx.fillText('∞ ÁLGEBRA INVERSA ACTIVA', cx, 16);
+    }
+
+    requestAnimationFrame(drawGrav);
+}
+drawGrav();
+
+// ═══════════════════════════════════════════════════════
+// CALCULATION
+// ═══════════════════════════════════════════════════════
+function calcular() {
+    const masa = parseFloat(document.getElementById('masa').value)||50000;
+    const altura = parseFloat(document.getElementById('altura').value)||120;
+    const voladizo = parseFloat(document.getElementById('voladizo').value)||25;
+    const angulo = parseFloat(document.getElementById('angulo').value)||0;
+    const [sigma, rho] = document.getElementById('material').value.split(',').map(Number);
+
+    currentMasa = masa; currentAltura = altura; currentVoladizo = voladizo; currentAngulo = angulo;
+    antigravMode = false;
+
+    const g = 9.81;
+    const masaKg = masa * 1000;
+    const fuerza = masaKg * g;
+    const fuerzaInclinada = fuerza * Math.cos(angulo * Math.PI/180);
+    const componenteHoriz = fuerza * Math.sin(angulo * Math.PI/180);
+    const momento = masaKg * g * voladizo;
+    const inercia = (bw => bw * Math.pow(altura,3)/12)(3.8);
+    const fs = inercia > 0 ? (sigma * 1e6 * inercia) / (momento * altura/2 + 1) : 0;
+    const fsSim = sigma / (momento / (1000 * Math.max(altura,1)));
+    const estable = fsSim > 2.5;
+    const volumen = 3.8 * 3.8 * altura;
+    const pesoReal = volumen * rho / 1000;
+    const centroGrav = altura * (masaKg) / (masaKg * 2);
+    const energiaPot = masaKg * g * centroGrav;
+
+    document.getElementById('results').textContent = [
+        `∑ ÁLGEBRA INVERSA — RESULTADO COMPLETO`,
+        `══════════════════════════════════════════`,
+        `MASA:                 ${masa.toLocaleString()} toneladas`,
+        `MASA (kg):            ${masaKg.toLocaleString()} kg`,
+        `ALTURA:               ${altura} m`,
+        `VOLADIZO:             ${voladizo} m`,
+        `ÁNGULO INCLINACIÓN:   ${angulo}°`,
+        `──────────────────────────────────────────`,
+        `GRAVEDAD (g₀):        9.81 m/s²`,
+        `FUERZA NORMAL:        ${fuerza.toLocaleString()} N`,
+        `FUERZA INCLINADA:     ${fuerzaInclinada.toFixed(2)} N`,
+        `COMPONENTE HORIZ.:    ${componenteHoriz.toFixed(2)} N`,
+        `MOMENTO FLEXIÓN:      ${momento.toLocaleString()} N·m`,
+        `──────────────────────────────────────────`,
+        `RESISTENCIA σ:        ${sigma} MPa`,
+        `DENSIDAD ρ:           ${rho} kg/m³`,
+        `VOLUMEN EST.:         ${volumen.toFixed(2)} m³`,
+        `PESO ESTRUCTURA:      ${pesoReal.toFixed(2)} t`,
+        `CENTRO DE GRAVEDAD:   ${centroGrav.toFixed(2)} m`,
+        `ENERGÍA POTENCIAL:    ${energiaPot.toLocaleString()} J`,
+        `FACTOR SEGURIDAD:     ${fsSim.toFixed(4)}`,
+        `══════════════════════════════════════════`,
+        `ESTABILIDAD: ${estable ? '✓ VIABLE (FS > 2.5)' : '✗ RIESGO ESTRUCTURAL'}`,
+        `MODO: NORMAL — g₀ = 9.81 m/s²`
+    ].join('\n');
+}
+
+function calcularAntigrav() {
+    calcular();
+    const res = document.getElementById('results');
+    antigravMode = true;
+    currentAngulo = 0;
+    const masa = parseFloat(document.getElementById('masa').value)||50000;
+    const g = 9.81;
+    const contrafuerza = masa * 1000 * g * 1.15;
+    res.textContent += `\n\n🌌 MODO ANTIGRAVEDAD ACTIVADO\n══════════════════════════\nContrafuerza necesaria: ${contrafuerza.toLocaleString()} N\nFactor inversión: 1.15 × F_grav\nAlgebra Inversa: F_anti = m·g·k donde k>1\nEstado: GEOMETRÍA IMPOSIBLE CALCULADA\n∞ ESTRUCTURA ANTI-GRAVITACIONAL ACTIVA`;
+}
+
+// ═══════════════════════════════════════════════════════
+// CHESS BOARD
+// ═══════════════════════════════════════════════════════
+const PIECES = {
+    'R1': '♜', 'N1': '♞', 'B1': '♝', 'Q': '♛', 'K': '♚', 'B2': '♝', 'N2': '♞', 'R2': '♜',
+    'P1':'♟','P2':'♟','P3':'♟','P4':'♟','P5':'♟','P6':'♟','P7':'♟','P8':'♟',
+    'rR1':'♖','rN1':'♘','rB1':'♗','rQ':'♕','rK':'♔','rB2':'♗','rN2':'♘','rR2':'♖',
+    'rP1':'♙','rP2':'♙','rP3':'♙','rP4':'♙','rP5':'♙','rP6':'♙','rP7':'♙','rP8':'♙'
+};
+
+const INITIAL_BOARD = [
+    ['♜','♞','♝','♛','♚','♝','♞','♜'],
+    ['♟','♟','♟','♟','♟','♟','♟','♟'],
+    ['','','','','','','',''],
+    ['','','','','','','',''],
+    ['','','','','','','',''],
+    ['','','','','','','',''],
+    ['♙','♙','♙','♙','♙','♙','♙','♙'],
+    ['♖','♘','♗','♕','♔','♗','♘','♖'],
+];
+
+const PIECE_MASS = { '♜':9,'♞':3,'♝':3,'♛':9,'♚':0,'♟':1,'♖':9,'♘':3,'♗':3,'♕':9,'♔':0,'♙':1 };
+const PIECE_NAME = { '♜':'Torre N','♞':'Caballo N','♝':'Alfil N','♛':'Reina N','♚':'Rey N','♟':'Peón N','♖':'Torre B','♘':'Caballo B','♗':'Alfil B','♕':'Reina B','♔':'Rey B','♙':'Peón B' };
+const FILES = ['a','b','c','d','e','f','g','h'];
+
+let selectedCell = null;
+let boardState = INITIAL_BOARD.map(r => [...r]);
+let moveHistory = [];
+
+function renderBoard() {
+    const board = document.getElementById('chess-board');
+    board.innerHTML = '';
+    for(let r=0;r<8;r++) {
+        for(let c=0;c<8;c++) {
+            const cell = document.createElement('div');
+            cell.className = `chess-cell ${(r+c)%2===0?'light':'dark'}${selectedCell&&selectedCell[0]===r&&selectedCell[1]===c?' selected':''}`;
+            const piece = boardState[r][c];
+            const gravVal = (9 - r) * (PIECE_MASS[piece] || 0) * 9.81;
+            if(piece) {
+                cell.textContent = piece;
+                const gv = document.createElement('span');
+                gv.className='grav-val';
+                gv.textContent = gravVal > 0 ? `${(gravVal).toFixed(0)}N` : '';
+                cell.appendChild(gv);
+            }
+            cell.onclick = () => selectCell(r, c);
+            board.appendChild(cell);
+        }
+    }
+}
+
+function selectCell(r, c) {
+    const piece = boardState[r][c];
+    selectedCell = [r,c];
+    const pos = `${FILES[c]}${8-r}`;
+    const mass = PIECE_MASS[piece] || 0;
+    const gravForce = mass * 1000 * 9.81;
+    const vectorX = (c-3.5)*2.1;
+    const vectorY = (r-3.5)*2.1;
+    const magnitude = Math.sqrt(vectorX*vectorX+vectorY*vectorY).toFixed(2);
+    const energia = mass * 9.81 * (8-r) * 0.065;
+
+    document.getElementById('ch-pieza').textContent = piece ? `${piece} ${PIECE_NAME[piece]||'?'}` : '(vacío)';
+    document.getElementById('ch-pos').textContent = pos;
+    document.getElementById('ch-fuerza').textContent = gravForce > 0 ? `${gravForce.toFixed(0)} N` : '0 N';
+    document.getElementById('ch-vector').textContent = `(${vectorX.toFixed(1)}, ${vectorY.toFixed(1)}) |v|=${magnitude}`;
+    document.getElementById('ch-energia').textContent = `${energia.toFixed(3)} J`;
+
+    // Álgebra inversa óptima para este movimiento
+    const optimal = piece ? calcOptimalMove(r,c,piece) : '---';
+    document.getElementById('ch-optimo').textContent = optimal;
+
+    // Move suggestions
+    const moves = getMoves(r, c, piece);
+    document.getElementById('ch-moves').innerHTML = moves.length > 0
+        ? moves.slice(0,6).map(m => `<div class="chess-move">→ ${FILES[m[1]]}${8-m[0]} — F: ${(PIECE_MASS[piece]||0)*9.81*(8-m[0])*0.065:.2f}J — ${m[2]}</div>`).join('')
+        : '<div class="chess-move">// Sin movimientos disponibles</div>';
+
+    renderBoard();
+}
+
+function calcOptimalMove(r, c, piece) {
+    const mass = PIECE_MASS[piece] || 1;
+    const height = (8-r)*0.065;
+    const potEnergy = mass * 9.81 * height;
+    if(r < 3) return `Avanzar — reducir energía pot. (${potEnergy.toFixed(3)}J → menor)`;
+    if(r > 4) return `Centro — maximizar control gravitacional`;
+    return `Posición óptima — FS=${(mass*2.5).toFixed(1)} — Estable`;
+}
+
+function getMoves(r, c, piece) {
+    const moves = [];
+    if(!piece) return moves;
+    const addMove = (nr, nc, desc) => {
+        if(nr>=0&&nr<8&&nc>=0&&nc<8) moves.push([nr,nc,desc]);
+    };
+    if(piece==='♟') { addMove(r+1,c,'avance'); addMove(r+1,c-1,'captura izq'); addMove(r+1,c+1,'captura der'); }
+    else if(piece==='♙') { addMove(r-1,c,'avance'); addMove(r-1,c-1,'captura'); addMove(r-1,c+1,'captura'); }
+    else if(piece==='♞'||piece==='♘') {
+        [[2,1],[2,-1],[-2,1],[-2,-1],[1,2],[1,-2],[-1,2],[-1,-2]].forEach(([dr,dc])=>addMove(r+dr,c+dc,'salto L'));
+    } else if(piece==='♛'||piece==='♕') {
+        for(let i=1;i<4;i++){addMove(r+i,c,'vertical');addMove(r-i,c,'vertical');addMove(r,c+i,'horizontal');addMove(r,c-i,'horizontal');addMove(r+i,c+i,'diagonal');addMove(r+i,c-i,'diagonal');}
+    } else {
+        for(let i=1;i<3;i++){addMove(r+i,c,'mov');addMove(r-i,c,'mov');addMove(r,c+i,'mov');addMove(r,c-i,'mov');}
+    }
+    return moves;
+}
+
+renderBoard();
+calcular();
+</script>
+</body>
+</html>
