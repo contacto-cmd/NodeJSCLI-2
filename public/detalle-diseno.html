@@ -333,19 +333,22 @@
                 const response = await fetch('/api/arquitectura/proyectos');
                 const data = await response.json();
                 
-                console.log('✅ Respuesta recibida:', data.success);
+                console.log('✅ Respuesta recibida:', data.success, 'Keys:', Object.keys(data));
                 
                 if (!data.success) {
                     throw new Error('Error cargando diseños desde API');
                 }
                 
+                // Compatible con múltiples formatos de respuesta
+                const allDesigns = data.proyectos || data.disenos || data.designs || data.data || [];
+                
                 const designIndex = imageToDesign[designId];
                 
                 if (designIndex === undefined) {
-                    throw new Error(`ID de diseño "${designId}" no encontrado en mapeo`);
+                    throw new Error(`ID de diseño "${designId}" no encontrado`);
                 }
                 
-                const design = data.proyectos[designIndex];
+                const design = allDesigns[designIndex];
                 
                 console.log('🎨 Diseño encontrado:', design ? design.diseño.nombre : 'NO ENCONTRADO');
                 

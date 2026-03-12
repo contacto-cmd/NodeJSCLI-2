@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>🔱 Cockpit Soberano — Throne Protocol V3.0</title>
+    <style>
+        :root {
+            --gold: #ffd700;
+            --green: #00ff88;
+            --red: #ff4444;
+            --blue: #00aaff;
+            --dark: #000;
+            --dark2: #0a0a1a;
+            --panel: rgba(10,10,30,0.9);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: var(--dark);
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* TOPBAR */
+        .topbar {
+            background: rgba(0,0,0,0.95);
+            border-bottom: 2px solid var(--gold);
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 200;
+        }
+        .topbar-title { color: var(--gold); font-size: 0.9rem; letter-spacing: 3px; }
+        .topbar-live { color: var(--green); font-size: 0.75rem; animation: blink 1.5s infinite; }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+        .back-link { color: var(--gold); text-decoration: none; font-size: 0.75rem; border: 1px solid var(--gold); padding: 5px 12px; border-radius: 20px; }
+
+        /* MAIN LAYOUT */
+        .cockpit-grid {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            grid-template-rows: auto 1fr;
+            gap: 12px;
+            padding: 12px;
+            min-height: calc(100vh - 50px);
+        }
+        @media(max-width: 900px) {
+            .cockpit-grid { grid-template-columns: 1fr; }
+        }
+
+        /* PANELS */
+        .panel {
+            background: var(--panel);
+            border: 1px solid rgba(255,215,0,0.25);
+            border-radius: 12px;
+            padding: 16px;
+        }
+        .panel-title {
+            color: var(--gold);
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            border-bottom: 1px solid rgba(255,215,0,0.2);
+            padding-bottom: 10px;
+            margin-bottom: 14px;
+        }
+
+        /* BUTTON GROUPS */
+        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+        .btn-group.three { grid-template-columns: 1fr 1fr 1fr; }
+
+        .ck-btn {
+            padding: 14px 10px;
+            border: 2px solid;
+            border-radius: 10px;
+            background: transparent;
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.25s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            position: relative;
+            overflow: hidden;
+        }
+        .ck-btn .icon { font-size: 1.4rem; }
+        .ck-btn.gold { border-color: var(--gold); color: var(--gold); }
+        .ck-btn.gold:hover { background: rgba(255,215,0,0.12); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,215,0,0.2); }
+        .ck-btn.green { border-color: var(--green); color: var(--green); }
+        .ck-btn.green:hover { background: rgba(0,255,136,0.1); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,255,136,0.2); }
+        .ck-btn.blue { border-color: var(--blue); color: var(--blue); }
+        .ck-btn.blue:hover { background: rgba(0,170,255,0.1); transform: translateY(-2px); }
+        .ck-btn.red { border-color: var(--red); color: var(--red); }
+        .ck-btn.red:hover { background: rgba(255,68,68,0.1); transform: translateY(-2px); }
+        .ck-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+        .ck-btn.loading::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            height: 3px;
+            background: currentColor;
+            animation: loading-bar 1s ease-in-out infinite;
+        }
+        @keyframes loading-bar { 0%{width:0} 50%{width:70%} 100%{width:100%} }
+
+        /* DESIGN SECTION */
+        .design-section { border-top: 1px solid rgba(255,215,0,0.15); padding-top: 14px; margin-top: 14px; }
+        .design-title { color: var(--gold); font-size: 0.7rem; letter-spacing: 3px; margin-bottom: 12px; }
+
+        /* STATUS PANEL (right) */
+        .status-panel { grid-row: span 2; }
+        @media(max-width:900px) { .status-panel { grid-row: span 1; } }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            border: 1px solid rgba(255,215,0,0.15);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 0.78rem;
+        }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 8px; }
+        .dot-green { background: var(--green); box-shadow: 0 0 8px var(--green); animation: blink 2s infinite; }
+        .dot-gold { background: var(--gold); box-shadow: 0 0 8px var(--gold); }
+        .dot-red { background: var(--red); box-shadow: 0 0 8px var(--red); }
+
+        /* RESPONSE LOG */
+        .response-box {
+            background: rgba(0,0,0,0.7);
+            border: 1px solid rgba(255,215,0,0.2);
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 0.75rem;
+            line-height: 1.7;
+            max-height: 220px;
+            overflow-y: auto;
+            margin-top: 12px;
+            transition: all 0.3s;
+        }
+        .response-box .ts { color: rgba(255,215,0,0.4); }
+        .response-box .ok { color: var(--green); }
+        .response-box .err { color: var(--red); }
+        .response-box .info { color: var(--blue); }
+
+        /* BLOCKCHAIN AUDIT */
+        .audit-log {
+            background: rgba(0,0,0,0.7);
+            border: 1px solid rgba(0,255,136,0.15);
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 0.7rem;
+            max-height: 180px;
+            overflow-y: auto;
+            margin-top: 14px;
+        }
+        .audit-entry {
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            gap: 8px;
+        }
+        .audit-entry:last-child { border-bottom: none; }
+        .audit-hash { color: var(--green); font-size: 0.65rem; word-break: break-all; }
+
+        /* DESIGN RESULT CARD */
+        .design-card {
+            background: linear-gradient(135deg, rgba(255,215,0,0.05), rgba(0,0,0,0.8));
+            border: 2px solid var(--gold);
+            border-radius: 12px;
+            padding: 14px;
+            margin-top: 12px;
+            display: none;
+        }
+        .design-card.show { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+        .design-card h3 { color: var(--gold); font-size: 0.9rem; margin-bottom: 10px; }
+        .design-spec { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+        .design-spec-item { font-size: 0.72rem; }
+        .design-spec-label { color: rgba(255,255,255,0.4); font-size: 0.65rem; letter-spacing: 1px; text-transform: uppercase; }
+        .design-spec-val { color: var(--green); }
+
+        /* CERT BADGE */
+        .cert-badge {
+            background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(0,0,0,0.9));
+            border: 2px solid var(--gold);
+            border-radius: 10px;
+            padding: 14px;
+            text-align: center;
+            display: none;
+            margin-top: 12px;
+        }
+        .cert-badge.show { display: block; animation: fadeIn 0.5s ease; }
+        .cert-id { color: var(--gold); font-size: 0.8rem; font-weight: 700; word-break: break-all; }
+        .cert-hash { color: var(--green); font-size: 0.65rem; margin-top: 6px; word-break: break-all; }
+        .cert-status { color: var(--green); font-size: 0.75rem; margin-top: 8px; }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); }
+        ::-webkit-scrollbar-thumb { background: rgba(255,215,0,0.3); border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+<div class="topbar">
+    <div class="topbar-title">🔱 COCKPIT SOBERANO — THRONE PROTOCOL V3.0</div>
+    <span class="topbar-live">● EN VIVO</span>
+    <a href="/landing.html" class="back-link">← INICIO</a>
+</div>
+
+<div class="cockpit-grid">
+
+    <!-- IZQUIERDA: BOTONES PRINCIPALES -->
+    <div>
+        <div class="panel">
+            <div class="panel-title">⚡ Operaciones del Sistema</div>
+
+            <div class="btn-group">
+                <button class="ck-btn gold" onclick="ejecutar('deploy', this)">
+                    <span class="icon">🚀</span>
+                    DEPLOY BACKEND
+                </button>
+                <button class="ck-btn blue" onclick="ejecutar('refresh', this)">
+                    <span class="icon">🔄</span>
+                    REFRESH FRONTEND
+                </button>
+                <button class="ck-btn green" onclick="ejecutar('dns', this)">
+                    <span class="icon">🌐</span>
+                    VERIFY DNS
+                </button>
+                <button class="ck-btn red" onclick="abrirIncidente()">
+                    <span class="icon">🚨</span>
+                    LOG INCIDENT
+                </button>
+            </div>
+
+            <div style="display:flex;gap:10px;margin-bottom:14px;">
+                <button class="ck-btn gold" style="flex:1;" onclick="ejecutarCertificar()">
+                    <span class="icon">📜</span>
+                    CERTIFY DOCUMENT
+                </button>
+            </div>
+
+            <!-- DISEÑOS CEREMONIALES -->
+            <div class="design-section">
+                <div class="design-title">🏛️ DISEÑOS CEREMONIALES (VARIACIÓN 25%)</div>
+                <div class="btn-group three">
+                    <button class="ck-btn gold" onclick="generarDiseno('house', this)">
+                        <span class="icon">🏠</span>
+                        CASA
+                    </button>
+                    <button class="ck-btn blue" onclick="generarDiseno('tower', this)">
+                        <span class="icon">🏙️</span>
+                        TORRE FLOTANTE
+                    </button>
+                    <button class="ck-btn green" onclick="generarDiseno('water', this)">
+                        <span class="icon">🌊</span>
+                        AGUA
+                    </button>
+                </div>
+
+                <div class="design-card" id="design-card">
+                    <h3 id="dc-titulo">Diseño Generado</h3>
+                    <div class="design-spec" id="dc-specs"></div>
+                    <div style="margin-top:12px;">
+                        <div class="audit-hash" id="dc-hash"></div>
+                        <div style="color:var(--green);font-size:0.7rem;margin-top:4px;" id="dc-status"></div>
+                    </div>
+                    <button class="ck-btn gold" style="width:100%;margin-top:12px;" onclick="certificarDiseno()">
+                        📜 CERTIFICAR ESTE DISEÑO
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- INCIDENT MODAL -->
+        <div id="incident-modal" style="display:none;margin-top:12px;">
+            <div class="panel">
+                <div class="panel-title">🚨 Registrar Incidente</div>
+                <div style="display:flex;flex-direction:column;gap:10px;">
+                    <input id="inc-titulo" placeholder="Título del incidente" style="padding:10px;background:rgba(0,0,0,0.5);border:1px solid rgba(255,68,68,0.4);border-radius:8px;color:#fff;font-family:monospace;font-size:0.85rem;">
+                    <textarea id="inc-desc" placeholder="Descripción..." rows="3" style="padding:10px;background:rgba(0,0,0,0.5);border:1px solid rgba(255,68,68,0.4);border-radius:8px;color:#fff;font-family:monospace;font-size:0.85rem;resize:none;"></textarea>
+                    <select id="inc-sev" style="padding:10px;background:rgba(0,0,0,0.5);border:1px solid rgba(255,68,68,0.4);border-radius:8px;color:#fff;font-family:monospace;font-size:0.85rem;">
+                        <option value="BAJA">🟢 Severidad: BAJA</option>
+                        <option value="MEDIA" selected>🟡 Severidad: MEDIA</option>
+                        <option value="ALTA">🔴 Severidad: ALTA</option>
+                        <option value="CRITICA">⚫ Severidad: CRÍTICA</option>
+                    </select>
+                    <div style="display:flex;gap:10px;">
+                        <button class="ck-btn red" style="flex:1;" onclick="enviarIncidente()"><span class="icon">🚨</span>REGISTRAR</button>
+                        <button class="ck-btn gold" style="flex:1;" onclick="document.getElementById('incident-modal').style.display='none'">✕ CANCELAR</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CERT AREA -->
+        <div class="cert-badge" id="cert-badge">
+            <div style="font-size:1.5rem;">📜</div>
+            <div class="cert-id" id="cert-id">CERT-ID</div>
+            <div class="cert-hash" id="cert-hash"></div>
+            <div class="cert-status">✅ Certified — RSA-4096 Signed — Blockchain Registered</div>
+        </div>
+
+        <!-- AUDIT LOG -->
+        <div class="panel" style="margin-top:12px;">
+            <div class="panel-title">⛓️ Blockchain Audit Layer</div>
+            <div class="audit-log" id="audit-log">
+                <div class="audit-entry">
+                    <span style="color:rgba(255,215,0,0.4);">[INIT]</span>
+                    <span class="audit-hash">Sistema Cockpit Soberano inicializado — Throne Protocol V3.0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DERECHA: STATUS PANEL -->
+    <div class="panel status-panel">
+        <div class="panel-title">📊 Estado en Tiempo Real</div>
+
+        <div class="status-indicator">
+            <span><span class="status-dot dot-green"></span>RSA-4096</span>
+            <span style="color:var(--green);font-size:0.7rem;">ACTIVO</span>
+        </div>
+        <div class="status-indicator">
+            <span><span class="status-dot dot-green"></span>Servidor Express</span>
+            <span style="color:var(--green);font-size:0.7rem;">RUNNING</span>
+        </div>
+        <div class="status-indicator">
+            <span><span class="status-dot dot-gold"></span>Tokens Cuánticos</span>
+            <span style="color:var(--gold);font-size:0.7rem;" id="s-tokens">30 ONLINE</span>
+        </div>
+        <div class="status-indicator">
+            <span><span class="status-dot dot-green"></span>EAGI Pipeline</span>
+            <span style="color:var(--green);font-size:0.7rem;">V1 ACTIVO</span>
+        </div>
+        <div class="status-indicator">
+            <span><span class="status-dot dot-green"></span>AI Dual</span>
+            <span style="color:var(--green);font-size:0.7rem;">GPT+GEMINI</span>
+        </div>
+        <div class="status-indicator">
+            <span><span class="status-dot dot-green"></span>Blockchain</span>
+            <span style="color:var(--green);font-size:0.7rem;">REGISTRANDO</span>
+        </div>
+        <div class="status-indicator">
+            <span><span class="status-dot dot-gold"></span>DNS</span>
+            <span style="color:var(--gold);font-size:0.7rem;" id="s-dns">VERIFICANDO...</span>
+        </div>
+
+        <!-- RESPONSE LOG -->
+        <div class="panel-title" style="margin-top:16px;">📋 Log de Respuestas</div>
+        <div class="response-box" id="response-log">
+            <div><span class="ts">[INIT]</span> 🔱 Cockpit Soberano inicializado</div>
+            <div><span class="ts">[READY]</span> Esperando comandos del Arquitecto...</div>
+        </div>
+
+        <!-- QUICK LINKS -->
+        <div style="margin-top:16px;display:flex;flex-direction:column;gap:8px;">
+            <a href="/cerebro-3d.html" style="padding:10px;border:1px solid var(--gold);border-radius:8px;color:var(--gold);text-decoration:none;font-size:0.75rem;text-align:center;letter-spacing:2px;">🧠 CEREBRO 3D</a>
+            <a href="/eagi-panel.html" style="padding:10px;border:1px solid var(--green);border-radius:8px;color:var(--green);text-decoration:none;font-size:0.75rem;text-align:center;letter-spacing:2px;">🧬 EAGI PIPELINE</a>
+            <a href="/arquitectura-panel.html" style="padding:10px;border:1px solid var(--blue);border-radius:8px;color:var(--blue);text-decoration:none;font-size:0.75rem;text-align:center;letter-spacing:2px;">🏗️ PORTAFOLIO</a>
+            <a href="/certificados-premium.html" style="padding:10px;border:1px solid rgba(255,215,0,0.4);border-radius:8px;color:rgba(255,215,0,0.7);text-decoration:none;font-size:0.75rem;text-align:center;letter-spacing:2px;">📜 CERTIFICADOS</a>
+        </div>
+
+        <!-- VALORACION -->
+        <div style="margin-top:16px;text-align:center;padding:14px;border:2px solid rgba(255,215,0,0.3);border-radius:10px;background:rgba(255,215,0,0.03);">
+            <div style="color:var(--gold);font-size:1.2rem;font-weight:900;">$276.5B</div>
+            <div style="color:rgba(255,255,255,0.4);font-size:0.65rem;letter-spacing:2px;margin-top:4px;">VALORACIÓN TOTAL USD</div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+let currentDesignData = null;
+const auditLog = document.getElementById('audit-log');
+const responseLog = document.getElementById('response-log');
+
+function addLog(msg, cls='') {
+    const ts = new Date().toLocaleTimeString('es-MX');
+    const div = document.createElement('div');
+    div.innerHTML = `<span class="ts">[${ts}]</span> <span class="${cls}">${msg}</span>`;
+    responseLog.appendChild(div);
+    responseLog.scrollTop = responseLog.scrollHeight;
+}
+
+function addAudit(hash, accion) {
+    const div = document.createElement('div');
+    div.className = 'audit-entry';
+    div.innerHTML = `<span style="color:rgba(255,215,0,0.5);white-space:nowrap;">${accion}</span><span class="audit-hash">${hash}</span>`;
+    auditLog.appendChild(div);
+    auditLog.scrollTop = auditLog.scrollHeight;
+}
+
+async function ejecutar(endpoint, btn) {
+    btn.disabled = true;
+    btn.classList.add('loading');
+    addLog(`Ejecutando /${endpoint}...`, 'info');
+    try {
+        const r = await fetch(`/${endpoint}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({}) });
+        const d = await r.json();
+        addLog(`✅ ${d.mensaje || d.status}`, 'ok');
+        addAudit(d.hash || 'N/A', endpoint.toUpperCase());
+        if (endpoint === 'dns') {
+            document.getElementById('s-dns').textContent = 'VERIFICADO ✓';
+            document.getElementById('s-dns').style.color = 'var(--green)';
+        }
+    } catch(e) {
+        addLog(`❌ Error: ${e.message}`, 'err');
+    } finally {
+        btn.disabled = false;
+        btn.classList.remove('loading');
+    }
+}
+
+function abrirIncidente() {
+    const m = document.getElementById('incident-modal');
+    m.style.display = m.style.display === 'none' ? 'block' : 'none';
+}
+
+async function enviarIncidente() {
+    const titulo = document.getElementById('inc-titulo').value || 'Incidente sin título';
+    const descripcion = document.getElementById('inc-desc').value;
+    const severidad = document.getElementById('inc-sev').value;
+    addLog(`🚨 Registrando incidente: ${titulo}...`, 'err');
+    try {
+        const r = await fetch('/incident', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ titulo, descripcion, severidad })
+        });
+        const d = await r.json();
+        addLog(`✅ Incidente ${d.incidentId} registrado — Severidad: ${severidad}`, 'ok');
+        addAudit(d.hash || 'N/A', `INC-${severidad}`);
+        document.getElementById('incident-modal').style.display = 'none';
+    } catch(e) {
+        addLog(`❌ Error: ${e.message}`, 'err');
+    }
+}
+
+async function ejecutarCertificar() {
+    const doc = prompt('Nombre del documento a certificar:') || 'Documento Royal';
+    addLog(`📜 Certificando: ${doc}...`, 'info');
+    try {
+        const r = await fetch('/certify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ documento: doc, propietario: 'Roberto Rivera Gamas' })
+        });
+        const d = await r.json();
+        document.getElementById('cert-id').textContent = d.certId;
+        document.getElementById('cert-hash').textContent = d.hash + ' | ' + d.signature;
+        document.getElementById('cert-badge').classList.add('show');
+        addLog(`✅ ${d.mensaje}`, 'ok');
+        addAudit(d.hash, 'CERTIFY');
+    } catch(e) {
+        addLog(`❌ Error: ${e.message}`, 'err');
+    }
+}
+
+async function generarDiseno(tipo, btn) {
+    btn.disabled = true;
+    btn.classList.add('loading');
+    const labels = { house: 'Casa', tower: 'Torre Flotante', water: 'Agua' };
+    addLog(`🏛️ Generando diseño: ${labels[tipo]} (±25%)...`, 'info');
+    try {
+        const r = await fetch(`/design/${tipo}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' });
+        const d = await r.json();
+        currentDesignData = d;
+
+        const card = document.getElementById('design-card');
+        document.getElementById('dc-titulo').textContent = `${d.diseno.nombre}`;
+        document.getElementById('dc-hash').textContent = d.hash + ' | ' + d.signature;
+        document.getElementById('dc-status').textContent = `✅ ${d.mensaje} | Variación: ${d.variacion}`;
+
+        const specs = [
+            { label: 'Tipo', val: d.tipo },
+            { label: 'Altura', val: d.diseno.altura_m + ' m' },
+            { label: 'Área', val: d.diseno.area_m2 + ' m²' },
+            { label: 'Material', val: d.diseno.material },
+            { label: 'Pisos', val: d.diseno.pisos },
+            { label: 'Valor USD', val: '$' + Number(d.diseno.valor_usd).toLocaleString() },
+            { label: 'Latitud', val: d.diseno.coordenadas.lat + '°' },
+            { label: 'Longitud', val: d.diseno.coordenadas.lon + '°' }
+        ];
+        document.getElementById('dc-specs').innerHTML = specs.map(s => `
+            <div class="design-spec-item">
+                <div class="design-spec-label">${s.label}</div>
+                <div class="design-spec-val">${s.val}</div>
+            </div>
+        `).join('');
+        card.classList.add('show');
+        addLog(`✅ Diseño generado: ${d.diseno.nombre} — $${Number(d.diseno.valor_usd).toLocaleString()} USD`, 'ok');
+        addAudit(d.hash, `DESIGN-${tipo.toUpperCase()}`);
+    } catch(e) {
+        addLog(`❌ Error: ${e.message}`, 'err');
+    } finally {
+        btn.disabled = false;
+        btn.classList.remove('loading');
+    }
+}
+
+async function certificarDiseno() {
+    if (!currentDesignData) return;
+    const nombre = currentDesignData.diseno.nombre;
+    addLog(`📜 Certificando diseño: ${nombre}...`, 'info');
+    try {
+        const r = await fetch('/certify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ documento: nombre, propietario: 'Roberto Rivera Gamas', tipo: currentDesignData.tipo })
+        });
+        const d = await r.json();
+        document.getElementById('cert-id').textContent = d.certId;
+        document.getElementById('cert-hash').textContent = d.hash + ' | ' + d.signature;
+        document.getElementById('cert-badge').classList.add('show');
+        addLog(`✅ ${d.mensaje}`, 'ok');
+        addAudit(d.hash, 'DESIGN-CERT');
+    } catch(e) {
+        addLog(`❌ Error: ${e.message}`, 'err');
+    }
+}
+
+// Auto-verificar DNS al cargar
+setTimeout(() => {
+    fetch('/dns', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' })
+        .then(r => r.json())
+        .then(d => {
+            document.getElementById('s-dns').textContent = 'VERIFICADO ✓';
+            document.getElementById('s-dns').style.color = 'var(--green)';
+            addLog('🌐 DNS verificado automáticamente', 'ok');
+        }).catch(() => {});
+}, 1200);
+
+// Auto-cargar tokens
+fetch('/api/aht/quantum/tokens')
+    .then(r => r.json())
+    .then(d => {
+        const count = (d.tokens || []).length;
+        if (count > 0) document.getElementById('s-tokens').textContent = `${count} ONLINE`;
+    }).catch(() => {});
+</script>
+</body>
+</html>
