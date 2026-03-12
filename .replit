@@ -40,5 +40,6 @@ integrations = ["javascript_gemini:1.0.0"]
 expertMode = true
 
 [deployment]
-deploymentTarget = "static"
+deploymentTarget = "autoscale"
 publicDir = "public"
+run = ["node", "main.bootstrap.js/server.js"]
