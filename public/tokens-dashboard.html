@@ -92,9 +92,10 @@
 <body>
 
 <div class="hdr">
-    <div class="hdr-title">🔑 TOKENS DASHBOARD 3D — 40 FUSION ACTIVOS</div>
+    <div class="hdr-title">🔑 TOKENS — 19 PERSONALES + 40 FUSION — BLINDAJE 10/10</div>
     <div class="hdr-ip" id="hdr-ip">IP: ---</div>
     <nav class="hdr-nav">
+        <a href="/tokens-roberto.html" style="color:var(--gold);border-color:rgba(255,215,0,0.5)">📜 CERTIFICAR</a>
         <a href="/ser27.html">SER-27</a>
         <a href="/blueprint.html">BLUEPRINT</a>
         <a href="/cockpit.html">COCKPIT</a>
@@ -104,26 +105,26 @@
 
 <div class="hero">
     <div class="hero-title">TOKENS FUSION</div>
-    <div class="hero-sub">40 TOKENS CUÁNTICOS — DASHBOARD 3D — MONITOREO IP EN TIEMPO REAL</div>
+    <div class="hero-sub">19 TOKENS PERSONALES + 40 FUSION — DASHBOARD 3D — MONITOREO IP EN TIEMPO REAL</div>
 </div>
 
 <!-- STATS STRIP -->
 <div class="stats-strip">
     <div class="strip-stat">
-        <div class="strip-lbl">TOTAL TOKENS</div>
+        <div class="strip-lbl">PERSONALES</div>
+        <div class="strip-val" style="color:var(--gold)">19</div>
+    </div>
+    <div class="strip-stat">
+        <div class="strip-lbl">FUSION BASE</div>
         <div class="strip-val" id="s-total">40</div>
     </div>
     <div class="strip-stat">
-        <div class="strip-lbl">VALOR USD</div>
-        <div class="strip-val" id="s-valor">$1.78M</div>
-    </div>
-    <div class="strip-stat">
-        <div class="strip-lbl">NIVEL MAX</div>
+        <div class="strip-lbl">BLINDAJE</div>
         <div class="strip-val" style="color:var(--g)">10/10</div>
     </div>
     <div class="strip-stat">
-        <div class="strip-lbl">CATEGORÍAS</div>
-        <div class="strip-val" id="s-cats">---</div>
+        <div class="strip-lbl">VALOR TOTAL</div>
+        <div class="strip-val" id="s-valor">$5.18M</div>
     </div>
     <div class="strip-stat">
         <div class="strip-lbl">IP ACTIVA</div>
@@ -173,15 +174,33 @@
     <div class="dp-url" id="dp-url">---</div>
 </div>
 
+<!-- PERSONAL TOKENS QUICK BAR -->
+<div style="padding:0 20px 8px;">
+    <div style="font-size:0.6rem;color:rgba(255,215,0,0.3);letter-spacing:4px;margin-bottom:8px;">◈ 19 TOKENS PERSONALES — ROBERTO RIVERA GAMAS — BLINDAJE 10/10</div>
+    <div style="display:flex;flex-wrap:wrap;gap:5px;" id="personal-bar">
+    </div>
+</div>
+
 <!-- TOKEN GRID -->
 <div class="tokens-section">
-    <div class="sec-title">◈ LOS 40 TOKENS — PANEL COMPLETO</div>
+    <div class="sec-title">◈ TODOS LOS TOKENS — 19 PERSONALES (🔑) + 40 FUSION</div>
     <div class="tokens-grid" id="tokens-grid">
         <div style="color:rgba(255,215,0,0.3);font-size:0.7rem;padding:20px;">Cargando tokens...</div>
     </div>
 </div>
 
 <script>
+// ═══════════════════════════════════════════════════════
+// 19 TOKENS PERSONALES DE ROBERTO
+// ═══════════════════════════════════════════════════════
+const PERSONAL_CODES = [
+    'ANTI-SHIELD-KAPPA-39','HYPERPLANE-PHI-40','BRANE-HIGGS-32',
+    'AETHER-TORUS-01','PHASE-RING-02','ENTROPY-BRAID-03','HIGGS-LOCK-04',
+    'GROTH-SHEAF-08','SUPERSTRING-ISOR-09','POINCARE-NU-10',
+    'QUANTUM-COHOM-11','MINKOWSKI-PSI-12','TOPO-TENSOR-13','ISOFIELD-E-14',
+    'QUANTUM-WEAVE-15','RING-OMEGA-16','ISOMORPH-ENT-17','FERMION-GAUGE-18','TAU-OPERATOR-19'
+];
+
 // ═══════════════════════════════════════════════════════
 // 3D ORBIT CANVAS
 // ═══════════════════════════════════════════════════════
@@ -190,8 +209,10 @@ const cx3 = c3.getContext('2d');
 let angle3 = 0;
 let orbitTokens = [];
 
-function resizeC3() { c3.width = c3.offsetWidth; c3.height = 320; }
-resizeC3(); window.addEventListener('resize', resizeC3);
+function resizeC3() { c3.width = c3.offsetWidth || window.innerWidth; c3.height = 320; }
+resizeC3();
+setTimeout(resizeC3, 150);
+window.addEventListener('resize', resizeC3);
 
 const CAT_COLORS = {
     quantum: '#cc00ff', fusion: '#ffd700', neural: '#00c8ff',
@@ -200,18 +221,35 @@ const CAT_COLORS = {
 };
 
 function initOrbits(tokens) {
-    orbitTokens = tokens.map((t, i) => ({
-        name: (t.tokenName||'TOKEN').substring(0,14),
-        cat: t.categoria || 'quantum',
-        level: t.blindajeNivel || 5,
-        angle: (i / tokens.length) * Math.PI * 2,
-        orbit: 0.25 + (i % 4) * 0.13,
-        speed: 0.003 + (t.blindajeNivel||5) * 0.0004,
-        inclination: (i % 3) * 0.3,
-        color: CAT_COLORS[t.categoria] || '#ffd700',
+    // Separate personal from base
+    const personal = tokens.filter(t => PERSONAL_CODES.includes(t.tokenName || t.token_code));
+    const base = tokens.filter(t => !PERSONAL_CODES.includes(t.tokenName || t.token_code));
+
+    const personalMapped = personal.map((t, i) => ({
+        name: (t.tokenName||t.token_code||'TOKEN').substring(0,12),
+        isPersonal: true,
+        angle: (i / Math.max(personal.length,1)) * Math.PI * 2,
+        orbit: 0.20 + (i % 2) * 0.08,   // inner ring — tight
+        speed: 0.008 + i * 0.0005,
+        inclination: (i % 4) * 0.25,
+        color: '#ffd700',
         pulse: Math.random() * Math.PI * 2,
-        size: 3 + (t.blindajeNivel||5) * 0.6
+        size: 5
     }));
+
+    const baseMapped = base.map((t, i) => ({
+        name: (t.tokenName||t.token_code||'TOKEN').substring(0,10),
+        isPersonal: false,
+        angle: (i / Math.max(base.length,1)) * Math.PI * 2,
+        orbit: 0.36 + (i % 4) * 0.12,   // outer rings
+        speed: 0.002 + (t.blindajeNivel||5) * 0.0003,
+        inclination: (i % 3) * 0.3,
+        color: CAT_COLORS[t.categoria] || 'rgba(255,215,0,0.4)',
+        pulse: Math.random() * Math.PI * 2,
+        size: 3 + (t.blindajeNivel||5) * 0.4
+    }));
+
+    orbitTokens = [...personalMapped, ...baseMapped];
 }
 
 function draw3D() {
@@ -292,16 +330,42 @@ async function loadTokens() {
         const r = await fetch('/api/aht/quantum/tokens');
         const d = await r.json();
         allTokens = d.tokens || [];
+        renderPersonalBar(allTokens);
         renderTokenGrid(allTokens);
         initOrbits(allTokens);
-        document.getElementById('s-total').textContent = allTokens.length;
-        const cats = [...new Set(allTokens.map(t=>t.categoria).filter(Boolean))];
-        document.getElementById('s-cats').textContent = cats.length;
-        document.getElementById('s-valor').textContent = `$${(allTokens.length * 44500).toLocaleString()}`;
+        const baseCount = allTokens.filter(t => !PERSONAL_CODES.includes(t.tokenName||t.token_code)).length;
+        document.getElementById('s-total').textContent = baseCount;
+        const totalVal = (19 * 200000) + (baseCount * 44500);
+        document.getElementById('s-valor').textContent = `$${(totalVal/1000000).toFixed(2)}M`;
     } catch(e) {
         document.getElementById('tokens-grid').innerHTML = '<div style="color:rgba(255,215,0,0.3);font-size:0.7rem;padding:20px;">// Error cargando tokens — reintentando...</div>';
         setTimeout(loadTokens, 3000);
     }
+}
+
+function renderPersonalBar(tokens) {
+    const bar = document.getElementById('personal-bar');
+    if (!bar) return;
+    bar.innerHTML = PERSONAL_CODES.map(code => {
+        const t = tokens.find(x => (x.tokenName||x.token_code) === code);
+        const found = !!t;
+        return `<div onclick="selectTokenByCode('${code}')" style="
+            padding:5px 9px; font-size:0.58rem; letter-spacing:1px;
+            background:rgba(255,215,0,${found?'0.08':'0.03'});
+            border:1px solid rgba(255,215,0,${found?'0.35':'0.1'});
+            border-radius:20px; color:${found?'#ffd700':'rgba(255,215,0,0.3)'};
+            cursor:pointer; transition:all 0.2s;
+            white-space:nowrap;
+        " onmouseover="this.style.background='rgba(255,215,0,0.15)'"
+           onmouseout="this.style.background='rgba(255,215,0,${found?'0.08':'0.03'})'">
+            ${found?'✓ ':'○ '}${code}
+        </div>`;
+    }).join('');
+}
+
+function selectTokenByCode(code) {
+    const idx = allTokens.findIndex(t => (t.tokenName||t.token_code) === code);
+    if (idx >= 0) selectToken(idx);
 }
 
 function getBarColor(level) {
@@ -312,18 +376,29 @@ function getBarColor(level) {
 
 function renderTokenGrid(tokens) {
     const grid = document.getElementById('tokens-grid');
-    grid.innerHTML = tokens.map((t, i) => {
-        const lvl = t.blindajeNivel || 5;
+    // Sort: personal first, then base
+    const sorted = [
+        ...tokens.filter(t => PERSONAL_CODES.includes(t.tokenName||t.token_code)),
+        ...tokens.filter(t => !PERSONAL_CODES.includes(t.tokenName||t.token_code))
+    ];
+    grid.innerHTML = sorted.map((t, i) => {
+        const code = t.tokenName || t.token_code || `TOKEN-${i+1}`;
+        const isPersonal = PERSONAL_CODES.includes(code);
+        const lvl = t.blindajeNivel || (isPersonal ? 10 : 5);
         const lvlClass = lvl >= 9 ? 'max' : lvl >= 7 ? 'high' : 'mid';
         const pct = (lvl / 10) * 100;
-        const color = CAT_COLORS[t.categoria] || '#ffd700';
-        return `<div class="token-card${lvl>=9?' active-token':''}" onclick="selectToken(${i})">
+        const color = isPersonal ? '#ffd700' : (CAT_COLORS[t.categoria] || '#ffd700');
+        const personalBadge = isPersonal
+            ? `<span style="font-size:0.5rem;padding:2px 6px;background:rgba(255,215,0,0.1);border:1px solid rgba(255,215,0,0.3);border-radius:10px;color:var(--gold);letter-spacing:1px;margin-left:4px;">🔑 PERSONAL</span>`
+            : '';
+        const origIdx = allTokens.indexOf(t);
+        return `<div class="token-card${isPersonal||lvl>=9?' active-token':''}" onclick="selectToken(${origIdx})">
             <div class="tc-header">
-                <div class="tc-num">TOKEN #${(t.id||i+1).toString().padStart(3,'0')}</div>
+                <div class="tc-num" style="display:flex;align-items:center;gap:4px;">#${(i+1).toString().padStart(3,'0')}${personalBadge}</div>
                 <div class="tc-level ${lvlClass}">NIVEL ${lvl}/10</div>
             </div>
-            <div class="tc-name">${t.tokenName||'TOKEN'}</div>
-            <div class="tc-cat">${(t.categoria||'quantum').toUpperCase()}</div>
+            <div class="tc-name">${code}</div>
+            <div class="tc-cat">${isPersonal ? 'PERSONAL — BLINDAJE PRESIDENCIAL' : (t.categoria||'quantum').toUpperCase()}</div>
             <div class="tc-bar-wrap"><div class="tc-bar" style="width:${pct}%;background:${color}"></div></div>
             <div class="tc-url">${(t.tokenUrl||'').substring(0,45)}${(t.tokenUrl||'').length>45?'...':''}</div>
             <div class="tc-ip-tag">IP: ${detectedIP}</div>
