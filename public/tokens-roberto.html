@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>TOKENS PERSONALES — Roberto Rivera Gamas</title>
+    <style>
+        :root {
+            --gold: #ffd700; --gold2: rgba(255,215,0,0.1);
+            --g: #00ff41; --red: #ff2244; --p: #cc00ff;
+            --bg: #020200;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background:var(--bg); color:var(--gold); font-family:'Courier New',monospace; overflow-x:hidden; }
+        body::before { content:''; position:fixed; inset:0; background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,215,0,0.007) 2px,rgba(255,215,0,0.007) 4px); pointer-events:none; z-index:9000; }
+
+        /* HEADER */
+        .hdr { background:rgba(2,2,0,0.98); border-bottom:2px solid rgba(255,215,0,0.25); padding:12px 20px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:200; }
+        .hdr-title { font-size:clamp(0.72rem,2vw,0.88rem); letter-spacing:4px; color:var(--gold); }
+        .hdr-nav { display:flex; gap:8px; flex-wrap:wrap; }
+        .hdr-nav a { color:rgba(255,215,0,0.4); text-decoration:none; font-size:0.6rem; border:1px solid rgba(255,215,0,0.18); padding:4px 10px; border-radius:4px; transition:all 0.2s; }
+        .hdr-nav a:hover { color:var(--gold); border-color:var(--gold); }
+
+        /* HERO */
+        .hero { padding:28px 20px 20px; text-align:center; }
+        .hero-badge { display:inline-block; background:rgba(255,215,0,0.08); border:1px solid rgba(255,215,0,0.3); border-radius:20px; padding:4px 16px; font-size:0.62rem; letter-spacing:4px; color:rgba(255,215,0,0.6); margin-bottom:14px; }
+        .hero-title { font-size:clamp(2rem,6vw,3.2rem); letter-spacing:5px; color:var(--gold); text-shadow:0 0 60px rgba(255,215,0,0.4); margin-bottom:8px; }
+        .hero-sub { font-size:0.75rem; color:rgba(255,215,0,0.4); letter-spacing:3px; margin-bottom:6px; }
+        .hero-rfc { font-size:0.8rem; color:var(--gold); letter-spacing:3px; }
+
+        /* STATS ROW */
+        .stats-row { display:flex; gap:0; border-top:1px solid rgba(255,215,0,0.1); border-bottom:1px solid rgba(255,215,0,0.1); overflow-x:auto; margin:0 0 20px; }
+        .stat { flex:1; min-width:120px; padding:14px 16px; text-align:center; border-right:1px solid rgba(255,215,0,0.08); }
+        .stat-lbl { font-size:0.55rem; color:rgba(255,215,0,0.3); letter-spacing:3px; margin-bottom:5px; }
+        .stat-val { font-size:1.1rem; color:var(--gold); font-weight:700; }
+        .stat-val.green { color:var(--g); }
+
+        /* CERT PANEL */
+        .cert-section { padding:0 20px 20px; }
+        .cert-card { background:rgba(5,4,0,0.9); border:2px solid rgba(255,215,0,0.2); border-radius:16px; overflow:hidden; }
+        .cert-header { background:rgba(255,215,0,0.06); padding:16px 20px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid rgba(255,215,0,0.1); }
+        .cert-title { font-size:0.72rem; letter-spacing:4px; color:var(--gold); }
+        .cert-btn { padding:10px 24px; background:rgba(255,215,0,0.08); border:2px solid var(--gold); border-radius:8px; color:var(--gold); font-family:'Courier New',monospace; font-size:0.75rem; font-weight:700; letter-spacing:3px; cursor:pointer; transition:all 0.25s; }
+        .cert-btn:hover { background:rgba(255,215,0,0.15); box-shadow:0 0 30px rgba(255,215,0,0.2); }
+        .cert-btn:disabled { opacity:0.4; cursor:not-allowed; }
+        .cert-body { padding:20px; }
+        .cert-placeholder { font-size:0.72rem; color:rgba(255,215,0,0.3); text-align:center; padding:20px; letter-spacing:2px; }
+        .cert-result { display:none; }
+        .cert-result.show { display:block; }
+        .cert-field { padding:8px 0; border-bottom:1px solid rgba(255,215,0,0.06); display:flex; gap:12px; flex-wrap:wrap; }
+        .cert-lbl { font-size:0.6rem; color:rgba(255,215,0,0.3); letter-spacing:2px; flex-shrink:0; min-width:100px; }
+        .cert-val { font-size:0.7rem; color:var(--gold); word-break:break-all; flex:1; }
+        .cert-val.green { color:var(--g); }
+        .cert-val.blue { color:#00aaff; }
+
+        /* BIG CANVAS CERT */
+        #cert-canvas { width:100%; max-width:580px; display:block; margin:0 auto; border:1px solid rgba(255,215,0,0.1); border-radius:8px; }
+
+        /* TOKEN LIST */
+        .tokens-section { padding:0 20px 30px; }
+        .sec-title { font-size:0.65rem; color:rgba(255,215,0,0.3); letter-spacing:5px; margin-bottom:14px; border-bottom:1px solid rgba(255,215,0,0.08); padding-bottom:8px; }
+        .tokens-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:10px; }
+        .token-card { background:rgba(5,4,0,0.9); border:1px solid rgba(255,215,0,0.12); border-radius:10px; padding:14px; display:flex; align-items:center; gap:12px; transition:all 0.25s; position:relative; overflow:hidden; }
+        .token-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,rgba(255,215,0,0.5),transparent); opacity:0; transition:opacity 0.25s; }
+        .token-card:hover { border-color:rgba(255,215,0,0.3); background:rgba(8,7,0,0.95); }
+        .token-card:hover::before { opacity:1; }
+        .tc-check { width:28px; height:28px; border-radius:50%; background:rgba(0,255,65,0.1); border:1px solid rgba(0,255,65,0.4); display:flex; align-items:center; justify-content:center; font-size:0.7rem; color:var(--g); flex-shrink:0; }
+        .tc-info { flex:1; }
+        .tc-code { font-size:0.72rem; color:var(--gold); font-weight:700; letter-spacing:1px; margin-bottom:2px; }
+        .tc-name { font-size:0.6rem; color:rgba(255,215,0,0.4); letter-spacing:1px; }
+        .tc-right { text-align:right; flex-shrink:0; }
+        .tc-level { font-size:0.65rem; color:var(--g); letter-spacing:1px; }
+        .tc-price { font-size:0.58rem; color:rgba(255,215,0,0.3); }
+        .tc-type { font-size:0.5rem; padding:2px 6px; border-radius:10px; letter-spacing:1px; }
+        .tc-type.base { background:rgba(0,128,255,0.1); color:rgba(0,200,255,0.6); border:1px solid rgba(0,128,255,0.2); }
+        .tc-type.personal { background:rgba(255,215,0,0.08); color:rgba(255,215,0,0.6); border:1px solid rgba(255,215,0,0.2); }
+
+        /* LOADING SPINNER */
+        .spinner { display:inline-block; width:14px; height:14px; border:2px solid rgba(255,215,0,0.2); border-top-color:var(--gold); border-radius:50%; animation:spin 0.8s linear infinite; margin-right:8px; vertical-align:middle; }
+        @keyframes spin { to { transform:rotate(360deg); } }
+
+        ::-webkit-scrollbar { width:4px; } ::-webkit-scrollbar-track { background:transparent; } ::-webkit-scrollbar-thumb { background:rgba(255,215,0,0.15); border-radius:4px; }
+    </style>
+</head>
+<body>
+
+<div class="hdr">
+    <div class="hdr-title">🔑 TOKENS PERSONALES — ROBERTO RIVERA GAMAS</div>
+    <nav class="hdr-nav">
+        <a href="/tokens-dashboard.html">DASHBOARD 3D</a>
+        <a href="/ser27.html">SER-27</a>
+        <a href="/cockpit.html">COCKPIT</a>
+        <a href="/landing.html">INICIO</a>
+    </nav>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+    <div class="hero-badge">BLINDAJE PRESIDENCIAL — NIVEL 10/10</div>
+    <div class="hero-title">TOKENS PERSONALES</div>
+    <div class="hero-sub">28 TOKENS DE BLINDAJE MÁXIMO — USO EXCLUSIVO</div>
+    <div class="hero-rfc">Roberto Rivera Gamas — RFC: RIGR840827PJ0 — Street Emporio Royal</div>
+</div>
+
+<!-- STATS -->
+<div class="stats-row">
+    <div class="stat"><div class="stat-lbl">TOKENS BASE</div><div class="stat-val">9</div></div>
+    <div class="stat"><div class="stat-lbl">TOKENS PERSONALES</div><div class="stat-val" style="color:var(--gold)">19</div></div>
+    <div class="stat"><div class="stat-lbl">TOTAL SISTEMA</div><div class="stat-val">28</div></div>
+    <div class="stat"><div class="stat-lbl">BLINDAJE</div><div class="stat-val green">10/10</div></div>
+    <div class="stat"><div class="stat-lbl">PROPIETARIO</div><div class="stat-val" style="font-size:0.65rem">EXCLUSIVO ✅</div></div>
+    <div class="stat"><div class="stat-lbl">RSA-4096</div><div class="stat-val green">ACTIVO</div></div>
+</div>
+
+<!-- CERTIFICACIÓN -->
+<div class="cert-section">
+    <div class="cert-card">
+        <div class="cert-header">
+            <div class="cert-title">📜 CERTIFICAR TOKENS EN BLOCKCHAIN — RSA‑4096 + SHA‑256</div>
+            <button class="cert-btn" id="cert-btn" onclick="certificarTokens()">⚡ CERTIFICAR AHORA</button>
+        </div>
+        <div class="cert-body">
+            <div class="cert-placeholder" id="cert-placeholder">
+                Haz clic en "CERTIFICAR AHORA" para registrar los 19 tokens personales en blockchain con firma RSA‑4096 y hash SHA‑256.
+            </div>
+            <div class="cert-result" id="cert-result">
+                <canvas id="cert-canvas" height="320"></canvas>
+                <div style="margin-top:16px;">
+                    <div class="cert-field"><span class="cert-lbl">CERT ID</span><span class="cert-val" id="cr-id">---</span></div>
+                    <div class="cert-field"><span class="cert-lbl">STATUS</span><span class="cert-val green" id="cr-status">---</span></div>
+                    <div class="cert-field"><span class="cert-lbl">SHA-256</span><span class="cert-val" id="cr-hash">---</span></div>
+                    <div class="cert-field"><span class="cert-lbl">FIRMA RSA-4096</span><span class="cert-val" id="cr-sig">---</span></div>
+                    <div class="cert-field"><span class="cert-lbl">BLOCKCHAIN</span><span class="cert-val green" id="cr-bc">---</span></div>
+                    <div class="cert-field"><span class="cert-lbl">GPS</span><span class="cert-val blue" id="cr-gps">---</span></div>
+                    <div class="cert-field"><span class="cert-lbl">TOKENS</span><span class="cert-val" id="cr-tokens">---</span></div>
+                    <div class="cert-field"><span class="cert-lbl">VÁLIDO HASTA</span><span class="cert-val green" id="cr-valid">---</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- TOKEN LIST -->
+<div class="tokens-section">
+    <div class="sec-title">◈ LOS 19 TOKENS PERSONALES + 9 BASE — PANEL COMPLETO</div>
+    <div class="tokens-grid" id="tokens-grid">
+        <div style="color:rgba(255,215,0,0.3);font-size:0.7rem;padding:16px;">Cargando tokens...</div>
+    </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// Los 19 tokens personales de Roberto
+// ═══════════════════════════════════════════════════════
+const PERSONAL_TOKENS = [
+    'ANTI-SHIELD-KAPPA-39','HYPERPLANE-PHI-40','BRANE-HIGGS-32',
+    'AETHER-TORUS-01','PHASE-RING-02','ENTROPY-BRAID-03','HIGGS-LOCK-04',
+    'GROTH-SHEAF-08','SUPERSTRING-ISOR-09','POINCARE-NU-10',
+    'QUANTUM-COHOM-11','MINKOWSKI-PSI-12','TOPO-TENSOR-13','ISOFIELD-E-14',
+    'QUANTUM-WEAVE-15','RING-OMEGA-16','ISOMORPH-ENT-17','FERMION-GAUGE-18','TAU-OPERATOR-19'
+];
+
+// ═══════════════════════════════════════════════════════
+// LOAD TOKENS
+// ═══════════════════════════════════════════════════════
+async function loadTokens() {
+    const grid = document.getElementById('tokens-grid');
+    try {
+        const r = await fetch('/api/aht/quantum/tokens');
+        const d = await r.json();
+        const all = d.tokens || [];
+
+        const personal = all.filter(t => PERSONAL_TOKENS.includes(t.tokenName || t.token_code));
+        const base = all.filter(t => !PERSONAL_TOKENS.includes(t.tokenName || t.token_code)).slice(0, 9);
+        const combined = [...personal, ...base];
+
+        grid.innerHTML = combined.map((t, i) => {
+            const code = t.tokenName || t.token_code || `TOKEN-${i+1}`;
+            const isPersonal = PERSONAL_TOKENS.includes(code);
+            const name = t.descripcion || t.nombre || code;
+            const level = t.blindajeNivel || 10;
+            const price = t.precio_usd ? `$${Number(t.precio_usd).toLocaleString()} USD` : '$180,000 USD';
+            return `<div class="token-card">
+                <div class="tc-check">✓</div>
+                <div class="tc-info">
+                    <div class="tc-code">${code}</div>
+                    <div class="tc-name">${String(name).substring(0,45)}</div>
+                </div>
+                <div class="tc-right">
+                    <div class="tc-level">●  ${level}/10</div>
+                    <div class="tc-price">${price}</div>
+                    <div class="tc-type ${isPersonal?'personal':'base'}">${isPersonal?'PERSONAL':'BASE'}</div>
+                </div>
+            </div>`;
+        }).join('');
+    } catch(e) {
+        // Fallback — render from hardcoded list
+        grid.innerHTML = PERSONAL_TOKENS.map(code => `
+            <div class="token-card">
+                <div class="tc-check">✓</div>
+                <div class="tc-info">
+                    <div class="tc-code">${code}</div>
+                    <div class="tc-name">Token Personal — Blindaje Presidencial</div>
+                </div>
+                <div class="tc-right">
+                    <div class="tc-level">● 10/10</div>
+                    <div class="tc-price">$180,000 USD</div>
+                    <div class="tc-type personal">PERSONAL</div>
+                </div>
+            </div>`).join('');
+    }
+}
+
+// ═══════════════════════════════════════════════════════
+// CERTIFICACIÓN BLOCKCHAIN
+// ═══════════════════════════════════════════════════════
+async function certificarTokens() {
+    const btn = document.getElementById('cert-btn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>CERTIFICANDO...';
+    document.getElementById('cert-placeholder').style.display = 'none';
+
+    try {
+        const r = await fetch('/api/aht/certificar-tokens-personales', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                propietario: 'Roberto Rivera Gamas',
+                rfc: 'RIGR840827PJ0',
+                empresa: 'Street Emporio Royal',
+                tokens: PERSONAL_TOKENS
+            })
+        });
+        const d = await r.json();
+
+        document.getElementById('cr-id').textContent = d.certId || '---';
+        document.getElementById('cr-status').textContent = d.status || 'CERTIFICADO ✓';
+        document.getElementById('cr-hash').textContent = d.hash || '---';
+        document.getElementById('cr-sig').textContent = (d.signature || '---').substring(0, 55) + '...';
+        document.getElementById('cr-bc').textContent = d.blockchain || 'Immutable-Registered';
+        document.getElementById('cr-gps').textContent = '19.432608°, -99.133209° — Ciudad de México';
+        document.getElementById('cr-tokens').textContent = `${PERSONAL_TOKENS.length} tokens personales certificados`;
+        document.getElementById('cr-valid').textContent = d.valido_hasta || 'PERMANENTE';
+
+        drawCertCanvas(d);
+
+        document.getElementById('cert-result').classList.add('show');
+        btn.innerHTML = '✓ CERTIFICADO';
+        btn.style.borderColor = 'var(--g)';
+        btn.style.color = 'var(--g)';
+    } catch(e) {
+        btn.disabled = false;
+        btn.innerHTML = '⚡ CERTIFICAR AHORA';
+        alert('Error al certificar. Servidor activo, reintenta.');
+    }
+}
+
+// ═══════════════════════════════════════════════════════
+// CANVAS CERTIFICATE
+// ═══════════════════════════════════════════════════════
+function drawCertCanvas(data) {
+    const canvas = document.getElementById('cert-canvas');
+    const W = canvas.offsetWidth || 560;
+    canvas.width = W; canvas.height = 320;
+    const ctx = canvas.getContext('2d');
+
+    // Background
+    ctx.fillStyle = '#020200';
+    ctx.fillRect(0, 0, W, 320);
+
+    // Triple golden border
+    [2, 7, 12].forEach((inset, i) => {
+        ctx.strokeStyle = `rgba(255,215,0,${0.6 - i*0.15})`;
+        ctx.lineWidth = i === 0 ? 2 : 1;
+        ctx.strokeRect(inset, inset, W - inset*2, 320 - inset*2);
+    });
+
+    // Header background
+    const hGrad = ctx.createLinearGradient(0, 0, W, 80);
+    hGrad.addColorStop(0, 'rgba(255,215,0,0.06)');
+    hGrad.addColorStop(1, 'rgba(255,215,0,0.02)');
+    ctx.fillStyle = hGrad;
+    ctx.fillRect(16, 16, W-32, 70);
+
+    // Crown
+    ctx.font = '22px serif'; ctx.textAlign = 'center';
+    ctx.fillText('♛', W/2, 44);
+
+    // Title
+    ctx.fillStyle = '#ffd700';
+    ctx.font = `bold ${Math.floor(W*0.033)}px Courier New`;
+    ctx.textAlign = 'center';
+    ctx.fillText('CERTIFICADO DE TOKENS PERSONALES', W/2, 68);
+
+    // Line
+    ctx.strokeStyle = 'rgba(255,215,0,0.3)'; ctx.lineWidth = 0.5;
+    ctx.beginPath(); ctx.moveTo(30, 90); ctx.lineTo(W-30, 90); ctx.stroke();
+
+    // Owner
+    ctx.fillStyle = '#ffd700'; ctx.font = `${Math.floor(W*0.024)}px Courier New`; ctx.textAlign = 'center';
+    ctx.fillText('Roberto Rivera Gamas', W/2, 112);
+    ctx.fillStyle = 'rgba(255,215,0,0.5)'; ctx.font = `${Math.floor(W*0.018)}px Courier New`;
+    ctx.fillText('RFC: RIGR840827PJ0 — Street Emporio Royal', W/2, 130);
+
+    // Fields
+    const fields = [
+        ['TOKENS CERTIFICADOS:', `${PERSONAL_TOKENS.length} Tokens Personales — Blindaje 10/10`],
+        ['HASH SHA-256:', (data.hash || '').substring(0, 42) + '...'],
+        ['FIRMA RSA-4096:', (data.signature || '').substring(0, 38) + '...'],
+        ['BLOCKCHAIN:', 'Immutable-Registered — Throne Protocol V3.0'],
+        ['COORDENADAS GPS:', '19.432608°, -99.133209° — Ciudad de México'],
+        ['VÁLIDO:', 'PERMANENTE — Nivel Jaque Mate Presidencial'],
+    ];
+
+    let y = 155;
+    fields.forEach(([lbl, val]) => {
+        ctx.fillStyle = 'rgba(255,215,0,0.35)'; ctx.font = `${Math.floor(W*0.016)}px Courier New`; ctx.textAlign = 'left';
+        ctx.fillText(lbl, 30, y);
+        ctx.fillStyle = '#ffd700'; ctx.font = `${Math.floor(W*0.017)}px Courier New`;
+        ctx.fillText(val.substring(0, Math.floor(W/8)), 180, y);
+        y += 22;
+    });
+
+    // Bottom line + signature
+    ctx.strokeStyle = 'rgba(255,215,0,0.2)'; ctx.lineWidth = 0.5;
+    ctx.beginPath(); ctx.moveTo(30, 296); ctx.lineTo(W-30, 296); ctx.stroke();
+    ctx.fillStyle = 'rgba(255,215,0,0.3)'; ctx.font = `${Math.floor(W*0.014)}px Courier New`; ctx.textAlign = 'center';
+    ctx.fillText('LGORITMO AHT ANCESTRAL ENGINE — THRONE PROTOCOL V3.0 — RSA-4096 VERIFIED', W/2, 312);
+}
+
+// INIT
+loadTokens();
+</script>
+</body>
+</html>

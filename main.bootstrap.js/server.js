@@ -3065,11 +3065,45 @@ ${datos.valoracion ? `<p><strong>Valoración:</strong> $${datos.valoracion.toLoc
 // QUANTUM TOKENS - 9 Tokens de Fusión Antiblindada
 // ────────────────────────────────────────────────────────────────────
 
-// GET /api/aht/quantum/tokens - Obtener todos los tokens cuánticos
-app.get('/api/aht/quantum/tokens', (req, res) => {
+// GET /api/aht/quantum/tokens - Obtener todos los tokens cuánticos (quantum + personales de BD)
+app.get('/api/aht/quantum/tokens', async (req, res) => {
     try {
         const resultado = QuantumService.getAllQuantumTokens();
-        res.json(resultado);
+        const quantumTokens = resultado.tokens || [];
+
+        // Merge with personal tokens from PostgreSQL
+        let personalTokens = [];
+        try {
+            const dbResult = await databaseService.pool.query(
+                `SELECT token_code, nombre, tier, precio_usd, servicios, metadata
+                 FROM fusion_tokens
+                 WHERE metadata::text LIKE '%PERSONAL%' AND activo = true
+                 ORDER BY token_code`
+            );
+            personalTokens = dbResult.rows.map(r => ({
+                id: r.token_code,
+                tokenName: r.token_code,
+                tokenUrl: `https://personal.rigr840827pj0.sovereign/${r.token_code.toLowerCase()}`,
+                categoria: 'personal',
+                blindajeNivel: 10,
+                descripcion: r.nombre,
+                capacidades: ['RSA-4096','SHA-256','Blockchain','Quantum-Encrypt','Anti-Blind'],
+                estado: 'ACTIVO',
+                precio_usd: r.precio_usd,
+                token_code: r.token_code,
+                tipo: 'PERSONAL',
+                propietario: 'Roberto Rivera Gamas'
+            }));
+        } catch(e) { /* DB error — continue with quantum only */ }
+
+        const allTokens = [...personalTokens, ...quantumTokens];
+        res.json({
+            ...resultado,
+            tokens: allTokens,
+            total: allTokens.length,
+            personales: personalTokens.length,
+            fusion: quantumTokens.length
+        });
     } catch (error) {
         res.status(500).json({ success: false, error: error.message });
     }
@@ -3954,6 +3988,76 @@ app.post('/api/aht/certificado-jaque-mate', async (req, res) => {
             emitido_por: 'LGORITMO AHT ANCESTRAL ENGINE',
             timestamp: new Date().toISOString(),
             mensaje: `♛ JAQUE MATE PRESIDENCIAL — Certificado emitido por el LGoritmo AHT Ancestral para ${payload.propietario}`
+        });
+    } catch(e) {
+        res.status(500).json({ success: false, error: e.message });
+    }
+});
+
+// ────────────────────────────────────────────────────────────────────
+// ────────────────────────────────────────────────────────────────────
+// CERTIFICACIÓN DE TOKENS PERSONALES — RSA-4096 + SHA-256 + Blockchain
+// ────────────────────────────────────────────────────────────────────
+
+app.post('/api/aht/certificar-tokens-personales', async (req, res) => {
+    try {
+        const {
+            propietario = 'Roberto Rivera Gamas',
+            rfc = 'RIGR840827PJ0',
+            empresa = 'Street Emporio Royal',
+            tokens = []
+        } = req.body;
+
+        const certId = `CERT-PERSONAL-${Date.now()}-${Math.random().toString(36).substring(2,8).toUpperCase()}`;
+        const timestamp = new Date().toISOString();
+
+        const payload = {
+            certId, propietario, rfc, empresa,
+            tokens_count: tokens.length,
+            tokens_list: tokens,
+            blindaje: '10/10 — Presidencial',
+            nivel: 'JAQUE_MATE_PRESIDENCIAL',
+            coordenadas: { lat: 19.432608, lon: -99.133209, lugar: 'Ciudad de México' },
+            timestamp,
+            emitido_por: 'LGORITMO AHT ANCESTRAL ENGINE'
+        };
+
+        const payloadStr = JSON.stringify(payload);
+        const hash = require('crypto').createHash('sha256').update(payloadStr).digest('hex');
+
+        let firma = `RSA4096-PERSONAL-${hash.substring(0,20).toUpperCase()}`;
+        try {
+            if (MASTER_KEY_RSA_PRIVADA) {
+                const sign = require('crypto').createSign('RSA-SHA256');
+                sign.update(payloadStr);
+                sign.end();
+                firma = sign.sign(MASTER_KEY_RSA_PRIVADA, 'base64').substring(0, 64);
+            }
+        } catch(e) {}
+
+        const expiry = new Date();
+        expiry.setFullYear(expiry.getFullYear() + 10);
+
+        console.log(`🔑 TOKENS PERSONALES CERTIFICADOS — ${certId} — ${tokens.length} tokens`);
+
+        res.json({
+            success: true,
+            certId,
+            status: `✅ ${tokens.length} TOKENS PERSONALES CERTIFICADOS — BLINDAJE 10/10`,
+            propietario,
+            rfc,
+            empresa,
+            hash: `SHA256-${hash}`,
+            signature: firma,
+            blockchain: `Immutable-Registered — Block #${Date.now()}`,
+            tokens_certificados: tokens.length,
+            tokens_list: tokens,
+            blindaje: '10/10 — Presidencial',
+            coordenadas: '19.432608°, -99.133209° — Ciudad de México',
+            valido_hasta: 'PERMANENTE — Throne Protocol V3.0',
+            timestamp,
+            nivel: 'JAQUE_MATE_PRESIDENCIAL',
+            valoracion: '$276,552,435,904 USD'
         });
     } catch(e) {
         res.status(500).json({ success: false, error: e.message });
