@@ -1,0 +1,54 @@
+ **¡Perfecto! Ese código está correcto.** Ahora solo necesitas seguir estos pasos para ejecutarlo:
+
+## Pasos para ejecutar tu código:
+
+**1. Asegúrate de tener instalado el SDK de Anthropic:**[(1)](https://platform.claude.com/docs/en/api/sdks/python)
+```bash
+pip install anthropic
+```
+[(1)](https://platform.claude.com/docs/en/api/sdks/python)
+
+**2. Configura tu API key en el archivo `.env`:**[(2)](https://github.com/anthropics/courses/blob/master/anthropic_api_fundamentals/01_getting_started.ipynb)
+```
+ANTHROPIC_API_KEY=tu-api-key-aquí
+```
+[(2)](https://github.com/anthropics/courses/blob/master/anthropic_api_fundamentals/01_getting_started.ipynb)
+
+**3. Guarda tu código en un archivo (por ejemplo, `main.py`)**
+
+**4. Ejecuta el código:**
+```bash
+python main.py
+```
+
+## ¿Qué hace este código?
+
+El código crea un cliente de Anthropic que obtiene automáticamente la API key desde la variable de entorno `ANTHROPIC_API_KEY`[(1)](https://platform.claude.com/docs/en/api/sdks/python), luego envía un mensaje simple "Hello, Claude" al modelo `claude-opus-4-6` con un límite de 1024 tokens, y finalmente imprime la respuesta[(1)](https://platform.claude.com/docs/en/api/sdks/python).
+
+## Nota importante sobre el SDK:
+
+El SDK de Anthropic busca automáticamente una variable de entorno llamada `ANTHROPIC_API_KEY`, por lo que técnicamente no necesitas pasar el parámetro `api_key` manualmente[(2)](https://github.com/anthropics/courses/blob/master/anthropic_api_fundamentals/01_getting_started.ipynb). Puedes simplificar el código así[(2)](https://github.com/anthropics/courses/blob/master/anthropic_api_fundamentals/01_getting_started.ipynb):
+
+```python
+import os
+from anthropic import Anthropic
+
+client = Anthropic()
+
+message = client.messages.create(
+    max_tokens=1024,
+    messages=[
+        {
+            "role": "user",
+            "content": "Hello, Claude",
+        }
+    ],
+    model="claude-opus-4-6",
+)
+print(message.content)
+```
+[(1)](https://platform.claude.com/docs/en/api/sdks/python)
+
+Ambas versiones funcionan igual, siempre y cuando tengas configurada la variable de entorno `ANTHROPIC_API_KEY`[(2)](https://github.com/anthropics/courses/blob/master/anthropic_api_fundamentals/01_getting_started.ipynb).
+
+**FUENTES UTILIZADAS:** [(1)](https://platform.claude.com/docs/en/api/sdks/python), [(2)](https://github.com/anthropics/courses/blob/master/anthropic_api_fundamentals/01_getting_started.ipynb)

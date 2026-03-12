@@ -6,6 +6,7 @@
     "start": "node main.bootstrap.js/server.js"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.78.0",
     "@google/genai": "^1.29.0",
     "axios": "^1.13.2",
     "cannon-es": "^0.20.0",
