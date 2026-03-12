@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Throne Protocolo v3.0 — Área AI Presidencial</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; margin:0; background:#0a0a0a; color:#fff; }
+    header, footer { background:#111; padding:20px; text-align:center; border-bottom:3px solid #444; }
+    header h1 { font-size:2.5em; margin:0; color:#ffd700; }
+    section { padding:40px; max-width:1200px; margin:auto; }
+    .card { background:#222; border-radius:12px; padding:20px; margin-bottom:30px; box-shadow:0 0 20px rgba(0,0,0,0.6); }
+    .card h2 { margin-top:0; color:#ffd700; }
+    .certificate { background:#333; padding:15px; border-radius:8px; margin-top:20px; font-size:0.9em; }
+    button { background:#ffd700; border:none; padding:12px 20px; border-radius:6px; font-weight:bold; cursor:pointer; margin-top:20px; }
+    button:hover { background:#e6c200; }
+    video, iframe, canvas { width:100%; border-radius:12px; margin-top:20px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Throne Protocolo v3.0</h1>
+    <p>Área AI Presidencial — Royal Assistant + Arquitecto Interno + Antigravedad</p>
+  </header>
+
+  <section>
+    <!-- Vitrina 1: Royal Assistant -->
+    <div class="card">
+      <h2>🤖 Royal Assistant</h2>
+      <p><strong>Función:</strong> Chatbot IA que responde preguntas y ejecuta comandos.</p>
+      <p><strong>Motor:</strong> Gemini 2.5 Flash</p>
+      <p><strong>Variación:</strong> Giro del 25% aplicado en lógica de interacción.</p>
+      <video controls>
+        <source src="royal-assistant-demo.mp4" type="video/mp4">
+        Tu navegador no soporta video.
+      </video>
+    </div>
+
+    <!-- Vitrina 2: Arquitecto AI Interno -->
+    <div class="card">
+      <h2>🧠 Arquitecto AI Interno</h2>
+      <p><strong>Función:</strong> Monitoreo inteligente, auto‑diagnóstico y tablero de ajedrez campeón.</p>
+      <p><strong>Motor:</strong> GPT 5.2</p>
+      <p><strong>Plano Maestro:</strong> Render dinámico en Canvas con nodos y conexiones.</p>
+      <canvas id="planoArquitecto"></canvas>
+    </div>
+
+    <!-- Vitrina 3: Agente Antigravedad -->
+    <div class="card">
+      <h2>🌌 Agente Antigravedad</h2>
+      <p><strong>Función:</strong> Coordinador evolutivo en Quantum Loop, arquitectura flotante.</p>
+      <p><strong>Specs:</strong> Torre pirámide invertida, variación 25% giro.</p>
+      <video controls>
+        <source src="antigravity-agent.mp4" type="video/mp4">
+        Tu navegador no soporta video.
+      </video>
+    </div>
+
+    <!-- Vitrina 4: Certificado Soberano AI -->
+    <div class="card">
+      <h2>📜 Certificado Soberano AI</h2>
+      <button onclick="fetchCertificate()">🔗 Generar Certificado</button>
+      <div id="certificate" class="certificate">
+        <p>Haz clic en el botón para generar el certificado con QR, RSA‑4096, SHA‑256 y registro Blockchain.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    © 2026 Throne Protocolo v3.0 — Audit Layer + Blockchain
+  </footer>
+
+  <script>
+    // Plano Maestro Arquitecto AI
+    const canvas = document.getElementById('planoArquitecto');
+    const ctx = canvas.getContext('2d');
+    canvas.height = 400;
+    ctx.strokeStyle = '#ffd700';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(50,350); ctx.lineTo(200,50); ctx.lineTo(350,350); ctx.closePath();
+    ctx.stroke();
+    ctx.fillStyle = '#222';
+    ctx.fill();
+
+    // Certificado soberano
+    async function fetchCertificate() {
+      const response = await fetch('/design/penthouse');
+      const data = await response.json();
+      document.getElementById('certificate').innerHTML = `
+        <p><strong>Status:</strong> ${data.certificate.status}</p>
+        <p><strong>Hash:</strong> ${data.certificate.hash}</p>
+        <p><strong>Signature:</strong> ${data.certificate.signature}</p>
+        <p><strong>Blockchain:</strong> ${data.certificate.blockchain}</p>
+        <p><strong>QR:</strong> ${data.certificate.qr}</p>
+        <p><strong>WS:</strong> ${data.certificate.ws}</p>
+      `;
+    }
+  </script>
+</body>
+</html>

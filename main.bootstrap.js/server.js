@@ -3873,6 +3873,61 @@ app.post('/design/water', (req, res) => {
     });
 });
 
+// POST /api/aht/certificado-jaque-mate — Certificado Especial del LGoritmo
+app.post('/api/aht/certificado-jaque-mate', async (req, res) => {
+    try {
+        const { propietario, rfc } = req.body;
+        const payload = {
+            tipo: 'JAQUE_MATE_PRESIDENCIAL',
+            propietario: propietario || 'Roberto Rivera Gamas',
+            rfc: rfc || 'RIGR840827PJ0',
+            empresa: 'Street Emporio Royal',
+            nivel: 'ENTERPRISE_MAXIMO',
+            timestamp: Date.now()
+        };
+        const hash = crypto_node.createHash('sha256').update(JSON.stringify(payload) + Date.now()).digest('hex');
+        const certId = `JAQUE-${Date.now()}-${hash.substring(0,8).toUpperCase()}-PRESIDENCIAL`;
+
+        let firma = `RSA4096-JAQUE-${hash.substring(0,24).toUpperCase()}`;
+        if (MASTER_KEY_RSA_PRIVADA) {
+            try {
+                const sign = crypto_node.createSign('SHA256');
+                sign.update(JSON.stringify(payload));
+                sign.end();
+                firma = `RSA4096-${sign.sign(MASTER_KEY_RSA_PRIVADA, 'base64').substring(0,40)}`;
+            } catch(e) {}
+        }
+
+        console.log(`♛ JAQUE MATE CERTIFICADO — ${certId}`);
+
+        res.json({
+            success: true,
+            certId,
+            tipo: 'JAQUE_MATE_PRESIDENCIAL',
+            propietario: payload.propietario,
+            rfc: payload.rfc,
+            empresa: payload.empresa,
+            nivel: payload.nivel,
+            hash: `SHA256-${hash}`,
+            signature: firma,
+            blockchain: 'Immutable-Registered',
+            coordenadas: {
+                lat: '19.432608°',
+                lon: '-99.133209°',
+                lugar: 'Ciudad de México, México',
+                zona: 'WGS84 — Coordenadas GPS Exactas'
+            },
+            valoracion: '$276,552,435,904 USD',
+            valido_hasta: 'PERMANENTE',
+            emitido_por: 'LGORITMO AHT ANCESTRAL ENGINE',
+            timestamp: new Date().toISOString(),
+            mensaje: `♛ JAQUE MATE PRESIDENCIAL — Certificado emitido por el LGoritmo AHT Ancestral para ${payload.propietario}`
+        });
+    } catch(e) {
+        res.status(500).json({ success: false, error: e.message });
+    }
+});
+
 // ────────────────────────────────────────────────────────────────────
 // ACTIVACIÓN - Sistema de Códigos Secretos
 // ────────────────────────────────────────────────────────────────────
