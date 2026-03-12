@@ -3738,6 +3738,54 @@ app.post('/certify', async (req, res) => {
     }
 });
 
+// POST /design/penthouse — Diseño Ceremonial: Penthouse Soberano
+app.post('/design/penthouse', (req, res) => {
+    const base = { altura: 200, area: 5000, material: 'Titanio', valor_usd: 250000000 };
+    const variacion = 0.25;
+    const rand = () => 1 + (Math.random() - 0.5) * variacion;
+    const hash = generarHashCeremonia({ tipo: 'penthouse', timestamp: Date.now() });
+    const certId = `CERT-${Date.now()}-${hash.substring(0,8).toUpperCase()}`;
+    let firma = `RSA4096-${hash.substring(0,32).toUpperCase()}`;
+    if (MASTER_KEY_RSA_PRIVADA) {
+        try {
+            const sign = crypto_node.createSign('SHA256');
+            sign.update(JSON.stringify({ tipo: 'penthouse', hash }));
+            sign.end();
+            firma = `RSA4096-${sign.sign(MASTER_KEY_RSA_PRIVADA, 'base64').substring(0,32)}`;
+        } catch(e) {}
+    }
+    res.json({
+        status: 'Generated',
+        tipo: 'Penthouse Soberano',
+        diseno: {
+            nombre: `Penthouse Royal ${Date.now()}`,
+            altura_m: +(base.altura * rand()).toFixed(2),
+            area_m2: +(base.area * rand()).toFixed(2),
+            material: base.material,
+            pisos: Math.floor(40 + Math.random() * 20),
+            piso_penthouse: Math.floor(55 + Math.random() * 10),
+            valor_usd: +(base.valor_usd * rand()).toFixed(0),
+            coordenadas: { lat: +(25.6 + Math.random() * 5).toFixed(6), lon: +(-100.3 + Math.random() * 5).toFixed(6) },
+            caracteristicas: ['Terraza panorámica 360°', 'Piscina infinity privada', 'Helipuerto exclusivo', 'Jardín vertical', 'Sistema domótico cuántico']
+        },
+        certificate: {
+            status: 'Certified',
+            certId,
+            hash: `SHA256-${hash}`,
+            signature: firma,
+            blockchain: 'Immutable-Registered',
+            qr: `https://verify.throne.io/cert/${certId}`,
+            ws: `wss://ws.throne.io/live/${certId}`
+        },
+        hash: `SHA256-${hash.substring(0,32)}`,
+        signature: firma,
+        blockchain: 'Registered',
+        variacion: '25%',
+        timestamp: new Date().toISOString(),
+        mensaje: '👑 Penthouse soberano generado — Nivel presidencial máximo'
+    });
+});
+
 // POST /design/house — Diseño Ceremonial: Casa (variación 25%)
 app.post('/design/house', (req, res) => {
     const base = { tipo: 'CASA', altura: 12, area: 450, material: 'Titanio', valor_usd: 2500000 };

@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>🏛️ Vitrina Ceremonial — Throne Protocol V3.0</title>
+    <style>
+        :root {
+            --gold: #ffd700;
+            --green: #00ff88;
+            --blue: #00aaff;
+            --red: #ff4444;
+            --bg: #000008;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background: var(--bg); color:#fff; font-family:'Courier New',monospace; }
+
+        /* TOPBAR */
+        .topbar {
+            background: rgba(0,0,0,0.95);
+            border-bottom: 2px solid var(--gold);
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky; top:0; z-index:200;
+        }
+        .topbar-title { color: var(--gold); font-size:0.8rem; letter-spacing:3px; }
+        .tl { color:var(--gold); text-decoration:none; font-size:0.72rem; border:1px solid rgba(255,215,0,0.35); padding:5px 14px; border-radius:20px; transition:all 0.2s; }
+        .tl:hover { background:rgba(255,215,0,0.1); }
+
+        /* HEADER DEL DISEÑO */
+        .design-header {
+            text-align: center;
+            padding: 40px 20px 20px;
+            background: linear-gradient(180deg, rgba(255,215,0,0.04) 0%, transparent 100%);
+            border-bottom: 1px solid rgba(255,215,0,0.1);
+        }
+        .dh-eyebrow { color:var(--green); font-size:0.65rem; letter-spacing:6px; margin-bottom:8px; }
+        .dh-nombre { font-size:clamp(1.2rem,3vw,2.2rem); font-weight:900; color:var(--gold); line-height:1.2; margin-bottom:8px; letter-spacing:2px; }
+        .dh-tipo { color:rgba(255,255,255,0.4); font-size:0.8rem; letter-spacing:2px; }
+        .dh-valor { font-size:1.8rem; font-weight:900; color:var(--green); margin-top:16px; }
+        .dh-valor-lbl { color:rgba(255,255,255,0.3); font-size:0.65rem; letter-spacing:3px; }
+
+        /* VITRINA CONTAINER */
+        .vitrinas { max-width: 1100px; margin: 0 auto; padding: 30px 20px 60px; display:flex; flex-direction:column; gap:30px; }
+
+        /* VITRINA CARD */
+        .vitrina {
+            background: rgba(8,8,24,0.95);
+            border: 1px solid rgba(255,215,0,0.18);
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        .vitrina::before {
+            content: '';
+            position: absolute;
+            top:0; left:0; right:0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+
+        .vitrina-header {
+            padding: 20px 24px 0;
+            display:flex; align-items:center; gap:14px;
+        }
+        .vitrina-num {
+            width:36px; height:36px;
+            background: rgba(255,215,0,0.1);
+            border: 1px solid rgba(255,215,0,0.35);
+            border-radius: 50%;
+            display:flex; align-items:center; justify-content:center;
+            font-size:0.85rem; color:var(--gold); font-weight:700; flex-shrink:0;
+        }
+        .vitrina-title { font-size:1rem; color:var(--gold); letter-spacing:3px; text-transform:uppercase; }
+        .vitrina-sub { font-size:0.7rem; color:rgba(255,255,255,0.3); letter-spacing:2px; margin-top:2px; }
+        .vitrina-body { padding: 20px 24px 24px; }
+
+        /* ── V1: ARQUITECTURA EVOLUTIVA ── */
+        .arq-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap:10px; }
+        .arq-spec {
+            background: rgba(255,215,0,0.04);
+            border: 1px solid rgba(255,215,0,0.12);
+            border-radius:10px; padding:14px 12px;
+        }
+        .arq-spec-lbl { font-size:0.6rem; color:rgba(255,255,255,0.35); letter-spacing:2px; text-transform:uppercase; margin-bottom:6px; }
+        .arq-spec-val { font-size:0.95rem; color:var(--green); font-weight:700; }
+        .arq-spec-unit { font-size:0.65rem; color:rgba(255,255,255,0.25); margin-top:2px; }
+
+        .feats-row { display:flex; flex-wrap:wrap; gap:7px; margin-top:16px; }
+        .feat-pill {
+            background:rgba(0,255,136,0.06); border:1px solid rgba(0,255,136,0.2);
+            color:rgba(0,255,136,0.8); font-size:0.68rem; padding:5px 12px; border-radius:20px; letter-spacing:1px;
+        }
+
+        /* ── V2: PLANO MAESTRO AI ── */
+        #plano-canvas {
+            width:100%; height:360px;
+            background: rgba(0,0,20,0.8);
+            border:1px solid rgba(255,215,0,0.15);
+            border-radius:12px;
+            display:block;
+        }
+        .plano-legend { display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; }
+        .legend-item { font-size:0.65rem; color:rgba(255,255,255,0.4); display:flex; align-items:center; gap:6px; }
+        .legend-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+
+        /* ── V3: ANIMACIÓN DE CONSTRUCCIÓN ── */
+        #build-canvas { width:100%; height:300px; border:1px solid rgba(255,215,0,0.12); border-radius:12px; background:rgba(0,0,20,0.8); display:block; }
+        .build-controls { display:flex; gap:10px; margin-top:14px; flex-wrap:wrap; }
+        .build-btn { padding:9px 18px; border:1px solid; border-radius:8px; background:transparent; font-family:'Courier New',monospace; font-size:0.72rem; font-weight:700; letter-spacing:1px; cursor:pointer; transition:all 0.2s; }
+        .build-btn.gold { border-color:var(--gold); color:var(--gold); }
+        .build-btn.gold:hover { background:rgba(255,215,0,0.1); }
+        .build-btn.blue { border-color:var(--blue); color:var(--blue); }
+        .build-btn.blue:hover { background:rgba(0,170,255,0.08); }
+        .build-progress { margin-top:12px; }
+        .build-bar-wrap { background:rgba(0,0,0,0.5); border-radius:4px; height:4px; overflow:hidden; margin-top:6px; }
+        .build-bar { height:100%; background:linear-gradient(90deg,var(--blue),var(--gold)); width:0%; transition:width 0.3s; }
+        .build-lbl { font-size:0.7rem; color:rgba(255,255,255,0.4); letter-spacing:2px; }
+
+        /* ── V4: PRESENTACIÓN PREMIUM ── */
+        #pres-canvas { width:100%; height:340px; border-radius:12px; background:#000; display:block; }
+        .pres-controls { display:flex; gap:10px; margin-top:14px; flex-wrap:wrap; align-items:center; }
+
+        /* ── V5: CERTIFICADO SOBERANO ── */
+        .cert-area { min-height:200px; }
+        .cert-generate-btn {
+            width:100%; padding:18px;
+            background: linear-gradient(135deg, rgba(255,215,0,0.08), rgba(255,215,0,0.03));
+            border: 2px solid var(--gold);
+            border-radius:12px; color:var(--gold);
+            font-family:'Courier New',monospace; font-size:0.9rem; font-weight:700;
+            letter-spacing:3px; cursor:pointer; transition:all 0.3s;
+            text-transform:uppercase;
+        }
+        .cert-generate-btn:hover { background:rgba(255,215,0,0.12); box-shadow:0 0 30px rgba(255,215,0,0.2); }
+        .cert-generate-btn:disabled { opacity:0.4; cursor:not-allowed; }
+        .cert-result {
+            display:none;
+            background: linear-gradient(135deg, #0a0800, #000);
+            border: 2px solid var(--gold);
+            border-radius:16px; padding:28px; margin-top:16px;
+            position:relative; overflow:hidden;
+        }
+        .cert-result.show { display:block; animation:fadeIn 0.6s ease; }
+        @keyframes fadeIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+        .cert-result::before {
+            content:'';
+            position:absolute; inset:0;
+            border: 8px solid rgba(255,215,0,0.08);
+            border-radius:14px; pointer-events:none;
+        }
+        .cert-crown { text-align:center; font-size:2rem; margin-bottom:10px; }
+        .cert-title { text-align:center; color:var(--gold); font-size:1rem; letter-spacing:4px; margin-bottom:20px; }
+        .cert-fields { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+        @media(max-width:500px) { .cert-fields { grid-template-columns:1fr; } }
+        .cert-field { }
+        .cf-lbl { font-size:0.6rem; color:rgba(255,215,0,0.4); letter-spacing:2px; text-transform:uppercase; margin-bottom:4px; }
+        .cf-val { font-size:0.78rem; color:#fff; word-break:break-all; line-height:1.5; }
+        .cf-val.green { color:var(--green); }
+        .cf-val.gold { color:var(--gold); }
+        .cert-full-hash { margin-top:16px; padding:12px; background:rgba(0,0,0,0.5); border-radius:8px; border:1px solid rgba(0,255,136,0.15); }
+        .hash-lbl { font-size:0.6rem; color:rgba(0,255,136,0.5); letter-spacing:2px; margin-bottom:6px; }
+        .hash-val { font-size:0.65rem; color:rgba(0,255,136,0.8); word-break:break-all; line-height:1.6; }
+        .cert-blockchain-badge {
+            margin-top:14px; padding:10px 16px;
+            background:rgba(0,255,136,0.05); border:1px solid rgba(0,255,136,0.2);
+            border-radius:8px; text-align:center;
+            font-size:0.72rem; color:var(--green); letter-spacing:2px;
+        }
+
+        /* SCROLL */
+        ::-webkit-scrollbar { width:4px; }
+        ::-webkit-scrollbar-thumb { background:rgba(255,215,0,0.3); border-radius:4px; }
+    </style>
+</head>
+<body>
+
+<div class="topbar">
+    <div class="topbar-title">🏛️ VITRINA CEREMONIAL — THRONE PROTOCOL V3.0</div>
+    <div style="display:flex;gap:10px;">
+        <a href="/galeria-quantum.html" class="tl">← GALERÍA</a>
+        <a href="/cockpit.html" class="tl">⚡ COCKPIT</a>
+    </div>
+</div>
+
+<div id="design-header" class="design-header">
+    <div class="dh-eyebrow">● CARGANDO DISEÑO...</div>
+    <div class="dh-nombre" id="dh-nombre">...</div>
+    <div class="dh-tipo" id="dh-tipo">...</div>
+    <div class="dh-valor" id="dh-valor">...</div>
+    <div class="dh-valor-lbl">VALORACIÓN DE MERCADO</div>
+</div>
+
+<div class="vitrinas">
+
+    <!-- VITRINA 1: ARQUITECTURA EVOLUTIVA -->
+    <div class="vitrina">
+        <div class="vitrina-header">
+            <div class="vitrina-num">1</div>
+            <div>
+                <div class="vitrina-title">🏗️ Arquitectura Evolutiva</div>
+                <div class="vitrina-sub">Física Estructural Real — Variación 25% Aplicada</div>
+            </div>
+        </div>
+        <div class="vitrina-body">
+            <div class="arq-grid" id="arq-specs">
+                <div class="arq-spec"><div class="arq-spec-lbl">Cargando...</div></div>
+            </div>
+            <div class="feats-row" id="arq-feats"></div>
+
+            <!-- Análisis estructural visual -->
+            <div style="margin-top:20px;padding:16px;background:rgba(255,215,0,0.03);border:1px solid rgba(255,215,0,0.1);border-radius:12px;">
+                <div style="font-size:0.65rem;color:rgba(255,215,0,0.5);letter-spacing:3px;margin-bottom:12px;">ANÁLISIS ESTRUCTURAL QUANTUM</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+                    <div>
+                        <div class="arq-spec-lbl">Peso Total</div>
+                        <div style="color:var(--blue);font-size:0.9rem;font-weight:700;" id="v1-peso">—</div>
+                        <div class="arq-spec-unit">toneladas</div>
+                    </div>
+                    <div>
+                        <div class="arq-spec-lbl">Fuerza Grav.</div>
+                        <div style="color:var(--blue);font-size:0.9rem;font-weight:700;" id="v1-fuerza">—</div>
+                        <div class="arq-spec-unit">Newtons</div>
+                    </div>
+                    <div>
+                        <div class="arq-spec-lbl">Resistencia</div>
+                        <div style="color:var(--blue);font-size:0.9rem;font-weight:700;" id="v1-resist">—</div>
+                        <div class="arq-spec-unit">MPa</div>
+                    </div>
+                </div>
+                <!-- Bar chart de materiales -->
+                <div style="margin-top:14px;" id="v1-material-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VITRINA 2: PLANO MAESTRO AI -->
+    <div class="vitrina">
+        <div class="vitrina-header">
+            <div class="vitrina-num">2</div>
+            <div>
+                <div class="vitrina-title">📐 Plano Maestro AI</div>
+                <div class="vitrina-sub">Diagrama 3D Generado en Tiempo Real — Coordenadas GPS Exactas</div>
+            </div>
+        </div>
+        <div class="vitrina-body">
+            <canvas id="plano-canvas"></canvas>
+            <div class="plano-legend">
+                <div class="legend-item"><div class="legend-dot" style="background:#00ff88"></div>Estructura principal</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#ffd700"></div>Voladizos</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#00aaff"></div>Secciones acuáticas</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#aa00ff"></div>Núcleo estructural</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#ff4444"></div>Punto de carga</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VITRINA 3: ANIMACIÓN DE CONSTRUCCIÓN -->
+    <div class="vitrina">
+        <div class="vitrina-header">
+            <div class="vitrina-num">3</div>
+            <div>
+                <div class="vitrina-title">🎥 Secuencia de Construcción</div>
+                <div class="vitrina-sub">Animación Ceremonial — Visualización Paso a Paso</div>
+            </div>
+        </div>
+        <div class="vitrina-body">
+            <canvas id="build-canvas"></canvas>
+            <div class="build-controls">
+                <button class="build-btn gold" onclick="playBuild()">▶ INICIAR CONSTRUCCIÓN</button>
+                <button class="build-btn blue" onclick="resetBuild()">⟳ REINICIAR</button>
+                <span id="build-step-lbl" style="color:rgba(255,255,255,0.4);font-size:0.72rem;letter-spacing:2px;align-self:center;">LISTO</span>
+            </div>
+            <div class="build-progress">
+                <div class="build-lbl" id="build-phase">FASE: —</div>
+                <div class="build-bar-wrap"><div class="build-bar" id="build-bar"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VITRINA 4: PRESENTACIÓN PREMIUM -->
+    <div class="vitrina">
+        <div class="vitrina-header">
+            <div class="vitrina-num">4</div>
+            <div>
+                <div class="vitrina-title">🎬 Presentación Premium</div>
+                <div class="vitrina-sub">Branding Presidencial — Narrativa de Lujo Cinemática</div>
+            </div>
+        </div>
+        <div class="vitrina-body">
+            <canvas id="pres-canvas"></canvas>
+            <div class="pres-controls">
+                <button class="build-btn gold" onclick="playPresentation()">▶ REPRODUCIR</button>
+                <button class="build-btn blue" onclick="stopPresentation()">■ DETENER</button>
+                <span id="pres-slide-lbl" style="color:rgba(255,255,255,0.4);font-size:0.72rem;letter-spacing:2px;align-self:center;"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- VITRINA 5: CERTIFICADO SOBERANO -->
+    <div class="vitrina">
+        <div class="vitrina-header">
+            <div class="vitrina-num">5</div>
+            <div>
+                <div class="vitrina-title">📜 Certificado Soberano</div>
+                <div class="vitrina-sub">RSA-4096 + SHA-256 + Blockchain Inmutable</div>
+            </div>
+        </div>
+        <div class="vitrina-body cert-area">
+            <button class="cert-generate-btn" id="cert-btn" onclick="generarCertificado()">
+                🔐 GENERAR CERTIFICADO SOBERANO
+            </button>
+
+            <div class="cert-result" id="cert-result">
+                <div class="cert-crown">👑</div>
+                <div class="cert-title">CERTIFICADO SOBERANO — THRONE PROTOCOL V3.0</div>
+                <div class="cert-fields">
+                    <div class="cert-field">
+                        <div class="cf-lbl">ID Certificado</div>
+                        <div class="cf-val gold" id="cf-id">—</div>
+                    </div>
+                    <div class="cert-field">
+                        <div class="cf-lbl">Propietario</div>
+                        <div class="cf-val" id="cf-owner">Roberto Rivera Gamas</div>
+                    </div>
+                    <div class="cert-field">
+                        <div class="cf-lbl">RFC</div>
+                        <div class="cf-val gold">RIGR840827PJ0</div>
+                    </div>
+                    <div class="cert-field">
+                        <div class="cf-lbl">Estado</div>
+                        <div class="cf-val green" id="cf-status">—</div>
+                    </div>
+                    <div class="cert-field">
+                        <div class="cf-lbl">Firma RSA-4096</div>
+                        <div class="cf-val green" id="cf-sig" style="word-break:break-all;font-size:0.65rem;">—</div>
+                    </div>
+                    <div class="cert-field">
+                        <div class="cf-lbl">Válido Hasta</div>
+                        <div class="cf-val gold" id="cf-valid">PERMANENTE</div>
+                    </div>
+                </div>
+                <div class="cert-full-hash">
+                    <div class="hash-lbl">SHA-256 HASH</div>
+                    <div class="hash-val" id="cf-hash">—</div>
+                </div>
+                <div class="cert-blockchain-badge">
+                    ⛓️ REGISTRADO EN BLOCKCHAIN — INMUTABLE — VERIFICABLE
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+// ── GLOBALS ────────────────────────────────────────────────────────
+const params = new URLSearchParams(location.search);
+const designId = params.get('id');
+let currentDesign = null;
+let buildTimer = null;
+let presTimer = null;
+let presFrame = 0;
+let buildStep = 0;
+const BUILD_STEPS = 12;
+
+function formatUSD(v) {
+    const n = parseFloat(v);
+    if (isNaN(n)) return 'N/A';
+    if (n >= 1e12) return '$' + (n/1e12).toFixed(2) + 'T USD';
+    if (n >= 1e9) return '$' + (n/1e9).toFixed(2) + 'B USD';
+    if (n >= 1e6) return '$' + (n/1e6).toFixed(2) + 'M USD';
+    return '$' + n.toLocaleString() + ' USD';
+}
+
+// ── LOAD DESIGN ────────────────────────────────────────────────────
+async function loadDesign() {
+    if (!designId) {
+        document.getElementById('dh-nombre').textContent = 'Diseño no especificado';
+        return;
+    }
+
+    let design = null;
+
+    // Try listado first
+    try {
+        const r = await fetch('/api/arquitectura/listado');
+        const d = await r.json();
+        const all = d.disenos || d.proyectos || [];
+        design = all.find(x => x.id_proyecto === designId) || all[0];
+    } catch(e) {}
+
+    // Fallback to catalogo
+    if (!design) {
+        try {
+            const r = await fetch('/api/arquitectura/catalogo');
+            const d = await r.json();
+            const cat = d.catalogo || [];
+            const raw = cat.find(x => x.id === designId) || cat[0];
+            if (raw) design = {
+                id_proyecto: raw.id,
+                diseño: { nombre: raw.nombre, tipo_hibrido: raw.tipo, caracteristicas: raw.especificaciones?.materiales || [], nivel: raw.tipo },
+                especificaciones: { dimensiones: { altura_total_m: raw.especificaciones?.altura_metros || 80, ancho_m: raw.especificaciones?.area_construida_m2 ? Math.sqrt(raw.especificaciones.area_construida_m2) : 50, profundidad_m: 45, area_construida_m2: raw.especificaciones?.area_construida_m2 || 50000, volumen_total_m3: (raw.especificaciones?.altura_metros||80) * (raw.especificaciones?.area_construida_m2||50000) }, numero_pisos: raw.especificaciones?.plantas || 20, material_principal: (raw.especificaciones?.materiales||['titanio'])[0].toLowerCase().replace(/ /g,'_'), material_secundario: (raw.especificaciones?.materiales||['acero'])[1]?.toLowerCase().replace(/ /g,'_') || 'acero' },
+                valoracion: { valor_mercado_usd: raw.precio_usd, costo_construccion_usd: raw.precio_usd * 0.3, roi_estimado: '300-500%' },
+                ubicacion: { terreno_tipo: 'oceano', coordenadas_gps: raw.coordenadas || { latitud: 19.42, longitud: -99.13 }, zona_climatica: 'Tropical' },
+                analisis_estructural: { peso_estructura: { peso_toneladas: 50000, fuerza_gravitacional_newtons: 490500000, resistencia_material_mpa: 450, costo_material_usd: raw.precio_usd * 0.15 }, estabilidad: 'ÓPTIMA' }
+            };
+        } catch(e) {}
+    }
+
+    if (!design) {
+        document.getElementById('dh-nombre').textContent = 'Error cargando diseño';
+        return;
+    }
+
+    currentDesign = design;
+    renderAll(design);
+}
+
+// ── RENDER ALL VITRINAS ────────────────────────────────────────────
+function renderAll(d) {
+    const spec = d.especificaciones?.dimensiones || {};
+    const val = d.valoracion || {};
+    const anal = d.analisis_estructural?.peso_estructura || {};
+    const ub = d.ubicacion || {};
+    const nombre = d.diseño?.nombre || 'Diseño Premium';
+
+    // HEADER
+    document.getElementById('dh-nombre').textContent = nombre;
+    document.getElementById('dh-tipo').textContent = (d.diseño?.tipo_hibrido || d.diseño?.nivel || 'Ultra-Premium Futurista').toUpperCase();
+    document.getElementById('dh-valor').textContent = formatUSD(val.valor_mercado_usd || val.costo_construccion_usd || 0);
+
+    // VITRINA 1
+    const specs = [
+        { lbl:'Altura', val: parseFloat(spec.altura_total_m||0).toFixed(1), unit:'metros' },
+        { lbl:'Ancho', val: parseFloat(spec.ancho_m||0).toFixed(1), unit:'metros' },
+        { lbl:'Profundidad', val: parseFloat(spec.profundidad_m||0).toFixed(1), unit:'metros' },
+        { lbl:'Área', val: parseFloat(spec.area_construida_m2||0).toFixed(0), unit:'m²' },
+        { lbl:'Volumen', val: parseFloat(spec.volumen_total_m3||0).toFixed(0), unit:'m³' },
+        { lbl:'Pisos', val: d.especificaciones?.numero_pisos||'—', unit:'niveles' },
+        { lbl:'Material', val: (d.especificaciones?.material_principal||'').replace(/_/g,' ').toUpperCase(), unit:'' },
+        { lbl:'Latitud GPS', val: (ub.coordenadas_gps?.latitud||0).toFixed(6)+'°', unit:'' },
+        { lbl:'Longitud GPS', val: (ub.coordenadas_gps?.longitud||0).toFixed(6)+'°', unit:'' },
+        { lbl:'Terreno', val: (ub.terreno_tipo||'').toUpperCase(), unit:'' },
+        { lbl:'Costo Construcción', val: formatUSD(val.costo_construccion_usd||0), unit:'' },
+        { lbl:'ROI Estimado', val: val.roi_estimado||'300-500%', unit:'' }
+    ];
+    document.getElementById('arq-specs').innerHTML = specs.map(s => `
+        <div class="arq-spec">
+            <div class="arq-spec-lbl">${s.lbl}</div>
+            <div class="arq-spec-val">${s.val}</div>
+            <div class="arq-spec-unit">${s.unit}</div>
+        </div>
+    `).join('');
+
+    document.getElementById('arq-feats').innerHTML = (d.diseño?.caracteristicas||[]).map(f => `<div class="feat-pill">${f}</div>`).join('');
+
+    document.getElementById('v1-peso').textContent = parseFloat(anal.peso_toneladas||0).toLocaleString();
+    document.getElementById('v1-fuerza').textContent = parseFloat(anal.fuerza_gravitacional_newtons||0).toLocaleString();
+    document.getElementById('v1-resist').textContent = anal.resistencia_material_mpa||'—';
+
+    // Material bar
+    const matColor = { titanio:'#b0c4de', fibra_de_carbono:'#666', bronze_arquitectonico:'#cd7f32', aluminio:'#a8a9ad', acero:'#888', vidrio_templado:'#add8e6', hormigon:'#c0b090' };
+    const mat1 = d.especificaciones?.material_principal || 'titanio';
+    const mat2 = d.especificaciones?.material_secundario || 'acero';
+    const c1 = matColor[mat1] || '#ffd700';
+    const c2 = matColor[mat2] || '#00ff88';
+    document.getElementById('v1-material-bar').innerHTML = `
+        <div style="font-size:0.6rem;color:rgba(255,255,255,0.3);letter-spacing:2px;margin-bottom:8px;">COMPOSICIÓN DE MATERIALES</div>
+        <div style="background:rgba(0,0,0,0.4);border-radius:4px;height:10px;overflow:hidden;display:flex;">
+            <div style="background:${c1};width:60%;transition:width 1s;"></div>
+            <div style="background:${c2};width:40%;"></div>
+        </div>
+        <div style="display:flex;gap:16px;margin-top:8px;">
+            <div style="font-size:0.65rem;display:flex;align-items:center;gap:5px;"><span style="width:8px;height:8px;background:${c1};border-radius:50%;display:inline-block;"></span><span style="color:rgba(255,255,255,0.4);">${mat1.replace(/_/g,' ').toUpperCase()} 60%</span></div>
+            <div style="font-size:0.65rem;display:flex;align-items:center;gap:5px;"><span style="width:8px;height:8px;background:${c2};border-radius:50%;display:inline-block;"></span><span style="color:rgba(255,255,255,0.4);">${mat2.replace(/_/g,' ').toUpperCase()} 40%</span></div>
+        </div>
+    `;
+
+    // VITRINA 2 - PLANO
+    drawPlano(d);
+
+    // VITRINA 3 - BUILD
+    initBuild(d);
+
+    // VITRINA 4 - PRESENTACIÓN
+    initPresentation(d);
+}
+
+// ── VITRINA 2: PLANO SVG/CANVAS ────────────────────────────────────
+function drawPlano(d) {
+    const canvas = document.getElementById('plano-canvas');
+    const W = canvas.offsetWidth; const H = 360;
+    canvas.width = W; canvas.height = H;
+    const ctx = canvas.getContext('2d');
+
+    const spec = d.especificaciones?.dimensiones || {};
+    const ub = d.ubicacion || {};
+    const alturaM = parseFloat(spec.altura_total_m || 80);
+    const anchoM = parseFloat(spec.ancho_m || 40);
+    const profM = parseFloat(spec.profundidad_m || 35);
+    const pisos = d.especificaciones?.numero_pisos || 10;
+
+    ctx.clearRect(0, 0, W, H);
+
+    // Background grid
+    ctx.strokeStyle = 'rgba(255,215,0,0.04)';
+    ctx.lineWidth = 1;
+    for (let x = 0; x < W; x += 30) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+    for (let y = 0; y < H; y += 30) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+
+    const cx = W / 2;
+    const baseY = H - 40;
+    const scale = Math.min(H * 0.7 / alturaM, W * 0.35 / anchoM);
+    const bw = anchoM * scale;
+    const bh = alturaM * scale;
+
+    // ISOMETRIC STYLE BUILDING
+    const isoX = 15, isoY = -25; // iso offset
+
+    // Shadow
+    ctx.fillStyle = 'rgba(255,215,0,0.03)';
+    ctx.beginPath();
+    ctx.ellipse(cx, baseY + 5, bw * 0.7, 12, 0, 0, Math.PI*2);
+    ctx.fill();
+
+    // Base platform
+    ctx.fillStyle = 'rgba(255,215,0,0.08)';
+    ctx.strokeStyle = 'rgba(255,215,0,0.3)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.rect(cx - bw/2, baseY - 10, bw, 10);
+    ctx.fill(); ctx.stroke();
+
+    // Floor lines
+    const floorH = bh / pisos;
+    for (let i = 0; i <= pisos; i++) {
+        const y = baseY - i * floorH;
+        const alpha = i === 0 || i === pisos ? 0.5 : 0.12;
+        ctx.strokeStyle = `rgba(255,215,0,${alpha})`;
+        ctx.lineWidth = i === 0 || i === pisos ? 1.5 : 0.5;
+        ctx.beginPath(); ctx.moveTo(cx - bw/2, y); ctx.lineTo(cx + bw/2, y); ctx.stroke();
+    }
+
+    // Main facade (front)
+    const grad = ctx.createLinearGradient(cx - bw/2, baseY - bh, cx + bw/2, baseY);
+    grad.addColorStop(0, 'rgba(0,255,136,0.15)');
+    grad.addColorStop(0.5, 'rgba(0,170,255,0.08)');
+    grad.addColorStop(1, 'rgba(255,215,0,0.05)');
+    ctx.fillStyle = grad;
+    ctx.strokeStyle = 'rgba(0,255,136,0.5)';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.rect(cx - bw/2, baseY - bh, bw, bh);
+    ctx.fill(); ctx.stroke();
+
+    // ISO side face
+    ctx.fillStyle = 'rgba(0,170,255,0.06)';
+    ctx.strokeStyle = 'rgba(0,170,255,0.25)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(cx + bw/2, baseY - bh);
+    ctx.lineTo(cx + bw/2 + isoX, baseY - bh + isoY);
+    ctx.lineTo(cx + bw/2 + isoX, baseY + isoY);
+    ctx.lineTo(cx + bw/2, baseY);
+    ctx.closePath();
+    ctx.fill(); ctx.stroke();
+
+    // ISO top face
+    ctx.fillStyle = 'rgba(255,215,0,0.12)';
+    ctx.strokeStyle = 'rgba(255,215,0,0.4)';
+    ctx.beginPath();
+    ctx.moveTo(cx - bw/2, baseY - bh);
+    ctx.lineTo(cx + bw/2, baseY - bh);
+    ctx.lineTo(cx + bw/2 + isoX, baseY - bh + isoY);
+    ctx.lineTo(cx - bw/2 + isoX, baseY - bh + isoY);
+    ctx.closePath();
+    ctx.fill(); ctx.stroke();
+
+    // Voladizo (cantilever)
+    const cantLen = bw * 0.35;
+    const cantY = baseY - bh * 0.65;
+    ctx.strokeStyle = 'rgba(255,215,0,0.7)';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([4,4]);
+    ctx.beginPath();
+    ctx.moveTo(cx + bw/2, cantY);
+    ctx.lineTo(cx + bw/2 + cantLen, cantY);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Voladizo fill
+    ctx.fillStyle = 'rgba(255,215,0,0.06)';
+    ctx.fillRect(cx + bw/2, cantY - 8, cantLen, 8);
+
+    // Center axis (carga)
+    ctx.strokeStyle = 'rgba(255,68,68,0.5)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([3,3]);
+    ctx.beginPath(); ctx.moveTo(cx, baseY - bh); ctx.lineTo(cx, baseY); ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Core internal
+    const coreW = bw * 0.18;
+    ctx.fillStyle = 'rgba(170,0,255,0.15)';
+    ctx.strokeStyle = 'rgba(170,0,255,0.4)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.rect(cx - coreW/2, baseY - bh, coreW, bh);
+    ctx.fill(); ctx.stroke();
+
+    // Dimensions
+    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+    ctx.font = '10px Courier New';
+    ctx.textAlign = 'center';
+
+    // Height dimension line
+    ctx.strokeStyle = 'rgba(255,255,255,0.2)'; ctx.lineWidth = 0.5;
+    ctx.beginPath(); ctx.moveTo(cx - bw/2 - 25, baseY - bh); ctx.lineTo(cx - bw/2 - 25, baseY); ctx.stroke();
+    ctx.fillText(`${alturaM}m`, cx - bw/2 - 35, baseY - bh/2);
+
+    // Width dimension
+    ctx.beginPath(); ctx.moveTo(cx - bw/2, baseY + 20); ctx.lineTo(cx + bw/2, baseY + 20); ctx.stroke();
+    ctx.fillText(`${anchoM}m`, cx, baseY + 30);
+
+    // GPS marker
+    ctx.fillStyle = 'rgba(255,215,0,0.8)';
+    ctx.font = '9px Courier New';
+    ctx.textAlign = 'left';
+    const lat = (ub.coordenadas_gps?.latitud||0).toFixed(4);
+    const lon = (ub.coordenadas_gps?.longitud||0).toFixed(4);
+    ctx.fillText(`GPS: ${lat}° / ${lon}°`, 14, H - 14);
+
+    // Title
+    ctx.fillStyle = 'rgba(255,215,0,0.6)';
+    ctx.font = 'bold 10px Courier New';
+    ctx.textAlign = 'right';
+    ctx.fillText(`PLANO MAESTRO AI — ${pisos} PISOS`, W - 14, H - 14);
+
+    // Animate scan line
+    let scanY = 0;
+    function scanLine() {
+        if (!document.getElementById('plano-canvas')) return;
+        ctx.clearRect(0, scanY-1, W, 3);
+        // Redraw just the scan effect
+        ctx.fillStyle = 'rgba(0,255,136,0.06)';
+        ctx.fillRect(0, scanY, W, 2);
+        scanY = (scanY + 1.5) % H;
+        requestAnimationFrame(scanLine);
+    }
+    // Don't call scanLine - it would erase the drawing; instead draw once
+}
+
+// ── VITRINA 3: BUILD ANIMATION ─────────────────────────────────────
+let buildD = null;
+function initBuild(d) {
+    buildD = d;
+    const canvas = document.getElementById('build-canvas');
+    canvas.width = canvas.offsetWidth;
+    canvas.height = 300;
+    drawBuildStep(canvas, 0, d);
+}
+
+const PHASES = ['Nivelación del terreno','Cimentación profunda','Estructura base','Núcleo central','Pisos inferiores','Pisos medios','Pisos superiores','Voladizos','Fachada exterior','Sistema mecánico','Cristalería','Acabados finales'];
+
+function drawBuildStep(canvas, step, d) {
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width; const H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+
+    const spec = d.especificaciones?.dimensiones || {};
+    const pisos = d.especificaciones?.numero_pisos || 10;
+    const alturaM = parseFloat(spec.altura_total_m || 80);
+    const anchoM = parseFloat(spec.ancho_m || 40);
+
+    const baseY = H - 50;
+    const scale = Math.min((H - 60) / alturaM, (W * 0.45) / anchoM);
+    const bw = anchoM * scale;
+    const bh = alturaM * scale;
+    const cx = W / 2;
+
+    // Grid
+    ctx.strokeStyle = 'rgba(0,170,255,0.05)';
+    ctx.lineWidth = 0.5;
+    for (let x = 0; x < W; x += 25) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+    for (let y = 0; y < H; y += 25) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+
+    // Ground
+    ctx.fillStyle = 'rgba(255,215,0,0.08)';
+    ctx.fillRect(0, baseY, W, H - baseY);
+    ctx.strokeStyle = 'rgba(255,215,0,0.3)';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(0, baseY); ctx.lineTo(W, baseY); ctx.stroke();
+
+    const progress = step / BUILD_STEPS;
+    const builtH = bh * progress;
+    const builtFloors = Math.floor(pisos * progress);
+
+    if (step === 0) {
+        // Just ground
+    } else if (step <= 2) {
+        // Foundation
+        ctx.fillStyle = 'rgba(100,80,50,0.4)';
+        ctx.fillRect(cx - bw/2 - 10, baseY - 15, bw + 20, 15);
+        ctx.strokeStyle = 'rgba(255,215,0,0.4)'; ctx.lineWidth = 1;
+        ctx.strokeRect(cx - bw/2 - 10, baseY - 15, bw + 20, 15);
+    } else {
+        // Foundation
+        ctx.fillStyle = 'rgba(100,80,50,0.3)';
+        ctx.fillRect(cx - bw/2 - 10, baseY - 15, bw + 20, 15);
+
+        // Building body
+        const grad = ctx.createLinearGradient(cx - bw/2, baseY - builtH, cx + bw/2, baseY);
+        grad.addColorStop(0, 'rgba(0,255,136,0.15)');
+        grad.addColorStop(1, 'rgba(0,170,255,0.08)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(cx - bw/2, baseY - builtH, bw, builtH);
+
+        // Core
+        const coreW = bw * 0.15;
+        ctx.fillStyle = 'rgba(170,0,255,0.3)';
+        ctx.fillRect(cx - coreW/2, baseY - builtH, coreW, builtH);
+
+        // Floor lines
+        for (let i = 0; i <= builtFloors; i++) {
+            const y = baseY - (i / pisos) * builtH;
+            ctx.strokeStyle = `rgba(255,215,0,${i % 5 === 0 ? 0.4 : 0.1})`;
+            ctx.lineWidth = i % 5 === 0 ? 1 : 0.5;
+            ctx.beginPath(); ctx.moveTo(cx - bw/2, y); ctx.lineTo(cx + bw/2, y); ctx.stroke();
+        }
+
+        // Outline
+        ctx.strokeStyle = 'rgba(0,255,136,0.6)';
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(cx - bw/2, baseY - builtH, bw, builtH);
+
+        // Construction line (top beam glow)
+        if (progress < 1) {
+            ctx.fillStyle = 'rgba(255,215,0,0.9)';
+            ctx.fillRect(cx - bw/2, baseY - builtH - 2, bw, 3);
+        }
+
+        // Add cantilever on late steps
+        if (step >= 8) {
+            const cantL = bw * 0.3 * ((step - 8) / 4);
+            ctx.fillStyle = 'rgba(255,215,0,0.2)';
+            ctx.fillRect(cx + bw/2, baseY - bh * 0.65, cantL, 10);
+            ctx.strokeStyle = 'rgba(255,215,0,0.7)'; ctx.lineWidth = 1;
+            ctx.strokeRect(cx + bw/2, baseY - bh * 0.65, cantL, 10);
+        }
+    }
+
+    // Phase label
+    const phase = PHASES[Math.min(step, PHASES.length-1)];
+    ctx.fillStyle = 'rgba(255,215,0,0.7)';
+    ctx.font = 'bold 11px Courier New';
+    ctx.textAlign = 'left';
+    ctx.fillText(`FASE ${step+1}/${BUILD_STEPS}: ${phase.toUpperCase()}`, 14, H - 14);
+
+    // Progress %
+    ctx.textAlign = 'right';
+    ctx.fillStyle = 'rgba(0,255,136,0.7)';
+    ctx.fillText(`${Math.round(progress * 100)}% COMPLETADO`, W - 14, H - 14);
+}
+
+function playBuild() {
+    if (buildTimer) clearInterval(buildTimer);
+    buildStep = 0;
+    const canvas = document.getElementById('build-canvas');
+    buildTimer = setInterval(() => {
+        drawBuildStep(canvas, buildStep, buildD);
+        document.getElementById('build-bar').style.width = (buildStep / BUILD_STEPS * 100) + '%';
+        document.getElementById('build-phase').textContent = 'FASE: ' + (PHASES[Math.min(buildStep, PHASES.length-1)] || '').toUpperCase();
+        document.getElementById('build-step-lbl').textContent = `${buildStep}/${BUILD_STEPS}`;
+        buildStep++;
+        if (buildStep > BUILD_STEPS) {
+            clearInterval(buildTimer);
+            buildTimer = null;
+            document.getElementById('build-step-lbl').textContent = '✅ CONSTRUCCIÓN COMPLETADA';
+        }
+    }, 600);
+}
+
+function resetBuild() {
+    if (buildTimer) { clearInterval(buildTimer); buildTimer = null; }
+    buildStep = 0;
+    document.getElementById('build-bar').style.width = '0%';
+    document.getElementById('build-phase').textContent = 'FASE: —';
+    document.getElementById('build-step-lbl').textContent = 'LISTO';
+    if (buildD) drawBuildStep(document.getElementById('build-canvas'), 0, buildD);
+}
+
+// ── VITRINA 4: PRESENTATION CANVAS ────────────────────────────────
+const SLIDES = [
+    { title: 'THRONE PROTOCOL V3.0', sub: 'Arquitectura Cuántica Enterprise', color: '#ffd700' },
+    { title: 'FÍSICA REAL', sub: 'Cálculos de Ingeniería Verificables', color: '#00ff88' },
+    { title: 'RSA-4096', sub: 'Certificación Criptográfica Soberana', color: '#00aaff' },
+    { title: 'BLOCKCHAIN', sub: 'Registro Inmutable e Inalterable', color: '#aa00ff' },
+    { title: 'ROBERTO RIVERA GAMAS', sub: 'RFC: RIGR840827PJ0 — Street Emporio Royal', color: '#ffd700' },
+    { title: '$276.5 BILLION USD', sub: 'Valoración Certificada del Sistema', color: '#00ff88' },
+];
+let slideIdx = 0;
+let presRunning = false;
+
+function initPresentation(d) {
+    const canvas = document.getElementById('pres-canvas');
+    canvas.width = canvas.offsetWidth;
+    canvas.height = 340;
+    drawSlide(canvas, 0, d.diseño?.nombre || 'Diseño Premium', d.valoracion?.valor_mercado_usd || 0);
+}
+
+function drawSlide(canvas, idx, nombre, valor) {
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width; const H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+
+    const slide = SLIDES[idx % SLIDES.length];
+    const color = slide.color;
+
+    // BG
+    const bg = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, Math.max(W,H)/1.5);
+    bg.addColorStop(0, 'rgba(10,5,0,1)');
+    bg.addColorStop(1, '#000008');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, W, H);
+
+    // Corner accents
+    const corners = [[0,0,30,0,0,30], [W,0,-30,0,0,30], [0,H,30,0,0,-30], [W,H,-30,0,0,-30]];
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2;
+    corners.forEach(([x,y,dx1,dy1,dx2,dy2]) => {
+        ctx.beginPath(); ctx.moveTo(x+dx1,y); ctx.lineTo(x,y); ctx.lineTo(x,y+dy2); ctx.stroke();
+    });
+
+    // Grid dots
+    ctx.fillStyle = `${color}18`;
+    for (let gx = 30; gx < W; gx += 40)
+        for (let gy = 30; gy < H; gy += 40) {
+            ctx.beginPath(); ctx.arc(gx, gy, 1, 0, Math.PI*2); ctx.fill();
+        }
+
+    // Slide number
+    ctx.font = '10px Courier New';
+    ctx.fillStyle = 'rgba(255,255,255,0.2)';
+    ctx.textAlign = 'right';
+    ctx.fillText(`${idx+1} / ${SLIDES.length}`, W-20, H-16);
+
+    // Main title
+    ctx.textAlign = 'center';
+    const fs = Math.min(W * 0.065, 42);
+    ctx.font = `900 ${fs}px Courier New`;
+    ctx.fillStyle = color;
+    ctx.shadowColor = color;
+    ctx.shadowBlur = 20;
+    ctx.fillText(slide.title, W/2, H/2 - 20);
+    ctx.shadowBlur = 0;
+
+    // Sub
+    ctx.font = `${fs * 0.38}px Courier New`;
+    ctx.fillStyle = 'rgba(255,255,255,0.55)';
+    ctx.fillText(slide.sub, W/2, H/2 + 20);
+
+    // Design name (bottom)
+    ctx.font = '10px Courier New';
+    ctx.fillStyle = 'rgba(255,215,0,0.4)';
+    ctx.fillText(nombre.substring(0,50), W/2, H - 16);
+
+    // Animated particles (static for now)
+    ctx.fillStyle = `${color}55`;
+    for (let i = 0; i < 8; i++) {
+        const px = 50 + (i * 137.5) % (W - 100);
+        const py = 30 + (i * 97.3) % (H - 60);
+        ctx.beginPath(); ctx.arc(px, py, 2 + (i%3), 0, Math.PI*2); ctx.fill();
+    }
+
+    document.getElementById('pres-slide-lbl').textContent = `SLIDE ${idx+1}/${SLIDES.length}`;
+}
+
+function playPresentation() {
+    presRunning = true;
+    const canvas = document.getElementById('pres-canvas');
+    const nombre = currentDesign?.diseño?.nombre || '';
+    const valor = currentDesign?.valoracion?.valor_mercado_usd || 0;
+    if (presTimer) clearInterval(presTimer);
+    slideIdx = 0;
+    drawSlide(canvas, slideIdx, nombre, valor);
+    presTimer = setInterval(() => {
+        if (!presRunning) return;
+        slideIdx = (slideIdx + 1) % SLIDES.length;
+        drawSlide(canvas, slideIdx, nombre, valor);
+    }, 2800);
+}
+
+function stopPresentation() {
+    presRunning = false;
+    if (presTimer) { clearInterval(presTimer); presTimer = null; }
+}
+
+// ── VITRINA 5: CERTIFICADO ─────────────────────────────────────────
+async function generarCertificado() {
+    const btn = document.getElementById('cert-btn');
+    btn.disabled = true;
+    btn.textContent = '⏳ GENERANDO CON RSA-4096...';
+
+    const nombre = currentDesign?.diseño?.nombre || 'Diseño Soberano';
+    const id = currentDesign?.id_proyecto || designId;
+
+    try {
+        const r = await fetch('/certify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ documento: nombre, propietario: 'Roberto Rivera Gamas', diseno_id: id, rfc: 'RIGR840827PJ0' })
+        });
+        const d = await r.json();
+
+        document.getElementById('cf-id').textContent = d.certId;
+        document.getElementById('cf-owner').textContent = d.propietario;
+        document.getElementById('cf-status').textContent = d.status + ' — BLOCKCHAIN REGISTRADO ✓';
+        document.getElementById('cf-sig').textContent = d.signature;
+        document.getElementById('cf-hash').textContent = d.hash;
+        document.getElementById('cf-valid').textContent = d.valido_hasta || 'PERMANENTE';
+
+        document.getElementById('cert-result').classList.add('show');
+        btn.textContent = '✅ CERTIFICADO GENERADO — CLICK PARA REGENERAR';
+    } catch(e) {
+        btn.textContent = '❌ Error — Intentar de nuevo';
+    } finally {
+        btn.disabled = false;
+    }
+}
+
+// ── INIT ──────────────────────────────────────────────────────────
+loadDesign();
+</script>
+</body>
+</html>
