@@ -3074,10 +3074,10 @@ app.get('/api/aht/quantum/tokens', async (req, res) => {
         // Merge with personal tokens from PostgreSQL
         let personalTokens = [];
         try {
-            const dbResult = await databaseService.pool.query(
+            const dbResult = await dbService.pool.query(
                 `SELECT token_code, nombre, tier, precio_usd, servicios, metadata
                  FROM fusion_tokens
-                 WHERE metadata::text LIKE '%PERSONAL%' AND activo = true
+                 WHERE metadata::jsonb->>'tipo' = 'PERSONAL' AND activo = true
                  ORDER BY token_code`
             );
             personalTokens = dbResult.rows.map(r => ({
