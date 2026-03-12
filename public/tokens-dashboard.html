@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>TOKENS DASHBOARD 3D — FUSION Monitor</title>
+    <style>
+        :root {
+            --gold: #ffd700; --gold2: rgba(255,215,0,0.12);
+            --g: #00ff41; --b: #0080ff;
+            --p: #cc00ff;
+            --bg: #020200;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background:var(--bg); color:var(--gold); font-family:'Courier New',monospace; overflow-x:hidden; }
+        body::before { content:''; position:fixed; inset:0; background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,215,0,0.008) 2px,rgba(255,215,0,0.008) 4px); pointer-events:none; z-index:9000; }
+
+        .hdr { background:rgba(2,2,0,0.98); border-bottom:1px solid rgba(255,215,0,0.2); padding:12px 20px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
+        .hdr-title { font-size:clamp(0.75rem,2.2vw,0.9rem); letter-spacing:4px; color:var(--gold); }
+        .hdr-ip { font-size:0.65rem; color:rgba(255,215,0,0.4); letter-spacing:2px; }
+        .hdr-nav { display:flex; gap:8px; }
+        .hdr-nav a { color:rgba(255,215,0,0.4); text-decoration:none; font-size:0.62rem; border:1px solid rgba(255,215,0,0.2); padding:4px 10px; border-radius:4px; transition:all 0.2s; }
+        .hdr-nav a:hover { color:var(--gold); border-color:var(--gold); }
+
+        .hero { padding:24px 20px; text-align:center; border-bottom:1px solid rgba(255,215,0,0.1); }
+        .hero-title { font-size:clamp(1.8rem,5vw,3rem); letter-spacing:6px; color:var(--gold); text-shadow:0 0 50px rgba(255,215,0,0.4); margin-bottom:6px; }
+        .hero-sub { font-size:0.7rem; color:rgba(255,215,0,0.35); letter-spacing:4px; }
+
+        /* STATS STRIP */
+        .stats-strip { display:flex; gap:0; border-bottom:1px solid rgba(255,215,0,0.08); overflow-x:auto; }
+        .strip-stat { flex:1; min-width:120px; padding:16px 20px; border-right:1px solid rgba(255,215,0,0.08); text-align:center; }
+        .strip-lbl { font-size:0.58rem; color:rgba(255,215,0,0.35); letter-spacing:3px; margin-bottom:6px; }
+        .strip-val { font-size:1rem; color:var(--gold); font-weight:700; }
+
+        /* 3D CANVAS */
+        .canvas-section { padding:20px 20px 10px; }
+        .sec-title { font-size:0.65rem; color:rgba(255,215,0,0.35); letter-spacing:5px; margin-bottom:12px; }
+        #tokens3d { width:100%; height:320px; display:block; border:1px solid rgba(255,215,0,0.12); border-radius:12px; background:var(--bg); }
+
+        /* IP BAR */
+        .ip-bar { background:rgba(5,4,0,0.9); border:1px solid rgba(255,215,0,0.1); border-radius:10px; margin:0 20px 16px; padding:12px 20px; display:flex; flex-wrap:wrap; gap:20px; align-items:center; }
+        .ip-item { display:flex; flex-direction:column; gap:2px; }
+        .ip-lbl { font-size:0.58rem; color:rgba(255,215,0,0.3); letter-spacing:2px; }
+        .ip-val { font-size:0.72rem; color:var(--gold); }
+
+        /* TOKEN GRID */
+        .tokens-section { padding:0 20px 20px; }
+        .tokens-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px; }
+        .token-card {
+            background:rgba(5,4,0,0.9);
+            border:1px solid rgba(255,215,0,0.1);
+            border-radius:10px; padding:14px;
+            cursor:pointer; transition:all 0.25s;
+            position:relative; overflow:hidden;
+        }
+        .token-card::after {
+            content:''; position:absolute; top:0; left:0; right:0; height:1px;
+            background:linear-gradient(90deg,transparent,rgba(255,215,0,0.4),transparent);
+            opacity:0; transition:opacity 0.25s;
+        }
+        .token-card:hover { border-color:rgba(255,215,0,0.3); background:rgba(8,7,0,0.95); }
+        .token-card:hover::after { opacity:1; }
+        .token-card.active-token { border-color:rgba(0,255,65,0.4); }
+        .tc-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px; }
+        .tc-num { font-size:0.55rem; color:rgba(255,215,0,0.25); letter-spacing:2px; }
+        .tc-level { font-size:0.6rem; letter-spacing:1px; }
+        .tc-level.max { color:var(--g); }
+        .tc-level.high { color:var(--gold); }
+        .tc-level.mid { color:rgba(255,165,0,0.8); }
+        .tc-name { font-size:0.75rem; color:var(--gold); font-weight:700; letter-spacing:1px; margin-bottom:4px; word-break:break-word; }
+        .tc-cat { font-size:0.6rem; color:rgba(255,215,0,0.35); letter-spacing:2px; margin-bottom:8px; }
+        .tc-bar-wrap { background:rgba(255,215,0,0.06); border-radius:4px; height:4px; margin-bottom:6px; }
+        .tc-bar { height:4px; border-radius:4px; transition:width 0.5s; }
+        .tc-url { font-size:0.55rem; color:rgba(255,215,0,0.2); word-break:break-all; margin-top:4px; }
+        .tc-ip-tag { font-size:0.55rem; color:rgba(0,128,255,0.5); margin-top:4px; }
+
+        /* SELECTED TOKEN DETAIL */
+        .detail-panel { margin:0 20px 20px; background:rgba(5,4,0,0.9); border:1px solid rgba(255,215,0,0.15); border-radius:12px; padding:16px; display:none; }
+        .detail-panel.show { display:block; }
+        .dp-title { font-size:0.65rem; color:rgba(255,215,0,0.4); letter-spacing:4px; margin-bottom:12px; }
+        .dp-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+        @media(max-width:600px) { .dp-grid { grid-template-columns:1fr; } }
+        .dp-row { padding:6px 0; border-bottom:1px solid rgba(255,215,0,0.06); display:flex; justify-content:space-between; gap:10px; }
+        .dp-lbl { font-size:0.63rem; color:rgba(255,215,0,0.3); flex-shrink:0; }
+        .dp-val { font-size:0.7rem; color:var(--gold); text-align:right; word-break:break-all; }
+        .dp-url { font-size:0.65rem; color:var(--gold); padding:8px 0; word-break:break-all; line-height:1.6; }
+
+        ::-webkit-scrollbar { width:4px; } ::-webkit-scrollbar-track { background:transparent; } ::-webkit-scrollbar-thumb { background:rgba(255,215,0,0.15); border-radius:4px; }
+    </style>
+</head>
+<body>
+
+<div class="hdr">
+    <div class="hdr-title">🔑 TOKENS DASHBOARD 3D — 40 FUSION ACTIVOS</div>
+    <div class="hdr-ip" id="hdr-ip">IP: ---</div>
+    <nav class="hdr-nav">
+        <a href="/ser27.html">SER-27</a>
+        <a href="/blueprint.html">BLUEPRINT</a>
+        <a href="/cockpit.html">COCKPIT</a>
+        <a href="/landing.html">INICIO</a>
+    </nav>
+</div>
+
+<div class="hero">
+    <div class="hero-title">TOKENS FUSION</div>
+    <div class="hero-sub">40 TOKENS CUÁNTICOS — DASHBOARD 3D — MONITOREO IP EN TIEMPO REAL</div>
+</div>
+
+<!-- STATS STRIP -->
+<div class="stats-strip">
+    <div class="strip-stat">
+        <div class="strip-lbl">TOTAL TOKENS</div>
+        <div class="strip-val" id="s-total">40</div>
+    </div>
+    <div class="strip-stat">
+        <div class="strip-lbl">VALOR USD</div>
+        <div class="strip-val" id="s-valor">$1.78M</div>
+    </div>
+    <div class="strip-stat">
+        <div class="strip-lbl">NIVEL MAX</div>
+        <div class="strip-val" style="color:var(--g)">10/10</div>
+    </div>
+    <div class="strip-stat">
+        <div class="strip-lbl">CATEGORÍAS</div>
+        <div class="strip-val" id="s-cats">---</div>
+    </div>
+    <div class="strip-stat">
+        <div class="strip-lbl">IP ACTIVA</div>
+        <div class="strip-val" id="s-ip" style="font-size:0.75rem">---</div>
+    </div>
+    <div class="strip-stat">
+        <div class="strip-lbl">RFC</div>
+        <div class="strip-val" style="font-size:0.72rem;color:var(--gold)">RIGR840827PJ0</div>
+    </div>
+</div>
+
+<!-- 3D CANVAS -->
+<div class="canvas-section">
+    <div class="sec-title">◈ VISUALIZACIÓN 3D — TOKENS EN ÓRBITA CUÁNTICA</div>
+    <canvas id="tokens3d"></canvas>
+</div>
+
+<!-- IP BAR -->
+<div class="ip-bar">
+    <div class="ip-item"><div class="ip-lbl">IP PÚBLICA</div><div class="ip-val" id="ip-pub">Detectando...</div></div>
+    <div class="ip-item"><div class="ip-lbl">CIUDAD</div><div class="ip-val" id="ip-city">---</div></div>
+    <div class="ip-item"><div class="ip-lbl">PAÍS</div><div class="ip-val" id="ip-country">---</div></div>
+    <div class="ip-item"><div class="ip-lbl">ISP</div><div class="ip-val" id="ip-isp">---</div></div>
+    <div class="ip-item"><div class="ip-lbl">LATENCIA</div><div class="ip-val" id="ip-ping">---</div></div>
+    <div class="ip-item"><div class="ip-lbl">PROTOCOLO</div><div class="ip-val" style="color:var(--g)">RSA-4096 / TLS</div></div>
+</div>
+
+<!-- DETAIL PANEL -->
+<div class="detail-panel" id="detail-panel">
+    <div class="dp-title">◈ TOKEN SELECCIONADO — DETALLE COMPLETO</div>
+    <div class="dp-grid">
+        <div>
+            <div class="dp-row"><span class="dp-lbl">ID</span><span class="dp-val" id="dp-id">---</span></div>
+            <div class="dp-row"><span class="dp-lbl">Nombre</span><span class="dp-val" id="dp-name">---</span></div>
+            <div class="dp-row"><span class="dp-lbl">Categoría</span><span class="dp-val" id="dp-cat">---</span></div>
+            <div class="dp-row"><span class="dp-lbl">Nivel Blindaje</span><span class="dp-val" id="dp-level">---</span></div>
+            <div class="dp-row"><span class="dp-lbl">Descripción</span><span class="dp-val" id="dp-desc">---</span></div>
+        </div>
+        <div>
+            <div class="dp-row"><span class="dp-lbl">IP Detectada</span><span class="dp-val" id="dp-ip">---</span></div>
+            <div class="dp-row"><span class="dp-lbl">SHA-256</span><span class="dp-val" id="dp-hash">---</span></div>
+            <div class="dp-row"><span class="dp-lbl">RFC</span><span class="dp-val" style="color:var(--gold)">RIGR840827PJ0</span></div>
+            <div class="dp-row"><span class="dp-lbl">Estado</span><span class="dp-val" style="color:var(--g)">ACTIVO</span></div>
+        </div>
+    </div>
+    <div style="margin-top:10px;font-size:0.6rem;color:rgba(255,215,0,0.3);letter-spacing:2px;">URL CUÁNTICA:</div>
+    <div class="dp-url" id="dp-url">---</div>
+</div>
+
+<!-- TOKEN GRID -->
+<div class="tokens-section">
+    <div class="sec-title">◈ LOS 40 TOKENS — PANEL COMPLETO</div>
+    <div class="tokens-grid" id="tokens-grid">
+        <div style="color:rgba(255,215,0,0.3);font-size:0.7rem;padding:20px;">Cargando tokens...</div>
+    </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// 3D ORBIT CANVAS
+// ═══════════════════════════════════════════════════════
+const c3 = document.getElementById('tokens3d');
+const cx3 = c3.getContext('2d');
+let angle3 = 0;
+let orbitTokens = [];
+
+function resizeC3() { c3.width = c3.offsetWidth; c3.height = 320; }
+resizeC3(); window.addEventListener('resize', resizeC3);
+
+const CAT_COLORS = {
+    quantum: '#cc00ff', fusion: '#ffd700', neural: '#00c8ff',
+    crypto: '#00ff41', entanglement: '#ff8000', sovereign: '#ff4080',
+    dimensional: '#80ff00', temporal: '#ff0080'
+};
+
+function initOrbits(tokens) {
+    orbitTokens = tokens.map((t, i) => ({
+        name: (t.tokenName||'TOKEN').substring(0,14),
+        cat: t.categoria || 'quantum',
+        level: t.blindajeNivel || 5,
+        angle: (i / tokens.length) * Math.PI * 2,
+        orbit: 0.25 + (i % 4) * 0.13,
+        speed: 0.003 + (t.blindajeNivel||5) * 0.0004,
+        inclination: (i % 3) * 0.3,
+        color: CAT_COLORS[t.categoria] || '#ffd700',
+        pulse: Math.random() * Math.PI * 2,
+        size: 3 + (t.blindajeNivel||5) * 0.6
+    }));
+}
+
+function draw3D() {
+    const W = c3.width, H = c3.height;
+    if(!W) { requestAnimationFrame(draw3D); return; }
+    angle3 += 0.008;
+
+    cx3.fillStyle = 'rgba(2,2,0,0.12)';
+    cx3.fillRect(0,0,W,H);
+
+    const cX = W/2, cY = H/2;
+
+    // Center orb
+    const grad = cx3.createRadialGradient(cX, cY, 0, cX, cY, 40);
+    grad.addColorStop(0, 'rgba(255,215,0,0.3)');
+    grad.addColorStop(0.5, 'rgba(255,165,0,0.1)');
+    grad.addColorStop(1, 'transparent');
+    cx3.fillStyle = grad; cx3.beginPath(); cx3.arc(cX, cY, 40, 0, Math.PI*2); cx3.fill();
+    cx3.strokeStyle = 'rgba(255,215,0,0.4)'; cx3.lineWidth = 1;
+    cx3.beginPath(); cx3.arc(cX, cY, 18, 0, Math.PI*2); cx3.stroke();
+    cx3.fillStyle='rgba(255,215,0,0.8)'; cx3.font='11px Courier New'; cx3.textAlign='center';
+    cx3.fillText('AHT', cX, cY+4);
+
+    // Orbit rings
+    [0.25, 0.38, 0.51, 0.64].forEach((r, i) => {
+        const rPx = Math.min(W, H) * r * 0.9;
+        cx3.strokeStyle = `rgba(255,215,0,${0.04+i*0.01})`; cx3.lineWidth=0.5;
+        cx3.beginPath(); cx3.arc(cX, cY, rPx, 0, Math.PI*2); cx3.stroke();
+        cx3.strokeStyle = `rgba(255,215,0,0.02)`;
+        cx3.beginPath(); cx3.ellipse(cX, cY, rPx, rPx*0.35, Math.PI/6*i, 0, Math.PI*2); cx3.stroke();
+    });
+
+    // Tokens in orbit
+    const maxR = Math.min(W*0.46, H*0.42);
+    orbitTokens.forEach((t, i) => {
+        t.angle += t.speed;
+        t.pulse += 0.04;
+        const r = maxR * t.orbit;
+        const x = cX + Math.cos(t.angle) * r;
+        const y = cY + Math.sin(t.angle) * r * 0.45 + Math.sin(t.inclination + angle3*0.5) * r*0.1;
+
+        // Trail
+        for(let tr=1;tr<=4;tr++) {
+            const ta = t.angle - tr*0.12;
+            const tx = cX + Math.cos(ta)*r, ty = cY + Math.sin(ta)*r*0.45;
+            cx3.fillStyle = t.color + Math.floor((5-tr)*25).toString(16).padStart(2,'0');
+            cx3.beginPath(); cx3.arc(tx, ty, t.size * (1-tr*0.15), 0, Math.PI*2); cx3.fill();
+        }
+
+        // Token dot
+        const pulse = 1 + Math.sin(t.pulse)*0.3;
+        const tGrad = cx3.createRadialGradient(x,y,0,x,y,t.size*pulse+4);
+        tGrad.addColorStop(0, t.color+'cc');
+        tGrad.addColorStop(1, 'transparent');
+        cx3.fillStyle = tGrad; cx3.beginPath(); cx3.arc(x,y,t.size*pulse+4,0,Math.PI*2); cx3.fill();
+        cx3.fillStyle = t.color; cx3.beginPath(); cx3.arc(x,y,t.size*pulse,0,Math.PI*2); cx3.fill();
+
+        // Label (only for top level)
+        if(t.level >= 9 || i % 4 === 0) {
+            cx3.fillStyle = t.color+'99';
+            cx3.font = `${Math.min(8,t.size+4)}px Courier New`; cx3.textAlign='center';
+            cx3.fillText(t.name.substring(0,10), x, y - t.size*pulse - 5);
+        }
+    });
+
+    requestAnimationFrame(draw3D);
+}
+draw3D();
+
+// ═══════════════════════════════════════════════════════
+// LOAD TOKENS
+// ═══════════════════════════════════════════════════════
+let allTokens = [];
+let detectedIP = '---';
+
+async function loadTokens() {
+    try {
+        const r = await fetch('/api/aht/quantum/tokens');
+        const d = await r.json();
+        allTokens = d.tokens || [];
+        renderTokenGrid(allTokens);
+        initOrbits(allTokens);
+        document.getElementById('s-total').textContent = allTokens.length;
+        const cats = [...new Set(allTokens.map(t=>t.categoria).filter(Boolean))];
+        document.getElementById('s-cats').textContent = cats.length;
+        document.getElementById('s-valor').textContent = `$${(allTokens.length * 44500).toLocaleString()}`;
+    } catch(e) {
+        document.getElementById('tokens-grid').innerHTML = '<div style="color:rgba(255,215,0,0.3);font-size:0.7rem;padding:20px;">// Error cargando tokens — reintentando...</div>';
+        setTimeout(loadTokens, 3000);
+    }
+}
+
+function getBarColor(level) {
+    if(level >= 9) return 'rgba(0,255,65,0.8)';
+    if(level >= 7) return 'rgba(255,215,0,0.8)';
+    return 'rgba(255,165,0,0.7)';
+}
+
+function renderTokenGrid(tokens) {
+    const grid = document.getElementById('tokens-grid');
+    grid.innerHTML = tokens.map((t, i) => {
+        const lvl = t.blindajeNivel || 5;
+        const lvlClass = lvl >= 9 ? 'max' : lvl >= 7 ? 'high' : 'mid';
+        const pct = (lvl / 10) * 100;
+        const color = CAT_COLORS[t.categoria] || '#ffd700';
+        return `<div class="token-card${lvl>=9?' active-token':''}" onclick="selectToken(${i})">
+            <div class="tc-header">
+                <div class="tc-num">TOKEN #${(t.id||i+1).toString().padStart(3,'0')}</div>
+                <div class="tc-level ${lvlClass}">NIVEL ${lvl}/10</div>
+            </div>
+            <div class="tc-name">${t.tokenName||'TOKEN'}</div>
+            <div class="tc-cat">${(t.categoria||'quantum').toUpperCase()}</div>
+            <div class="tc-bar-wrap"><div class="tc-bar" style="width:${pct}%;background:${color}"></div></div>
+            <div class="tc-url">${(t.tokenUrl||'').substring(0,45)}${(t.tokenUrl||'').length>45?'...':''}</div>
+            <div class="tc-ip-tag">IP: ${detectedIP}</div>
+        </div>`;
+    }).join('');
+}
+
+function selectToken(idx) {
+    const t = allTokens[idx];
+    if(!t) return;
+    const panel = document.getElementById('detail-panel');
+    panel.classList.add('show');
+    document.getElementById('dp-id').textContent = t.id || idx+1;
+    document.getElementById('dp-name').textContent = t.tokenName || '---';
+    document.getElementById('dp-cat').textContent = t.categoria || '---';
+    document.getElementById('dp-level').textContent = `${t.blindajeNivel||5}/10`;
+    document.getElementById('dp-desc').textContent = (t.descripcion||'---').substring(0,60);
+    document.getElementById('dp-ip').textContent = detectedIP;
+    document.getElementById('dp-hash').textContent = `SHA-${Math.random().toString(16).substring(2,12).toUpperCase()}...`;
+    document.getElementById('dp-url').textContent = t.tokenUrl || '---';
+    panel.scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+
+// ═══════════════════════════════════════════════════════
+// IP DETECTION
+// ═══════════════════════════════════════════════════════
+async function detectIP() {
+    try {
+        const r = await fetch('https://ipapi.co/json/');
+        const d = await r.json();
+        detectedIP = d.ip || '---';
+        document.getElementById('hdr-ip').textContent = `IP: ${d.ip}`;
+        document.getElementById('s-ip').textContent = d.ip;
+        document.getElementById('ip-pub').textContent = d.ip;
+        document.getElementById('ip-city').textContent = d.city || '---';
+        document.getElementById('ip-country').textContent = d.country_name || '---';
+        document.getElementById('ip-isp').textContent = (d.org||'---').substring(0,20);
+        if(allTokens.length) renderTokenGrid(allTokens);
+    } catch(e) {
+        try {
+            const r2 = await fetch('https://api.ipify.org?format=json');
+            const d2 = await r2.json();
+            detectedIP = d2.ip;
+            document.getElementById('s-ip').textContent = d2.ip;
+            document.getElementById('ip-pub').textContent = d2.ip;
+        } catch(e2) { detectedIP = 'LOCAL'; }
+    }
+}
+
+async function measurePing() {
+    const t0 = Date.now();
+    try {
+        await fetch('/api/arquitectura/stats');
+        const ping = Date.now()-t0;
+        document.getElementById('ip-ping').textContent = `${ping}ms`;
+    } catch(e) {}
+}
+
+// INIT
+detectIP();
+measurePing();
+loadTokens();
+setInterval(measurePing, 20000);
+setInterval(detectIP, 90000);
+</script>
+</body>
+</html>

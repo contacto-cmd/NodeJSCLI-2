@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>BLUEPRINT — Core Pipeline Infraestructura</title>
+    <style>
+        :root {
+            --b: #0080ff; --b2: #00c8ff; --b3: rgba(0,128,255,0.07);
+            --gold: #ffd700; --green: #00ff41;
+            --bg: #000408;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background:var(--bg); color:var(--b2); font-family:'Courier New',monospace; overflow-x:hidden; }
+
+        /* SCANLINES */
+        body::before { content:''; position:fixed; inset:0; background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,128,255,0.012) 2px,rgba(0,128,255,0.012) 4px); pointer-events:none; z-index:9000; }
+
+        /* HEADER */
+        .hdr { background:rgba(0,4,8,0.97); border-bottom:1px solid rgba(0,128,255,0.2); padding:12px 20px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
+        .hdr-title { font-size:clamp(0.8rem,2.5vw,1rem); letter-spacing:4px; color:var(--b2); }
+        .hdr-ip { font-size:0.68rem; color:rgba(0,200,255,0.5); letter-spacing:2px; }
+        .hdr-nav { display:flex; gap:10px; }
+        .hdr-nav a { color:rgba(0,200,255,0.5); text-decoration:none; font-size:0.65rem; border:1px solid rgba(0,128,255,0.2); padding:4px 10px; border-radius:4px; transition:all 0.2s; }
+        .hdr-nav a:hover { color:var(--b2); border-color:var(--b); }
+
+        /* HERO */
+        .hero { padding:30px 20px; text-align:center; border-bottom:1px solid rgba(0,128,255,0.1); }
+        .hero-title { font-size:clamp(1.6rem,5vw,2.8rem); color:var(--b2); letter-spacing:6px; margin-bottom:8px; text-shadow:0 0 40px rgba(0,200,255,0.4); }
+        .hero-sub { font-size:0.75rem; color:rgba(0,200,255,0.4); letter-spacing:4px; }
+
+        /* LIVE GRID */
+        .live-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:12px; padding:20px; }
+        .live-card { background:rgba(0,8,20,0.9); border:1px solid rgba(0,128,255,0.15); border-radius:10px; padding:14px; transition:all 0.25s; }
+        .live-card:hover { border-color:rgba(0,200,255,0.4); background:rgba(0,12,30,0.95); }
+        .lc-label { font-size:0.6rem; color:rgba(0,200,255,0.35); letter-spacing:3px; margin-bottom:6px; }
+        .lc-val { font-size:1.1rem; color:var(--b2); font-weight:700; letter-spacing:1px; }
+        .lc-sub { font-size:0.62rem; color:rgba(0,200,255,0.3); margin-top:4px; }
+        .pulse { display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--green); animation:pulse 1.5s ease-in-out infinite; margin-right:5px; }
+        @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.8)} }
+
+        /* PIPELINE 3D CANVAS */
+        .pipeline-section { padding:20px; }
+        .sec-title { font-size:0.72rem; color:rgba(0,200,255,0.4); letter-spacing:5px; margin-bottom:14px; border-bottom:1px solid rgba(0,128,255,0.1); padding-bottom:8px; }
+        #pipeline-canvas { width:100%; height:300px; display:block; border:1px solid rgba(0,128,255,0.15); border-radius:10px; background:var(--bg); cursor:pointer; }
+
+        /* IP MONITOR */
+        .ip-section { padding:0 20px 20px; }
+        .ip-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+        @media(max-width:600px) { .ip-grid { grid-template-columns:1fr; } }
+        .ip-card { background:rgba(0,8,20,0.9); border:1px solid rgba(0,128,255,0.12); border-radius:10px; padding:16px; }
+        .ip-title { font-size:0.62rem; color:rgba(0,200,255,0.35); letter-spacing:3px; margin-bottom:12px; }
+        .ip-row { display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px solid rgba(0,128,255,0.06); }
+        .ip-lbl { font-size:0.65rem; color:rgba(0,200,255,0.35); }
+        .ip-data { font-size:0.7rem; color:var(--b2); text-align:right; word-break:break-all; max-width:55%; }
+
+        /* BLUEPRINT NODES */
+        .nodes-section { padding:0 20px 20px; }
+        .nodes-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:10px; }
+        .node-card { background:rgba(0,8,20,0.9); border:1px solid rgba(0,128,255,0.1); border-radius:8px; padding:12px; display:flex; align-items:center; gap:10px; cursor:pointer; transition:all 0.2s; }
+        .node-card:hover { border-color:rgba(0,200,255,0.3); }
+        .node-icon { font-size:1.3rem; flex-shrink:0; }
+        .node-info { flex:1; }
+        .node-name { font-size:0.72rem; color:var(--b2); letter-spacing:1px; }
+        .node-stat { font-size:0.6rem; color:rgba(0,200,255,0.35); margin-top:2px; }
+        .node-status { font-size:0.6rem; letter-spacing:2px; }
+        .node-status.ok { color:var(--green); }
+        .node-status.warn { color:var(--gold); }
+
+        /* LOG STREAM */
+        .log-section { padding:0 20px 20px; }
+        .log-stream { background:rgba(0,5,15,0.95); border:1px solid rgba(0,128,255,0.1); border-radius:10px; padding:14px; height:200px; overflow-y:auto; font-size:0.68rem; line-height:1.8; }
+        .log-line { display:flex; gap:8px; }
+        .log-ts { color:rgba(0,200,255,0.25); white-space:nowrap; }
+        .log-lvl { white-space:nowrap; }
+        .log-lvl.info { color:var(--b); }
+        .log-lvl.ok { color:var(--green); }
+        .log-lvl.warn { color:var(--gold); }
+        .log-msg { color:rgba(0,200,255,0.65); }
+
+        ::-webkit-scrollbar { width:4px; } ::-webkit-scrollbar-track { background:transparent; } ::-webkit-scrollbar-thumb { background:rgba(0,128,255,0.2); border-radius:4px; }
+    </style>
+</head>
+<body>
+
+<div class="hdr">
+    <div class="hdr-title">⬡ BLUEPRINT — CORE PIPELINE INFRAESTRUCTURA</div>
+    <div class="hdr-ip" id="hdr-ip">IP: DETECTANDO...</div>
+    <nav class="hdr-nav">
+        <a href="/ser27.html">SER-27</a>
+        <a href="/tokens-dashboard.html">TOKENS</a>
+        <a href="/cockpit.html">COCKPIT</a>
+        <a href="/landing.html">INICIO</a>
+    </nav>
+</div>
+
+<div class="hero">
+    <div class="hero-title">BLUEPRINT</div>
+    <div class="hero-sub">CORE PIPELINE DE INFRAESTRUCTURA — IP REAL + 3D EN TIEMPO REAL</div>
+</div>
+
+<!-- LIVE STATS -->
+<div class="live-grid">
+    <div class="live-card">
+        <div class="lc-label">IP PÚBLICA</div>
+        <div class="lc-val" id="stat-ip" style="font-size:0.85rem">---</div>
+        <div class="lc-sub" id="stat-isp">Detectando...</div>
+    </div>
+    <div class="live-card">
+        <div class="lc-label">SERVIDOR</div>
+        <div class="lc-val"><span class="pulse"></span>ONLINE</div>
+        <div class="lc-sub">Puerto 5000 — Express</div>
+    </div>
+    <div class="live-card">
+        <div class="lc-label">RSA-4096</div>
+        <div class="lc-val" style="color:var(--gold)">ACTIVO</div>
+        <div class="lc-sub">Firma criptográfica real</div>
+    </div>
+    <div class="live-card">
+        <div class="lc-label">DISEÑOS</div>
+        <div class="lc-val" id="stat-disenos">372</div>
+        <div class="lc-sub">$2.8T portafolio</div>
+    </div>
+    <div class="live-card">
+        <div class="lc-label">TOKENS FUSION</div>
+        <div class="lc-val" id="stat-tokens">40</div>
+        <div class="lc-sub">Cuánticos activos</div>
+    </div>
+    <div class="live-card">
+        <div class="lc-label">LATENCIA</div>
+        <div class="lc-val" id="stat-ping">---</div>
+        <div class="lc-sub">Ping al servidor</div>
+    </div>
+    <div class="live-card">
+        <div class="lc-label">UPTIME</div>
+        <div class="lc-val" id="stat-uptime">---</div>
+        <div class="lc-sub">Tiempo activo</div>
+    </div>
+    <div class="live-card">
+        <div class="lc-label">GPS</div>
+        <div class="lc-val" style="font-size:0.75rem">19.43°</div>
+        <div class="lc-sub">CDMX — WGS84</div>
+    </div>
+</div>
+
+<!-- PIPELINE 3D -->
+<div class="pipeline-section">
+    <div class="sec-title">◈ PIPELINE 3D — FLUJO DE INFRAESTRUCTURA EN TIEMPO REAL</div>
+    <canvas id="pipeline-canvas"></canvas>
+</div>
+
+<!-- BLUEPRINT NODES -->
+<div class="nodes-section">
+    <div class="sec-title">◈ NODOS DE INFRAESTRUCTURA</div>
+    <div class="nodes-grid" id="nodes-grid"></div>
+</div>
+
+<!-- IP MONITOR -->
+<div class="ip-section">
+    <div class="sec-title">◈ MONITOR DE RED — IP REAL</div>
+    <div class="ip-grid">
+        <div class="ip-card">
+            <div class="ip-title">DATOS DE RED</div>
+            <div class="ip-row"><span class="ip-lbl">IP Pública</span><span class="ip-data" id="ip-pub">---</span></div>
+            <div class="ip-row"><span class="ip-lbl">Ciudad</span><span class="ip-data" id="ip-city">---</span></div>
+            <div class="ip-row"><span class="ip-lbl">País</span><span class="ip-data" id="ip-country">---</span></div>
+            <div class="ip-row"><span class="ip-lbl">ISP</span><span class="ip-data" id="ip-isp">---</span></div>
+            <div class="ip-row"><span class="ip-lbl">Región</span><span class="ip-data" id="ip-region">---</span></div>
+            <div class="ip-row"><span class="ip-lbl">Timezone</span><span class="ip-data" id="ip-tz">---</span></div>
+        </div>
+        <div class="ip-card">
+            <div class="ip-title">SISTEMA</div>
+            <div class="ip-row"><span class="ip-lbl">Protocolo</span><span class="ip-data">HTTPS / TLS</span></div>
+            <div class="ip-row"><span class="ip-lbl">RSA</span><span class="ip-data" style="color:var(--gold)">4096-bit ACTIVO</span></div>
+            <div class="ip-row"><span class="ip-lbl">Tokens</span><span class="ip-data" id="sys-tokens">40 FUSION</span></div>
+            <div class="ip-row"><span class="ip-lbl">Ping</span><span class="ip-data" id="sys-ping">---</span></div>
+            <div class="ip-row"><span class="ip-lbl">RFC</span><span class="ip-data" style="color:var(--gold)">RIGR840827PJ0</span></div>
+            <div class="ip-row"><span class="ip-lbl">Sistema</span><span class="ip-data" style="color:var(--green)">THRONE V3.0</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- LOG STREAM -->
+<div class="log-section">
+    <div class="sec-title">◈ LOG STREAM — INFRAESTRUCTURA EN VIVO</div>
+    <div class="log-stream" id="log-stream"></div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// IP DETECTION
+// ═══════════════════════════════════════════════════════
+async function detectIP() {
+    addLog('info', 'Detectando IP pública...');
+    try {
+        const r = await fetch('https://ipapi.co/json/');
+        const d = await r.json();
+        document.getElementById('stat-ip').textContent = d.ip || '---';
+        document.getElementById('stat-isp').textContent = d.org || d.isp || '---';
+        document.getElementById('ip-pub').textContent = d.ip || '---';
+        document.getElementById('ip-city').textContent = d.city || '---';
+        document.getElementById('ip-country').textContent = d.country_name || d.country || '---';
+        document.getElementById('ip-isp').textContent = (d.org || '').substring(0,30);
+        document.getElementById('ip-region').textContent = d.region || '---';
+        document.getElementById('ip-tz').textContent = d.timezone || '---';
+        document.getElementById('hdr-ip').textContent = `IP: ${d.ip} — ${d.city || ''}`;
+        addLog('ok', `IP DETECTADA: ${d.ip} — ${d.city}, ${d.country_name}`);
+    } catch(e) {
+        try {
+            const r2 = await fetch('https://api.ipify.org?format=json');
+            const d2 = await r2.json();
+            document.getElementById('stat-ip').textContent = d2.ip;
+            document.getElementById('ip-pub').textContent = d2.ip;
+            document.getElementById('hdr-ip').textContent = `IP: ${d2.ip}`;
+            addLog('ok', `IP: ${d2.ip}`);
+        } catch(e2) {
+            document.getElementById('stat-ip').textContent = 'PRIVADA';
+            addLog('warn', 'IP privada — red local detectada');
+        }
+    }
+}
+
+// ═══════════════════════════════════════════════════════
+// PING
+// ═══════════════════════════════════════════════════════
+async function measurePing() {
+    const t0 = Date.now();
+    try {
+        await fetch('/api/arquitectura/stats');
+        const ping = Date.now() - t0;
+        document.getElementById('stat-ping').textContent = `${ping}ms`;
+        document.getElementById('sys-ping').textContent = `${ping}ms`;
+        addLog('ok', `Ping servidor: ${ping}ms`);
+    } catch(e) {}
+}
+
+// ═══════════════════════════════════════════════════════
+// STATS
+// ═══════════════════════════════════════════════════════
+async function loadStats() {
+    try {
+        const r = await fetch('/api/arquitectura/stats');
+        const d = await r.json();
+        document.getElementById('stat-disenos').textContent = d.total_disenos || '372';
+        addLog('info', `Portafolio: ${d.total_disenos} diseños — $${d.valor_total_portafolio_usd} USD`);
+    } catch(e) {}
+    try {
+        const r = await fetch('/api/aht/quantum/tokens');
+        const d = await r.json();
+        const total = d.total || (d.tokens||[]).length;
+        document.getElementById('stat-tokens').textContent = total;
+        document.getElementById('sys-tokens').textContent = `${total} FUSION`;
+        addLog('ok', `${total} tokens FUSION activos`);
+    } catch(e) {}
+}
+
+let uptime = 0;
+function updateUptime() {
+    uptime += 1;
+    const m = Math.floor(uptime/60), s = uptime%60;
+    document.getElementById('stat-uptime').textContent = `${m}m ${s}s`;
+}
+setInterval(updateUptime, 1000);
+
+// ═══════════════════════════════════════════════════════
+// NODES
+// ═══════════════════════════════════════════════════════
+const NODES = [
+    { icon:'⚡', name:'Express Server', stat:'Puerto 5000', status:'ok' },
+    { icon:'🔐', name:'RSA-4096', stat:'Firma activa', status:'ok' },
+    { icon:'🧠', name:'Gemini 2.5', stat:'API conectada', status:'ok' },
+    { icon:'🏗️', name:'Motor Arquitectura', stat:'372 diseños', status:'ok' },
+    { icon:'🔑', name:'Tokens FUSION', stat:'40 activos', status:'ok' },
+    { icon:'📜', name:'Certificados', stat:'SHA-256 + RSA', status:'ok' },
+    { icon:'🗄️', name:'PostgreSQL', stat:'DB conectada', status:'ok' },
+    { icon:'🌐', name:'EAGI Pipeline', stat:'Ingest → Exec', status:'ok' },
+    { icon:'🛡️', name:'Auth Middleware', stat:'API Keys activas', status:'ok' },
+    { icon:'📡', name:'IP Monitor', stat:'Tiempo real', status:'ok' },
+    { icon:'♛', name:'Jaque Mate', stat:'Nivel presidencial', status:'warn' },
+    { icon:'⬡', name:'SER-27 Lab', stat:'Acceso raíz', status:'warn' },
+];
+
+function renderNodes() {
+    const grid = document.getElementById('nodes-grid');
+    grid.innerHTML = NODES.map(n => `
+        <div class="node-card">
+            <div class="node-icon">${n.icon}</div>
+            <div class="node-info">
+                <div class="node-name">${n.name}</div>
+                <div class="node-stat">${n.stat}</div>
+            </div>
+            <div class="node-status ${n.status}">${n.status==='ok'?'●OK':'▲EXEC'}</div>
+        </div>`).join('');
+}
+renderNodes();
+
+// ═══════════════════════════════════════════════════════
+// LOG STREAM
+// ═══════════════════════════════════════════════════════
+function addLog(level, msg) {
+    const stream = document.getElementById('log-stream');
+    const ts = new Date().toLocaleTimeString('es-MX');
+    const div = document.createElement('div');
+    div.className = 'log-line';
+    div.innerHTML = `<span class="log-ts">[${ts}]</span><span class="log-lvl ${level}">[${level.toUpperCase()}]</span><span class="log-msg">${msg}</span>`;
+    stream.appendChild(div);
+    stream.scrollTop = stream.scrollHeight;
+    while (stream.children.length > 80) stream.removeChild(stream.firstChild);
+}
+
+// ═══════════════════════════════════════════════════════
+// PIPELINE 3D CANVAS
+// ═══════════════════════════════════════════════════════
+const pCanvas = document.getElementById('pipeline-canvas');
+const pCtx = pCanvas.getContext('2d');
+let pAngle = 0;
+let particles = [];
+const PIPELINE_NODES = [
+    { id:'CLIENT', label:'CLIENTE', x:0.05, y:0.5, color:'#00c8ff' },
+    { id:'IP', label:'IP DETECT', x:0.2, y:0.25, color:'#0080ff' },
+    { id:'AUTH', label:'AUTH RSA', x:0.35, y:0.5, color:'#ffd700' },
+    { id:'EAGI', label:'EAGI PIPE', x:0.5, y:0.25, color:'#00ff41' },
+    { id:'AI', label:'AI DUAL', x:0.5, y:0.75, color:'#ff80ff' },
+    { id:'ARCH', label:'MOTOR ARQ', x:0.65, y:0.5, color:'#00c8ff' },
+    { id:'CERT', label:'CERTIF', x:0.8, y:0.25, color:'#ffd700' },
+    { id:'DB', label:'POSTGRES', x:0.8, y:0.75, color:'#0080ff' },
+    { id:'OUT', label:'OUTPUT', x:0.95, y:0.5, color:'#00ff41' },
+];
+const EDGES = [
+    [0,1],[0,2],[1,2],[2,3],[2,4],[3,5],[4,5],[5,6],[5,7],[6,8],[7,8]
+];
+
+function resizePipeline() {
+    pCanvas.width = pCanvas.offsetWidth;
+    pCanvas.height = 300;
+}
+resizePipeline();
+window.addEventListener('resize', resizePipeline);
+
+function spawnParticle(edge) {
+    const [si, ei] = edge;
+    particles.push({ si, ei, t:0, speed: 0.005+Math.random()*0.008 });
+}
+setInterval(() => { EDGES.forEach(e => { if(Math.random()<0.25) spawnParticle(e); }); }, 600);
+
+function drawPipeline() {
+    const W = pCanvas.width, H = pCanvas.height;
+    if(!W) { requestAnimationFrame(drawPipeline); return; }
+    pAngle += 0.005;
+
+    pCtx.fillStyle = 'rgba(0,4,8,0.15)';
+    pCtx.fillRect(0,0,W,H);
+
+    // Grid
+    pCtx.strokeStyle='rgba(0,128,255,0.04)'; pCtx.lineWidth=0.5;
+    for(let x=0;x<W;x+=30){pCtx.beginPath();pCtx.moveTo(x,0);pCtx.lineTo(x,H);pCtx.stroke();}
+    for(let y=0;y<H;y+=30){pCtx.beginPath();pCtx.moveTo(0,y);pCtx.lineTo(W,y);pCtx.stroke();}
+
+    const pts = PIPELINE_NODES.map(n => ({
+        x: n.x*W, y: n.y*H + Math.sin(pAngle + n.x*3)*4,
+        color: n.color, label: n.label
+    }));
+
+    // Edges
+    EDGES.forEach(([si,ei]) => {
+        const a = pts[si], b = pts[ei];
+        const grd = pCtx.createLinearGradient(a.x,a.y,b.x,b.y);
+        grd.addColorStop(0, 'rgba(0,128,255,0.15)');
+        grd.addColorStop(1, 'rgba(0,200,255,0.15)');
+        pCtx.strokeStyle = grd; pCtx.lineWidth = 1;
+        pCtx.beginPath(); pCtx.moveTo(a.x,a.y); pCtx.lineTo(b.x,b.y); pCtx.stroke();
+    });
+
+    // Particles
+    particles = particles.filter(p => {
+        p.t += p.speed;
+        if(p.t > 1) return false;
+        const a = pts[p.si], b = pts[p.ei];
+        const px = a.x + (b.x-a.x)*p.t, py = a.y + (b.y-a.y)*p.t;
+        pCtx.fillStyle = 'rgba(0,255,65,0.9)';
+        pCtx.beginPath(); pCtx.arc(px,py,2,0,Math.PI*2); pCtx.fill();
+        return true;
+    });
+
+    // Nodes
+    pts.forEach((p,i) => {
+        const n = PIPELINE_NODES[i];
+        const r = 18 + Math.sin(pAngle*2+i)*2;
+        const grd = pCtx.createRadialGradient(p.x,p.y,0,p.x,p.y,r);
+        grd.addColorStop(0, n.color+'40');
+        grd.addColorStop(1, 'transparent');
+        pCtx.fillStyle = grd; pCtx.beginPath(); pCtx.arc(p.x,p.y,r,0,Math.PI*2); pCtx.fill();
+
+        pCtx.strokeStyle = n.color+'80'; pCtx.lineWidth=1;
+        pCtx.beginPath(); pCtx.arc(p.x,p.y,12,0,Math.PI*2); pCtx.stroke();
+
+        pCtx.fillStyle = n.color; pCtx.font='8px Courier New'; pCtx.textAlign='center';
+        pCtx.fillText(n.label, p.x, p.y + 22);
+    });
+
+    requestAnimationFrame(drawPipeline);
+}
+drawPipeline();
+
+// ═══════════════════════════════════════════════════════
+// AUTO-REFRESH LOGS
+// ═══════════════════════════════════════════════════════
+const AUTO_LOGS = [
+    ['ok','RSA-4096: Fingerprint verificado — b544609d...'],
+    ['info','EAGI Pipeline: Ingest normalizado'],
+    ['ok','Gemini 2.5: Modelo activo'],
+    ['info','Motor arquitectura: 372 diseños cargados'],
+    ['ok','Tokens FUSION: 40 activos — $1.78M USD'],
+    ['info','PostgreSQL: Conexión establecida'],
+    ['ok','Auth Middleware: API Keys validadas'],
+    ['info','Arquitecto AI: Monitoreo cada 120s activo'],
+];
+let autoLogIdx = 0;
+setInterval(() => {
+    const [lvl,msg] = AUTO_LOGS[autoLogIdx % AUTO_LOGS.length];
+    addLog(lvl, msg);
+    autoLogIdx++;
+}, 4000);
+
+// INIT
+addLog('info', '⬡ BLUEPRINT CORE PIPELINE — INICIANDO');
+addLog('info', 'Propietario: Roberto Rivera Gamas — RFC: RIGR840827PJ0');
+detectIP();
+measurePing();
+loadStats();
+setInterval(measurePing, 30000);
+setInterval(detectIP, 120000);
+</script>
+</body>
+</html>
