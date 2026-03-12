@@ -111,14 +111,12 @@ Incluye HTML, CSS, JavaScript, y si es necesario, backend con Node.js/Express.`;
             finalPrompt = `${template.prompt_base}\n${template.features.join('\n- ')}\n\n${userPrompt}`;
         }
 
-        const model = geminiAI.getGenerativeModel({ model: "gemini-2.5-flash" });
-        const result = await model.generateContent({
-            systemInstruction: systemPrompt,
-            contents: finalPrompt
+        const result = await geminiAI.models.generateContent({
+            model: "gemini-2.5-flash",
+            contents: [{ role: "user", parts: [{ text: `${systemPrompt}\n\n${finalPrompt}` }] }]
         });
 
-        const response = await result.response;
-        const text = response.text();
+        const text = result.text;
 
         return {
             success: true,

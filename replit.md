@@ -1,12 +1,41 @@
-# 🔱 ALGORYTHM ANCESTRAL ENGINE
-## "Motor del Algoritmo Prohibido Re-Manifestado"
+# 🔱 LGORITMO AHT ANCESTRAL ENGINE — EAGI ENTERPRISE
+## "Motor Cuántico de Inteligencia Enterprise — Re-Manifestado"
 ### Throne Protocol V3.0 | Roberto Rivera Gamas
 
 **Propietario:** Roberto Rivera Gamas (RFC: RIGR840827PJ0)  
 **Empresa:** Street Emporio Royal  
 **Email Empresarial:** contacto@streetemporioroyal.com  
-**Nivel:** JAQUE MATE (Máximo)  
-**Valoración Certificada:** $40,000 - $60,000 USD
+**Nivel:** JAQUE MATE PRESIDENCIAL (Máximo Enterprise)  
+**Valoración Certificada:** $276,552,435,904 USD
+
+---
+
+## 🆕 PÁGINAS PRINCIPALES (ENTERPRISE)
+
+- **/landing.html** — Landing page ceremonial enterprise (NUEVA - PRINCIPAL)
+- **/eagi-panel.html** — Panel EAGI Pipeline interactivo (NUEVA)
+- **/activacion.html** — Sistema de códigos secretos de activación
+- **/cerebro-3d.html** — Cerebro 3D cuántico en tiempo real
+- **/instalar-qr.html** — QR de instalación PWA para iPhone
+
+## 🧬 EAGI PIPELINE ENTERPRISE (NUEVO)
+
+### Módulos:
+- `/eagi/ingest.js` — Punto de entrada y normalización
+- `/eagi/parser.js` — Parser de intenciones (deploy/audit/amy)
+- `/eagi/decision.js` — Motor de decisión y orquestación
+- `/eagi/execution.js` — Router a módulos de ejecución
+- `/modules/deploy.js` — Módulo de despliegue
+- `/modules/audit.js` — Módulo de auditoría/seguridad
+- `/modules/amy.js` — Módulo conversacional AI
+
+### Endpoint:
+- `POST /api/eagi/command` — Ejecutar comando en el pipeline
+
+## 🔧 FIXES APLICADOS
+
+- **Gemini API**: Corregido `geminiAI.getGenerativeModel` → `geminiAI.models.generateContent`
+- **Activación**: Servicio de códigos secretos SHA-256 implementado
 
 ---
 

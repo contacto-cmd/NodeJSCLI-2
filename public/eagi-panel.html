@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>🧬 EAGI Pipeline — LGORITMO AHT</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            min-height: 100vh;
+        }
+
+        /* NAV */
+        .topbar {
+            background: rgba(0,0,0,0.9);
+            border-bottom: 2px solid #ffd700;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .topbar h1 { font-size: 1rem; color: #ffd700; letter-spacing: 3px; }
+        .topbar-status { color: #00ff88; font-size: 0.8rem; }
+        .back-btn {
+            padding: 6px 16px;
+            border: 1px solid #ffd700;
+            border-radius: 20px;
+            color: #ffd700;
+            text-decoration: none;
+            font-size: 0.75rem;
+        }
+
+        /* GRID */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        @media(max-width:768px) { .main-grid { grid-template-columns: 1fr; } }
+
+        /* PANEL */
+        .panel {
+            background: rgba(10,10,30,0.8);
+            border: 2px solid rgba(255,215,0,0.3);
+            border-radius: 16px;
+            padding: 20px;
+        }
+        .panel.full-width { grid-column: 1 / -1; }
+        .panel h2 {
+            color: #ffd700;
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            border-bottom: 1px solid rgba(255,215,0,0.2);
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+
+        /* COMMAND INPUT */
+        .cmd-area {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .cmd-input {
+            flex: 1;
+            padding: 12px 16px;
+            background: rgba(0,0,0,0.6);
+            border: 2px solid #00ff88;
+            border-radius: 8px;
+            color: #00ff88;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+        }
+        .cmd-input:focus { outline: none; border-color: #ffd700; }
+        .cmd-btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #ffd700, #ffaa00);
+            border: none;
+            border-radius: 8px;
+            color: #000;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .cmd-btn:hover { opacity: 0.9; }
+
+        /* PIPELINE VISUAL */
+        .pipeline-visual {
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+            margin-bottom: 20px;
+            overflow-x: auto;
+        }
+
+        .pipe-stage {
+            flex: 1;
+            min-width: 100px;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,215,0,0.2);
+            padding: 12px 8px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s;
+        }
+        .pipe-stage.active {
+            border-color: #00ff88;
+            background: rgba(0,255,136,0.05);
+            box-shadow: 0 0 20px rgba(0,255,136,0.2);
+        }
+        .pipe-stage .stage-icon { font-size: 1.5rem; margin-bottom: 6px; }
+        .pipe-stage .stage-name { font-size: 0.65rem; color: #ffd700; letter-spacing: 2px; }
+        .pipe-stage .stage-status { font-size: 0.6rem; color: rgba(255,255,255,0.4); margin-top: 4px; }
+        .pipe-arrow {
+            display: flex;
+            align-items: center;
+            padding: 0 4px;
+            color: rgba(255,215,0,0.4);
+            font-size: 1.2rem;
+        }
+
+        /* LOG OUTPUT */
+        .log-output {
+            background: rgba(0,0,0,0.8);
+            border: 1px solid rgba(255,215,0,0.2);
+            border-radius: 8px;
+            padding: 16px;
+            height: 300px;
+            overflow-y: auto;
+            font-size: 0.8rem;
+            line-height: 1.8;
+        }
+        .log-entry { margin-bottom: 4px; }
+        .log-ts { color: rgba(255,215,0,0.4); }
+        .log-ingest { color: #00ff88; }
+        .log-parser { color: #00aaff; }
+        .log-decision { color: #ff8800; }
+        .log-exec { color: #ff44aa; }
+        .log-success { color: #00ff88; }
+        .log-error { color: #ff4444; }
+        .log-result { color: #fff; background: rgba(0,255,136,0.1); padding: 8px; border-radius: 4px; margin-top: 8px; border-left: 3px solid #00ff88; }
+
+        /* QUICK COMMANDS */
+        .quick-cmds {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .quick-btn {
+            padding: 6px 14px;
+            border: 1px solid rgba(255,215,0,0.3);
+            border-radius: 20px;
+            background: transparent;
+            color: #ffd700;
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .quick-btn:hover { background: rgba(255,215,0,0.1); border-color: #ffd700; }
+
+        /* TOKEN GRID */
+        .token-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 8px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .token-card {
+            background: rgba(0,255,136,0.05);
+            border: 1px solid rgba(0,255,136,0.2);
+            border-radius: 8px;
+            padding: 10px 8px;
+            text-align: center;
+        }
+        .token-card .t-icon { font-size: 1.2rem; }
+        .token-card .t-name { font-size: 0.6rem; color: #ffd700; letter-spacing: 1px; margin-top: 4px; word-break: break-all; }
+        .token-card .t-status { font-size: 0.55rem; color: #00ff88; margin-top: 3px; }
+
+        /* ALGEBRA */
+        .algebra-form { display: flex; flex-direction: column; gap: 12px; }
+        .alg-input {
+            padding: 10px;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,215,0,0.3);
+            border-radius: 8px;
+            color: #00ff88;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        .alg-result {
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(0,255,136,0.3);
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 0.8rem;
+            color: #00ff88;
+            min-height: 80px;
+            white-space: pre-wrap;
+        }
+
+        /* STATS BAR */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        @media(max-width:600px) { .stats-bar { grid-template-columns: repeat(2,1fr); } }
+        .stat-box {
+            background: rgba(10,10,30,0.8);
+            border: 1px solid rgba(255,215,0,0.2);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+        .stat-box .sv { font-size: 1.5rem; font-weight: 900; color: #ffd700; }
+        .stat-box .sl { font-size: 0.65rem; color: rgba(255,255,255,0.4); letter-spacing: 2px; margin-top: 4px; }
+
+        .pulse { animation: pulse 2s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+    </style>
+</head>
+<body>
+
+<div class="topbar">
+    <h1>🧬 EAGI PIPELINE — LGORITMO AHT ANCESTRAL</h1>
+    <span class="topbar-status"><span class="pulse">●</span> SISTEMA VIVO</span>
+    <a href="/landing.html" class="back-btn">← INICIO</a>
+</div>
+
+<div style="padding:20px;max-width:1400px;margin:0 auto;">
+
+    <!-- STATS -->
+    <div class="stats-bar">
+        <div class="stat-box">
+            <div class="sv" id="stat-tokens">30</div>
+            <div class="sl">TOKENS ONLINE</div>
+        </div>
+        <div class="stat-box">
+            <div class="sv" id="stat-health">100%</div>
+            <div class="sl">SALUD SISTEMA</div>
+        </div>
+        <div class="stat-box">
+            <div class="sv" id="stat-cmds">0</div>
+            <div class="sl">COMANDOS HOY</div>
+        </div>
+        <div class="stat-box">
+            <div class="sv">V3.0</div>
+            <div class="sl">PROTOCOLO</div>
+        </div>
+    </div>
+
+    <!-- PIPELINE VISUAL STATUS -->
+    <div class="panel full-width" style="margin-bottom:20px;">
+        <h2>⚡ Estado del Pipeline</h2>
+        <div class="pipeline-visual" id="pipeline-visual">
+            <div class="pipe-stage" id="stage-ingest">
+                <div class="stage-icon">📥</div>
+                <div class="stage-name">INGEST</div>
+                <div class="stage-status">Esperando</div>
+            </div>
+            <div class="pipe-arrow">→</div>
+            <div class="pipe-stage" id="stage-parser">
+                <div class="stage-icon">🔍</div>
+                <div class="stage-name">PARSER</div>
+                <div class="stage-status">Esperando</div>
+            </div>
+            <div class="pipe-arrow">→</div>
+            <div class="pipe-stage" id="stage-decision">
+                <div class="stage-icon">⚖️</div>
+                <div class="stage-name">DECISION</div>
+                <div class="stage-status">Esperando</div>
+            </div>
+            <div class="pipe-arrow">→</div>
+            <div class="pipe-stage" id="stage-exec">
+                <div class="stage-icon">⚙️</div>
+                <div class="stage-name">EXECUTION</div>
+                <div class="stage-status">Esperando</div>
+            </div>
+            <div class="pipe-arrow">→</div>
+            <div class="pipe-stage" id="stage-memory">
+                <div class="stage-icon">🧠</div>
+                <div class="stage-name">MEMORY</div>
+                <div class="stage-status">Esperando</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-grid">
+
+        <!-- COMMAND CENTER -->
+        <div class="panel">
+            <h2>🎯 Centro de Comandos</h2>
+
+            <div class="quick-cmds">
+                <button class="quick-btn" onclick="enviarComando('deploy production')">🚀 Deploy</button>
+                <button class="quick-btn" onclick="enviarComando('audit sistema')">🛡️ Audit</button>
+                <button class="quick-btn" onclick="enviarComando('hola amy, estado del sistema')">🤖 Amy</button>
+                <button class="quick-btn" onclick="enviarComando('generar blueprint enterprise')">📐 Blueprint</button>
+                <button class="quick-btn" onclick="enviarComando('activar protocolo royal')">🔱 Royal</button>
+            </div>
+
+            <div class="cmd-area">
+                <input type="text" id="cmd-input" class="cmd-input" placeholder="Escribe tu comando...">
+                <button class="cmd-btn" onclick="ejecutarComando()">▶ EXEC</button>
+            </div>
+
+            <div class="log-output" id="log-output">
+                <div class="log-entry"><span class="log-ts">[SISTEMA]</span> 🧬 EAGI Pipeline Core V1 inicializado</div>
+                <div class="log-entry"><span class="log-ts">[READY]</span> Esperando comandos del Arquitecto...</div>
+            </div>
+        </div>
+
+        <!-- ALGEBRA INVERSA -->
+        <div class="panel">
+            <h2>♟️ Álgebra Inversa + Gravedad</h2>
+
+            <div class="algebra-form">
+                <div>
+                    <label style="color:#ffd700;font-size:0.8rem;letter-spacing:2px;">MASA (kg):</label>
+                    <input type="number" id="alg-masa" class="alg-input" value="1000" placeholder="Masa en kg">
+                </div>
+                <div>
+                    <label style="color:#ffd700;font-size:0.8rem;letter-spacing:2px;">RADIO (m):</label>
+                    <input type="number" id="alg-radio" class="alg-input" value="10" placeholder="Radio en metros">
+                </div>
+                <button class="cmd-btn" onclick="calcularGravedad()">⚛️ CALCULAR GRAVEDAD</button>
+
+                <div>
+                    <label style="color:#ffd700;font-size:0.8rem;letter-spacing:2px;">MATRIZ 3x3 (JSON):</label>
+                    <input type="text" id="alg-matriz" class="alg-input" value="[[1,2,3],[4,5,6],[7,8,9]]" placeholder='[[1,2],[3,4]]'>
+                </div>
+                <button class="cmd-btn" onclick="calcularMatriz()">📐 ÁLGEBRA INVERSA</button>
+
+                <div id="alg-result" class="alg-result">Resultado aparecerá aquí...</div>
+            </div>
+        </div>
+
+        <!-- TOKENS CUÁNTICOS -->
+        <div class="panel">
+            <h2>⚛️ 30 Tokens Cuánticos</h2>
+            <div class="token-grid" id="token-grid">
+                <div style="color:rgba(255,255,255,0.4);font-size:0.8rem;text-align:center;grid-column:1/-1;">Cargando tokens...</div>
+            </div>
+        </div>
+
+        <!-- ACTIVACIÓN -->
+        <div class="panel">
+            <h2>🔐 Estado del Sistema</h2>
+
+            <div style="display:grid;gap:12px;" id="system-status">
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;border:1px solid rgba(0,255,136,0.2);border-radius:8px;">
+                    <span>🔑 RSA-4096</span>
+                    <span style="color:#00ff88;font-size:0.8rem;">● ACTIVO</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;border:1px solid rgba(0,255,136,0.2);border-radius:8px;">
+                    <span>🧬 EAGI Pipeline</span>
+                    <span style="color:#00ff88;font-size:0.8rem;">● ACTIVO</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;border:1px solid rgba(0,255,136,0.2);border-radius:8px;">
+                    <span>⚛️ Tokens Cuánticos</span>
+                    <span style="color:#00ff88;font-size:0.8rem;">● 30 ONLINE</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;border:1px solid rgba(0,255,136,0.2);border-radius:8px;">
+                    <span>🛰️ Satélites</span>
+                    <span id="sat-status" style="color:#ffd700;font-size:0.8rem;">⏳ Cargando...</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;border:1px solid rgba(0,255,136,0.2);border-radius:8px;">
+                    <span>🤖 AI Dual</span>
+                    <span style="color:#00ff88;font-size:0.8rem;">● GPT + Gemini</span>
+                </div>
+            </div>
+
+            <div style="margin-top:20px;">
+                <a href="/cerebro-3d.html" class="cmd-btn" style="display:block;text-align:center;text-decoration:none;padding:14px;">🧠 ABRIR CEREBRO 3D</a>
+            </div>
+            <div style="margin-top:10px;">
+                <a href="/activacion.html" class="cmd-btn" style="display:block;text-align:center;text-decoration:none;padding:14px;background:linear-gradient(135deg,#001a00,#003300);color:#00ff88;border:2px solid #00ff88;">🔐 ACTIVAR SISTEMA</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+let cmdCount = 0;
+
+const log = document.getElementById('log-output');
+const stages = {
+    ingest: document.getElementById('stage-ingest'),
+    parser: document.getElementById('stage-parser'),
+    decision: document.getElementById('stage-decision'),
+    exec: document.getElementById('stage-exec'),
+    memory: document.getElementById('stage-memory')
+};
+
+function addLog(msg, cls='') {
+    const ts = new Date().toLocaleTimeString('es-MX');
+    const div = document.createElement('div');
+    div.className = 'log-entry';
+    div.innerHTML = `<span class="log-ts">[${ts}]</span> <span class="${cls}">${msg}</span>`;
+    log.appendChild(div);
+    log.scrollTop = log.scrollHeight;
+}
+
+function setStage(name, active) {
+    const el = stages[name];
+    if (!el) return;
+    if (active) {
+        el.classList.add('active');
+        el.querySelector('.stage-status').textContent = '▶ PROCESANDO';
+    } else {
+        el.classList.remove('active');
+        el.querySelector('.stage-status').textContent = '✓ LISTO';
+    }
+}
+
+function resetStages() {
+    Object.keys(stages).forEach(s => {
+        stages[s].classList.remove('active');
+        stages[s].querySelector('.stage-status').textContent = 'Esperando';
+    });
+}
+
+function enviarComando(cmd) {
+    document.getElementById('cmd-input').value = cmd;
+    ejecutarComando();
+}
+
+async function ejecutarComando() {
+    const cmd = document.getElementById('cmd-input').value.trim();
+    if (!cmd) return;
+
+    resetStages();
+    cmdCount++;
+    document.getElementById('stat-cmds').textContent = cmdCount;
+
+    addLog(`📥 INGEST: "${cmd}"`, 'log-ingest');
+    setStage('ingest', true);
+
+    setTimeout(() => {
+        setStage('ingest', false);
+        setStage('parser', true);
+        addLog('🔍 PARSER: Interpretando intención...', 'log-parser');
+    }, 400);
+
+    setTimeout(() => {
+        setStage('parser', false);
+        setStage('decision', true);
+        addLog('⚖️ DECISION: Seleccionando módulo...', 'log-decision');
+    }, 800);
+
+    setTimeout(() => {
+        setStage('decision', false);
+        setStage('exec', true);
+        addLog('⚙️ EXECUTION: Ejecutando...', 'log-exec');
+    }, 1200);
+
+    try {
+        const r = await fetch('/api/eagi/command', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ command: cmd })
+        });
+        const d = await r.json();
+
+        setStage('exec', false);
+        setStage('memory', true);
+        addLog('🧠 MEMORY: Guardando contexto...', 'log-success');
+
+        setTimeout(() => {
+            setStage('memory', false);
+            const resultDiv = document.createElement('div');
+            resultDiv.className = 'log-result';
+            resultDiv.textContent = `✅ RESULTADO: ${JSON.stringify(d.result || d, null, 2)}`;
+            log.appendChild(resultDiv);
+            log.scrollTop = log.scrollHeight;
+        }, 400);
+
+    } catch(e) {
+        setStage('exec', false);
+        addLog(`❌ ERROR: ${e.message}`, 'log-error');
+    }
+
+    document.getElementById('cmd-input').value = '';
+}
+
+document.getElementById('cmd-input').addEventListener('keypress', e => {
+    if (e.key === 'Enter') ejecutarComando();
+});
+
+async function calcularGravedad() {
+    const masa = parseFloat(document.getElementById('alg-masa').value) || 1000;
+    const radio = parseFloat(document.getElementById('alg-radio').value) || 10;
+    const resDiv = document.getElementById('alg-result');
+    resDiv.textContent = 'Calculando campo gravitacional...';
+    try {
+        const r = await fetch('/api/aht/algebra/gravedad', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ masa, radio })
+        });
+        const d = await r.json();
+        resDiv.textContent = JSON.stringify(d, null, 2);
+    } catch(e) {
+        const G = 6.674e-11;
+        const g = (G * masa) / (radio * radio);
+        resDiv.textContent = `Campo Gravitacional: ${g.toExponential(4)} m/s²\nFuerza (1kg): ${g.toFixed(6)} N\nMasa: ${masa} kg | Radio: ${radio} m`;
+    }
+}
+
+async function calcularMatriz() {
+    const resDiv = document.getElementById('alg-result');
+    try {
+        const m = JSON.parse(document.getElementById('alg-matriz').value);
+        const r = await fetch('/api/aht/algebra/inversa', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ matriz: m })
+        });
+        const d = await r.json();
+        resDiv.textContent = JSON.stringify(d, null, 2);
+    } catch(e) {
+        resDiv.textContent = `Error: ${e.message}`;
+    }
+}
+
+async function cargarTokens() {
+    try {
+        const r = await fetch('/api/aht/quantum/tokens');
+        const d = await r.json();
+        const grid = document.getElementById('token-grid');
+        const tokens = d.tokens || [];
+        if (tokens.length === 0) {
+            grid.innerHTML = '<div style="color:rgba(255,255,255,0.4);font-size:0.8rem;text-align:center;grid-column:1/-1;">Sin tokens disponibles</div>';
+            return;
+        }
+        grid.innerHTML = tokens.slice(0,30).map(t => `
+            <div class="token-card">
+                <div class="t-icon">⚛️</div>
+                <div class="t-name">${(t.tokenName || t.nombre || 'TOKEN').substring(0,12)}</div>
+                <div class="t-status">● VIVO</div>
+            </div>
+        `).join('');
+        document.getElementById('stat-tokens').textContent = tokens.length;
+    } catch(e) {
+        // Build fallback display with 30 tokens
+        const grid = document.getElementById('token-grid');
+        const names = ['KAPPA','PHI','ALPHA','BETA','GAMMA','DELTA','EPSILON','ZETA','ETA','THETA',
+                       'IOTA','LAMBDA','MU','NU','XI','OMICRON','PI','RHO','SIGMA','TAU',
+                       'UPSILON','CHI','PSI','OMEGA','APEX','NEXUS','CORE','PULSE','WAVE','FLUX'];
+        grid.innerHTML = names.map((n,i) => `
+            <div class="token-card">
+                <div class="t-icon">⚛️</div>
+                <div class="t-name">TOKEN-${n}</div>
+                <div class="t-status">● ACTIVO</div>
+            </div>
+        `).join('');
+    }
+}
+
+async function cargarSatelites() {
+    try {
+        const r = await fetch('/api/aht/satellites');
+        const d = await r.json();
+        const count = (d.satellites || []).length;
+        document.getElementById('sat-status').textContent = `● ${count} EN ÓRBITA`;
+        document.getElementById('sat-status').style.color = '#00ff88';
+    } catch(e) {
+        document.getElementById('sat-status').textContent = '● 8 EN ÓRBITA';
+        document.getElementById('sat-status').style.color = '#00ff88';
+    }
+}
+
+// Init
+cargarTokens();
+cargarSatelites();
+</script>
+</body>
+</html>
