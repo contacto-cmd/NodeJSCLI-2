@@ -1078,16 +1078,16 @@ app.post('/api/chat-assistant', async (req, res) => {
         
         // Obtener estadísticas del portafolio
         const statsResult = await ArquitecturaService.getStats();
-        const stats = statsResult.stats;
+        const stats = statsResult.stats || {};
         
         // Contexto del sistema para Gemini
         const systemContext = `Eres "Royal Assistant", un asistente IA experto en arquitectura futurista para Roberto Rivera Gamas (Royal - Arquitecto) de Street Emporio Royal.
 
 INFORMACIÓN DEL PORTAFOLIO:
-- Total de diseños: ${stats.total_proyectos}
-- Valoración total: $${stats.valor_total_usd} USD ($229.80 billones)
-- Diseño más caro: ${stats.diseno_mas_caro.nombre} - $${stats.diseno_mas_caro.valor}
-- Diseño más alto: ${stats.diseno_mas_alto.nombre} - ${stats.diseno_mas_alto.altura} metros
+- Total de diseños: ${stats.total_proyectos || 30}
+- Valoración total: $${stats.valor_total_usd || '229.8B'} USD
+- Diseño más caro: ${stats.diseno_mas_caro ? stats.diseno_mas_caro.nombre + ' - $' + stats.diseno_mas_caro.valor : 'Disponible en portafolio'}
+- Diseño más alto: ${stats.diseno_mas_alto ? stats.diseno_mas_alto.nombre + ' - ' + stats.diseno_mas_alto.altura + ' metros' : 'Disponible en portafolio'}
 
 CAPACIDADES:
 1. Responder preguntas sobre los 30 diseños arquitectónicos
