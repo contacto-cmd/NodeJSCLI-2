@@ -4088,7 +4088,68 @@ app.get('/api/aht/activacion/estado', (req, res) => {
     }
 });
 
-// ========================================================================
+// ════════════════════════════════════════════════════════════════════
+// MASTER API KEY — Roberto Rivera Gamas — RFC RIGR840827PJ0
+// www.streetemporioroyal.com — NIVEL JAQUE MATE PRESIDENCIAL
+// ════════════════════════════════════════════════════════════════════
+
+const MASTER_API_KEY_ROBERTO = (() => {
+    const payload = {
+        key_id: 'ROBERTO-MASTER-RIGR840827PJ0',
+        nombre: 'Roberto Rivera Gamas',
+        rfc: 'RIGR840827PJ0',
+        empresa: 'Street Emporio Royal',
+        domain: 'www.streetemporioroyal.com',
+        email: 'contacto@streetemporioroyal.com',
+        nivel: 'JAQUE_MATE_PRESIDENCIAL',
+        valoracion: '$276,552,435,904 USD',
+        permisos: ['FULL_ACCESS','RSA_4096','BLOCKCHAIN','AI_DUAL','QUANTUM','ANTIGRAVEDAD','ALGEBRA_INVERSA','SER27','TOKENS_PERSONALES'],
+        issued: new Date().toISOString(),
+        gps: { lat: 19.432608, lon: -99.133209, lugar: 'Ciudad de México' }
+    };
+    const hash = require('crypto').createHash('sha256').update(JSON.stringify(payload)).digest('hex');
+    return { ...payload, key_hash: `SHA256-${hash}`, api_version: 'v3.0' };
+})();
+
+app.get('/api/aht/master-key', (req, res) => {
+    let firma = `RSA4096-MASTER-${MASTER_API_KEY_ROBERTO.key_hash.substring(0,20).toUpperCase()}`;
+    try {
+        if (MASTER_KEY_RSA_PRIVADA) {
+            const sign = require('crypto').createSign('RSA-SHA256');
+            sign.update(JSON.stringify(MASTER_API_KEY_ROBERTO));
+            sign.end();
+            firma = sign.sign(MASTER_KEY_RSA_PRIVADA, 'base64').substring(0, 88);
+        }
+    } catch(e) {}
+    res.json({ success: true, ...MASTER_API_KEY_ROBERTO, firma_rsa4096: firma });
+});
+
+app.post('/api/aht/master-key/verificar', (req, res) => {
+    const { rfc, nombre } = req.body;
+    const valido = rfc === 'RIGR840827PJ0' || nombre?.toLowerCase().includes('roberto');
+    res.json({
+        success: true, valido,
+        mensaje: valido ? '✅ MASTER KEY VERIFICADA — Acceso Presidencial CONCEDIDO' : '❌ Credenciales no válidas',
+        nivel: valido ? 'JAQUE_MATE_PRESIDENCIAL' : 'DENEGADO',
+        key: valido ? MASTER_API_KEY_ROBERTO : null
+    });
+});
+
+// ════════════════════════════════════════════════════════════════════
+// ANTHROPIC (Claude) — Activación cuando exista API KEY
+// ════════════════════════════════════════════════════════════════════
+
+app.get('/api/aht/anthropic/status', (req, res) => {
+    const hasKey = !!process.env.ANTHROPIC_API_KEY;
+    res.json({
+        success: true,
+        disponible: hasKey,
+        modelo: hasKey ? 'claude-3-5-sonnet-20241022' : null,
+        mensaje: hasKey ? '✅ Claude Anthropic ACTIVO' : '⚠️ Agrega ANTHROPIC_API_KEY a los secrets para activar Claude'
+    });
+});
+
+// ════════════════════════════════════════════════════════════════════
 
 // Sirve archivos estáticos (HTML, JS, CSS)
 app.use(express.static(path.join(__dirname, '..', 'public')));

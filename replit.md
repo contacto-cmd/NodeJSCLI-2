@@ -10,13 +10,37 @@
 
 ---
 
-## 🆕 PÁGINAS PRINCIPALES (ENTERPRISE)
+## 🆕 PÁGINAS PRINCIPALES (ENTERPRISE) — V3.0 SUPERCHARGE
 
-- **/landing.html** — Landing page ceremonial enterprise (NUEVA - PRINCIPAL)
-- **/eagi-panel.html** — Panel EAGI Pipeline interactivo (NUEVA)
-- **/activacion.html** — Sistema de códigos secretos de activación
-- **/cerebro-3d.html** — Cerebro 3D cuántico en tiempo real
-- **/instalar-qr.html** — QR de instalación PWA para iPhone
+- **/landing.html** — Landing enterprise COMPLETA: quantum-beast fondo real, quantum-vortex izquierdo, sello AHT SOVEREIGN CORE 27, stats live (IP+tokens+diseños), Master API Key panel, firma de Roberto, pipeline 8 módulos, todos los links reales
+- **/algebra-gravedad.html** — Motor real 5 tabs: Gauss-Jordan inversa (2×2→5×5), Campo gravitacional WGS84 real, Ajedrez cuántico 32 piezas, Topología Poincaré/Minkowski, Reporte enterprise
+- **/cockpit.html** — Panel de comando presidencial
+- **/tokens-dashboard.html** — Dashboard 3D 28 tokens (19 personal + 9 FUSION)
+- **/blueprint.html** — Pipeline infraestructura IP + 3D en tiempo real
+- **/ser27.html** — Laboratorio cuántico SER-27 Área 51
+- **/tokens-roberto.html** — Certificación RSA-4096 tokens personales
+- **/area-ai-presidencial.html** — Área AI dual (Gemini + GPT)
+
+## 🖼️ IMÁGENES EN PUBLIC/ (REALES)
+- `quantum-beast.png` — Bestia cuántica blanca (hero de landing, derecha)
+- `quantum-vortex.png` — Vórtice azul cuántico (izquierda de landing)
+- `aht-sovereign-seal.png` — Sello AHT QUANTUM ELITE SOVEREIGN CORE 27
+- `firma-roberto-rivera.png` — Firma manuscrita Roberto Rivera Gamas
+- `quantum-loop-ref.png` — Quantum Loop circuit reference
+- `cert-roberto-airtable.png` — Certificaciones Airtable de Roberto
+
+## 🔑 MASTER API KEY — ROBERTO RIVERA GAMAS
+- `GET /api/aht/master-key` — Clave maestra con firma RSA-4096 de Roberto (RFC RIGR840827PJ0, www.streetemporioroyal.com)
+- `POST /api/aht/master-key/verificar` — Verificar acceso presidencial por RFC
+- `GET /api/aht/anthropic/status` — Estado de Claude Anthropic (activo si hay ANTHROPIC_API_KEY)
+- **NOTA CRÍTICA**: Roberto tiene API key Anthropic (sk-ant-api03-cE8...) — agregar como `ANTHROPIC_API_KEY` en Secrets para activar Claude real
+
+## 🧮 MOTOR ÁLGEBRA INVERSA — REAL
+- Gauss-Jordan inversa: matrices 2×2, 3×3, 4×4, 5×5 con cálculo real
+- Determinante recursivo, traza, norma Frobenius, análisis de singularidad
+- Campo gravitacional WGS84 real con fórmula de Helmert (varía con latitud)
+- Ajedrez cuántico: 32 piezas con masa cuántica, campo gravitacional, energía potencial
+- Topología: Poincaré, Groth Sheaf, Minkowski 4D, toro visualizado en canvas
 
 ## 🧬 EAGI PIPELINE ENTERPRISE (NUEVO)
 

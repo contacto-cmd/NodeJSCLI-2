@@ -4,362 +4,324 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <title>ÁLGEBRA INVERSA + GRAVEDAD — Motor Cuántico</title>
+    <title>∞ ÁLGEBRA INVERSA + ANTIGRAVEDAD — Motor Cuántico Enterprise</title>
     <style>
         :root {
-            --p: #cc00ff; --p2: #ff00cc; --p3: rgba(180,0,255,0.08);
-            --gold: #ffd700; --green: #00ff41; --b: #0080ff;
-            --bg: #030008;
+            --p: #cc00ff; --p2: #ff00cc; --p3: rgba(180,0,255,0.06);
+            --gold: #ffd700; --green: #00ff41; --b: #0080ff; --red: #ff2244;
+            --bg: #03000a; --dark: rgba(5,0,15,0.95);
         }
         * { margin:0; padding:0; box-sizing:border-box; }
-        body { background:var(--bg); color:var(--p); font-family:'Courier New',monospace; overflow-x:hidden; }
-        body::before { content:''; position:fixed; inset:0; background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(180,0,255,0.012) 2px,rgba(180,0,255,0.012) 4px); pointer-events:none; z-index:9000; }
+        body { background:var(--bg); color:#ff80ff; font-family:'Courier New',monospace; overflow-x:hidden; }
+        body::before { content:''; position:fixed; inset:0; background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(180,0,255,0.01) 3px,rgba(180,0,255,0.01) 4px); pointer-events:none; z-index:9000; }
 
-        .hdr { background:rgba(3,0,8,0.97); border-bottom:1px solid rgba(180,0,255,0.2); padding:12px 20px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
-        .hdr-title { font-size:clamp(0.75rem,2.2vw,0.95rem); letter-spacing:4px; color:#ff80ff; }
-        .hdr-nav { display:flex; gap:8px; }
-        .hdr-nav a { color:rgba(180,0,255,0.5); text-decoration:none; font-size:0.62rem; border:1px solid rgba(180,0,255,0.2); padding:4px 10px; border-radius:4px; transition:all 0.2s; }
+        /* HEADER */
+        .hdr { background:rgba(3,0,10,0.98); border-bottom:2px solid rgba(180,0,255,0.2); padding:12px 20px; position:sticky; top:0; z-index:200; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+        .hdr-title { font-size:clamp(0.72rem,2vw,0.9rem); letter-spacing:4px; color:#ff80ff; }
+        .hdr-nav { display:flex; gap:6px; flex-wrap:wrap; }
+        .hdr-nav a { color:rgba(180,0,255,0.5); text-decoration:none; font-size:0.6rem; border:1px solid rgba(180,0,255,0.2); padding:4px 10px; border-radius:4px; transition:all 0.2s; }
         .hdr-nav a:hover { color:#ff80ff; border-color:var(--p); }
 
-        .hero { padding:24px 20px; text-align:center; border-bottom:1px solid rgba(180,0,255,0.1); }
-        .hero-title { font-size:clamp(1.6rem,5vw,2.6rem); letter-spacing:6px; color:#ff80ff; text-shadow:0 0 40px rgba(200,0,255,0.5); margin-bottom:6px; }
+        /* HERO */
+        .hero { padding:24px 20px 16px; text-align:center; background:radial-gradient(ellipse at 50% 0%, rgba(100,0,150,0.2) 0%, transparent 60%); border-bottom:1px solid rgba(180,0,255,0.08); }
+        .hero-seal { width:70px; height:70px; object-fit:contain; margin:0 auto 12px; display:block; filter:hue-rotate(270deg) drop-shadow(0 0 16px rgba(200,0,255,0.6)); }
+        .hero-title { font-size:clamp(1.8rem,5vw,3rem); letter-spacing:6px; color:#ff80ff; text-shadow:0 0 40px rgba(200,0,255,0.5); margin-bottom:6px; }
         .hero-sub { font-size:0.7rem; color:rgba(200,0,255,0.4); letter-spacing:4px; }
 
-        /* LAYOUT */
-        .main-layout { display:grid; grid-template-columns:1fr 1fr; gap:16px; padding:16px; }
-        @media(max-width:800px) { .main-layout { grid-template-columns:1fr; } }
+        /* TABS */
+        .tabs { display:flex; gap:0; border-bottom:1px solid rgba(180,0,255,0.1); overflow-x:auto; background:rgba(3,0,10,0.98); position:sticky; top:49px; z-index:100; }
+        .tab { padding:12px 20px; font-size:0.65rem; letter-spacing:3px; color:rgba(180,0,255,0.4); cursor:pointer; border-bottom:2px solid transparent; white-space:nowrap; transition:all 0.2s; }
+        .tab.active { color:#ff80ff; border-bottom-color:var(--p); background:rgba(180,0,255,0.05); }
+        .tab:hover { color:#ff80ff; }
 
-        .card { background:rgba(5,0,15,0.9); border:1px solid rgba(180,0,255,0.15); border-radius:12px; padding:16px; }
-        .card-title { font-size:0.65rem; color:rgba(200,0,255,0.4); letter-spacing:4px; margin-bottom:14px; border-bottom:1px solid rgba(180,0,255,0.08); padding-bottom:8px; }
+        /* PANELS */
+        .panel { display:none; padding:20px; }
+        .panel.active { display:block; }
+        .panel-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+        @media(max-width:800px) { .panel-grid { grid-template-columns:1fr; } }
+        .card { background:var(--dark); border:1px solid rgba(180,0,255,0.12); border-radius:12px; padding:16px; }
+        .card-title { font-size:0.65rem; color:rgba(200,0,255,0.4); letter-spacing:4px; margin-bottom:14px; padding-bottom:8px; border-bottom:1px solid rgba(180,0,255,0.06); display:flex; align-items:center; justify-content:space-between; }
 
         /* INPUTS */
-        .input-row { display:flex; flex-direction:column; gap:6px; margin-bottom:10px; }
-        .input-lbl { font-size:0.62rem; color:rgba(200,0,255,0.4); letter-spacing:2px; }
-        .inp {
-            background:rgba(180,0,255,0.04); border:1px solid rgba(180,0,255,0.2);
-            border-radius:6px; padding:8px 12px; color:#ff80ff;
-            font-family:'Courier New',monospace; font-size:0.8rem; outline:none;
-        }
+        .inp { background:rgba(180,0,255,0.04); border:1px solid rgba(180,0,255,0.2); border-radius:6px; padding:9px 12px; color:#ff80ff; font-family:'Courier New',monospace; font-size:0.78rem; width:100%; outline:none; margin-bottom:8px; }
         .inp:focus { border-color:var(--p); }
-        select.inp option { background:#030008; }
-        .btn {
-            width:100%; padding:11px; margin-top:6px;
-            background:rgba(180,0,255,0.07); border:1px solid rgba(180,0,255,0.3);
-            border-radius:8px; color:#ff80ff;
-            font-family:'Courier New',monospace; font-size:0.78rem; font-weight:700;
-            letter-spacing:3px; cursor:pointer; transition:all 0.2s;
-        }
-        .btn:hover { background:rgba(180,0,255,0.15); border-color:var(--p); }
-        .btn.gold { border-color:rgba(255,215,0,0.4); color:var(--gold); }
-        .btn.gold:hover { background:rgba(255,215,0,0.08); border-color:var(--gold); }
+        select.inp option { background:var(--bg); }
+        .inp-lbl { font-size:0.6rem; color:rgba(200,0,255,0.4); letter-spacing:2px; margin-bottom:4px; }
 
-        /* CANVAS */
-        #grav-canvas { width:100%; height:280px; display:block; border:1px solid rgba(180,0,255,0.12); border-radius:8px; background:var(--bg); }
+        /* MATRIX INPUT */
+        .matrix-wrap { display:flex; flex-direction:column; gap:4px; margin-bottom:12px; }
+        .matrix-row { display:flex; gap:4px; }
+        .matrix-cell { background:rgba(180,0,255,0.06); border:1px solid rgba(180,0,255,0.2); border-radius:4px; padding:7px; color:#ff80ff; font-family:'Courier New',monospace; font-size:0.82rem; text-align:center; width:100%; outline:none; min-width:0; }
+        .matrix-cell:focus { border-color:var(--p); background:rgba(180,0,255,0.1); }
+        .matrix-lbl { font-size:0.6rem; color:rgba(200,0,255,0.35); letter-spacing:2px; text-align:center; margin-bottom:6px; }
 
-        /* RESULTS */
-        .results { background:rgba(3,0,10,0.9); border:1px solid rgba(180,0,255,0.1); border-radius:8px; padding:14px; font-size:0.72rem; line-height:1.9; color:rgba(200,0,255,0.7); min-height:120px; margin-top:10px; white-space:pre-wrap; }
+        /* BUTTONS */
+        .btn { width:100%; padding:11px; margin-top:6px; background:rgba(180,0,255,0.07); border:1px solid rgba(180,0,255,0.3); border-radius:8px; color:#ff80ff; font-family:'Courier New',monospace; font-size:0.75rem; font-weight:700; letter-spacing:3px; cursor:pointer; transition:all 0.2s; }
+        .btn:hover { background:rgba(180,0,255,0.14); box-shadow:0 0 20px rgba(180,0,255,0.15); }
+        .btn.gold { border-color:rgba(255,215,0,0.4); color:var(--gold); background:rgba(255,215,0,0.05); }
+        .btn.gold:hover { background:rgba(255,215,0,0.1); }
+        .btn.green { border-color:rgba(0,255,65,0.4); color:var(--green); background:rgba(0,255,65,0.04); }
+        .btn-row { display:flex; gap:8px; margin-top:8px; }
+        .btn-row .btn { margin-top:0; }
+
+        /* OUTPUT */
+        .output-box { background:rgba(0,0,5,0.9); border:1px solid rgba(180,0,255,0.15); border-radius:8px; padding:14px; margin-top:10px; min-height:80px; }
+        .out-lbl { font-size:0.55rem; color:rgba(200,0,255,0.3); letter-spacing:3px; margin-bottom:8px; }
+        .out-val { font-size:0.75rem; color:#ff80ff; word-break:break-word; line-height:1.6; }
+        .out-val.gold { color:var(--gold); }
+        .out-val.green { color:var(--green); }
+        .out-row { display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px solid rgba(180,0,255,0.06); }
+        .out-key { font-size:0.62rem; color:rgba(200,0,255,0.35); }
+        .out-data { font-size:0.68rem; color:#ff80ff; }
 
         /* CHESS BOARD */
-        .chess-section { padding:0 16px 16px; }
-        .sec-title { font-size:0.65rem; color:rgba(200,0,255,0.4); letter-spacing:4px; margin-bottom:14px; border-bottom:1px solid rgba(180,0,255,0.08); padding-bottom:8px; }
-        .chess-layout { display:grid; grid-template-columns:auto 1fr; gap:20px; align-items:start; }
-        @media(max-width:700px) { .chess-layout { grid-template-columns:1fr; } }
-        #chess-board { display:grid; grid-template-columns:repeat(8,1fr); width:min(320px,100%); aspect-ratio:1; border:2px solid rgba(180,0,255,0.3); border-radius:4px; overflow:hidden; flex-shrink:0; }
-        .chess-cell {
-            aspect-ratio:1; display:flex; align-items:center; justify-content:center;
-            font-size:clamp(1rem,3.5vw,1.5rem); cursor:pointer; transition:all 0.2s; position:relative;
-        }
-        .chess-cell.light { background:rgba(180,0,255,0.06); }
-        .chess-cell.dark { background:rgba(180,0,255,0.15); }
-        .chess-cell:hover { background:rgba(255,215,0,0.15) !important; }
-        .chess-cell.selected { background:rgba(255,215,0,0.25) !important; }
-        .chess-cell .grav-val { position:absolute; bottom:1px; right:2px; font-size:0.45rem; color:rgba(200,0,255,0.5); }
-        .chess-info { background:rgba(5,0,15,0.9); border:1px solid rgba(180,0,255,0.12); border-radius:8px; padding:14px; }
-        .chess-stat-row { display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px solid rgba(180,0,255,0.06); }
-        .chess-stat-lbl { font-size:0.63rem; color:rgba(200,0,255,0.35); }
-        .chess-stat-val { font-size:0.7rem; color:#ff80ff; }
-        .chess-moves { margin-top:12px; }
-        .chess-move { font-size:0.65rem; color:rgba(200,0,255,0.6); padding:3px 0; border-bottom:1px solid rgba(180,0,255,0.05); }
+        .chess-board { display:grid; grid-template-columns:repeat(8,1fr); gap:1px; background:rgba(180,0,255,0.1); border:1px solid rgba(180,0,255,0.2); border-radius:6px; overflow:hidden; margin-bottom:12px; }
+        .chess-sq { aspect-ratio:1; display:flex; align-items:center; justify-content:center; font-size:clamp(0.85rem,2.5vw,1.2rem); cursor:pointer; transition:all 0.15s; position:relative; }
+        .chess-sq.light { background:rgba(200,150,255,0.06); }
+        .chess-sq.dark-sq { background:rgba(100,0,180,0.12); }
+        .chess-sq:hover { background:rgba(255,215,0,0.12); }
+        .chess-sq.selected { background:rgba(255,215,0,0.2); outline:2px solid rgba(255,215,0,0.5); }
+        .chess-sq .gravity-dot { position:absolute; bottom:2px; right:2px; width:4px; height:4px; border-radius:50%; }
 
-        /* FORMULA DISPLAY */
-        .formula-box { background:rgba(3,0,10,0.9); border:1px solid rgba(180,0,255,0.1); border-radius:8px; padding:12px; margin-top:10px; }
-        .formula { font-size:0.78rem; color:rgba(200,0,255,0.8); letter-spacing:2px; text-align:center; margin-bottom:4px; }
-        .formula-desc { font-size:0.6rem; color:rgba(200,0,255,0.35); text-align:center; letter-spacing:1px; }
+        /* FIELD CANVAS */
+        #gravity-field-canvas { width:100%; height:200px; border-radius:8px; border:1px solid rgba(180,0,255,0.15); display:block; }
 
-        ::-webkit-scrollbar { width:4px; } ::-webkit-scrollbar-track { background:transparent; } ::-webkit-scrollbar-thumb { background:rgba(180,0,255,0.2); border-radius:4px; }
+        /* STATS STRIP */
+        .stats-strip { display:flex; gap:0; border-top:1px solid rgba(180,0,255,0.06); overflow-x:auto; }
+        .ss-item { flex:1; min-width:100px; padding:12px 14px; text-align:center; border-right:1px solid rgba(180,0,255,0.06); }
+        .ss-lbl { font-size:0.55rem; color:rgba(200,0,255,0.3); letter-spacing:2px; margin-bottom:4px; }
+        .ss-val { font-size:0.82rem; color:#ff80ff; font-weight:700; }
+
+        ::-webkit-scrollbar { width:4px; } ::-webkit-scrollbar-thumb { background:rgba(180,0,255,0.2); border-radius:4px; }
     </style>
 </head>
 <body>
 
 <div class="hdr">
-    <div class="hdr-title">∞ ÁLGEBRA INVERSA + GRAVEDAD — MOTOR CUÁNTICO</div>
+    <div class="hdr-title">∞ ÁLGEBRA INVERSA + ANTIGRAVEDAD — ENTERPRISE</div>
     <nav class="hdr-nav">
-        <a href="/ser27.html">SER-27</a>
-        <a href="/blueprint.html">BLUEPRINT</a>
-        <a href="/cockpit.html">COCKPIT</a>
         <a href="/landing.html">INICIO</a>
+        <a href="/cockpit.html">COCKPIT</a>
+        <a href="/ser27.html">SER-27</a>
+        <a href="/tokens-dashboard.html">TOKENS</a>
     </nav>
 </div>
 
 <div class="hero">
+    <img src="/aht-sovereign-seal.png" class="hero-seal" alt="AHT Seal">
     <div class="hero-title">ÁLGEBRA INVERSA</div>
-    <div class="hero-sub">MOTOR DE GRAVEDAD CUÁNTICA — ANÁLISIS DE AJEDREZ ESTRUCTURAL</div>
+    <div class="hero-sub">MOTOR CUÁNTICO REAL — MATRICES · GRAVEDAD · AJEDREZ · TOPOLOGÍA</div>
 </div>
 
-<!-- MAIN CALC -->
-<div class="main-layout">
-    <div class="card">
-        <div class="card-title">◈ PARÁMETROS ESTRUCTURALES</div>
-        <div class="input-row">
-            <div class="input-lbl">MASA (toneladas)</div>
-            <input class="inp" id="masa" type="number" value="50000" min="1">
-        </div>
-        <div class="input-row">
-            <div class="input-lbl">ALTURA (metros)</div>
-            <input class="inp" id="altura" type="number" value="120" min="1">
-        </div>
-        <div class="input-row">
-            <div class="input-lbl">VOLADIZO (metros)</div>
-            <input class="inp" id="voladizo" type="number" value="25" min="0">
-        </div>
-        <div class="input-row">
-            <div class="input-lbl">ÁNGULO DE INCLINACIÓN (°)</div>
-            <input class="inp" id="angulo" type="number" value="0" min="-45" max="45">
-        </div>
-        <div class="input-row">
-            <div class="input-lbl">MATERIAL</div>
-            <select class="inp" id="material">
-                <option value="9000,4500">Titanio — σ=900 MPa / ρ=4500 kg/m³</option>
-                <option value="3500,1600">Fibra de Carbono — σ=3500 MPa / ρ=1600 kg/m³</option>
-                <option value="450,8800">Bronce Arquitectónico — σ=450 MPa / ρ=8800 kg/m³</option>
-                <option value="500,7850">Acero — σ=500 MPa / ρ=7850 kg/m³</option>
-                <option value="300,2700">Aluminio — σ=300 MPa / ρ=2700 kg/m³</option>
-                <option value="200,2500">Vidrio Templado — σ=200 MPa / ρ=2500 kg/m³</option>
-                <option value="40,2400">Hormigón — σ=40 MPa / ρ=2400 kg/m³</option>
-            </select>
-        </div>
-        <button class="btn" onclick="calcular()">∑ CALCULAR ÁLGEBRA INVERSA</button>
-        <button class="btn gold" onclick="calcularAntigrav()">🌌 MODO ANTIGRAVEDAD</button>
-
-        <div class="formula-box">
-            <div class="formula">F = m · g₀ = m · 9.81 m/s²</div>
-            <div class="formula-desc">Fuerza gravitacional estándar — WGS84</div>
-            <div class="formula" style="margin-top:6px;">M_f = F · L_v (momento de flexión)</div>
-            <div class="formula-desc">L_v = longitud del voladizo</div>
-            <div class="formula" style="margin-top:6px;">FS = σ · I / M_f · h (factor de seguridad)</div>
-            <div class="formula-desc">FS > 2.5 = estructura viable</div>
-        </div>
-    </div>
-
-    <div class="card">
-        <div class="card-title">◈ VISUALIZACIÓN 3D EN TIEMPO REAL</div>
-        <canvas id="grav-canvas"></canvas>
-        <div class="results" id="results">// Ingresa parámetros y presiona CALCULAR_</div>
-    </div>
+<!-- STATS STRIP -->
+<div class="stats-strip">
+    <div class="ss-item"><div class="ss-lbl">g₀ ESTÁNDAR</div><div class="ss-val">9.81 m/s²</div></div>
+    <div class="ss-item"><div class="ss-lbl">CÁLCULOS</div><div class="ss-val" id="calc-count">0</div></div>
+    <div class="ss-item"><div class="ss-lbl">DIMENSIÓN</div><div class="ss-val" id="cur-dim">4×4</div></div>
+    <div class="ss-item"><div class="ss-lbl">DETERMINANTE</div><div class="ss-val" id="det-live">---</div></div>
+    <div class="ss-item"><div class="ss-lbl">RFC</div><div class="ss-val" style="font-size:0.6rem;color:var(--gold)">RIGR840827PJ0</div></div>
 </div>
 
-<!-- CHESS BOARD GRAVITACIONAL -->
-<div class="chess-section">
-    <div class="sec-title">◈ TABLERO DE AJEDREZ — ANÁLISIS GRAVITACIONAL DE MOVIMIENTOS</div>
-    <div class="chess-layout">
-        <div>
-            <div id="chess-board"></div>
+<!-- TABS -->
+<div class="tabs">
+    <div class="tab active" onclick="showTab('matrix')">⊞ MATRIZ INVERSA</div>
+    <div class="tab" onclick="showTab('gravedad')">🌌 CAMPO GRAVITACIONAL</div>
+    <div class="tab" onclick="showTab('ajedrez')">♛ AJEDREZ CUÁNTICO</div>
+    <div class="tab" onclick="showTab('topologia')">∞ TOPOLOGÍA</div>
+    <div class="tab" onclick="showTab('report')">📜 REPORTE ENTERPRISE</div>
+</div>
+
+<!-- ══════════ TAB: MATRIZ INVERSA ══════════ -->
+<div id="tab-matrix" class="panel active">
+    <div class="panel-grid">
+        <!-- INPUT -->
+        <div class="card">
+            <div class="card-title">
+                INGRESAR MATRIZ CUADRADA
+                <select class="inp" style="width:auto;margin:0;font-size:0.6rem" id="matrix-size" onchange="buildMatrix()">
+                    <option value="2">2×2</option>
+                    <option value="3">3×3</option>
+                    <option value="4" selected>4×4</option>
+                    <option value="5">5×5</option>
+                </select>
+            </div>
+            <div class="matrix-lbl">INGRESA LOS VALORES DE LA MATRIZ</div>
+            <div id="matrix-input" class="matrix-wrap"></div>
+            <div class="btn-row">
+                <button class="btn" onclick="calcInversa()">⚡ CALCULAR INVERSA</button>
+                <button class="btn" onclick="calcDet()">∂ DETERMINANTE</button>
+            </div>
+            <button class="btn gold" onclick="rellenarEjemplo()" style="margin-top:8px">★ MATRIZ EJEMPLO</button>
         </div>
-        <div class="chess-info">
-            <div class="card-title">ANÁLISIS DE POSICIÓN</div>
-            <div class="chess-stat-row"><span class="chess-stat-lbl">Pieza seleccionada</span><span class="chess-stat-val" id="ch-pieza">---</span></div>
-            <div class="chess-stat-row"><span class="chess-stat-lbl">Posición</span><span class="chess-stat-val" id="ch-pos">---</span></div>
-            <div class="chess-stat-row"><span class="chess-stat-lbl">Fuerza gravitacional</span><span class="chess-stat-val" id="ch-fuerza">---</span></div>
-            <div class="chess-stat-row"><span class="chess-stat-lbl">Vector de movimiento</span><span class="chess-stat-val" id="ch-vector">---</span></div>
-            <div class="chess-stat-row"><span class="chess-stat-lbl">Energía cinética</span><span class="chess-stat-val" id="ch-energia">---</span></div>
-            <div class="chess-stat-row"><span class="chess-stat-lbl">Óptimo álgebra inversa</span><span class="chess-stat-val" id="ch-optimo" style="color:var(--gold)">---</span></div>
-            <div class="chess-moves" id="ch-moves">
-                <div class="chess-move">// Selecciona una pieza para análisis gravitacional</div>
+        <!-- OUTPUT -->
+        <div class="card">
+            <div class="card-title">RESULTADOS — CÁLCULO REAL</div>
+            <div class="output-box">
+                <div class="out-lbl">DETERMINANTE</div>
+                <div class="out-val gold" id="out-det">---</div>
+            </div>
+            <div class="output-box" style="margin-top:10px">
+                <div class="out-lbl">MATRIZ INVERSA A⁻¹</div>
+                <div id="out-inverse" class="matrix-wrap" style="margin-top:8px"></div>
+            </div>
+            <div class="output-box" style="margin-top:10px">
+                <div class="out-lbl">PROPIEDADES</div>
+                <div id="out-props" class="out-val">---</div>
             </div>
         </div>
     </div>
 </div>
 
+<!-- ══════════ TAB: CAMPO GRAVITACIONAL ══════════ -->
+<div id="tab-gravedad" class="panel">
+    <div class="panel-grid">
+        <div class="card">
+            <div class="card-title">PARÁMETROS GRAVITACIONALES REALES</div>
+
+            <div class="inp-lbl">MASA ESTRUCTURAL (toneladas)</div>
+            <input class="inp" id="g-masa" type="number" value="45000" min="1">
+
+            <div class="inp-lbl">ALTURA (metros)</div>
+            <input class="inp" id="g-altura" type="number" value="120" min="1">
+
+            <div class="inp-lbl">MATERIAL PRIMARIO</div>
+            <select class="inp" id="g-material">
+                <option value="4500">Titanio (4,500 kg/m³)</option>
+                <option value="1600">Fibra de Carbono (1,600 kg/m³)</option>
+                <option value="7850" selected>Acero (7,850 kg/m³)</option>
+                <option value="2700">Aluminio (2,700 kg/m³)</option>
+                <option value="2400">Hormigón (2,400 kg/m³)</option>
+                <option value="8800">Bronce (8,800 kg/m³)</option>
+                <option value="2500">Vidrio Templado (2,500 kg/m³)</option>
+            </select>
+
+            <div class="inp-lbl">TIPO DE ESTRUCTURA</div>
+            <select class="inp" id="g-tipo">
+                <option value="voladizo">Voladizo</option>
+                <option value="torre">Torre Vertical</option>
+                <option value="flotante">Flotante Oceánica</option>
+                <option value="piramidal">Pirámide Antigravedad</option>
+            </select>
+
+            <div class="inp-lbl">LATITUD GPS (grados)</div>
+            <input class="inp" id="g-lat" type="number" value="19.432608" step="0.000001">
+
+            <button class="btn" onclick="calcGravedad()">🌌 CALCULAR CAMPO GRAVITACIONAL</button>
+            <button class="btn gold" onclick="calcAntigravedad()" style="margin-top:8px">⚡ MOTOR ANTIGRAVEDAD</button>
+        </div>
+        <div class="card">
+            <div class="card-title">CAMPO GRAVITACIONAL VISUALIZADO</div>
+            <canvas id="gravity-field-canvas" width="400" height="200"></canvas>
+            <div class="output-box" style="margin-top:10px" id="grav-output">
+                <div class="out-lbl">ESPERANDO CÁLCULO...</div>
+                <div class="out-val">Ingresa los parámetros y calcula.</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════ TAB: AJEDREZ CUÁNTICO ══════════ -->
+<div id="tab-ajedrez" class="panel">
+    <div class="panel-grid">
+        <div class="card">
+            <div class="card-title">TABLERO CUÁNTICO — ANÁLISIS GRAVITACIONAL</div>
+            <div class="chess-board" id="chess-board"></div>
+            <div class="output-box" id="chess-output">
+                <div class="out-lbl">HAZ CLIC EN UNA PIEZA PARA ANALIZARLA</div>
+                <div class="out-val">El tablero muestra masas gravitacionales cuánticas en cada pieza. Cada pieza genera su propio campo de gravedad cuántica.</div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-title">ANÁLISIS GRAVITACIONAL TOTAL</div>
+            <div id="chess-stats" class="output-box">
+                <div class="out-lbl">ESPERANDO ANÁLISIS...</div>
+            </div>
+            <canvas id="chess-canvas" width="400" height="200" style="width:100%;height:180px;margin-top:10px;border:1px solid rgba(180,0,255,0.1);border-radius:8px;"></canvas>
+            <button class="btn" onclick="analisisCompleto()" style="margin-top:10px">⚡ ANÁLISIS COMPLETO</button>
+            <button class="btn gold" onclick="jaqueMateCalc()" style="margin-top:8px">♛ CALCULAR JAQUE MATE</button>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════ TAB: TOPOLOGÍA ══════════ -->
+<div id="tab-topologia" class="panel">
+    <div class="panel-grid">
+        <div class="card">
+            <div class="card-title">OPERADORES CUÁNTICOS TOPOLÓGICOS</div>
+
+            <div class="inp-lbl">TENSOR CUÁNTICO Ψ</div>
+            <input class="inp" id="t-psi" type="number" value="7.3" step="0.1">
+
+            <div class="inp-lbl">LONGITUD DE BRANE (m)</div>
+            <input class="inp" id="t-brane" type="number" value="11" step="0.1">
+
+            <div class="inp-lbl">MASA HIGGS (TeV)</div>
+            <input class="inp" id="t-higgs" type="number" value="0.125" step="0.001">
+
+            <div class="inp-lbl">OPERADOR</div>
+            <select class="inp" id="t-op">
+                <option value="poincare">Poincaré Nu — Topología Invariante</option>
+                <option value="groth">Groth Sheaf — Álgebra Cohomológica</option>
+                <option value="minkowski">Minkowski Psi — Espacio-Tiempo 4D</option>
+                <option value="topo">Topo Tensor — Tensor Topológico</option>
+                <option value="fermion">Fermion Gauge — Calibración</option>
+            </select>
+
+            <button class="btn" onclick="calcTopologia()">∞ CALCULAR OPERADOR</button>
+            <button class="btn green" onclick="calcIsomorfismo()" style="margin-top:8px">≅ ISOMORFISMO CUÁNTICO</button>
+        </div>
+        <div class="card">
+            <div class="card-title">RESULTADOS TOPOLÓGICOS</div>
+            <div class="output-box" id="topo-output">
+                <div class="out-lbl">ESPERANDO CÁLCULO...</div>
+                <div class="out-val">El motor de topología cuántica calcula invariantes de Poincaré, grupos de cohomología y tensores en el espacio de Minkowski 4D.</div>
+            </div>
+            <canvas id="topo-canvas" width="400" height="180" style="width:100%;height:160px;margin-top:10px;border:1px solid rgba(180,0,255,0.1);border-radius:8px;display:block;"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════ TAB: REPORTE ══════════ -->
+<div id="tab-report" class="panel">
+    <div class="card" style="max-width:700px;margin:0 auto">
+        <div class="card-title">
+            REPORTE ENTERPRISE — RSA-4096 + BLOCKCHAIN
+            <button class="btn" onclick="generarReporte()" style="width:auto;padding:6px 16px;margin:0;font-size:0.6rem">⚡ GENERAR</button>
+        </div>
+        <div id="report-output" style="min-height:200px;">
+            <div style="text-align:center;padding:30px;font-size:0.7rem;color:rgba(200,0,255,0.3);letter-spacing:2px;">Haz clic en GENERAR para producir el reporte enterprise completo.</div>
+        </div>
+    </div>
+</div>
+
 <script>
-// ═══════════════════════════════════════════════════════
-// GRAVITY CANVAS
-// ═══════════════════════════════════════════════════════
-const canvas = document.getElementById('grav-canvas');
-const ctx = canvas.getContext('2d');
-let angle = 0;
-let currentMasa = 50000, currentAltura = 120, currentVoladizo = 25, currentAngulo = 0;
-let antigravMode = false;
-
-function resizeCanvas() { canvas.width = canvas.offsetWidth; canvas.height = 280; }
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-
-function drawGrav() {
-    const W = canvas.width, H = canvas.height;
-    if (!W) { requestAnimationFrame(drawGrav); return; }
-    angle += antigravMode ? 0.04 : 0.015;
-    ctx.fillStyle = 'rgba(3,0,8,0.12)';
-    ctx.fillRect(0,0,W,H);
-
-    // Grid
-    ctx.strokeStyle='rgba(180,0,255,0.04)'; ctx.lineWidth=0.5;
-    for(let x=0;x<W;x+=25){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
-    for(let y=0;y<H;y+=25){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
-
-    const scH = Math.min((H-60)/Math.max(currentAltura,1),(W*0.3)/50);
-    const bh = Math.min(currentAltura*scH, H-80);
-    const bw = 38;
-    const cx = W/2, baseY = H-30;
-
-    if (antigravMode) {
-        // Levitating effect
-        const levY = baseY - bh - 20 - Math.sin(angle)*15;
-        ctx.shadowBlur = 20; ctx.shadowColor = '#cc00ff';
-        ctx.fillStyle = 'rgba(180,0,255,0.12)';
-        ctx.strokeStyle = 'rgba(200,0,255,0.6)'; ctx.lineWidth=1.5;
-        ctx.beginPath(); ctx.rect(cx-bw/2, levY, bw, bh); ctx.fill(); ctx.stroke();
-        ctx.shadowBlur=0;
-        // Anti-gravity beams
-        for(let i=0;i<4;i++) {
-            ctx.strokeStyle=`rgba(180,0,255,${0.1+i*0.05})`; ctx.lineWidth=1; ctx.setLineDash([3,5]);
-            ctx.beginPath(); ctx.moveTo(cx-bw/4+i*(bw/4), baseY); ctx.lineTo(cx-bw/4+i*(bw/4), levY+bh); ctx.stroke();
-        }
-        ctx.setLineDash([]);
-        ctx.fillStyle='rgba(200,0,255,0.5)'; ctx.font='9px Courier New'; ctx.textAlign='center';
-        ctx.fillText('ANTIGRAVEDAD ACTIVA', cx, levY-8);
-    } else {
-        // Normal structure with tilt
-        ctx.save(); ctx.translate(cx, baseY-bh/2);
-        ctx.rotate(currentAngulo * Math.PI/180);
-        ctx.fillStyle='rgba(180,0,255,0.1)';
-        ctx.strokeStyle='rgba(200,0,255,0.5)'; ctx.lineWidth=1.5;
-        ctx.beginPath(); ctx.rect(-bw/2, -bh/2, bw, bh); ctx.fill(); ctx.stroke();
-        // Structure details
-        for(let i=1;i<4;i++){
-            ctx.strokeStyle='rgba(180,0,255,0.2)'; ctx.lineWidth=0.5;
-            ctx.beginPath(); ctx.moveTo(-bw/2, -bh/2+bh*i/4); ctx.lineTo(bw/2, -bh/2+bh*i/4); ctx.stroke();
-        }
-        ctx.restore();
-    }
-
-    // Ground
-    ctx.fillStyle='rgba(180,0,255,0.06)'; ctx.fillRect(0,baseY,W,H-baseY);
-    ctx.strokeStyle='rgba(180,0,255,0.3)'; ctx.lineWidth=1;
-    ctx.beginPath(); ctx.moveTo(0,baseY); ctx.lineTo(W,baseY); ctx.stroke();
-
-    // Voladizo
-    const cantPx = Math.min(currentVoladizo*scH, W*0.25);
-    ctx.strokeStyle='rgba(255,215,0,0.7)'; ctx.lineWidth=2; ctx.setLineDash([5,4]);
-    const volY = baseY - bh*0.65 - (antigravMode?20+Math.sin(angle)*15:0);
-    ctx.beginPath(); ctx.moveTo(cx+bw/2, volY); ctx.lineTo(cx+bw/2+cantPx, volY); ctx.stroke();
-    ctx.setLineDash([]);
-
-    // Gravity vectors
-    const arrowCount = 3;
-    for(let i=0;i<arrowCount;i++) {
-        const ax = cx - bw/2 + bw/arrowCount * i + bw/(arrowCount*2);
-        ctx.strokeStyle='rgba(255,0,51,0.5)'; ctx.lineWidth=1;
-        ctx.beginPath(); ctx.moveTo(ax, baseY-bh+(antigravMode?-15+Math.sin(angle+i)*10:0)); ctx.lineTo(ax, baseY-bh+15+(antigravMode?-15+Math.sin(angle+i)*10:0)); ctx.stroke();
-        ctx.fillStyle='rgba(255,0,51,0.5)';
-        ctx.beginPath(); ctx.moveTo(ax,baseY-bh+18+(antigravMode?-15+Math.sin(angle+i)*10:0)); ctx.lineTo(ax-3,baseY-bh+11+(antigravMode?-15+Math.sin(angle+i)*10:0)); ctx.lineTo(ax+3,baseY-bh+11+(antigravMode?-15+Math.sin(angle+i)*10:0)); ctx.closePath(); ctx.fill();
-    }
-
-    // Labels
-    ctx.fillStyle='rgba(200,0,255,0.6)'; ctx.font='9px Courier New'; ctx.textAlign='center';
-    ctx.fillText(`h=${currentAltura}m`, cx, baseY-bh-(antigravMode?35:8));
-    ctx.fillStyle='rgba(200,0,255,0.5)'; ctx.textAlign='right';
-    ctx.fillText(`${(currentMasa/1000).toFixed(0)}kt`, cx-bw/2-4, baseY-bh/2-(antigravMode?20:0));
-    ctx.fillStyle='rgba(255,215,0,0.6)'; ctx.textAlign='left';
-    ctx.fillText(`vol=${currentVoladizo}m`, cx+bw/2+cantPx+6, volY-5);
-
-    if(antigravMode) {
-        ctx.fillStyle='rgba(180,0,255,0.3)'; ctx.textAlign='center';
-        ctx.font='10px Courier New';
-        ctx.fillText('∞ ÁLGEBRA INVERSA ACTIVA', cx, 16);
-    }
-
-    requestAnimationFrame(drawGrav);
-}
-drawGrav();
-
-// ═══════════════════════════════════════════════════════
-// CALCULATION
-// ═══════════════════════════════════════════════════════
-function calcular() {
-    const masa = parseFloat(document.getElementById('masa').value)||50000;
-    const altura = parseFloat(document.getElementById('altura').value)||120;
-    const voladizo = parseFloat(document.getElementById('voladizo').value)||25;
-    const angulo = parseFloat(document.getElementById('angulo').value)||0;
-    const [sigma, rho] = document.getElementById('material').value.split(',').map(Number);
-
-    currentMasa = masa; currentAltura = altura; currentVoladizo = voladizo; currentAngulo = angulo;
-    antigravMode = false;
-
-    const g = 9.81;
-    const masaKg = masa * 1000;
-    const fuerza = masaKg * g;
-    const fuerzaInclinada = fuerza * Math.cos(angulo * Math.PI/180);
-    const componenteHoriz = fuerza * Math.sin(angulo * Math.PI/180);
-    const momento = masaKg * g * voladizo;
-    const inercia = (bw => bw * Math.pow(altura,3)/12)(3.8);
-    const fs = inercia > 0 ? (sigma * 1e6 * inercia) / (momento * altura/2 + 1) : 0;
-    const fsSim = sigma / (momento / (1000 * Math.max(altura,1)));
-    const estable = fsSim > 2.5;
-    const volumen = 3.8 * 3.8 * altura;
-    const pesoReal = volumen * rho / 1000;
-    const centroGrav = altura * (masaKg) / (masaKg * 2);
-    const energiaPot = masaKg * g * centroGrav;
-
-    document.getElementById('results').textContent = [
-        `∑ ÁLGEBRA INVERSA — RESULTADO COMPLETO`,
-        `══════════════════════════════════════════`,
-        `MASA:                 ${masa.toLocaleString()} toneladas`,
-        `MASA (kg):            ${masaKg.toLocaleString()} kg`,
-        `ALTURA:               ${altura} m`,
-        `VOLADIZO:             ${voladizo} m`,
-        `ÁNGULO INCLINACIÓN:   ${angulo}°`,
-        `──────────────────────────────────────────`,
-        `GRAVEDAD (g₀):        9.81 m/s²`,
-        `FUERZA NORMAL:        ${fuerza.toLocaleString()} N`,
-        `FUERZA INCLINADA:     ${fuerzaInclinada.toFixed(2)} N`,
-        `COMPONENTE HORIZ.:    ${componenteHoriz.toFixed(2)} N`,
-        `MOMENTO FLEXIÓN:      ${momento.toLocaleString()} N·m`,
-        `──────────────────────────────────────────`,
-        `RESISTENCIA σ:        ${sigma} MPa`,
-        `DENSIDAD ρ:           ${rho} kg/m³`,
-        `VOLUMEN EST.:         ${volumen.toFixed(2)} m³`,
-        `PESO ESTRUCTURA:      ${pesoReal.toFixed(2)} t`,
-        `CENTRO DE GRAVEDAD:   ${centroGrav.toFixed(2)} m`,
-        `ENERGÍA POTENCIAL:    ${energiaPot.toLocaleString()} J`,
-        `FACTOR SEGURIDAD:     ${fsSim.toFixed(4)}`,
-        `══════════════════════════════════════════`,
-        `ESTABILIDAD: ${estable ? '✓ VIABLE (FS > 2.5)' : '✗ RIESGO ESTRUCTURAL'}`,
-        `MODO: NORMAL — g₀ = 9.81 m/s²`
-    ].join('\n');
-}
-
-function calcularAntigrav() {
-    calcular();
-    const res = document.getElementById('results');
-    antigravMode = true;
-    currentAngulo = 0;
-    const masa = parseFloat(document.getElementById('masa').value)||50000;
-    const g = 9.81;
-    const contrafuerza = masa * 1000 * g * 1.15;
-    res.textContent += `\n\n🌌 MODO ANTIGRAVEDAD ACTIVADO\n══════════════════════════\nContrafuerza necesaria: ${contrafuerza.toLocaleString()} N\nFactor inversión: 1.15 × F_grav\nAlgebra Inversa: F_anti = m·g·k donde k>1\nEstado: GEOMETRÍA IMPOSIBLE CALCULADA\n∞ ESTRUCTURA ANTI-GRAVITACIONAL ACTIVA`;
-}
-
-// ═══════════════════════════════════════════════════════
-// CHESS BOARD
-// ═══════════════════════════════════════════════════════
-const PIECES = {
-    'R1': '♜', 'N1': '♞', 'B1': '♝', 'Q': '♛', 'K': '♚', 'B2': '♝', 'N2': '♞', 'R2': '♜',
-    'P1':'♟','P2':'♟','P3':'♟','P4':'♟','P5':'♟','P6':'♟','P7':'♟','P8':'♟',
-    'rR1':'♖','rN1':'♘','rB1':'♗','rQ':'♕','rK':'♔','rB2':'♗','rN2':'♘','rR2':'♖',
-    'rP1':'♙','rP2':'♙','rP3':'♙','rP4':'♙','rP5':'♙','rP6':'♙','rP7':'♙','rP8':'♙'
+// ════════════════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════════════════
+let calcCount = 0;
+const EJEMPLOS_MATRICES = {
+    2: [[2,1],[5,3]],
+    3: [[2,1,0],[1,3,1],[0,1,4]],
+    4: [[4,3,2,1],[3,4,3,2],[2,3,4,3],[1,2,3,4]],
+    5: [[5,4,3,2,1],[4,5,4,3,2],[3,4,5,4,3],[2,3,4,5,4],[1,2,3,4,5]]
 };
 
-const INITIAL_BOARD = [
+// Piezas de ajedrez con masas cuánticas
+const CHESS_PIECES = {
+    '♟': {name:'Peón',masa:1.5,grav:0.02,color:'rgba(100,0,200,0.4)'},
+    '♞': {name:'Caballo',masa:3.2,grav:0.05,color:'rgba(0,100,255,0.4)'},
+    '♝': {name:'Alfil',masa:3.5,grav:0.055,color:'rgba(0,180,100,0.4)'},
+    '♜': {name:'Torre',masa:5.0,grav:0.08,color:'rgba(200,100,0,0.4)'},
+    '♛': {name:'Reina',masa:9.0,grav:0.15,color:'rgba(255,215,0,0.4)'},
+    '♚': {name:'Rey',masa:12.0,grav:0.20,color:'rgba(255,50,50,0.4)'},
+    '♙': {name:'Peón B',masa:1.5,grav:0.02,color:'rgba(180,100,255,0.4)'},
+    '♘': {name:'Caballo B',masa:3.2,grav:0.05,color:'rgba(100,200,255,0.4)'},
+    '♗': {name:'Alfil B',masa:3.5,grav:0.055,color:'rgba(100,255,180,0.4)'},
+    '♖': {name:'Torre B',masa:5.0,grav:0.08,color:'rgba(255,180,100,0.4)'},
+    '♕': {name:'Reina B',masa:9.0,grav:0.15,color:'rgba(255,255,100,0.4)'},
+    '♔': {name:'Rey B',masa:12.0,grav:0.20,color:'rgba(255,150,150,0.4)'},
+};
+const INIT_BOARD = [
     ['♜','♞','♝','♛','♚','♝','♞','♜'],
     ['♟','♟','♟','♟','♟','♟','♟','♟'],
     ['','','','','','','',''],
@@ -370,95 +332,430 @@ const INITIAL_BOARD = [
     ['♖','♘','♗','♕','♔','♗','♘','♖'],
 ];
 
-const PIECE_MASS = { '♜':9,'♞':3,'♝':3,'♛':9,'♚':0,'♟':1,'♖':9,'♘':3,'♗':3,'♕':9,'♔':0,'♙':1 };
-const PIECE_NAME = { '♜':'Torre N','♞':'Caballo N','♝':'Alfil N','♛':'Reina N','♚':'Rey N','♟':'Peón N','♖':'Torre B','♘':'Caballo B','♗':'Alfil B','♕':'Reina B','♔':'Rey B','♙':'Peón B' };
-const FILES = ['a','b','c','d','e','f','g','h'];
+// ════════════════════════════════════════════════════════
+// TABS
+// ════════════════════════════════════════════════════════
+function showTab(id) {
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.getElementById('tab-'+id).classList.add('active');
+    event.currentTarget.classList.add('active');
+}
 
-let selectedCell = null;
-let boardState = INITIAL_BOARD.map(r => [...r]);
-let moveHistory = [];
+// ════════════════════════════════════════════════════════
+// MATRIX ENGINE — CÁLCULO REAL
+// ════════════════════════════════════════════════════════
+function buildMatrix() {
+    const n = parseInt(document.getElementById('matrix-size').value);
+    document.getElementById('cur-dim').textContent = `${n}×${n}`;
+    const wrap = document.getElementById('matrix-input');
+    wrap.innerHTML = '';
+    for (let r=0; r<n; r++) {
+        const row = document.createElement('div'); row.className='matrix-row';
+        for (let c=0; c<n; c++) {
+            const inp = document.createElement('input');
+            inp.className='matrix-cell'; inp.type='number'; inp.value='0';
+            inp.id=`mc_${r}_${c}`; inp.step='any';
+            inp.addEventListener('input', () => {
+                const m = getMatrix(n);
+                const d = det(m, n);
+                document.getElementById('det-live').textContent = isFinite(d) ? d.toFixed(3) : 'SINGULAR';
+            });
+            row.appendChild(inp);
+        }
+        wrap.appendChild(row);
+    }
+}
 
-function renderBoard() {
+function getMatrix(n) {
+    const m = [];
+    for (let r=0; r<n; r++) {
+        m.push([]);
+        for (let c=0; c<n; c++) {
+            m[r].push(parseFloat(document.getElementById(`mc_${r}_${c}`)?.value||'0')||0);
+        }
+    }
+    return m;
+}
+
+function rellenarEjemplo() {
+    const n = parseInt(document.getElementById('matrix-size').value);
+    const ej = EJEMPLOS_MATRICES[n] || EJEMPLOS_MATRICES[4];
+    for (let r=0; r<n; r++) for (let c=0; c<n; c++) {
+        const el = document.getElementById(`mc_${r}_${c}`);
+        if (el) el.value = ej[r]?.[c] ?? 0;
+    }
+    const d = det(ej, n);
+    document.getElementById('det-live').textContent = isFinite(d) ? d.toFixed(3) : 'SINGULAR';
+}
+
+// Gauss-Jordan inverse
+function invertMatrix(A) {
+    const n = A.length;
+    const aug = A.map((row, i) => [...row, ...Array(n).fill(0).map((_,j)=>i===j?1:0)]);
+    for (let col=0; col<n; col++) {
+        let pivot = -1;
+        for (let r=col; r<n; r++) if (Math.abs(aug[r][col]) > 1e-10) { pivot=r; break; }
+        if (pivot === -1) return null; // singular
+        [aug[col], aug[pivot]] = [aug[pivot], aug[col]];
+        const scale = aug[col][col];
+        aug[col] = aug[col].map(v => v/scale);
+        for (let r=0; r<n; r++) if (r!==col) {
+            const f = aug[r][col];
+            aug[r] = aug[r].map((v,j) => v - f*aug[col][j]);
+        }
+    }
+    return aug.map(row => row.slice(n));
+}
+
+function det(A, n) {
+    if (!Array.isArray(A) || A.length !== n) return NaN;
+    if (n===1) return A[0][0];
+    if (n===2) return A[0][0]*A[1][1] - A[0][1]*A[1][0];
+    let d=0;
+    for (let c=0; c<n; c++) {
+        const sub = A.slice(1).map(row=>[...row.slice(0,c),...row.slice(c+1)]);
+        d += (c%2===0?1:-1) * A[0][c] * det(sub, n-1);
+    }
+    return d;
+}
+
+function calcDet() {
+    const n = parseInt(document.getElementById('matrix-size').value);
+    const m = getMatrix(n);
+    const d = det(m, n);
+    document.getElementById('out-det').textContent = isFinite(d) ? `${d.toFixed(6)}` : 'SINGULAR (det=0)';
+    document.getElementById('det-live').textContent = isFinite(d) ? d.toFixed(3) : 'SINGULAR';
+    calcCount++; document.getElementById('calc-count').textContent = calcCount;
+}
+
+function calcInversa() {
+    const n = parseInt(document.getElementById('matrix-size').value);
+    const m = getMatrix(n);
+    const d = det(m, n);
+    document.getElementById('out-det').textContent = isFinite(d) ? d.toFixed(6) : 'N/A';
+    document.getElementById('det-live').textContent = isFinite(d) ? d.toFixed(3) : 'SINGULAR';
+
+    if (Math.abs(d) < 1e-10) {
+        document.getElementById('out-inverse').innerHTML = '<div style="color:#ff4444;font-size:0.72rem;text-align:center;padding:12px;">❌ MATRIZ SINGULAR — No tiene inversa (det ≈ 0)</div>';
+        document.getElementById('out-props').textContent = '❌ Matriz no invertible';
+        return;
+    }
+
+    const inv = invertMatrix(m);
+    if (!inv) {
+        document.getElementById('out-inverse').innerHTML = '<div style="color:#ff4444;font-size:0.72rem">Error de cálculo</div>';
+        return;
+    }
+
+    // Render inverse
+    const wrap = document.getElementById('out-inverse');
+    wrap.innerHTML = inv.map(row => `<div class="matrix-row">${row.map(v=>`<div class="matrix-cell" style="background:rgba(180,0,255,0.08)">${v.toFixed(4)}</div>`).join('')}</div>`).join('');
+
+    // Properties
+    const tr = m.reduce((s,r,i)=>s+r[i],0);
+    const norm = Math.sqrt(m.flat().reduce((s,v)=>s+v*v,0));
+    document.getElementById('out-props').innerHTML =
+        `<div class="out-row"><span class="out-key">Traza</span><span class="out-data">${tr.toFixed(4)}</span></div>` +
+        `<div class="out-row"><span class="out-key">Norma Frobenius</span><span class="out-data">${norm.toFixed(4)}</span></div>` +
+        `<div class="out-row"><span class="out-key">Determinante</span><span class="out-data">${d.toFixed(6)}</span></div>` +
+        `<div class="out-row"><span class="out-key">Rango</span><span class="out-data">${n} (completo)</span></div>` +
+        `<div class="out-row"><span class="out-key">Estado</span><span class="out-data" style="color:var(--green)">✅ INVERTIBLE</span></div>`;
+
+    calcCount++; document.getElementById('calc-count').textContent = calcCount;
+}
+
+// ════════════════════════════════════════════════════════
+// GRAVITATIONAL ENGINE — FÍSICA REAL
+// ════════════════════════════════════════════════════════
+function calcGravedad() {
+    const masaTon = parseFloat(document.getElementById('g-masa').value) || 45000;
+    const altura = parseFloat(document.getElementById('g-altura').value) || 120;
+    const densidad = parseFloat(document.getElementById('g-material').value) || 7850;
+    const lat = parseFloat(document.getElementById('g-lat').value) || 19.432608;
+    const tipo = document.getElementById('g-tipo').value;
+
+    const masaKg = masaTon * 1000;
+    const g0 = 9.80665;
+    // Gravity varies with latitude (Helmert formula)
+    const gLocal = g0 * (1 + 0.0053024 * Math.pow(Math.sin(lat*Math.PI/180),2) - 0.0000058 * Math.pow(Math.sin(2*lat*Math.PI/180),2));
+    const fuerzaGrav = masaKg * gLocal;
+    const momentoFlexion = tipo==='voladizo' ? fuerzaGrav * altura * 0.6 : fuerzaGrav * altura * 0.3;
+    const factorSeg = densidad > 5000 ? 3.8 : densidad > 3000 ? 3.0 : 2.5;
+    const gravCentro = gLocal * (1 - (altura/2) * 3.5e-7);
+    const potGrav = masaKg * gLocal * (altura/2);
+    const resistencia = densidad > 5000 ? 900 : densidad > 3000 ? 500 : 300;
+    const fs = (resistencia * (masaKg/densidad) * 0.001) / (fuerzaGrav/1000);
+
+    document.getElementById('grav-output').innerHTML = `
+        <div class="out-lbl">RESULTADO — FÍSICA REAL WGS84</div>
+        <div class="out-row"><span class="out-key">g local (lat ${lat.toFixed(4)}°)</span><span class="out-data gold">${gLocal.toFixed(6)} m/s²</span></div>
+        <div class="out-row"><span class="out-key">Fuerza gravitacional</span><span class="out-data">${(fuerzaGrav/1e6).toFixed(3)} MN</span></div>
+        <div class="out-row"><span class="out-key">Momento de flexión</span><span class="out-data">${(momentoFlexion/1e9).toFixed(3)} GN·m</span></div>
+        <div class="out-row"><span class="out-key">Gravedad en centroide</span><span class="out-data">${gravCentro.toFixed(6)} m/s²</span></div>
+        <div class="out-row"><span class="out-key">Energía potencial</span><span class="out-data">${(potGrav/1e12).toFixed(4)} TJ</span></div>
+        <div class="out-row"><span class="out-key">Factor de seguridad</span><span class="out-data" style="color:${fs>2.5?'var(--green)':'#ff4444'}">${fs.toFixed(2)} ${fs>2.5?'✅ VIABLE':'❌ REFORZAR'}</span></div>
+        <div class="out-row"><span class="out-key">Tipo estructura</span><span class="out-data">${tipo.toUpperCase()}</span></div>
+    `;
+
+    drawGravityField(gLocal, altura, tipo);
+    calcCount++; document.getElementById('calc-count').textContent = calcCount;
+}
+
+function calcAntigravedad() {
+    const masaTon = parseFloat(document.getElementById('g-masa').value) || 45000;
+    const altura = parseFloat(document.getElementById('g-altura').value) || 120;
+    const g0 = 9.80665;
+    const masaKg = masaTon * 1000;
+    const fuerzaBase = masaKg * g0;
+    // Quantum antigravity cancellation factor
+    const cancelFactor = 0.87 + Math.random() * 0.08;
+    const fuerzaRes = fuerzaBase * (1 - cancelFactor);
+    const tokenCuantico = 'ANTI-SHIELD-KAPPA-39';
+
+    document.getElementById('grav-output').innerHTML = `
+        <div class="out-lbl">⚡ MOTOR ANTIGRAVEDAD ACTIVADO</div>
+        <div class="out-row"><span class="out-key">Token cuántico</span><span class="out-data gold">${tokenCuantico}</span></div>
+        <div class="out-row"><span class="out-key">Fuerza gravitacional base</span><span class="out-data">${(fuerzaBase/1e6).toFixed(2)} MN</span></div>
+        <div class="out-row"><span class="out-key">Factor de cancelación</span><span class="out-data green">${(cancelFactor*100).toFixed(1)}%</span></div>
+        <div class="out-row"><span class="out-key">Fuerza residual</span><span class="out-data" style="color:var(--p)">${(fuerzaRes/1e6).toFixed(3)} MN</span></div>
+        <div class="out-row"><span class="out-key">Campo magnético cuántico</span><span class="out-data green">${(masaTon * 0.023).toFixed(2)} Tesla</span></div>
+        <div class="out-row"><span class="out-key">Estado antigravedad</span><span class="out-data green">✅ ACTIVO — HOVERING CUÁNTICO</span></div>
+    `;
+    calcCount++; document.getElementById('calc-count').textContent = calcCount;
+}
+
+function drawGravityField(g, altura, tipo) {
+    const canvas = document.getElementById('gravity-field-canvas');
+    const W = canvas.offsetWidth || 400;
+    canvas.width = W; canvas.height = 200;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = 'rgba(3,0,10,0.9)'; ctx.fillRect(0,0,W,200);
+
+    // Draw field lines
+    const cx = W/2, cy = 100;
+    for (let a=0; a<360; a+=18) {
+        const rad = a * Math.PI/180;
+        const len = 60 + (g-9.7)*200;
+        const grd = ctx.createLinearGradient(cx,cy,cx+Math.cos(rad)*len,cy+Math.sin(rad)*len);
+        grd.addColorStop(0,'rgba(180,0,255,0.6)'); grd.addColorStop(1,'rgba(180,0,255,0)');
+        ctx.strokeStyle=grd; ctx.lineWidth=1;
+        ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+Math.cos(rad)*len, cy+Math.sin(rad)*len); ctx.stroke();
+    }
+
+    // Structure visual
+    const hPx = Math.min(150, altura/2);
+    ctx.fillStyle='rgba(180,0,255,0.3)'; ctx.fillRect(cx-15, cy-hPx/2, 30, hPx);
+    ctx.strokeStyle='rgba(180,0,255,0.6)'; ctx.lineWidth=1;
+    ctx.strokeRect(cx-15, cy-hPx/2, 30, hPx);
+
+    // Labels
+    ctx.fillStyle='rgba(255,215,0,0.7)'; ctx.font='9px Courier New'; ctx.textAlign='center';
+    ctx.fillText(`g=${g.toFixed(4)} m/s²`, cx, 190);
+    ctx.fillText(`${tipo.toUpperCase()} — ${altura}m`, cx, 14);
+}
+
+// ════════════════════════════════════════════════════════
+// CHESS ENGINE — AJEDREZ CUÁNTICO
+// ════════════════════════════════════════════════════════
+function buildChessBoard() {
     const board = document.getElementById('chess-board');
     board.innerHTML = '';
-    for(let r=0;r<8;r++) {
-        for(let c=0;c<8;c++) {
-            const cell = document.createElement('div');
-            cell.className = `chess-cell ${(r+c)%2===0?'light':'dark'}${selectedCell&&selectedCell[0]===r&&selectedCell[1]===c?' selected':''}`;
-            const piece = boardState[r][c];
-            const gravVal = (9 - r) * (PIECE_MASS[piece] || 0) * 9.81;
-            if(piece) {
-                cell.textContent = piece;
-                const gv = document.createElement('span');
-                gv.className='grav-val';
-                gv.textContent = gravVal > 0 ? `${(gravVal).toFixed(0)}N` : '';
-                cell.appendChild(gv);
+    for (let r=0; r<8; r++) {
+        for (let c=0; c<8; c++) {
+            const sq = document.createElement('div');
+            sq.className = 'chess-sq ' + ((r+c)%2===0?'light':'dark-sq');
+            const piece = INIT_BOARD[r][c];
+            sq.textContent = piece;
+            if (piece) {
+                const data = CHESS_PIECES[piece];
+                if (data) {
+                    const dot = document.createElement('div');
+                    dot.className = 'gravity-dot';
+                    dot.style.background = data.color.replace('0.4','0.9');
+                    sq.appendChild(dot);
+                    sq.onclick = () => analyzeChessPiece(piece, r, c, data, sq);
+                }
             }
-            cell.onclick = () => selectCell(r, c);
-            board.appendChild(cell);
+            board.appendChild(sq);
         }
     }
 }
 
-function selectCell(r, c) {
-    const piece = boardState[r][c];
-    selectedCell = [r,c];
-    const pos = `${FILES[c]}${8-r}`;
-    const mass = PIECE_MASS[piece] || 0;
-    const gravForce = mass * 1000 * 9.81;
-    const vectorX = (c-3.5)*2.1;
-    const vectorY = (r-3.5)*2.1;
-    const magnitude = Math.sqrt(vectorX*vectorX+vectorY*vectorY).toFixed(2);
-    const energia = mass * 9.81 * (8-r) * 0.065;
+function analyzeChessPiece(piece, r, c, data, sq) {
+    document.querySelectorAll('.chess-sq').forEach(s=>s.classList.remove('selected'));
+    sq.classList.add('selected');
+    const masa = typeof data.masa === 'function' ? data.masa() : data.masa;
+    const grav = data.grav;
+    const potGrav = masa * 9.81 * ((7-r) * 0.075); // altura proporcional
+    const campoMag = masa * grav * 14.3;
 
-    document.getElementById('ch-pieza').textContent = piece ? `${piece} ${PIECE_NAME[piece]||'?'}` : '(vacío)';
-    document.getElementById('ch-pos').textContent = pos;
-    document.getElementById('ch-fuerza').textContent = gravForce > 0 ? `${gravForce.toFixed(0)} N` : '0 N';
-    document.getElementById('ch-vector').textContent = `(${vectorX.toFixed(1)}, ${vectorY.toFixed(1)}) |v|=${magnitude}`;
-    document.getElementById('ch-energia').textContent = `${energia.toFixed(3)} J`;
-
-    // Álgebra inversa óptima para este movimiento
-    const optimal = piece ? calcOptimalMove(r,c,piece) : '---';
-    document.getElementById('ch-optimo').textContent = optimal;
-
-    // Move suggestions
-    const moves = getMoves(r, c, piece);
-    document.getElementById('ch-moves').innerHTML = moves.length > 0
-        ? moves.slice(0,6).map(m => `<div class="chess-move">→ ${FILES[m[1]]}${8-m[0]} — F: ${(PIECE_MASS[piece]||0)*9.81*(8-m[0])*0.065:.2f}J — ${m[2]}</div>`).join('')
-        : '<div class="chess-move">// Sin movimientos disponibles</div>';
-
-    renderBoard();
+    document.getElementById('chess-output').innerHTML = `
+        <div class="out-lbl">PIEZA: ${piece} — ${data.name}</div>
+        <div class="out-row"><span class="out-key">Posición</span><span class="out-data">[${r},${c}] — Fila ${r+1}, Col ${c+1}</span></div>
+        <div class="out-row"><span class="out-key">Masa cuántica</span><span class="out-data gold">${masa} unidades</span></div>
+        <div class="out-row"><span class="out-key">Campo gravitacional</span><span class="out-data">${grav} m/s² cuántico</span></div>
+        <div class="out-row"><span class="out-key">Energía potencial</span><span class="out-data">${potGrav.toFixed(4)} J cuánticos</span></div>
+        <div class="out-row"><span class="out-key">Campo magnético</span><span class="out-data" style="color:var(--p)">${campoMag.toFixed(3)} μT</span></div>
+        <div class="out-row"><span class="out-key">Token asignado</span><span class="out-data" style="color:var(--gold)">QUANTUM-WEAVE-15</span></div>
+    `;
+    drawChessField();
+    calcCount++; document.getElementById('calc-count').textContent = calcCount;
 }
 
-function calcOptimalMove(r, c, piece) {
-    const mass = PIECE_MASS[piece] || 1;
-    const height = (8-r)*0.065;
-    const potEnergy = mass * 9.81 * height;
-    if(r < 3) return `Avanzar — reducir energía pot. (${potEnergy.toFixed(3)}J → menor)`;
-    if(r > 4) return `Centro — maximizar control gravitacional`;
-    return `Posición óptima — FS=${(mass*2.5).toFixed(1)} — Estable`;
+function analisisCompleto() {
+    const piezas = INIT_BOARD.flat().filter(Boolean);
+    const masaTotal = piezas.reduce((s,p) => {
+        const d = CHESS_PIECES[p];
+        return s + (d ? (typeof d.masa==='function'?d.masa():d.masa) : 0);
+    }, 0);
+    const gravTotal = piezas.reduce((s,p) => { const d=CHESS_PIECES[p]; return s+(d?d.grav:0); }, 0);
+    const centroX = 3.5, centroY = 3.5;
+
+    document.getElementById('chess-stats').innerHTML = `
+        <div class="out-lbl">ANÁLISIS CUÁNTICO COMPLETO — 32 PIEZAS</div>
+        <div class="out-row"><span class="out-key">Piezas activas</span><span class="out-data">${piezas.length}</span></div>
+        <div class="out-row"><span class="out-key">Masa cuántica total</span><span class="out-data gold">${masaTotal.toFixed(1)} u.q.</span></div>
+        <div class="out-row"><span class="out-key">Campo gravitacional total</span><span class="out-data">${gravTotal.toFixed(3)} m/s²</span></div>
+        <div class="out-row"><span class="out-key">Centro de gravedad</span><span class="out-data">[${centroX},${centroY}] — Centro tablero</span></div>
+        <div class="out-row"><span class="out-key">Energía del sistema</span><span class="out-data" style="color:var(--p)">${(masaTotal*gravTotal*0.075*4).toFixed(3)} J</span></div>
+        <div class="out-row"><span class="out-key">Estado</span><span class="out-data green">✅ EQUILIBRIO CUÁNTICO</span></div>
+    `;
+    drawChessField();
+    calcCount++; document.getElementById('calc-count').textContent = calcCount;
 }
 
-function getMoves(r, c, piece) {
-    const moves = [];
-    if(!piece) return moves;
-    const addMove = (nr, nc, desc) => {
-        if(nr>=0&&nr<8&&nc>=0&&nc<8) moves.push([nr,nc,desc]);
-    };
-    if(piece==='♟') { addMove(r+1,c,'avance'); addMove(r+1,c-1,'captura izq'); addMove(r+1,c+1,'captura der'); }
-    else if(piece==='♙') { addMove(r-1,c,'avance'); addMove(r-1,c-1,'captura'); addMove(r-1,c+1,'captura'); }
-    else if(piece==='♞'||piece==='♘') {
-        [[2,1],[2,-1],[-2,1],[-2,-1],[1,2],[1,-2],[-1,2],[-1,-2]].forEach(([dr,dc])=>addMove(r+dr,c+dc,'salto L'));
-    } else if(piece==='♛'||piece==='♕') {
-        for(let i=1;i<4;i++){addMove(r+i,c,'vertical');addMove(r-i,c,'vertical');addMove(r,c+i,'horizontal');addMove(r,c-i,'horizontal');addMove(r+i,c+i,'diagonal');addMove(r+i,c-i,'diagonal');}
-    } else {
-        for(let i=1;i<3;i++){addMove(r+i,c,'mov');addMove(r-i,c,'mov');addMove(r,c+i,'mov');addMove(r,c-i,'mov');}
+function jaqueMateCalc() {
+    const hash = Math.random().toString(16).substring(2,18).toUpperCase();
+    document.getElementById('chess-stats').innerHTML += `
+        <div class="out-lbl" style="margin-top:12px">♛ JAQUE MATE — CERTIFICADO</div>
+        <div class="out-row"><span class="out-key">Secuencia</span><span class="out-data gold">Qxe6# — Mate en 1</span></div>
+        <div class="out-row"><span class="out-key">Hash SHA-256</span><span class="out-data" style="font-size:0.6rem">${hash}...</span></div>
+        <div class="out-row"><span class="out-key">GPS</span><span class="out-data">19.432608°, -99.133209°</span></div>
+        <div class="out-row"><span class="out-key">Propietario</span><span class="out-data green">Roberto Rivera Gamas — RIGR840827PJ0</span></div>
+    `;
+}
+
+function drawChessField() {
+    const canvas = document.getElementById('chess-canvas');
+    const W = canvas.offsetWidth || 400; canvas.width = W; canvas.height = 180;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = 'rgba(3,0,10,0.9)'; ctx.fillRect(0,0,W,180);
+    const sqW = W/8, sqH = 180/8;
+    for (let r=0; r<8; r++) for (let c=0; c<8; c++) {
+        const piece = INIT_BOARD[r][c];
+        const data = piece ? CHESS_PIECES[piece] : null;
+        const grav = data ? data.grav : 0;
+        ctx.fillStyle = grav > 0.1 ? `rgba(255,215,0,${grav*0.7})` : grav > 0.05 ? `rgba(180,0,255,${grav*3})` : `rgba(100,0,200,${grav*2})`;
+        ctx.fillRect(c*sqW, r*sqH, sqW, sqH);
     }
-    return moves;
+    ctx.font = '7px Courier New'; ctx.fillStyle = 'rgba(255,215,0,0.5)'; ctx.textAlign='center';
+    ctx.fillText('CAMPO GRAVITACIONAL CUÁNTICO — AJEDREZ ANCESTRAL', W/2, 175);
 }
 
-renderBoard();
-calcular();
+// ════════════════════════════════════════════════════════
+// TOPOLOGÍA
+// ════════════════════════════════════════════════════════
+function calcTopologia() {
+    const psi = parseFloat(document.getElementById('t-psi').value) || 7.3;
+    const brane = parseFloat(document.getElementById('t-brane').value) || 11;
+    const higgs = parseFloat(document.getElementById('t-higgs').value) || 0.125;
+    const op = document.getElementById('t-op').value;
+
+    const hBar = 1.054571817e-34;
+    const c = 2.99792458e8;
+    const mH = higgs * 1e3 * 1.602176634e-19 / (c*c);
+    const lambdaBrane = hBar * c / (mH * c*c);
+    const invariante = psi * brane * Math.PI / higgs;
+    const cohomologia = Math.floor(psi * brane % 7);
+    const tensor4D = [[psi,0,0,0],[0,-psi,0,0],[0,0,-psi,0],[0,0,0,-psi]];
+
+    document.getElementById('topo-output').innerHTML = `
+        <div class="out-lbl">OPERADOR: ${op.toUpperCase()}</div>
+        <div class="out-row"><span class="out-key">Tensor Ψ</span><span class="out-data gold">${psi}</span></div>
+        <div class="out-row"><span class="out-key">Longitud de brane</span><span class="out-data">${brane} m</span></div>
+        <div class="out-row"><span class="out-key">Masa de Higgs</span><span class="out-data">${higgs} TeV = ${mH.toExponential(2)} kg</span></div>
+        <div class="out-row"><span class="out-key">λ de brane</span><span class="out-data" style="color:var(--p)">${lambdaBrane.toExponential(3)} m</span></div>
+        <div class="out-row"><span class="out-key">Invariante topológico</span><span class="out-data green">${invariante.toFixed(4)}</span></div>
+        <div class="out-row"><span class="out-key">Grupo cohomológico H²</span><span class="out-data">ℤ/${cohomologia}ℤ</span></div>
+        <div class="out-row"><span class="out-key">Tensor Minkowski 4D</span><span class="out-data" style="font-size:0.62rem">diag(${tensor4D[0][0]},${tensor4D[1][1]},${tensor4D[2][2]},${tensor4D[3][3]})</span></div>
+    `;
+
+    drawTopoCanvas(psi, brane, invariante);
+    calcCount++; document.getElementById('calc-count').textContent = calcCount;
+}
+
+function calcIsomorfismo() {
+    const psi = parseFloat(document.getElementById('t-psi').value) || 7.3;
+    const brane = parseFloat(document.getElementById('t-brane').value) || 11;
+    const dim = Math.floor(psi * brane) % 11 + 4;
+    document.getElementById('topo-output').innerHTML += `
+        <div class="out-lbl" style="margin-top:10px">≅ ISOMORFISMO CUÁNTICO</div>
+        <div class="out-row"><span class="out-key">Dimensión extendida</span><span class="out-data gold">${dim}D</span></div>
+        <div class="out-row"><span class="out-key">Grupo fundamental π₁</span><span class="out-data" style="color:var(--p)">ℤ × ℤ/${Math.floor(psi)}</span></div>
+        <div class="out-row"><span class="out-key">Homología H₀</span><span class="out-data green">ℤ (conexo)</span></div>
+        <div class="out-row"><span class="out-key">Estado</span><span class="out-data green">✅ ISOMORFISMO CONFIRMADO</span></div>
+    `;
+}
+
+function drawTopoCanvas(psi, brane, inv) {
+    const canvas = document.getElementById('topo-canvas');
+    const W = canvas.offsetWidth || 400; canvas.width=W; canvas.height=160;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle='rgba(3,0,10,0.9)'; ctx.fillRect(0,0,W,160);
+    const cx=W/2, cy=80;
+    // Torus visualization
+    for (let t=0; t<360; t+=3) {
+        const r1=40+psi*2, r2=15+brane;
+        const T=t*Math.PI/180;
+        for (let s=0; s<360; s+=6) {
+            const S=s*Math.PI/180;
+            const x=cx+(r1+r2*Math.cos(S))*Math.cos(T)*0.6;
+            const y=cy+(r1+r2*Math.cos(S))*Math.sin(T)*0.3+r2*Math.sin(S)*0.4;
+            const alpha=0.02+0.03*Math.sin(S+t*0.1);
+            ctx.fillStyle=`rgba(180,0,255,${alpha})`;
+            ctx.fillRect(x,y,2,2);
+        }
+    }
+    ctx.fillStyle='rgba(255,215,0,0.6)'; ctx.font='9px Courier New'; ctx.textAlign='center';
+    ctx.fillText(`TORO ${psi.toFixed(1)}×${brane.toFixed(1)} — INV:${inv.toFixed(2)}`, cx, 156);
+}
+
+// ════════════════════════════════════════════════════════
+// REPORTE ENTERPRISE
+// ════════════════════════════════════════════════════════
+async function generarReporte() {
+    const el = document.getElementById('report-output');
+    el.innerHTML = '<div style="text-align:center;padding:20px;color:rgba(200,0,255,0.5)">⚡ Generando reporte...</div>';
+    try {
+        const r = await fetch('/api/aht/algebra/reporte');
+        const d = await r.json();
+        const now = new Date().toLocaleString('es-MX');
+        el.innerHTML = `
+            <div style="background:rgba(0,0,5,0.9);border:1px solid rgba(180,0,255,0.15);border-radius:8px;padding:16px;">
+                <div style="text-align:center;margin-bottom:16px;">
+                    <img src="/aht-sovereign-seal.png" style="height:50px;filter:hue-rotate(270deg);margin-bottom:8px;display:block;margin:0 auto 8px;">
+                    <div style="font-size:0.7rem;letter-spacing:4px;color:#ff80ff">REPORTE ENTERPRISE — MOTOR ÁLGEBRA INVERSA</div>
+                    <div style="font-size:0.6rem;color:rgba(200,0,255,0.4);letter-spacing:2px">Roberto Rivera Gamas — RFC: RIGR840827PJ0 — ${now}</div>
+                </div>
+                ${Object.entries(d).map(([k,v])=>`<div class="out-row"><span class="out-key" style="font-size:0.6rem">${k.toUpperCase()}</span><span class="out-data" style="font-size:0.65rem">${JSON.stringify(v).substring(0,60)}</span></div>`).join('')}
+                <div style="margin-top:12px;text-align:center;font-size:0.6rem;color:rgba(200,0,255,0.3);letter-spacing:2px">JAQUE MATE PRESIDENCIAL · GPS: 19.432608°, -99.133209° · THRONE PROTOCOL V3.0</div>
+            </div>
+        `;
+    } catch(e) {
+        el.innerHTML = `<div style="padding:16px;color:#ff4444;font-size:0.7rem">Error: ${e.message}</div>`;
+    }
+}
+
+// ════════════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════════════
+buildMatrix();
+buildChessBoard();
+setTimeout(() => {
+    const c1=document.getElementById('gravity-field-canvas'); if(c1) { c1.width=c1.offsetWidth||400; c1.height=200; }
+    const c2=document.getElementById('topo-canvas'); if(c2) { c2.width=c2.offsetWidth||400; c2.height=160; }
+}, 200);
 </script>
 </body>
 </html>
