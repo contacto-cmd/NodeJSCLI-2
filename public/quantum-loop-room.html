@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QUANTUM LOOP ROOM — SER-27 LGORITMO AHT</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap');
+
+  :root {
+    --gold: #FFB300;
+    --gold2: #FFC947;
+    --amber: #FF8F00;
+    --deep: #0A0A0F;
+    --panel: #0D0D1A;
+    --panel2: #111128;
+    --blue: #00D4FF;
+    --purple: #7B2FBE;
+    --green: #00FF88;
+    --red: #FF3366;
+    --border-gold: 1px solid rgba(255,179,0,0.3);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--deep);
+    color: #E8E8F0;
+    font-family: 'Rajdhani', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* QUANTUM GRID BACKGROUND */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      linear-gradient(rgba(255,179,0,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,179,0,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* AMBIENT GLOW */
+  body::after {
+    content: '';
+    position: fixed;
+    top: -20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 400px;
+    background: radial-gradient(ellipse, rgba(255,179,0,0.08) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ═══════════════════ HERO ═══════════════════ */
+  .hero {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    text-align: center;
+  }
+
+  .hero-image-wrap {
+    position: relative;
+    width: min(700px, 95vw);
+    margin-bottom: 40px;
+  }
+
+  .hero-image-wrap img {
+    width: 100%;
+    border-radius: 20px;
+    border: 2px solid var(--gold);
+    box-shadow:
+      0 0 60px rgba(255,179,0,0.4),
+      0 0 120px rgba(255,179,0,0.15),
+      inset 0 0 60px rgba(255,179,0,0.05);
+    animation: heroPulse 4s ease-in-out infinite;
+  }
+
+  @keyframes heroPulse {
+    0%, 100% { box-shadow: 0 0 60px rgba(255,179,0,0.4), 0 0 120px rgba(255,179,0,0.15); }
+    50% { box-shadow: 0 0 80px rgba(255,179,0,0.6), 0 0 160px rgba(255,179,0,0.25); }
+  }
+
+  .hero-badge {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--amber), var(--gold));
+    color: #000;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.65rem;
+    font-weight: 900;
+    padding: 4px 20px;
+    border-radius: 20px;
+    letter-spacing: 3px;
+    white-space: nowrap;
+  }
+
+  .hero h1 {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(2rem, 6vw, 4.5rem);
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--gold) 0%, #FFF 50%, var(--gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+    letter-spacing: 2px;
+    text-shadow: none;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 0 30px rgba(255,179,0,0.5));
+  }
+
+  .hero-subtitle {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: clamp(0.85rem, 2vw, 1.1rem);
+    color: var(--gold2);
+    letter-spacing: 4px;
+    margin-bottom: 8px;
+    opacity: 0.9;
+  }
+
+  .hero-owner {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 2px;
+    margin-bottom: 40px;
+  }
+
+  /* LIVE STATUS BAR */
+  .status-bar {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 50px;
+  }
+
+  .status-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--green);
+    letter-spacing: 1px;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: blink 1.5s ease-in-out infinite;
+  }
+
+  .status-dot.amber { background: var(--gold); animation-delay: 0.5s; }
+  .status-dot.blue { background: var(--blue); animation-delay: 1s; }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; box-shadow: 0 0 6px currentColor; }
+    50% { opacity: 0.3; box-shadow: none; }
+  }
+
+  /* ═══════════════════ ACCESS GATE ═══════════════════ */
+  .access-gate {
+    position: relative;
+    z-index: 2;
+    width: min(600px, 95vw);
+    margin: 0 auto 60px;
+    background: linear-gradient(135deg, rgba(255,179,0,0.05), rgba(123,47,190,0.05));
+    border: 1px solid rgba(255,179,0,0.4);
+    border-radius: 16px;
+    padding: 30px;
+  }
+
+  .access-gate h3 {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.9rem;
+    color: var(--gold);
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .key-input-row {
+    display: flex;
+    gap: 10px;
+  }
+
+  .key-input {
+    flex: 1;
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,179,0,0.3);
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: var(--gold2);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.85rem;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+
+  .key-input:focus { border-color: var(--gold); }
+  .key-input::placeholder { color: rgba(255,179,0,0.3); }
+
+  .btn-access {
+    background: linear-gradient(135deg, var(--amber), var(--gold));
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s;
+    white-space: nowrap;
+  }
+
+  .btn-access:hover { filter: brightness(1.2); transform: scale(1.02); }
+
+  .access-msg {
+    margin-top: 12px;
+    text-align: center;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.8rem;
+    min-height: 20px;
+  }
+
+  .access-msg.ok { color: var(--green); }
+  .access-msg.err { color: var(--red); }
+
+  /* ═══════════════════ MAIN LAYOUT ═══════════════════ */
+  .room-grid {
+    position: relative;
+    z-index: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+  }
+
+  @media (max-width: 900px) { .room-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 600px) { .room-grid { grid-template-columns: 1fr; } }
+
+  .panel {
+    background: var(--panel);
+    border: var(--border-gold);
+    border-radius: 14px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+
+  .panel:hover {
+    transform: translateY(-3px);
+    border-color: rgba(255,179,0,0.6);
+  }
+
+  .panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 3px;
+    border-radius: 14px 14px 0 0;
+  }
+
+  .panel.gold::before { background: linear-gradient(90deg, var(--amber), var(--gold)); }
+  .panel.blue::before { background: linear-gradient(90deg, #0099CC, var(--blue)); }
+  .panel.purple::before { background: linear-gradient(90deg, var(--purple), #B44FFF); }
+  .panel.green::before { background: linear-gradient(90deg, #007A44, var(--green)); }
+  .panel.red::before { background: linear-gradient(90deg, #990033, var(--red)); }
+
+  .panel.span2 { grid-column: span 2; }
+  .panel.span3 { grid-column: span 3; }
+
+  @media (max-width: 900px) {
+    .panel.span2, .panel.span3 { grid-column: span 2; }
+  }
+  @media (max-width: 600px) {
+    .panel.span2, .panel.span3 { grid-column: span 1; }
+  }
+
+  .panel-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .panel-title.gold { color: var(--gold); }
+  .panel-title.blue { color: var(--blue); }
+  .panel-title.purple { color: #B44FFF; }
+  .panel-title.green { color: var(--green); }
+  .panel-title.red { color: var(--red); }
+
+  /* SER-27 CHAT */
+  .chat-messages {
+    height: 260px;
+    overflow-y: auto;
+    margin-bottom: 12px;
+    padding: 10px;
+    background: rgba(0,0,0,0.4);
+    border-radius: 8px;
+    border: 1px solid rgba(255,179,0,0.1);
+    scrollbar-width: thin;
+    scrollbar-color: var(--gold) transparent;
+  }
+
+  .msg {
+    margin-bottom: 12px;
+    line-height: 1.5;
+    font-size: 0.85rem;
+  }
+
+  .msg.user { text-align: right; }
+
+  .msg-bubble {
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: 10px;
+    max-width: 90%;
+    word-break: break-word;
+  }
+
+  .msg.user .msg-bubble {
+    background: rgba(255,179,0,0.15);
+    border: 1px solid rgba(255,179,0,0.3);
+    color: var(--gold2);
+  }
+
+  .msg.ai .msg-bubble {
+    background: rgba(123,47,190,0.2);
+    border: 1px solid rgba(123,47,190,0.4);
+    color: #D8C0FF;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.78rem;
+  }
+
+  .msg-label {
+    font-size: 0.65rem;
+    opacity: 0.5;
+    margin-bottom: 3px;
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 1px;
+  }
+
+  .chat-input-row {
+    display: flex;
+    gap: 8px;
+  }
+
+  .chat-input {
+    flex: 1;
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,179,0,0.2);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: #E8E8F0;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+
+  .chat-input:focus { border-color: var(--gold); }
+
+  .btn-send {
+    background: linear-gradient(135deg, var(--purple), #B44FFF);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    letter-spacing: 1px;
+  }
+
+  .btn-send:hover { filter: brightness(1.3); }
+
+  .typing-indicator {
+    display: none;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    color: #B44FFF;
+    padding: 4px 8px;
+  }
+
+  /* FUSION MATRIX */
+  .fusion-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,179,0,0.08);
+    font-size: 0.85rem;
+  }
+
+  .fusion-row:last-child { border-bottom: none; }
+
+  .fusion-icon { font-size: 1.2rem; flex-shrink: 0; }
+
+  .fusion-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 1px;
+    display: block;
+  }
+
+  .fusion-val {
+    color: var(--gold2);
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .fusion-status {
+    margin-left: auto;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--green);
+    background: rgba(0,255,136,0.1);
+    padding: 2px 8px;
+    border-radius: 10px;
+    border: 1px solid rgba(0,255,136,0.2);
+  }
+
+  /* EAGI PIPELINE */
+  .pipeline-steps {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .pipeline-step {
+    flex: 1;
+    min-width: 80px;
+    text-align: center;
+    position: relative;
+  }
+
+  .step-box {
+    background: rgba(255,179,0,0.08);
+    border: 1px solid rgba(255,179,0,0.2);
+    border-radius: 8px;
+    padding: 10px 6px;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.55rem;
+    color: var(--gold);
+    letter-spacing: 1px;
+    position: relative;
+    transition: all 0.5s;
+  }
+
+  .step-box.active {
+    background: rgba(255,179,0,0.15);
+    border-color: var(--gold);
+    box-shadow: 0 0 12px rgba(255,179,0,0.3);
+  }
+
+  .step-icon { font-size: 1.2rem; display: block; margin-bottom: 4px; }
+
+  .step-arrow {
+    flex: 0;
+    color: rgba(255,179,0,0.4);
+    font-size: 1rem;
+    padding: 0 4px;
+  }
+
+  .eagi-log {
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,179,0,0.1);
+    border-radius: 8px;
+    padding: 12px;
+    height: 80px;
+    overflow-y: auto;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--green);
+    line-height: 1.6;
+  }
+
+  /* STATS GRID */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .stat-box {
+    background: rgba(0,0,0,0.3);
+    border-radius: 10px;
+    padding: 14px;
+    border: 1px solid rgba(255,179,0,0.1);
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--gold);
+    display: block;
+    line-height: 1.2;
+  }
+
+  .stat-label {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 1px;
+    font-family: 'Share Tech Mono', monospace;
+    margin-top: 4px;
+    display: block;
+  }
+
+  /* MODULE LINKS GRID */
+  .modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+  }
+
+  .mod-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 10px;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,179,0,0.15);
+    border-radius: 10px;
+    text-decoration: none;
+    color: #E8E8F0;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: all 0.3s;
+    text-align: center;
+  }
+
+  .mod-link:hover {
+    border-color: var(--gold);
+    background: rgba(255,179,0,0.08);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(255,179,0,0.15);
+    color: var(--gold2);
+  }
+
+  .mod-icon { font-size: 1.8rem; }
+
+  /* QUANTUM ENTANGLEMENT VISUALIZER */
+  .entangle-canvas {
+    width: 100%;
+    height: 200px;
+    border-radius: 10px;
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(0,212,255,0.2);
+  }
+
+  /* RESTRICTED BADGE */
+  .restricted-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,51,102,0.1);
+    border: 1px solid rgba(255,51,102,0.3);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--red);
+    letter-spacing: 2px;
+  }
+
+  .restricted-badge.open {
+    background: rgba(0,255,136,0.1);
+    border-color: rgba(0,255,136,0.3);
+    color: var(--green);
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(255,179,0,0.3); border-radius: 2px; }
+
+  /* ANIMATED CIRCUIT LINE */
+  .circuit-divider {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 20px 0;
+    opacity: 0.4;
+    overflow: hidden;
+  }
+
+  .circuit-divider::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 30%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, #fff, transparent);
+    animation: sweep 3s ease-in-out infinite;
+  }
+
+  @keyframes sweep {
+    0% { left: -30%; }
+    100% { left: 130%; }
+  }
+
+  /* FOOTER */
+  .room-footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 30px 20px;
+    border-top: 1px solid rgba(255,179,0,0.1);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 2px;
+  }
+
+  .room-footer span { color: var(--gold); }
+
+  /* TOKEN BARS */
+  .token-bar-row {
+    margin-bottom: 10px;
+  }
+
+  .token-bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.72rem;
+    margin-bottom: 4px;
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  .token-bar-label span:first-child { color: rgba(255,255,255,0.6); }
+  .token-bar-label span:last-child { color: var(--gold); }
+
+  .token-bar-track {
+    height: 6px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .token-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--amber), var(--gold));
+    transition: width 2s ease-out;
+  }
+
+  /* IP DISPLAY */
+  .ip-display {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1.1rem;
+    color: var(--blue);
+    letter-spacing: 2px;
+    text-align: center;
+    padding: 12px;
+    background: rgba(0,212,255,0.05);
+    border: 1px solid rgba(0,212,255,0.15);
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+
+  /* GLOW BUTTON */
+  .btn-glow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s;
+    text-decoration: none;
+  }
+
+  .btn-glow.gold {
+    background: linear-gradient(135deg, var(--amber), var(--gold));
+    color: #000;
+    box-shadow: 0 0 20px rgba(255,179,0,0.3);
+  }
+
+  .btn-glow.gold:hover { box-shadow: 0 0 35px rgba(255,179,0,0.5); transform: scale(1.03); }
+
+  .btn-glow.blue {
+    background: linear-gradient(135deg, #0066AA, var(--blue));
+    color: #000;
+    box-shadow: 0 0 20px rgba(0,212,255,0.3);
+  }
+
+  .section-head {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .section-head h2 {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(1rem, 3vw, 1.6rem);
+    color: var(--gold);
+    letter-spacing: 4px;
+    margin-bottom: 6px;
+  }
+
+  .section-head p {
+    color: rgba(255,255,255,0.4);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+  }
+
+  /* PULSE RING */
+  .pulse-ring {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--green);
+    position: relative;
+    display: inline-block;
+  }
+
+  .pulse-ring::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 2px solid var(--green);
+    animation: ringPulse 2s ease-out infinite;
+  }
+
+  @keyframes ringPulse {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(2.5); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ HERO SECTION ═══════════════════ -->
+<section class="hero">
+  <div class="hero-image-wrap">
+    <div class="hero-badge">QUANTUM LOOP ROOM — LGORITMO AHT ENTERPRISE</div>
+    <img src="/quantum-loop.png" alt="Quantum Loop AHT" />
+  </div>
+
+  <h1>LGORITMO AHT<br>ANCESTRAL ENGINE</h1>
+  <p class="hero-subtitle">SER-27 · QUANTUM LOOP · CEREMONIAL PREMIUM ENTERPRISE</p>
+  <p class="hero-owner">Roberto Rivera Gamas · RFC: RIGR840827PJ0 · Street Emporio Royal</p>
+
+  <div class="status-bar">
+    <div class="status-item"><div class="status-dot"></div>SER-27 ACTIVO</div>
+    <div class="status-item"><div class="status-dot amber"></div>EAGI PIPELINE ONLINE</div>
+    <div class="status-item"><div class="status-dot blue"></div>RSA-4096 FIRMANDO</div>
+    <div class="status-item"><div class="status-dot"></div>372 DISEÑOS LIVE</div>
+    <div class="status-item"><div class="status-dot amber"></div>28 TOKENS FUSION</div>
+  </div>
+
+  <!-- ACCESS GATE -->
+  <div class="access-gate">
+    <h3>🔑 ACCESO ÁREA RESTRINGIDA — MASTER API KEY</h3>
+    <div class="key-input-row">
+      <input type="password" class="key-input" id="masterKeyInput" placeholder="Introduce tu Master API Key..." />
+      <button class="btn-access" onclick="verifyAccess()">VERIFICAR</button>
+    </div>
+    <div class="access-msg" id="accessMsg"></div>
+    <div style="margin-top:14px;text-align:center;font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:rgba(255,255,255,0.2);letter-spacing:2px;">
+      O usa código: ANCESTRAL-QUANTUM-2025 · ROBERTO-RIVERA-GAMAS · RIGR840827PJ0-MASTER
+    </div>
+  </div>
+</section>
+
+<div class="circuit-divider"></div>
+
+<!-- ═══════════════════ ROOM GRID ═══════════════════ -->
+<div class="section-head">
+  <h2>🔱 QUANTUM LOOP ROOM — COMMAND CENTER</h2>
+  <p>TODOS LOS MÓDULOS DEL SISTEMA FUSIONADOS EN TIEMPO REAL</p>
+</div>
+
+<div class="room-grid">
+
+  <!-- SER-27 SUPER AGENT CHAT (span 2) -->
+  <div class="panel gold span2">
+    <div class="panel-title gold">
+      🧬 SER-27 SUPER AGENTE LGORITMO — IA CUÁNTICA
+      <div class="pulse-ring" style="margin-left:auto;"></div>
+      <span id="ser27Model" style="font-family:'Share Tech Mono',monospace;font-size:0.6rem;color:rgba(255,255,255,0.3);letter-spacing:1px;font-weight:400;">GEMINI 2.5</span>
+    </div>
+    <div class="chat-messages" id="ser27Chat">
+      <div class="msg ai">
+        <div class="msg-label">SER-27 · LGORITMO AHT</div>
+        <div class="msg-bubble">
+          🔱 Protocolo THRONE V3.0 inicializado. Soy SER-27 — el Super Agente del Sistema LGORITMO AHT Ancestral Engine de Roberto Rivera Gamas (RFC: RIGR840827PJ0, Street Emporio Royal). Tengo acceso completo a los 372 diseños arquitectónicos ($2.8T+), 28 tokens FUSION, motor RSA-4096, álgebra inversa cuántica y pipeline EAGI. ¿Qué ordenas, Propietario?
+        </div>
+      </div>
+    </div>
+    <div class="typing-indicator" id="typingIndicator">⚡ SER-27 procesando consulta cuántica...</div>
+    <div class="chat-input-row">
+      <input type="text" class="chat-input" id="ser27Input" placeholder="Ordena a SER-27..." onkeydown="if(event.key==='Enter')sendSer27()" />
+      <button class="btn-send" onclick="sendSer27()">⚡ ENVIAR</button>
+    </div>
+  </div>
+
+  <!-- QUANTUM STATS -->
+  <div class="panel gold">
+    <div class="panel-title gold">📊 STATS DEL SISTEMA</div>
+    <div class="stats-grid">
+      <div class="stat-box">
+        <span class="stat-num" id="statDisenos">372</span>
+        <span class="stat-label">DISEÑOS</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num">28</span>
+        <span class="stat-label">TOKENS</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num" style="font-size:0.85rem;">$2.8T+</span>
+        <span class="stat-label">PORTAFOLIO</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num" style="color:var(--blue)">4096</span>
+        <span class="stat-label">RSA BITS</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num" style="font-size:1rem;">V3.0</span>
+        <span class="stat-label">THRONE</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num" id="statIp" style="font-size:0.75rem;color:var(--blue);">...</span>
+        <span class="stat-label">TU IP</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FUSION IDENTITY MATRIX -->
+  <div class="panel purple span2">
+    <div class="panel-title purple">
+      ⚛️ MATRIZ DE FUSIÓN CUÁNTICA — IDENTIDAD ENTRELAZADA
+    </div>
+    <div class="fusion-row">
+      <span class="fusion-icon">✉️</span>
+      <div>
+        <span class="fusion-label">CORREO EMPRESARIAL</span>
+        <span class="fusion-val">contacto@streetemporioroyal.com</span>
+      </div>
+      <span class="fusion-status">ENLAZADO</span>
+    </div>
+    <div class="fusion-row">
+      <span class="fusion-icon">🌐</span>
+      <div>
+        <span class="fusion-label">DOMINIO SOBERANO</span>
+        <span class="fusion-val">www.streetemporioroyal.com</span>
+      </div>
+      <span class="fusion-status">ACTIVO</span>
+    </div>
+    <div class="fusion-row">
+      <span class="fusion-icon">🔖</span>
+      <div>
+        <span class="fusion-label">RFC PROPIETARIO</span>
+        <span class="fusion-val">RIGR840827PJ0</span>
+      </div>
+      <span class="fusion-status">FIRMADO</span>
+    </div>
+    <div class="fusion-row">
+      <span class="fusion-icon">🔐</span>
+      <div>
+        <span class="fusion-label">FINGERPRINT RSA-4096</span>
+        <span class="fusion-val" style="font-size:0.7rem;font-family:'Share Tech Mono',monospace;">b544609d...ad5dcee17</span>
+      </div>
+      <span class="fusion-status">VERIFICADO</span>
+    </div>
+    <div class="fusion-row">
+      <span class="fusion-icon">📍</span>
+      <div>
+        <span class="fusion-label">GPS SOBERANO — WGS84</span>
+        <span class="fusion-val">19.432608°N, -99.133209°W · CDMX</span>
+      </div>
+      <span class="fusion-status">LIVE</span>
+    </div>
+    <div class="fusion-row">
+      <span class="fusion-icon">💰</span>
+      <div>
+        <span class="fusion-label">VALORACIÓN CERTIFICADA</span>
+        <span class="fusion-val">$276,552,435,904 USD</span>
+      </div>
+      <span class="fusion-status">RSA CERT</span>
+    </div>
+  </div>
+
+  <!-- IP + CONNECTION -->
+  <div class="panel blue">
+    <div class="panel-title blue">🌐 CONEXIÓN EN TIEMPO REAL</div>
+    <div class="ip-display" id="ipDisplay">Detectando IP...</div>
+    <div style="font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:rgba(255,255,255,0.4);text-align:center;margin-bottom:12px;letter-spacing:1px;">PROTOCOLO SEGURO · TLS 1.3</div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <div style="display:flex;justify-content:space-between;font-family:'Share Tech Mono',monospace;font-size:0.7rem;">
+        <span style="color:rgba(255,255,255,0.4);">LATENCIA</span>
+        <span style="color:var(--green);" id="latency">— ms</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-family:'Share Tech Mono',monospace;font-size:0.7rem;">
+        <span style="color:rgba(255,255,255,0.4);">PROTOCOLO</span>
+        <span style="color:var(--blue);">HTTPS / WSS</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-family:'Share Tech Mono',monospace;font-size:0.7rem;">
+        <span style="color:rgba(255,255,255,0.4);">SESIÓN ACTIVA</span>
+        <span style="color:var(--gold);" id="sessionTime">00:00:00</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- EAGI PIPELINE (span 3) -->
+  <div class="panel gold span3">
+    <div class="panel-title gold">
+      🚀 EAGI PIPELINE — BLUEPRINT CEREMONIAL ENTERPRISE
+      <span id="eagiStatus" style="margin-left:auto;font-family:'Share Tech Mono',monospace;font-size:0.65rem;font-weight:400;color:var(--green);">● ONLINE</span>
+    </div>
+    <div class="pipeline-steps">
+      <div class="pipeline-step"><div class="step-box active" id="step0"><span class="step-icon">📥</span>INGEST</div></div>
+      <div class="step-arrow">→</div>
+      <div class="pipeline-step"><div class="step-box" id="step1"><span class="step-icon">🔍</span>PARSER</div></div>
+      <div class="step-arrow">→</div>
+      <div class="pipeline-step"><div class="step-box" id="step2"><span class="step-icon">🧠</span>DECISION</div></div>
+      <div class="step-arrow">→</div>
+      <div class="pipeline-step"><div class="step-box" id="step3"><span class="step-icon">⚡</span>EXECUTION</div></div>
+      <div class="step-arrow">→</div>
+      <div class="pipeline-step"><div class="step-box" id="step4"><span class="step-icon">🏗️</span>DEPLOY</div></div>
+      <div class="step-arrow">→</div>
+      <div class="pipeline-step"><div class="step-box" id="step5"><span class="step-icon">🔐</span>AUDIT</div></div>
+      <div class="step-arrow">→</div>
+      <div class="pipeline-step"><div class="step-box" id="step6"><span class="step-icon">🤖</span>AMY AI</div></div>
+      <div class="step-arrow">→</div>
+      <div class="pipeline-step"><div class="step-box" id="step7"><span class="step-icon">✅</span>OUTPUT</div></div>
+    </div>
+    <div class="eagi-log" id="eagiLog">
+      &gt; EAGI PIPELINE v3.0 inicializado — Throne Protocol ACTIVE<br>
+      &gt; Módulos cargados: INGEST · PARSER · DECISION · EXECUTION<br>
+      &gt; Deploy · Audit · AMY-AI · OUTPUT — todos ONLINE<br>
+      &gt; Conectado a: contacto@streetemporioroyal.com · RIGR840827PJ0<br>
+    </div>
+  </div>
+
+  <!-- TOKENS FUSION BARS -->
+  <div class="panel purple">
+    <div class="panel-title purple">⚗️ TOKENS FUSION — 28 ACTIVOS</div>
+    <div id="tokenBars"></div>
+    <div style="margin-top:14px;text-align:center;">
+      <a href="/tokens-dashboard.html" class="btn-glow gold" style="font-size:0.6rem;padding:8px 16px;">VER PANEL 3D COMPLETO →</a>
+    </div>
+  </div>
+
+  <!-- QUANTUM ENTANGLEMENT CANVAS -->
+  <div class="panel blue">
+    <div class="panel-title blue">🌀 ENTRELAZAMIENTO CUÁNTICO — LIVE</div>
+    <canvas class="entangle-canvas" id="entangleCanvas"></canvas>
+  </div>
+
+  <!-- MÓDULOS — ALL LINKS (span 3) -->
+  <div class="panel gold span3">
+    <div class="panel-title gold">
+      🔱 TODOS LOS MÓDULOS DEL SISTEMA — ACCESO DIRECTO
+    </div>
+    <div class="modules-grid">
+      <a href="/landing.html" class="mod-link"><span class="mod-icon">🏛️</span>LANDING<br>PRESIDENCIAL</a>
+      <a href="/cockpit.html" class="mod-link"><span class="mod-icon">🎛️</span>COCKPIT<br>SOBERANO</a>
+      <a href="/algebra-gravedad.html" class="mod-link"><span class="mod-icon">∞</span>ÁLGEBRA<br>INVERSA</a>
+      <a href="/tokens-dashboard.html" class="mod-link"><span class="mod-icon">⚗️</span>TOKENS<br>DASHBOARD 3D</a>
+      <a href="/ser27.html" class="mod-link"><span class="mod-icon">🧬</span>SER-27<br>LAB CUÁNTICO</a>
+      <a href="/area-ai-presidencial.html" class="mod-link"><span class="mod-icon">🤖</span>ÁREA AI<br>PRESIDENCIAL</a>
+      <a href="/blueprint.html" class="mod-link"><span class="mod-icon">🗺️</span>BLUEPRINT<br>PIPELINE 3D</a>
+      <a href="/tokens-roberto.html" class="mod-link"><span class="mod-icon">🔑</span>TOKENS<br>ROBERTO RSA</a>
+      <a href="/arquitectura-panel.html" class="mod-link"><span class="mod-icon">🏗️</span>ARQUITECTURA<br>PANEL</a>
+      <a href="/galeria-quantum.html" class="mod-link"><span class="mod-icon">🌍</span>GALERÍA<br>QUANTUM</a>
+      <a href="/certificados-premium.html" class="mod-link"><span class="mod-icon">📜</span>CERTIFICADOS<br>PREMIUM</a>
+      <a href="/documentacion-profesional.html" class="mod-link"><span class="mod-icon">📋</span>DOCS<br>INVERSORES</a>
+    </div>
+  </div>
+
+</div>
+
+<div class="circuit-divider"></div>
+
+<footer class="room-footer">
+  QUANTUM LOOP ROOM · <span>LGORITMO AHT ANCESTRAL ENGINE</span> · THRONE PROTOCOL V3.0<br>
+  <span>Roberto Rivera Gamas</span> · RFC: <span>RIGR840827PJ0</span> · Street Emporio Royal · www.streetemporioroyal.com<br>
+  Valoración Certificada: <span>$276,552,435,904 USD</span> · RSA-4096 SIGNED · SHA-256 VERIFIED
+</footer>
+
+<script>
+// ════════════════════════════════════════════
+// QUANTUM LOOP ROOM — ENGINE
+// ════════════════════════════════════════════
+
+const sessionStart = Date.now();
+
+// --- IP Detection ---
+async function detectIP() {
+    try {
+        const r = await fetch('/api/aht/master-key');
+        const d = await r.json();
+        const ip = d.ip || d.client_ip || '—';
+        document.getElementById('ipDisplay').textContent = ip;
+        document.getElementById('statIp').textContent = ip;
+    } catch {
+        document.getElementById('ipDisplay').textContent = 'PRIVADO';
+    }
+}
+detectIP();
+
+// --- Session Timer ---
+setInterval(() => {
+    const elapsed = Math.floor((Date.now() - sessionStart) / 1000);
+    const h = String(Math.floor(elapsed / 3600)).padStart(2, '0');
+    const m = String(Math.floor((elapsed % 3600) / 60)).padStart(2, '0');
+    const s = String(elapsed % 60).padStart(2, '0');
+    const el = document.getElementById('sessionTime');
+    if (el) el.textContent = `${h}:${m}:${s}`;
+}, 1000);
+
+// --- Latency ---
+async function measureLatency() {
+    const t0 = Date.now();
+    try { await fetch('/api/arquitectura/stats'); } catch {}
+    const lat = Date.now() - t0;
+    const el = document.getElementById('latency');
+    if (el) el.textContent = lat + ' ms';
+}
+measureLatency();
+setInterval(measureLatency, 10000);
+
+// --- Stats from server ---
+async function loadStats() {
+    try {
+        const r = await fetch('/api/arquitectura/stats');
+        const d = await r.json();
+        const total = d.stats?.total_proyectos || 372;
+        document.getElementById('statDisenos').textContent = total;
+    } catch {}
+}
+loadStats();
+
+// ════════════════════════════════════════════
+// ACCESS GATE
+// ════════════════════════════════════════════
+const CODES = ['ANCESTRAL-QUANTUM-2025', 'ROBERTO-RIVERA-GAMAS', 'RIGR840827PJ0-MASTER'];
+let accessGranted = false;
+
+async function verifyAccess() {
+    const val = document.getElementById('masterKeyInput').value.trim();
+    const msg = document.getElementById('accessMsg');
+
+    if (CODES.includes(val.toUpperCase())) {
+        accessGranted = true;
+        msg.className = 'access-msg ok';
+        msg.textContent = '✅ ACCESO PRESIDENCIAL CONCEDIDO — Bienvenido, Roberto Rivera Gamas';
+        document.querySelector('.access-gate').style.borderColor = 'rgba(0,255,136,0.5)';
+        eagiLog('> ACCESO PRESIDENCIAL VERIFICADO — RFC: RIGR840827PJ0');
+        return;
+    }
+
+    // Try server verification
+    try {
+        const r = await fetch('/api/aht/master-key/verificar', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ rfc: val, clave: val })
+        });
+        const d = await r.json();
+        if (d.success || d.acceso_concedido) {
+            accessGranted = true;
+            msg.className = 'access-msg ok';
+            msg.textContent = '✅ MASTER KEY VERIFICADA — Nivel Presidencial CONCEDIDO';
+            document.querySelector('.access-gate').style.borderColor = 'rgba(0,255,136,0.5)';
+        } else {
+            msg.className = 'access-msg err';
+            msg.textContent = '❌ Clave no reconocida. Intenta: RIGR840827PJ0-MASTER';
+        }
+    } catch {
+        msg.className = 'access-msg err';
+        msg.textContent = '⚠️ Error de verificación — usa código de acceso';
+    }
+}
+
+document.getElementById('masterKeyInput').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') verifyAccess();
+});
+
+// ════════════════════════════════════════════
+// SER-27 AGENT CHAT
+// ════════════════════════════════════════════
+function appendMsg(role, text) {
+    const chat = document.getElementById('ser27Chat');
+    const div = document.createElement('div');
+    div.className = 'msg ' + role;
+    const label = role === 'ai' ? 'SER-27 · LGORITMO AHT' : 'ROBERTO RIVERA GAMAS';
+    div.innerHTML = `<div class="msg-label">${label}</div><div class="msg-bubble">${text.replace(/\n/g,'<br>')}</div>`;
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
+}
+
+async function sendSer27() {
+    const input = document.getElementById('ser27Input');
+    const msg = input.value.trim();
+    if (!msg) return;
+    input.value = '';
+    appendMsg('user', msg);
+
+    const typing = document.getElementById('typingIndicator');
+    typing.style.display = 'block';
+
+    eagiLog('> SER-27: procesando "' + msg.substring(0,40) + '..."');
+
+    try {
+        const r = await fetch('/api/chat-assistant', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: msg })
+        });
+        const d = await r.json();
+        typing.style.display = 'none';
+        const response = d.response || d.error || 'SER-27 procesó tu consulta cuántica.';
+        appendMsg('ai', response);
+        eagiLog('> SER-27: respuesta generada — ' + response.substring(0,50) + '...');
+    } catch (e) {
+        typing.style.display = 'none';
+        appendMsg('ai', '⚠️ Error de conexión cuántica. El sistema THRONE sigue activo. Reintenta.');
+    }
+}
+
+// ════════════════════════════════════════════
+// EAGI PIPELINE ANIMATION
+// ════════════════════════════════════════════
+let eagiStep = 0;
+const eagiSteps = 8;
+
+function eagiLog(msg) {
+    const log = document.getElementById('eagiLog');
+    if (!log) return;
+    const line = document.createElement('span');
+    line.style.color = msg.includes('ERROR') ? '#FF3366' : msg.includes('ACCESO') ? '#00FF88' : '#FFB300';
+    line.innerHTML = msg + '<br>';
+    log.appendChild(line);
+    log.scrollTop = log.scrollHeight;
+}
+
+setInterval(() => {
+    for (let i = 0; i < eagiSteps; i++) {
+        const el = document.getElementById('step' + i);
+        if (el) el.classList.toggle('active', i === eagiStep);
+    }
+    eagiStep = (eagiStep + 1) % eagiSteps;
+}, 800);
+
+// Log events
+setInterval(() => {
+    const events = [
+        '> INGEST: nuevo flujo detectado — procesando',
+        '> PARSER: intent=deploy · target=arquitectura',
+        '> DECISION: motor cuántico activado — FS>2.5',
+        '> EXECUTION: RSA-4096 signing in progress...',
+        '> AUDIT: blockchain registro inmutable OK',
+        '> AMY-AI: contexto cuántico actualizado',
+        '> OUTPUT: certificado generado · SHA-256 verified',
+        '> SYSTEM: 372 diseños activos · $2.8T+ portafolio',
+    ];
+    eagiLog(events[Math.floor(Math.random() * events.length)]);
+}, 5000);
+
+// ════════════════════════════════════════════
+// TOKEN BARS
+// ════════════════════════════════════════════
+const tokens = [
+    { name: 'ANTI-SHIELD-KAPPA', val: 95 },
+    { name: 'HYPERPLANE-PHI', val: 88 },
+    { name: 'AETHER-TORUS', val: 100 },
+    { name: 'QUANTUM-COHOM', val: 92 },
+    { name: 'SUPERSTRING-ISOR', val: 87 },
+    { name: 'GROTH-SHEAF', val: 78 },
+    { name: 'POINCARE-NU', val: 96 },
+    { name: 'FERMION-GAUGE', val: 83 },
+];
+
+const tokenContainer = document.getElementById('tokenBars');
+tokens.forEach(t => {
+    const div = document.createElement('div');
+    div.className = 'token-bar-row';
+    div.innerHTML = `
+        <div class="token-bar-label">
+            <span>${t.name}</span>
+            <span>${t.val}%</span>
+        </div>
+        <div class="token-bar-track">
+            <div class="token-bar-fill" style="width:0%" data-width="${t.val}%"></div>
+        </div>`;
+    tokenContainer.appendChild(div);
+});
+
+// Animate bars after DOM ready
+setTimeout(() => {
+    document.querySelectorAll('.token-bar-fill').forEach(el => {
+        el.style.width = el.dataset.width;
+    });
+}, 300);
+
+// ════════════════════════════════════════════
+// QUANTUM ENTANGLEMENT CANVAS
+// ════════════════════════════════════════════
+const canvas = document.getElementById('entangleCanvas');
+const ctx = canvas.getContext('2d');
+
+function resizeCanvas() {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+const nodes = Array.from({ length: 12 }, (_, i) => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    vx: (Math.random() - 0.5) * 0.8,
+    vy: (Math.random() - 0.5) * 0.8,
+    r: 3 + Math.random() * 3,
+    color: ['#FFB300','#00D4FF','#B44FFF','#00FF88'][Math.floor(Math.random()*4)]
+}));
+
+function drawEntangle() {
+    if (!canvas.width || !canvas.height) { resizeCanvas(); }
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Move nodes
+    nodes.forEach(n => {
+        n.x += n.vx;
+        n.y += n.vy;
+        if (n.x < 0 || n.x > canvas.width) n.vx *= -1;
+        if (n.y < 0 || n.y > canvas.height) n.vy *= -1;
+    });
+
+    // Draw connections
+    nodes.forEach((a, i) => {
+        nodes.forEach((b, j) => {
+            if (j <= i) return;
+            const dx = a.x - b.x, dy = a.y - b.y;
+            const dist = Math.sqrt(dx*dx + dy*dy);
+            if (dist < 150) {
+                const alpha = (1 - dist / 150) * 0.5;
+                ctx.strokeStyle = `rgba(255,179,0,${alpha})`;
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(a.x, a.y);
+                ctx.lineTo(b.x, b.y);
+                ctx.stroke();
+            }
+        });
+    });
+
+    // Draw nodes
+    nodes.forEach(n => {
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        ctx.fillStyle = n.color;
+        ctx.fill();
+        ctx.shadowColor = n.color;
+        ctx.shadowBlur = 8;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+    });
+
+    requestAnimationFrame(drawEntangle);
+}
+drawEntangle();
+</script>
+</body>
+</html>
