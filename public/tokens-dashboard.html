@@ -92,7 +92,7 @@
 <body>
 
 <div class="hdr">
-    <div class="hdr-title">🔑 TOKENS — 19 PERSONALES + 40 FUSION — BLINDAJE 10/10</div>
+    <div class="hdr-title">🔑 TOKENS — 19 PERSONALES + 9 FUSION — 28 TOTAL — BLINDAJE 10/10</div>
     <div class="hdr-ip" id="hdr-ip">IP: ---</div>
     <nav class="hdr-nav">
         <a href="/tokens-roberto.html" style="color:var(--gold);border-color:rgba(255,215,0,0.5)">📜 CERTIFICAR</a>
@@ -139,7 +139,7 @@
 <!-- 3D CANVAS -->
 <div class="canvas-section">
     <div class="sec-title">◈ VISUALIZACIÓN 3D — TOKENS EN ÓRBITA CUÁNTICA</div>
-    <canvas id="tokens3d"></canvas>
+    <canvas id="tokens3d" width="1200" height="320"></canvas>
 </div>
 
 <!-- IP BAR -->
@@ -209,9 +209,14 @@ const cx3 = c3.getContext('2d');
 let angle3 = 0;
 let orbitTokens = [];
 
-function resizeC3() { c3.width = c3.offsetWidth || window.innerWidth; c3.height = 320; }
+function resizeC3() {
+    const rect = c3.getBoundingClientRect();
+    const w = rect.width > 50 ? Math.floor(rect.width) : (window.innerWidth - 40);
+    if (w > 50) { c3.width = w; c3.height = 320; }
+}
 resizeC3();
-setTimeout(resizeC3, 150);
+setTimeout(resizeC3, 100);
+setTimeout(resizeC3, 500);
 window.addEventListener('resize', resizeC3);
 
 const CAT_COLORS = {
@@ -457,10 +462,11 @@ async function measurePing() {
     } catch(e) {}
 }
 
-// INIT
+// INIT — stagger so canvas has time to size
 detectIP();
 measurePing();
-loadTokens();
+setTimeout(() => { resizeC3(); loadTokens(); }, 100);
+setTimeout(resizeC3, 400);
 setInterval(measurePing, 20000);
 setInterval(detectIP, 90000);
 </script>
