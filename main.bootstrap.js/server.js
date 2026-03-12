@@ -28,6 +28,12 @@ const CertificationService = require('./certification-service');
 const ClientCertificateService = require('./client-certificate-service');
 const AdminDualControlMiddleware = require('./admin-dual-control-middleware');
 
+// ANTHROPIC — Claude AI Real
+const Anthropic = require('@anthropic-ai/sdk');
+const anthropicClient = process.env.ANTHROPIC_API_KEY
+    ? new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+    : null;
+
 // LGORITMO AHT - Servicios Cuánticos
 const QuantumService = require('./services/quantum-service');
 const SatelliteService = require('./services/satellite-service');
@@ -1068,6 +1074,76 @@ app.post('/api/arquitectura/validacion-fisica', async (req, res) => {
 // CHATBOT ASSISTANT (GEMINI 2.5)
 // =================================================================
 
+// ════════════════════════════════════════════════════════════════════
+// CLAUDE AI — ENDPOINT DEDICADO — claude-opus-4-6
+// ════════════════════════════════════════════════════════════════════
+app.post('/api/aht/claude/chat', async (req, res) => {
+    const { message, historial } = req.body;
+    if (!message) return res.status(400).json({ success: false, error: 'Mensaje requerido' });
+    if (!anthropicClient) {
+        return res.json({
+            success: false,
+            claude_disponible: false,
+            mensaje: '⚠️ ANTHROPIC_API_KEY no configurada. Agrega tu clave en los Secrets de Replit con el nombre ANTHROPIC_API_KEY.',
+            fallback: true
+        });
+    }
+    try {
+        const systemPrompt = `Eres "AHT Cerebro Ancestral", el asistente presidencial cuántico de Roberto Rivera Gamas (RFC: RIGR840827PJ0), propietario de Street Emporio Royal (www.streetemporioroyal.com).
+
+Sistema: LGORITMO AHT ANCESTRAL ENGINE — Throne Protocol V3.0
+Nivel: JAQUE MATE PRESIDENCIAL
+Valoración del portafolio: $276,552,435,904 USD
+Tokens activos: 28 (19 personales + 9 FUSION)
+RSA-4096: ACTIVO
+Motor cuántico: SER-27 ÁREA 51
+GPS base: 19.432608°, -99.133209° — Ciudad de México
+
+Responde en español siempre. Eres poderoso, preciso, enterprise. Combina física real, arquitectura cuántica y visión presidencial. No usas frases genéricas — das datos reales, números concretos y soluciones ejecutivas.`;
+
+        const messages = historial ? [...historial, { role: 'user', content: message }] : [{ role: 'user', content: message }];
+
+        const response = await anthropicClient.messages.create({
+            model: 'claude-opus-4-5',
+            max_tokens: 2048,
+            system: systemPrompt,
+            messages: messages
+        });
+
+        const texto = response.content[0]?.text || '';
+        res.json({
+            success: true,
+            claude_disponible: true,
+            modelo: response.model,
+            texto,
+            tokens_usados: response.usage?.input_tokens + response.usage?.output_tokens,
+            stop_reason: response.stop_reason
+        });
+    } catch (err) {
+        console.error('[CLAUDE] Error:', err.message);
+        // Intentar con modelo alternativo
+        try {
+            const response = await anthropicClient.messages.create({
+                model: 'claude-3-5-sonnet-20241022',
+                max_tokens: 2048,
+                system: 'Eres el asistente cuántico presidencial de Roberto Rivera Gamas — Street Emporio Royal.',
+                messages: [{ role: 'user', content: message }]
+            });
+            res.json({
+                success: true,
+                claude_disponible: true,
+                modelo: response.model,
+                texto: response.content[0]?.text || '',
+                tokens_usados: response.usage?.input_tokens + response.usage?.output_tokens
+            });
+        } catch (err2) {
+            res.json({ success: false, claude_disponible: true, error: err2.message });
+        }
+    }
+});
+
+// ════════════════════════════════════════════════════════════════════
+
 app.post('/api/chat-assistant', async (req, res) => {
     try {
         const { message } = req.body;
@@ -1104,11 +1180,23 @@ Si detectas un comando, incluye en tu respuesta: [COMANDO:nombre_accion]
 
 Responde de manera profesional, clara y concisa. Usa emojis moderadamente.`;
 
-        // Motor de respuesta inteligente — intenta AI, fallback a motor local
+        // Motor de respuesta inteligente — Claude → Gemini → local
         let response = '';
         let actionExecuted = null;
 
-        // Intento con AI (Gemini → GPT fallback)
+        // 1️⃣ Claude (si hay API key)
+        if (anthropicClient && !response) {
+            const claudeRes = await anthropicClient.messages.create({
+                model: 'claude-opus-4-5',
+                max_tokens: 1024,
+                system: systemContext,
+                messages: [{ role: 'user', content: message }]
+            }).catch(() => null);
+            if (claudeRes) response = claudeRes.content[0]?.text || '';
+        }
+
+        // 2️⃣ Gemini como segundo respaldo
+        if (!response) {
         const chatResult = await chatWithGemini(systemContext, message);
         if (chatResult.success && chatResult.text && chatResult.text.length > 10) {
             response = chatResult.text;
@@ -1140,7 +1228,8 @@ Responde de manera profesional, clara y concisa. Usa emojis moderadamente.`;
             } else {
                 response = `🤖 Royal Assistant — Sistema THRONE V3.0:\n\nEntendí tu mensaje. Puedo ayudarte con:\n\n• 📊 Estado del sistema y portafolio (${totalDisenos} diseños, $${valorTotal})\n• 🏗️ Información de materiales y física estructural\n• 📜 Generación de certificados RSA-4096\n• 🌌 Motor de antigravedad y álgebra inversa\n• 🔑 Tokens FUSION y sistema cuántico\n• 🔐 Seguridad y criptografía\n\n¿Qué necesitas específicamente sobre el sistema de Roberto Rivera Gamas?`;
             }
-        }
+        } // fin else de chatWithGemini
+        } // fin if (!response)
         
         // Detectar comandos en la respuesta
         const comandoMatch = response.match(/\[COMANDO:(\w+)\]/);
