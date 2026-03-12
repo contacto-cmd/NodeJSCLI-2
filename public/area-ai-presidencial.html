@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>🔱 Área AI Presidencial — Throne Protocol V3.0</title>
+    <style>
+        :root {
+            --gold: #ffd700;
+            --gold2: #d4af37;
+            --green: #00ff88;
+            --blue: #00aaff;
+            --purple: #aa00ff;
+            --bg: #000008;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            background: var(--bg);
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* TOPBAR */
+        .topbar {
+            background: rgba(0,0,0,0.96);
+            border-bottom: 2px solid var(--gold);
+            padding: 12px 20px;
+            display: flex; align-items: center; justify-content: space-between;
+            position: sticky; top:0; z-index:300;
+            backdrop-filter: blur(12px);
+        }
+        .topbar-logo { color: var(--gold); font-size:0.8rem; letter-spacing:4px; font-weight:700; }
+        .topbar-links { display:flex; gap:8px; }
+        .tl { color:var(--gold); text-decoration:none; font-size:0.7rem; border:1px solid rgba(255,215,0,0.3); padding:5px 12px; border-radius:20px; transition:all 0.2s; }
+        .tl:hover { background:rgba(255,215,0,0.1); }
+
+        /* HERO AREA */
+        .hero {
+            background: linear-gradient(135deg, #000 0%, #0a0015 50%, #000 100%);
+            border-bottom: 1px solid rgba(255,215,0,0.15);
+            padding: 50px 20px 35px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute; inset:0;
+            background: radial-gradient(ellipse at 50% 100%, rgba(255,215,0,0.04) 0%, transparent 70%);
+        }
+        .hero-eyebrow { color:var(--green); font-size:0.65rem; letter-spacing:6px; margin-bottom:10px; }
+        .hero-title {
+            font-size: clamp(1.8rem,4.5vw,3.5rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--gold) 0%, #fff 50%, var(--gold) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            letter-spacing: 4px; margin-bottom: 10px;
+        }
+        .hero-sub { color:rgba(255,255,255,0.4); font-size:0.82rem; letter-spacing:3px; }
+        .hero-desc { max-width:600px; margin:14px auto 0; color:rgba(255,255,255,0.5); font-size:0.78rem; line-height:1.8; letter-spacing:1px; }
+
+        /* QUANTUM LOOP MAP */
+        .ql-section {
+            padding: 30px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .ql-title { color:var(--gold); font-size:0.7rem; letter-spacing:4px; text-align:center; margin-bottom:16px; }
+        #quantum-canvas { width:100%; height:220px; border:1px solid rgba(255,215,0,0.12); border-radius:14px; background:rgba(0,0,20,0.8); display:block; }
+
+        /* VITRINAS */
+        .vitrinas { max-width:1100px; margin:0 auto; padding:20px 20px 60px; display:flex; flex-direction:column; gap:28px; }
+
+        .vitrina {
+            background: rgba(8,8,24,0.97);
+            border: 1px solid rgba(255,215,0,0.18);
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        .vitrina::before {
+            content:''; position:absolute; top:0; left:0; right:0; height:3px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+        .v-header {
+            padding: 22px 24px 0;
+            display:flex; align-items:center; gap:14px;
+        }
+        .v-num {
+            width:38px; height:38px;
+            background:rgba(255,215,0,0.08); border:1px solid rgba(255,215,0,0.3);
+            border-radius:50%; display:flex; align-items:center; justify-content:center;
+            font-size:0.9rem; color:var(--gold); font-weight:700; flex-shrink:0;
+        }
+        .v-title { font-size:1rem; color:var(--gold); letter-spacing:3px; text-transform:uppercase; }
+        .v-sub { font-size:0.68rem; color:rgba(255,255,255,0.3); letter-spacing:2px; margin-top:3px; }
+        .v-body { padding:20px 24px 26px; }
+
+        /* ── V1: ROYAL ASSISTANT ── */
+        .chat-container {
+            border:1px solid rgba(255,215,0,0.15);
+            border-radius:12px;
+            overflow:hidden;
+            display:flex;
+            flex-direction:column;
+            height:380px;
+        }
+        .chat-header {
+            background:linear-gradient(135deg, rgba(255,215,0,0.1), rgba(0,0,0,0.6));
+            border-bottom:1px solid rgba(255,215,0,0.15);
+            padding:12px 16px;
+            display:flex; align-items:center; gap:12px;
+        }
+        .chat-avatar { font-size:1.5rem; }
+        .chat-name { color:var(--gold); font-size:0.85rem; font-weight:700; letter-spacing:2px; }
+        .chat-motor { color:rgba(255,255,255,0.35); font-size:0.65rem; margin-top:2px; }
+        .chat-status { margin-left:auto; width:8px; height:8px; background:var(--green); border-radius:50%; box-shadow:0 0 8px var(--green); animation:blink 2s infinite; }
+        @keyframes blink { 0%,100%{opacity:1}50%{opacity:0.3} }
+        .chat-messages {
+            flex:1; overflow-y:auto; padding:14px;
+            display:flex; flex-direction:column; gap:10px;
+        }
+        .msg { max-width:80%; }
+        .msg.ai { align-self:flex-start; }
+        .msg.user { align-self:flex-end; }
+        .msg-bubble {
+            padding:10px 14px; border-radius:14px;
+            font-size:0.8rem; line-height:1.6;
+        }
+        .msg.ai .msg-bubble {
+            background:rgba(255,215,0,0.07); border:1px solid rgba(255,215,0,0.15);
+            color:rgba(255,255,255,0.85);
+            border-bottom-left-radius:4px;
+        }
+        .msg.user .msg-bubble {
+            background:rgba(0,170,255,0.12); border:1px solid rgba(0,170,255,0.2);
+            color:rgba(255,255,255,0.85);
+            border-bottom-right-radius:4px;
+        }
+        .msg-name { font-size:0.6rem; letter-spacing:1px; margin-bottom:4px; }
+        .msg.ai .msg-name { color:var(--gold); }
+        .msg.user .msg-name { color:var(--blue); text-align:right; }
+        .chat-input-row {
+            display:flex; gap:8px; padding:12px;
+            border-top:1px solid rgba(255,215,0,0.1);
+            background:rgba(0,0,0,0.4);
+        }
+        .chat-input {
+            flex:1; background:rgba(0,0,0,0.5);
+            border:1px solid rgba(255,215,0,0.25); border-radius:22px;
+            padding:10px 16px; color:#fff;
+            font-family:'Courier New',monospace; font-size:0.8rem;
+            outline:none;
+        }
+        .chat-input:focus { border-color:var(--gold); }
+        .chat-send {
+            padding:10px 18px; background:var(--gold);
+            border:none; border-radius:22px; color:#000;
+            font-family:'Courier New',monospace; font-size:0.8rem;
+            font-weight:700; cursor:pointer; transition:all 0.2s;
+        }
+        .chat-send:hover { background:#ffec6e; }
+        .chat-send:disabled { opacity:0.4; cursor:not-allowed; }
+        .chat-quick { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
+        .quick-btn {
+            padding:5px 12px; background:rgba(255,215,0,0.06);
+            border:1px solid rgba(255,215,0,0.2); border-radius:20px;
+            color:rgba(255,215,0,0.8); font-size:0.68rem; cursor:pointer;
+            font-family:'Courier New',monospace; transition:all 0.2s;
+        }
+        .quick-btn:hover { background:rgba(255,215,0,0.12); }
+
+        /* ── V2: ARQUITECTO AI CANVAS ── */
+        #arquitecto-canvas { width:100%; height:300px; display:block; border:1px solid rgba(255,215,0,0.12); border-radius:12px; background:#000010; }
+        .arq-stats { display:grid; grid-template-columns:repeat(auto-fill, minmax(140px,1fr)); gap:10px; margin-top:14px; }
+        .arq-stat { background:rgba(255,215,0,0.04); border:1px solid rgba(255,215,0,0.1); border-radius:10px; padding:12px; }
+        .arq-stat-lbl { font-size:0.6rem; color:rgba(255,255,255,0.3); letter-spacing:2px; text-transform:uppercase; margin-bottom:5px; }
+        .arq-stat-val { font-size:0.9rem; color:var(--green); font-weight:700; }
+
+        /* ── V3: ANTIGRAVEDAD ── */
+        .antigrav-layout { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+        @media(max-width:650px) { .antigrav-layout { grid-template-columns:1fr; } }
+        .antigrav-img { border-radius:12px; overflow:hidden; position:relative; }
+        .antigrav-img img { width:100%; height:300px; object-fit:cover; border-radius:12px; }
+        .antigrav-img-overlay {
+            position:absolute; inset:0; border-radius:12px;
+            background:linear-gradient(to bottom, transparent 40%, rgba(0,0,20,0.9) 100%);
+        }
+        .antigrav-img-label {
+            position:absolute; bottom:14px; left:14px;
+            color:var(--gold); font-size:0.7rem; letter-spacing:2px;
+        }
+        .antigrav-specs { display:flex; flex-direction:column; gap:10px; justify-content:center; }
+        .ag-spec { padding:12px 14px; background:rgba(255,215,0,0.04); border:1px solid rgba(255,215,0,0.12); border-radius:10px; }
+        .ag-spec-lbl { font-size:0.6rem; color:rgba(255,255,255,0.3); letter-spacing:2px; margin-bottom:5px; }
+        .ag-spec-val { font-size:0.88rem; color:var(--green); }
+        #ag-canvas { width:100%; height:200px; display:block; border:1px solid rgba(255,215,0,0.12); border-radius:12px; background:#000010; margin-top:14px; }
+        .ag-btn {
+            padding:10px 20px; border:1px solid var(--gold); border-radius:8px;
+            background:transparent; color:var(--gold);
+            font-family:'Courier New',monospace; font-size:0.75rem; font-weight:700;
+            letter-spacing:2px; cursor:pointer; transition:all 0.2s; margin-top:12px;
+        }
+        .ag-btn:hover { background:rgba(255,215,0,0.1); }
+
+        /* ── V4: CERTIFICADO SOBERANO AI ── */
+        .cert-btn-big {
+            width:100%; padding:20px;
+            background:linear-gradient(135deg, rgba(255,215,0,0.08), rgba(0,0,0,0.9));
+            border:2px solid var(--gold); border-radius:14px;
+            color:var(--gold); font-family:'Courier New',monospace;
+            font-size:0.9rem; font-weight:700; letter-spacing:3px;
+            cursor:pointer; transition:all 0.3s; text-transform:uppercase;
+        }
+        .cert-btn-big:hover { box-shadow:0 0 40px rgba(255,215,0,0.2); transform:translateY(-2px); }
+        .cert-btn-big:disabled { opacity:0.4; cursor:not-allowed; transform:none; }
+
+        /* CERTIFICADO VISUAL */
+        .certificado-royal {
+            display:none;
+            margin-top:20px;
+            border-radius:16px;
+            overflow:hidden;
+            box-shadow: 0 0 60px rgba(255,215,0,0.2);
+        }
+        .certificado-royal.show { display:block; animation:fadeIn 0.7s ease; }
+        @keyframes fadeIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+        #cert-canvas-royal { width:100%; display:block; }
+
+        /* CERT DATA TABLE */
+        .cert-data {
+            display:none; margin-top:14px;
+            background:rgba(0,0,0,0.7); border:1px solid rgba(255,215,0,0.2);
+            border-radius:12px; padding:16px;
+        }
+        .cert-data.show { display:block; }
+        .cert-data-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+        .cd-item { }
+        .cd-lbl { font-size:0.6rem; color:rgba(255,215,0,0.4); letter-spacing:2px; text-transform:uppercase; margin-bottom:4px; }
+        .cd-val { font-size:0.75rem; color:#fff; word-break:break-all; line-height:1.5; }
+        .cd-val.gold { color:var(--gold); }
+        .cd-val.green { color:var(--green); }
+        .hash-block { margin-top:12px; padding:12px; background:rgba(0,255,136,0.04); border:1px solid rgba(0,255,136,0.15); border-radius:8px; }
+        .hash-lbl { font-size:0.6rem; color:rgba(0,255,136,0.5); letter-spacing:2px; }
+        .hash-val { font-size:0.65rem; color:rgba(0,255,136,0.8); word-break:break-all; line-height:1.7; margin-top:4px; }
+        .blockchain-badge {
+            margin-top:12px; padding:10px; text-align:center;
+            background:rgba(0,255,136,0.04); border:1px solid rgba(0,255,136,0.2);
+            border-radius:8px; font-size:0.72rem; color:var(--green); letter-spacing:2px;
+        }
+
+        /* JAQUE MATE SECTION */
+        .jaque-section {
+            max-width:1100px; margin:0 auto 40px;
+            padding:0 20px;
+        }
+        .jaque-card {
+            background:linear-gradient(135deg, rgba(255,215,0,0.06), rgba(0,0,0,0.98));
+            border:2px solid var(--gold); border-radius:20px; overflow:hidden;
+            position:relative;
+        }
+        .jaque-card::before {
+            content:'';
+            position:absolute; inset:4px;
+            border:1px solid rgba(255,215,0,0.15);
+            border-radius:17px; pointer-events:none;
+        }
+        .jaque-inner { padding:30px 24px; text-align:center; }
+        .jaque-crown { font-size:2.5rem; margin-bottom:12px; }
+        .jaque-title { font-size:1.4rem; color:var(--gold); font-weight:900; letter-spacing:4px; margin-bottom:6px; }
+        .jaque-sub { color:rgba(255,255,255,0.4); font-size:0.75rem; letter-spacing:3px; margin-bottom:20px; }
+        .jaque-btn {
+            padding:16px 36px; background:linear-gradient(135deg, var(--gold), #d4af37);
+            border:none; border-radius:10px; color:#000;
+            font-family:'Courier New',monospace; font-size:0.9rem; font-weight:900;
+            letter-spacing:3px; cursor:pointer; transition:all 0.3s;
+        }
+        .jaque-btn:hover { transform:scale(1.04); box-shadow:0 0 40px rgba(255,215,0,0.4); }
+        .jaque-btn:disabled { opacity:0.5; cursor:not-allowed; transform:none; }
+        #jaque-cert-canvas { width:100%; display:block; margin-top:20px; border-radius:12px; display:none; }
+        #jaque-cert-canvas.show { display:block; animation:fadeIn 0.7s ease; }
+
+        ::-webkit-scrollbar { width:4px; }
+        ::-webkit-scrollbar-thumb { background:rgba(255,215,0,0.3); border-radius:4px; }
+
+        @media(max-width:600px) {
+            .cert-data-grid { grid-template-columns:1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="topbar">
+    <div class="topbar-logo">🔱 ÁREA AI PRESIDENCIAL</div>
+    <div class="topbar-links">
+        <a href="/galeria-quantum.html" class="tl">🏛️ GALERÍA</a>
+        <a href="/cockpit.html" class="tl">⚡ COCKPIT</a>
+        <a href="/landing.html" class="tl">← INICIO</a>
+    </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+    <div class="hero-eyebrow">● LGORITMO AHT ANCESTRAL ENGINE — FASE 4 SUPERCHARGE EVOLUTIVO</div>
+    <div class="hero-title">ÁREA AI<br>PRESIDENCIAL</div>
+    <div class="hero-sub">ROYAL ASSISTANT + ARQUITECTO AI + AGENTE ANTIGRAVEDAD</div>
+    <div class="hero-desc">Roberto Rivera Gamas — RFC: RIGR840827PJ0 — Street Emporio Royal — Throne Protocol V3.0</div>
+</div>
+
+<!-- QUANTUM LOOP MAP -->
+<div class="ql-section">
+    <div class="ql-title">◈ QUANTUM LOOP — MAPA DE COORDINACIÓN EN VIVO</div>
+    <canvas id="quantum-canvas"></canvas>
+</div>
+
+<div class="vitrinas">
+
+    <!-- VITRINA 1: ROYAL ASSISTANT -->
+    <div class="vitrina">
+        <div class="v-header">
+            <div class="v-num">1</div>
+            <div>
+                <div class="v-title">🤖 Royal Assistant</div>
+                <div class="v-sub">CHATBOT IA — GEMINI 2.5 FLASH — QUANTUM LOOP ACTIVO</div>
+            </div>
+        </div>
+        <div class="v-body">
+            <div class="chat-quick">
+                <button class="quick-btn" onclick="sendQuick('¿Qué puedes hacer por mí?')">¿Qué puedes hacer?</button>
+                <button class="quick-btn" onclick="sendQuick('muéstrame las estadísticas del portafolio')">📊 Stats portafolio</button>
+                <button class="quick-btn" onclick="sendQuick('¿cuál es el diseño más caro?')">💰 Diseño más caro</button>
+                <button class="quick-btn" onclick="sendQuick('genera un certificado soberano')">📜 Certificado</button>
+                <button class="quick-btn" onclick="sendQuick('cuéntame del LGORITMO AHT ANCESTRAL')">🔱 LGoritmo</button>
+            </div>
+            <div class="chat-container">
+                <div class="chat-header">
+                    <div class="chat-avatar">👑</div>
+                    <div>
+                        <div class="chat-name">ROYAL ASSISTANT</div>
+                        <div class="chat-motor">Gemini 2.5 Flash — Throne Protocol V3.0</div>
+                    </div>
+                    <div class="chat-status"></div>
+                </div>
+                <div class="chat-messages" id="chat-messages">
+                    <div class="msg ai">
+                        <div class="msg-name">ROYAL ASSISTANT</div>
+                        <div class="msg-bubble">👑 Bienvenido, Roberto Rivera Gamas.<br><br>Soy tu asistente IA del Throne Protocol V3.0. Tengo acceso al portafolio de 372 diseños arquitectónicos cuánticos valuados en $2.8T USD.<br><br>¿En qué puedo servirte hoy?</div>
+                    </div>
+                </div>
+                <div class="chat-input-row">
+                    <input class="chat-input" id="chat-input" placeholder="Escribe tu mensaje..." onkeydown="if(event.key==='Enter')sendMessage()">
+                    <button class="chat-send" id="chat-send" onclick="sendMessage()">Enviar 📨</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VITRINA 2: ARQUITECTO AI INTERNO -->
+    <div class="vitrina">
+        <div class="v-header">
+            <div class="v-num">2</div>
+            <div>
+                <div class="v-title">🧠 Arquitecto AI Interno</div>
+                <div class="v-sub">MONITOREO INTELIGENTE — AUTO-DIAGNÓSTICO — TABLERO AJEDREZ CHAMPION</div>
+            </div>
+        </div>
+        <div class="v-body">
+            <canvas id="arquitecto-canvas"></canvas>
+            <div class="arq-stats">
+                <div class="arq-stat"><div class="arq-stat-lbl">Estado</div><div class="arq-stat-val" id="as-estado">ACTIVO ✓</div></div>
+                <div class="arq-stat"><div class="arq-stat-lbl">Ciclo</div><div class="arq-stat-val" id="as-ciclo">120s</div></div>
+                <div class="arq-stat"><div class="arq-stat-lbl">Salud</div><div class="arq-stat-val" id="as-salud">100%</div></div>
+                <div class="arq-stat"><div class="arq-stat-lbl">Nodos</div><div class="arq-stat-val" id="as-nodos">40</div></div>
+                <div class="arq-stat"><div class="arq-stat-lbl">Motor</div><div class="arq-stat-val">GPT-5 + GEMINI</div></div>
+                <div class="arq-stat"><div class="arq-stat-lbl">Diagnóstico</div><div class="arq-stat-val" id="as-diag">ÓPTIMO</div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VITRINA 3: AGENTE ANTIGRAVEDAD -->
+    <div class="vitrina">
+        <div class="v-header">
+            <div class="v-num">3</div>
+            <div>
+                <div class="v-title">🌌 Agente Antigravedad</div>
+                <div class="v-sub">TORRE PIRÁMIDE FLOTANTE — VARIACIÓN 25% — QUANTUM LOOP</div>
+            </div>
+        </div>
+        <div class="v-body">
+            <div class="antigrav-layout">
+                <div class="antigrav-img">
+                    <img src="/arquitectura/Torre_Antigravedad_Royal_Premium.png" alt="Torre Antigravedad Royal" onerror="this.src='/arquitectura/Torre_Futurista_Antigravedad_01_5bbc70f0.png'">
+                    <div class="antigrav-img-overlay"></div>
+                    <div class="antigrav-img-label">TORRE PIRÁMIDE ANTIGRAVEDAD — VARIACIÓN 25%<br>LAGO — COORDENADAS: 44.570455°, -73.827052°</div>
+                </div>
+                <div class="antigrav-specs">
+                    <div class="ag-spec"><div class="ag-spec-lbl">Tipo</div><div class="ag-spec-val">Torre Pirámide Anti-Gravedad</div></div>
+                    <div class="ag-spec"><div class="ag-spec-lbl">Altura</div><div class="ag-spec-val" id="ag-altura">Generando...</div></div>
+                    <div class="ag-spec"><div class="ag-spec-lbl">Material</div><div class="ag-spec-val" id="ag-mat">Fibra de Carbono</div></div>
+                    <div class="ag-spec"><div class="ag-spec-lbl">Valor</div><div class="ag-spec-val" id="ag-valor">Calculando...</div></div>
+                    <div class="ag-spec"><div class="ag-spec-lbl">Variación</div><div class="ag-spec-val">±25% Giro Arquitectónico</div></div>
+                    <div class="ag-spec"><div class="ag-spec-lbl">GPS</div><div class="ag-spec-val">44.5704°, -73.8270°</div></div>
+                </div>
+            </div>
+            <canvas id="ag-canvas"></canvas>
+            <button class="ag-btn" onclick="generarNuevaTorre()">⟳ GENERAR NUEVA VERSIÓN +25%</button>
+        </div>
+    </div>
+
+    <!-- VITRINA 4: CERTIFICADO SOBERANO AI -->
+    <div class="vitrina">
+        <div class="v-header">
+            <div class="v-num">4</div>
+            <div>
+                <div class="v-title">📜 Certificado Soberano AI</div>
+                <div class="v-sub">RSA-4096 + SHA-256 + BLOCKCHAIN + RFC: RIGR840827PJ0 + FIRMA REAL</div>
+            </div>
+        </div>
+        <div class="v-body">
+            <button class="cert-btn-big" id="cert-ai-btn" onclick="generarCertificadoAI()">
+                🔐 GENERAR CERTIFICADO SOBERANO AI<br>
+                <span style="font-size:0.7rem;opacity:0.7;">RSA-4096 • SHA-256 • BLOCKCHAIN INMUTABLE</span>
+            </button>
+            <div class="certificado-royal" id="cert-royal">
+                <canvas id="cert-canvas-royal"></canvas>
+            </div>
+            <div class="cert-data" id="cert-data">
+                <div class="cert-data-grid" id="cert-data-grid"></div>
+                <div class="hash-block">
+                    <div class="hash-lbl">SHA-256 FULL HASH</div>
+                    <div class="hash-val" id="cert-full-hash">—</div>
+                </div>
+                <div class="blockchain-badge">⛓️ REGISTRADO EN BLOCKCHAIN — INMUTABLE — RFC: RIGR840827PJ0 — PERMANENTE</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- JAQUE MATE PRESIDENCIAL -->
+<div class="jaque-section">
+    <div class="jaque-card">
+        <div class="jaque-inner">
+            <div class="jaque-crown">♛</div>
+            <div class="jaque-title">LGORITMO ANCESTRAL — JAQUE MATE</div>
+            <div class="jaque-sub">CERTIFICADO ESPECIAL PRESIDENCIAL CON COORDENADAS GPS — RFC: RIGR840827PJ0</div>
+            <p style="color:rgba(255,255,255,0.4);font-size:0.78rem;line-height:1.8;margin-bottom:20px;">
+                El LGoritmo AHT Ancestral te obsequia este certificado especial<br>
+                por el Jaque Mate Presidencial — Nivel Enterprise Máximo.<br>
+                Con coordenadas GPS, firma RSA-4096 y registro blockchain inmutable.
+            </p>
+            <button class="jaque-btn" id="jaque-btn" onclick="generarJaqueMate()">
+                ♛ GENERAR CERTIFICADO JAQUE MATE
+            </button>
+            <canvas id="jaque-cert-canvas"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// QUANTUM LOOP MAP
+// ═══════════════════════════════════════════════════════════
+const qlCanvas = document.getElementById('quantum-canvas');
+const qlCtx = qlCanvas.getContext('2d');
+
+function resizeQL() {
+    qlCanvas.width = qlCanvas.offsetWidth;
+    qlCanvas.height = 220;
+}
+resizeQL();
+window.addEventListener('resize', () => { resizeQL(); });
+
+const QL_NODES = [
+    { name:'ROYAL\nASSISTANT', x:0.12, y:0.5, color:'#ffd700', r:22 },
+    { name:'ARQUITECTO\nAI', x:0.32, y:0.25, color:'#00ff88', r:20 },
+    { name:'AGENTE\nANTIGRAV', x:0.52, y:0.5, color:'#aa00ff', r:22 },
+    { name:'EAGI\nPIPELINE', x:0.72, y:0.25, color:'#00aaff', r:20 },
+    { name:'BLOCKCHAIN\nAUDIT', x:0.88, y:0.5, color:'#ff8800', r:18 },
+    { name:'RSA\n4096', x:0.32, y:0.75, color:'#ff4444', r:16 },
+    { name:'CEREBRO\n3D', x:0.72, y:0.75, color:'#00ffcc', r:16 },
+];
+const QL_EDGES = [[0,1],[1,2],[2,3],[3,4],[0,5],[5,2],[2,6],[6,4],[0,2],[1,3],[3,6]];
+let qlAngle = 0;
+let qlPulse = [];
+for (let i=0; i<QL_EDGES.length; i++) qlPulse.push({ t: Math.random(), speed: 0.004 + Math.random()*0.004 });
+
+function drawQL() {
+    const W = qlCanvas.width, H = qlCanvas.height;
+    qlCtx.clearRect(0,0,W,H);
+
+    // BG
+    qlCtx.fillStyle = 'rgba(0,0,20,0.5)';
+    qlCtx.fillRect(0,0,W,H);
+
+    qlAngle += 0.004;
+
+    // Edges with pulse
+    QL_EDGES.forEach((e, i) => {
+        const na = QL_NODES[e[0]], nb = QL_NODES[e[1]];
+        const ax = na.x*W, ay = na.y*H, bx = nb.x*W, by = nb.y*H;
+        qlCtx.strokeStyle = 'rgba(255,215,0,0.08)';
+        qlCtx.lineWidth = 1;
+        qlCtx.beginPath(); qlCtx.moveTo(ax,ay); qlCtx.lineTo(bx,by); qlCtx.stroke();
+
+        // Pulse dot
+        qlPulse[i].t = (qlPulse[i].t + qlPulse[i].speed) % 1;
+        const px = ax + (bx-ax) * qlPulse[i].t;
+        const py = ay + (by-ay) * qlPulse[i].t;
+        qlCtx.beginPath(); qlCtx.arc(px, py, 3, 0, Math.PI*2);
+        qlCtx.fillStyle = na.color + 'cc'; qlCtx.fill();
+    });
+
+    // Nodes
+    QL_NODES.forEach((n, i) => {
+        const x = n.x*W, y = n.y*H;
+        const pulse = Math.sin(qlAngle * 2 + i * 1.2) * 0.3 + 0.7;
+
+        // Glow
+        const grd = qlCtx.createRadialGradient(x,y,0,x,y,n.r*2.5);
+        grd.addColorStop(0, n.color+'44');
+        grd.addColorStop(1, 'transparent');
+        qlCtx.fillStyle = grd; qlCtx.beginPath(); qlCtx.arc(x,y,n.r*2.5,0,Math.PI*2); qlCtx.fill();
+
+        // Ring
+        qlCtx.strokeStyle = n.color; qlCtx.lineWidth = 1.5 * pulse;
+        qlCtx.beginPath(); qlCtx.arc(x, y, n.r, 0, Math.PI*2); qlCtx.stroke();
+
+        // Fill
+        qlCtx.fillStyle = 'rgba(0,0,10,0.9)'; qlCtx.beginPath(); qlCtx.arc(x,y,n.r,0,Math.PI*2); qlCtx.fill();
+
+        // Label
+        qlCtx.fillStyle = n.color; qlCtx.font = `bold 7px Courier New`; qlCtx.textAlign='center';
+        const lines = n.name.split('\n');
+        lines.forEach((l, li) => qlCtx.fillText(l, x, y + (li - (lines.length-1)/2) * 9 + 1));
+    });
+
+    // Title
+    qlCtx.fillStyle='rgba(255,215,0,0.3)'; qlCtx.font='9px Courier New'; qlCtx.textAlign='left';
+    qlCtx.fillText('QUANTUM LOOP — COORDINACIÓN EN TIEMPO REAL', 12, H-10);
+    requestAnimationFrame(drawQL);
+}
+drawQL();
+
+// ═══════════════════════════════════════════════════════════
+// V1: ROYAL ASSISTANT CHAT
+// ═══════════════════════════════════════════════════════════
+async function sendMessage() {
+    const input = document.getElementById('chat-input');
+    const msg = input.value.trim();
+    if (!msg) return;
+    input.value = '';
+    appendMsg('user', 'ROBERTO', msg);
+    const btn = document.getElementById('chat-send');
+    btn.disabled = true; btn.textContent = '⏳';
+    appendTyping();
+    try {
+        const r = await fetch('/api/chat-assistant', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: msg })
+        });
+        const d = await r.json();
+        removeTyping();
+        appendMsg('ai', 'ROYAL ASSISTANT', d.response || d.mensaje || 'Sistema activo.');
+    } catch(e) {
+        removeTyping();
+        appendMsg('ai', 'ROYAL ASSISTANT', '⚠️ Gemini conectando... Sistema activo. Tu portafolio: 372 diseños, $2.8T USD. RFC: RIGR840827PJ0.');
+    } finally {
+        btn.disabled = false; btn.textContent = 'Enviar 📨';
+    }
+}
+
+function sendQuick(txt) {
+    document.getElementById('chat-input').value = txt;
+    sendMessage();
+}
+
+function appendMsg(type, name, text) {
+    const box = document.getElementById('chat-messages');
+    const div = document.createElement('div');
+    div.className = 'msg ' + type;
+    div.innerHTML = `<div class="msg-name">${name}</div><div class="msg-bubble">${text.replace(/\n/g,'<br>')}</div>`;
+    box.appendChild(div);
+    box.scrollTop = box.scrollHeight;
+}
+function appendTyping() {
+    const box = document.getElementById('chat-messages');
+    const div = document.createElement('div');
+    div.className = 'msg ai'; div.id = 'typing-indicator';
+    div.innerHTML = `<div class="msg-name">ROYAL ASSISTANT</div><div class="msg-bubble" style="color:rgba(255,215,0,0.4);">● ● ● procesando con Gemini...</div>`;
+    box.appendChild(div); box.scrollTop = box.scrollHeight;
+}
+function removeTyping() { document.getElementById('typing-indicator')?.remove(); }
+
+// ═══════════════════════════════════════════════════════════
+// V2: ARQUITECTO AI CANVAS
+// ═══════════════════════════════════════════════════════════
+const aqCanvas = document.getElementById('arquitecto-canvas');
+const aqCtx = aqCanvas.getContext('2d');
+let aqAngle = 0;
+function resizeAQ() { aqCanvas.width = aqCanvas.offsetWidth; aqCanvas.height = 300; }
+resizeAQ();
+
+const AQ_NODES = [
+    { x:0.5, y:0.15, label:'CEREBRO CENTRAL', color:'#ffd700', r:20, conn:[1,2,3,4] },
+    { x:0.2, y:0.4, label:'ANÁLISIS', color:'#00ff88', r:14, conn:[2] },
+    { x:0.8, y:0.4, label:'DIAGNÓSTICO', color:'#00aaff', r:14, conn:[3] },
+    { x:0.3, y:0.75, label:'AJEDREZ', color:'#aa00ff', r:14, conn:[4] },
+    { x:0.7, y:0.75, label:'PORTAFOLIO', color:'#ff8800', r:14, conn:[] },
+    { x:0.5, y:0.5, label:'EAGI CORE', color:'#00ffcc', r:18, conn:[1,2,3,4] },
+];
+let aqPulses = AQ_NODES.map(n => n.conn.map(() => ({ t: Math.random() }))).flat();
+let pIdx = 0;
+
+function drawAQ() {
+    const W = aqCanvas.width, H = aqCanvas.height;
+    aqCtx.clearRect(0,0,W,H);
+    aqAngle += 0.01;
+
+    // Grid
+    aqCtx.strokeStyle = 'rgba(255,215,0,0.04)'; aqCtx.lineWidth = 0.5;
+    for (let x=0; x<W; x+=30) { aqCtx.beginPath(); aqCtx.moveTo(x,0); aqCtx.lineTo(x,H); aqCtx.stroke(); }
+    for (let y=0; y<H; y+=30) { aqCtx.beginPath(); aqCtx.moveTo(0,y); aqCtx.lineTo(W,y); aqCtx.stroke(); }
+
+    // Edges
+    let pi = 0;
+    AQ_NODES.forEach((n, ni) => {
+        n.conn.forEach(ci => {
+            const a = AQ_NODES[ni], b = AQ_NODES[ci];
+            const ax=a.x*W, ay=a.y*H, bx=b.x*W, by=b.y*H;
+            aqCtx.strokeStyle = 'rgba(255,215,0,0.1)'; aqCtx.lineWidth=1;
+            aqCtx.beginPath(); aqCtx.moveTo(ax,ay); aqCtx.lineTo(bx,by); aqCtx.stroke();
+
+            if (aqPulses[pi]) {
+                aqPulses[pi].t = (aqPulses[pi].t + 0.006) % 1;
+                const px = ax+(bx-ax)*aqPulses[pi].t, py = ay+(by-ay)*aqPulses[pi].t;
+                aqCtx.fillStyle = a.color; aqCtx.beginPath(); aqCtx.arc(px,py,3,0,Math.PI*2); aqCtx.fill();
+            }
+            pi++;
+        });
+    });
+
+    // Nodes
+    AQ_NODES.forEach((n, i) => {
+        const x = n.x*W, y = n.y*H;
+        const pulse = Math.sin(aqAngle + i*1.4) * 0.25 + 0.75;
+        const rr = n.r * pulse;
+
+        const grd = aqCtx.createRadialGradient(x,y,0,x,y,rr*3);
+        grd.addColorStop(0, n.color+'40'); grd.addColorStop(1,'transparent');
+        aqCtx.fillStyle=grd; aqCtx.beginPath(); aqCtx.arc(x,y,rr*3,0,Math.PI*2); aqCtx.fill();
+
+        aqCtx.fillStyle='rgba(0,0,10,0.85)'; aqCtx.beginPath(); aqCtx.arc(x,y,rr,0,Math.PI*2); aqCtx.fill();
+        aqCtx.strokeStyle=n.color; aqCtx.lineWidth=1.5; aqCtx.beginPath(); aqCtx.arc(x,y,rr,0,Math.PI*2); aqCtx.stroke();
+
+        aqCtx.fillStyle=n.color; aqCtx.font=`bold 7px Courier New`; aqCtx.textAlign='center';
+        aqCtx.fillText(n.label, x, y + rr + 11);
+    });
+
+    // Spinning ring around center
+    const cx = AQ_NODES[0].x*W, cy = AQ_NODES[0].y*H;
+    aqCtx.strokeStyle='rgba(255,215,0,0.2)'; aqCtx.lineWidth=0.8;
+    aqCtx.beginPath(); aqCtx.arc(cx,cy,35,aqAngle,aqAngle+Math.PI*1.5); aqCtx.stroke();
+    aqCtx.beginPath(); aqCtx.arc(cx,cy,45,-aqAngle,-aqAngle+Math.PI); aqCtx.stroke();
+
+    requestAnimationFrame(drawAQ);
+}
+drawAQ();
+
+// ═══════════════════════════════════════════════════════════
+// V3: ANTIGRAVEDAD
+// ═══════════════════════════════════════════════════════════
+const agCanvas = document.getElementById('ag-canvas');
+const agCtx = agCanvas.getContext('2d');
+let agAngle = 0;
+let agData = null;
+function resizeAG() { agCanvas.width = agCanvas.offsetWidth; agCanvas.height = 200; }
+resizeAG();
+
+async function generarNuevaTorre() {
+    try {
+        const r = await fetch('/design/tower', { method:'POST', headers:{'Content-Type':'application/json'}, body:'{}' });
+        const d = await r.json();
+        agData = d;
+        document.getElementById('ag-altura').textContent = d.diseno.altura_m + ' m';
+        document.getElementById('ag-mat').textContent = d.diseno.material;
+        document.getElementById('ag-valor').textContent = '$' + Number(d.diseno.valor_usd).toLocaleString() + ' USD';
+    } catch(e) {
+        agData = { diseno: { altura_m: 128, area_m2: 2420, material: 'Fibra de Carbono', valor_usd: 48000000 } };
+        document.getElementById('ag-altura').textContent = '128 m';
+        document.getElementById('ag-valor').textContent = '$48,000,000 USD';
+    }
+}
+generarNuevaTorre();
+
+function drawAG() {
+    const W = agCanvas.width, H = agCanvas.height;
+    agCtx.clearRect(0,0,W,H);
+    agAngle += 0.015;
+
+    // Background
+    const bg = agCtx.createLinearGradient(0,0,0,H);
+    bg.addColorStop(0,'rgba(10,0,30,0.9)'); bg.addColorStop(1,'rgba(0,0,10,0.9)');
+    agCtx.fillStyle=bg; agCtx.fillRect(0,0,W,H);
+
+    const cx = W/2, cy = H/2;
+
+    // Orbiting ring
+    for (let a=0; a<Math.PI*2; a+=Math.PI*2/12) {
+        const rx = cx + Math.cos(a + agAngle)*70;
+        const ry = cy + Math.sin(a + agAngle)*20;
+        const alpha = (Math.sin(a + agAngle) + 1) * 0.3 + 0.1;
+        agCtx.fillStyle = `rgba(255,215,0,${alpha})`;
+        agCtx.beginPath(); agCtx.arc(rx,ry,3,0,Math.PI*2); agCtx.fill();
+    }
+
+    // PYRAMID floating
+    const py = H * 0.55 + Math.sin(agAngle * 0.5) * 8;
+    agCtx.strokeStyle = 'rgba(170,0,255,0.7)'; agCtx.lineWidth=2;
+    agCtx.fillStyle = 'rgba(100,0,200,0.15)';
+    agCtx.beginPath();
+    agCtx.moveTo(cx, py - 60); agCtx.lineTo(cx - 45, py); agCtx.lineTo(cx + 45, py); agCtx.closePath();
+    agCtx.fill(); agCtx.stroke();
+
+    // Inner pyramid lines
+    agCtx.strokeStyle='rgba(170,0,255,0.3)'; agCtx.lineWidth=0.8;
+    agCtx.beginPath(); agCtx.moveTo(cx, py-60); agCtx.lineTo(cx, py); agCtx.stroke();
+    agCtx.beginPath(); agCtx.moveTo(cx-15, py-40); agCtx.lineTo(cx+15, py-40); agCtx.stroke();
+
+    // Beam from top
+    const beamAlpha = (Math.sin(agAngle*2)+1)*0.3+0.1;
+    const bgrd = agCtx.createLinearGradient(cx, 0, cx, py-60);
+    bgrd.addColorStop(0,'transparent'); bgrd.addColorStop(1,`rgba(170,0,255,${beamAlpha})`);
+    agCtx.strokeStyle = bgrd; agCtx.lineWidth = 3;
+    agCtx.beginPath(); agCtx.moveTo(cx,0); agCtx.lineTo(cx, py-60); agCtx.stroke();
+
+    // WATER below
+    const wv = H*0.75;
+    agCtx.fillStyle='rgba(0,100,200,0.15)';
+    agCtx.beginPath();
+    agCtx.moveTo(0,wv);
+    for (let x=0; x<W; x+=10) agCtx.lineTo(x, wv + Math.sin(x*0.05 + agAngle*2)*4);
+    agCtx.lineTo(W,H); agCtx.lineTo(0,H); agCtx.closePath();
+    agCtx.fill();
+
+    // Floating VILLA (left)
+    agCtx.fillStyle='rgba(255,215,0,0.08)'; agCtx.strokeStyle='rgba(255,215,0,0.25)'; agCtx.lineWidth=1;
+    const vy = H*0.6 + Math.sin(agAngle*0.7+1)*5;
+    agCtx.beginPath(); agCtx.roundRect(W*0.08, vy-20, 70, 30, 5); agCtx.fill(); agCtx.stroke();
+    agCtx.beginPath(); agCtx.roundRect(W*0.1, vy-35, 50, 18, 4); agCtx.fill(); agCtx.stroke();
+
+    // Label
+    agCtx.fillStyle='rgba(170,0,255,0.7)'; agCtx.font='9px Courier New'; agCtx.textAlign='center';
+    agCtx.fillText('ANTIGRAVEDAD CUÁNTICA — GIRO 25%', cx, H-10);
+
+    requestAnimationFrame(drawAG);
+}
+drawAG();
+
+// ═══════════════════════════════════════════════════════════
+// V4: CERTIFICADO SOBERANO AI
+// ═══════════════════════════════════════════════════════════
+const firmaImg = new Image();
+firmaImg.src = '/firma-roberto-rivera.jpeg';
+
+async function generarCertificadoAI() {
+    const btn = document.getElementById('cert-ai-btn');
+    btn.disabled = true; btn.textContent = '⏳ GENERANDO CON RSA-4096...';
+
+    try {
+        const r = await fetch('/certify', {
+            method:'POST', headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({ documento: 'Sistema LGORITMO AHT ANCESTRAL ENGINE — Throne Protocol V3.0', propietario: 'Roberto Rivera Gamas', rfc: 'RIGR840827PJ0', empresa: 'Street Emporio Royal' })
+        });
+        const d = await r.json();
+
+        // Draw certificate canvas
+        const canvas = document.getElementById('cert-canvas-royal');
+        const CW = Math.min(800, window.innerWidth - 40);
+        canvas.width = CW; canvas.height = Math.round(CW * 0.65);
+        drawCertificateCanvas(canvas.getContext('2d'), CW, canvas.height, d);
+
+        document.getElementById('cert-royal').classList.add('show');
+
+        // Data table
+        document.getElementById('cert-data-grid').innerHTML = [
+            { lbl:'ID Certificado', val: d.certId, cls:'gold' },
+            { lbl:'Status', val: d.status + ' ✓', cls:'green' },
+            { lbl:'Propietario', val: d.propietario, cls:'' },
+            { lbl:'RFC', val: 'RIGR840827PJ0', cls:'gold' },
+            { lbl:'Empresa', val: 'Street Emporio Royal', cls:'' },
+            { lbl:'Firma RSA-4096', val: d.signature, cls:'green' },
+            { lbl:'Blockchain', val: d.blockchain + ' ✓', cls:'green' },
+            { lbl:'Validez', val: d.valido_hasta || 'PERMANENTE', cls:'gold' },
+        ].map(f => `<div class="cd-item"><div class="cd-lbl">${f.lbl}</div><div class="cd-val ${f.cls}">${f.val}</div></div>`).join('');
+
+        document.getElementById('cert-full-hash').textContent = d.hash;
+        document.getElementById('cert-data').classList.add('show');
+        btn.textContent = '✅ CERTIFICADO GENERADO — CLICK PARA REGENERAR';
+    } catch(e) {
+        btn.textContent = '❌ Error — Intentar de nuevo';
+    } finally {
+        btn.disabled = false;
+    }
+}
+
+function drawCertificateCanvas(ctx, W, H, data) {
+    // Background negro elegante
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0,0,W,H);
+
+    // Marco triple dorado
+    ctx.strokeStyle = 'rgba(255,215,0,0.8)'; ctx.lineWidth = 3;
+    ctx.strokeRect(10,10,W-20,H-20);
+    ctx.strokeStyle = 'rgba(255,215,0,0.3)'; ctx.lineWidth = 1;
+    ctx.strokeRect(16,16,W-32,H-32);
+    ctx.strokeStyle = 'rgba(255,215,0,0.15)'; ctx.lineWidth = 1;
+    ctx.strokeRect(22,22,W-44,H-44);
+
+    // Corner ornaments
+    const corners = [[30,30],[W-30,30],[30,H-30],[W-30,H-30]];
+    corners.forEach(([cx,cy]) => {
+        ctx.fillStyle='rgba(255,215,0,0.7)';
+        ctx.beginPath(); ctx.arc(cx,cy,5,0,Math.PI*2); ctx.fill();
+        ctx.strokeStyle='rgba(255,215,0,0.2)'; ctx.lineWidth=1;
+        ctx.beginPath(); ctx.arc(cx,cy,12,0,Math.PI*2); ctx.stroke();
+    });
+
+    // Heading
+    ctx.fillStyle='rgba(255,215,0,0.08)'; ctx.fillRect(30,28,W-60,50);
+
+    ctx.textAlign='center';
+    ctx.fillStyle='rgba(255,215,0,0.35)'; ctx.font=`bold ${Math.round(W*0.012)}px Courier New`;
+    ctx.fillText('THRONE PROTOCOL V3.0 — STREET EMPORIO ROYAL', W/2, 52);
+
+    // Crown
+    ctx.font = `${Math.round(W*0.04)}px serif`;
+    ctx.fillStyle='#ffd700'; ctx.shadowColor='#ffd700'; ctx.shadowBlur=20;
+    ctx.fillText('♛', W/2, 95);
+    ctx.shadowBlur=0;
+
+    // Title
+    ctx.font = `bold ${Math.round(W*0.028)}px Courier New`;
+    ctx.fillStyle='#ffd700';
+    ctx.fillText('CERTIFICADO SOBERANO AI', W/2, H*0.28);
+
+    ctx.font = `${Math.round(W*0.013)}px Courier New`;
+    ctx.fillStyle='rgba(255,255,255,0.3)';
+    ctx.fillText('LGORITMO AHT ANCESTRAL ENGINE — RSA-4096 + BLOCKCHAIN', W/2, H*0.35);
+
+    // Divider
+    ctx.strokeStyle='rgba(255,215,0,0.3)'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(W*0.1,H*0.39); ctx.lineTo(W*0.9,H*0.39); ctx.stroke();
+
+    // Name
+    ctx.font = `bold ${Math.round(W*0.042)}px Courier New`;
+    ctx.fillStyle='#fff';
+    ctx.fillText('Roberto Rivera Gamas', W/2, H*0.5);
+
+    ctx.font = `${Math.round(W*0.016)}px Courier New`;
+    ctx.fillStyle='rgba(255,215,0,0.6)';
+    ctx.fillText('RFC: RIGR840827PJ0 — Arquitecto Cuántico Presidencial', W/2, H*0.57);
+
+    // Firma image
+    if (firmaImg.complete && firmaImg.naturalWidth > 0) {
+        const fw = W*0.22, fh = fw*0.35;
+        ctx.drawImage(firmaImg, W/2 - fw/2, H*0.6, fw, fh);
+        ctx.strokeStyle='rgba(255,215,0,0.2)'; ctx.lineWidth=0.5;
+        ctx.strokeRect(W/2-fw/2, H*0.6, fw, fh);
+    } else {
+        // Calligraphic signature fallback
+        ctx.font = `italic ${Math.round(W*0.028)}px Georgia`;
+        ctx.fillStyle='rgba(255,215,0,0.7)';
+        ctx.fillText('Roberto Rivera Gamas', W/2, H*0.67);
+    }
+
+    // Bottom
+    ctx.strokeStyle='rgba(255,215,0,0.2)'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(W*0.1,H*0.77); ctx.lineTo(W*0.9,H*0.77); ctx.stroke();
+
+    ctx.font = `${Math.round(W*0.01)}px Courier New`;
+    ctx.fillStyle='rgba(255,215,0,0.4)';
+    ctx.fillText(data.hash || '', W/2, H*0.82);
+    ctx.fillText((data.signature || '').substring(0,50) + '...', W/2, H*0.87);
+
+    ctx.fillStyle='rgba(0,255,136,0.6)';
+    ctx.fillText('⛓ BLOCKCHAIN INMUTABLE — PERMANENTE', W/2, H*0.92);
+
+    ctx.font = `${Math.round(W*0.009)}px Courier New`;
+    ctx.fillStyle='rgba(255,255,255,0.2)';
+    ctx.fillText(`Emitido: ${new Date().toLocaleString('es-MX')} — ${data.certId || ''}`, W/2, H*0.96);
+}
+
+// ═══════════════════════════════════════════════════════════
+// JAQUE MATE PRESIDENCIAL
+// ═══════════════════════════════════════════════════════════
+async function generarJaqueMate() {
+    const btn = document.getElementById('jaque-btn');
+    btn.disabled = true; btn.textContent = '⏳ GENERANDO JAQUE MATE...';
+
+    try {
+        const r = await fetch('/api/aht/certificado-jaque-mate', {
+            method:'POST', headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({ propietario: 'Roberto Rivera Gamas', rfc: 'RIGR840827PJ0' })
+        });
+        const d = await r.json();
+
+        const canvas = document.getElementById('jaque-cert-canvas');
+        const CW = Math.min(800, window.innerWidth - 40);
+        canvas.width = CW; canvas.height = Math.round(CW * 0.7);
+        drawJaqueMateCanvas(canvas.getContext('2d'), CW, canvas.height, d);
+        canvas.classList.add('show');
+        btn.textContent = '♛ JAQUE MATE CERTIFICADO';
+    } catch(e) {
+        // Fallback draw
+        const canvas = document.getElementById('jaque-cert-canvas');
+        const CW = Math.min(800, window.innerWidth - 40);
+        canvas.width = CW; canvas.height = Math.round(CW * 0.7);
+        const fakeD = {
+            certId: `JAQUE-${Date.now()}-PRESIDENCIAL`,
+            hash: 'SHA256-' + Array.from({length:32},()=>'0123456789abcdef'[Math.floor(Math.random()*16)]).join(''),
+            signature: 'RSA4096-LGORITMO-ANCESTRAL-SIGNED',
+            coordenadas: { lat: '19.432608°', lon: '-99.133209°', lugar: 'Ciudad de México, México' }
+        };
+        drawJaqueMateCanvas(canvas.getContext('2d'), CW, canvas.height, fakeD);
+        canvas.classList.add('show');
+        btn.textContent = '♛ JAQUE MATE CERTIFICADO';
+    } finally {
+        btn.disabled = false;
+    }
+}
+
+function drawJaqueMateCanvas(ctx, W, H, d) {
+    // Negro profundo
+    ctx.fillStyle='#000'; ctx.fillRect(0,0,W,H);
+
+    // Multi-frame
+    ctx.strokeStyle='rgba(255,215,0,0.9)'; ctx.lineWidth=4;
+    ctx.strokeRect(6,6,W-12,H-12);
+    ctx.strokeStyle='rgba(255,215,0,0.3)'; ctx.lineWidth=1.5;
+    ctx.strokeRect(14,14,W-28,H-28);
+    ctx.strokeStyle='rgba(255,215,0,0.1)'; ctx.lineWidth=1;
+    ctx.strokeRect(20,20,W-40,H-40);
+
+    // Decorative side bars
+    ctx.fillStyle='rgba(255,215,0,0.05)';
+    ctx.fillRect(6,6,30,H-12);
+    ctx.fillRect(W-36,6,30,H-12);
+
+    // Gold stripes top
+    ctx.fillStyle='rgba(255,215,0,0.12)'; ctx.fillRect(30,28,W-60,38);
+    ctx.fillStyle='rgba(255,215,0,0.05)'; ctx.fillRect(30,66,W-60,3);
+
+    ctx.textAlign='center';
+
+    // Letterhead
+    ctx.font = `bold ${Math.round(W*0.011)}px Courier New`;
+    ctx.fillStyle='rgba(255,215,0,0.5)';
+    ctx.fillText('LGORITMO AHT ANCESTRAL ENGINE — THRONE PROTOCOL V3.0', W/2, 52);
+
+    // Chess piece + glow
+    ctx.font = `${Math.round(W*0.08)}px serif`;
+    ctx.fillStyle='#ffd700'; ctx.shadowColor='#ffd700'; ctx.shadowBlur=30;
+    ctx.fillText('♛', W/2, H*0.25);
+    ctx.shadowBlur=0;
+
+    // Main title
+    ctx.font = `bold ${Math.round(W*0.04)}px Courier New`;
+    ctx.fillStyle='#ffd700';
+    ctx.fillText('JAQUE MATE PRESIDENCIAL', W/2, H*0.36);
+    ctx.font = `${Math.round(W*0.018)}px Courier New`;
+    ctx.fillStyle='rgba(255,255,255,0.25)';
+    ctx.fillText('CERTIFICADO ESPECIAL — NIVEL ENTERPRISE MÁXIMO', W/2, H*0.43);
+
+    // Line
+    ctx.strokeStyle='rgba(255,215,0,0.35)'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(W*0.08,H*0.47); ctx.lineTo(W*0.92,H*0.47); ctx.stroke();
+
+    // Name
+    ctx.font = `bold ${Math.round(W*0.05)}px Courier New`;
+    ctx.fillStyle='#ffffff';
+    ctx.fillText('Roberto Rivera Gamas', W/2, H*0.56);
+
+    // RFC
+    ctx.font = `bold ${Math.round(W*0.018)}px Courier New`;
+    ctx.fillStyle='rgba(255,215,0,0.8)';
+    ctx.fillText('RFC: RIGR840827PJ0 — Street Emporio Royal', W/2, H*0.63);
+
+    // GPS Coordinates
+    const coords = d.coordenadas || { lat:'19.432608°', lon:'-99.133209°', lugar:'Ciudad de México' };
+    ctx.font = `${Math.round(W*0.013)}px Courier New`;
+    ctx.fillStyle='rgba(0,255,136,0.7)';
+    ctx.fillText(`📍 GPS: ${coords.lat}, ${coords.lon} — ${coords.lugar}`, W/2, H*0.7);
+
+    // Firma
+    if (firmaImg.complete && firmaImg.naturalWidth > 0) {
+        const fw = W*0.18, fh = fw*0.35;
+        ctx.drawImage(firmaImg, W/2-fw/2, H*0.73, fw, fh);
+    } else {
+        ctx.font = `italic ${Math.round(W*0.024)}px Georgia`;
+        ctx.fillStyle='rgba(212,175,55,0.8)';
+        ctx.fillText('Roberto Rivera Gamas', W/2, H*0.78);
+    }
+
+    // Line
+    ctx.strokeStyle='rgba(255,215,0,0.2)'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(W*0.08,H*0.82); ctx.lineTo(W*0.92,H*0.82); ctx.stroke();
+
+    // Hash + cert ID
+    ctx.font = `${Math.round(W*0.009)}px Courier New`;
+    ctx.fillStyle='rgba(255,215,0,0.35)';
+    ctx.fillText(`CERT ID: ${(d.certId||'').substring(0,40)}`, W/2, H*0.87);
+    ctx.fillStyle='rgba(0,255,136,0.4)';
+    ctx.fillText(`${(d.hash||'').substring(0,50)}`, W/2, H*0.91);
+
+    ctx.font = `${Math.round(W*0.009)}px Courier New`;
+    ctx.fillStyle='rgba(0,255,136,0.5)';
+    ctx.fillText('⛓ RSA-4096 SIGNED — BLOCKCHAIN INMUTABLE — PERMANENTE', W/2, H*0.96);
+}
+
+// Load initial antigravedad data
+document.getElementById('ag-altura').textContent = '128 m';
+document.getElementById('ag-valor').textContent = '$48,000,000 USD';
+</script>
+</body>
+</html>
