@@ -14,7 +14,7 @@ const openai = new OpenAI({
 
 // Configuración de Gemini (con API key del usuario)
 // Note that the newest Gemini model series is "gemini-2.5-flash" or gemini-2.5-pro"
-const geminiAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
+const geminiAI = new GoogleGenAI({ apiKey: (process.env.GEMINI_API_KEY || "").trim() });
 
 // =================================================================
 // TEMPLATES POR INDUSTRIA
@@ -181,11 +181,50 @@ async function generateDual(userPrompt, industry = null) {
 }
 
 // =================================================================
+// CHAT DIRECTO CON GEMINI — Sin system prompt de código
+// Fallback a GPT-5 si Gemini falla
+// =================================================================
+async function chatWithGemini(systemContext, userMessage) {
+    // Try Gemini first
+    try {
+        const result = await geminiAI.models.generateContent({
+            model: 'gemini-2.5-flash',
+            contents: [{ role: 'user', parts: [{ text: `${systemContext}\n\nUSUARIO: ${userMessage}\n\nRESPUESTA:` }] }]
+        });
+        const text = result.text || '';
+        if (text.trim().length > 0) {
+            return { success: true, text: text.trim(), model: 'gemini-2.5-flash' };
+        }
+    } catch (geminiErr) {
+        console.error('chatWithGemini Gemini error:', geminiErr.message?.substring(0,80));
+    }
+    // Fallback: GPT-5
+    try {
+        const gptResp = await openai.chat.completions.create({
+            model: 'gpt-5',
+            messages: [
+                { role: 'system', content: systemContext },
+                { role: 'user', content: userMessage }
+            ],
+            max_tokens: 400
+        });
+        const gptText = gptResp.choices?.[0]?.message?.content || '';
+        if (gptText.trim().length > 0) {
+            return { success: true, text: gptText.trim(), model: 'gpt-5' };
+        }
+    } catch (gptErr) {
+        console.error('chatWithGemini GPT fallback error:', gptErr.message?.substring(0,80));
+    }
+    return { success: false, error: 'Both AI models unavailable', text: '' };
+}
+
+// =================================================================
 // EXPORTAR FUNCIONES
 // =================================================================
 module.exports = {
     generateWithGPT5,
     generateWithGemini,
     generateDual,
+    chatWithGemini,
     INDUSTRY_TEMPLATES
 };
