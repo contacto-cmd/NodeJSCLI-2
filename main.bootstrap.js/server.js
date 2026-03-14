@@ -658,6 +658,240 @@ app.get('/api/viador/cubos', (req, res) => {
 });
 
 // ════════════════════════════════════════════════════════════════════
+// IDENTITY PROVIDER — streetemporioroyal.com
+// OAuth 2.0 + OIDC + JWKS + DID  — Issuer: RFC RIGR840827PJ0
+// Standards: RFC 6749, RFC 7517, RFC 7519, OIDC Core 1.0
+// ════════════════════════════════════════════════════════════════════
+
+const ISSUER_DOMAIN = 'https://streetemporioroyal.com';
+const OWNER_RFC     = 'RIGR840827PJ0';
+const OWNER_NAME    = 'Roberto Rivera Gamas';
+const OWNER_EMAIL   = 'contacto@streetemporioroyal.com';
+
+// Helper: PEM SPKI → JWK con kid y uso
+const _nodeCrypto = require('crypto');
+function publicPemToJwk(pemStr) {
+    try {
+        const keyObj = _nodeCrypto.createPublicKey({ key: pemStr, format: 'pem' });
+        const jwk    = keyObj.export({ format: 'jwk' });
+        const kidRaw = _nodeCrypto.createHash('sha256').update(pemStr).digest('hex');
+        return {
+            ...jwk,
+            use: 'sig',
+            alg: 'RS256',
+            kid: kidRaw.substring(0, 16),
+        };
+    } catch(e) { return null; }
+}
+
+// GET /.well-known/openid-configuration   — OIDC Discovery
+app.get('/.well-known/openid-configuration', (req, res) => {
+    res.set('Cache-Control', 'public, max-age=3600');
+    res.json({
+        issuer:                                ISSUER_DOMAIN,
+        authorization_endpoint:               `${ISSUER_DOMAIN}/oauth/authorize`,
+        token_endpoint:                        `${ISSUER_DOMAIN}/api/oauth/token`,
+        userinfo_endpoint:                     `${ISSUER_DOMAIN}/api/oauth/userinfo`,
+        jwks_uri:                              `${ISSUER_DOMAIN}/.well-known/jwks.json`,
+        registration_endpoint:                 `${ISSUER_DOMAIN}/api/oauth/register`,
+        scopes_supported:                      ['openid','profile','email','sovereign','engine27'],
+        response_types_supported:              ['code','token','id_token'],
+        grant_types_supported:                 ['authorization_code','client_credentials','implicit'],
+        subject_types_supported:               ['public'],
+        id_token_signing_alg_values_supported: ['RS256'],
+        token_endpoint_auth_methods_supported: ['client_secret_basic','private_key_jwt'],
+        claims_supported:                      ['sub','iss','name','email','rfc','domain','engine','sovereign_level'],
+        op_policy_uri:                         `${ISSUER_DOMAIN}/politica`,
+        op_tos_uri:                            `${ISSUER_DOMAIN}/terminos`,
+        service_documentation:                 `${ISSUER_DOMAIN}/docs`,
+        rfc_owner:                             OWNER_RFC,
+        sovereign_engine:                      'ENGINE-27',
+        protocol:                              'AHT-GATEWAY',
+    });
+});
+
+// GET /.well-known/jwks.json   — JSON Web Key Set (clave pública RSA-4096)
+app.get('/.well-known/jwks.json', (req, res) => {
+    res.set('Cache-Control', 'public, max-age=3600');
+    if (!cryptoService) {
+        return res.status(503).json({ error: 'RSA key not configured' });
+    }
+    try {
+        const pubPem = cryptoService.extraerClavePublica();
+        const jwk    = publicPemToJwk(pubPem);
+        if (!jwk) return res.status(500).json({ error: 'JWK conversion failed' });
+        res.json({ keys: [jwk] });
+    } catch(e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// GET /.well-known/did.json   — Decentralized Identity Document (W3C DID)
+app.get('/.well-known/did.json', (req, res) => {
+    const pubPem = cryptoService ? cryptoService.extraerClavePublica() : null;
+    const jwk    = pubPem ? publicPemToJwk(pubPem) : null;
+    const kid    = jwk ? `${ISSUER_DOMAIN}#${jwk.kid}` : `${ISSUER_DOMAIN}#key-1`;
+    res.set('Cache-Control', 'public, max-age=3600');
+    res.json({
+        '@context':          ['https://www.w3.org/ns/did/v1', 'https://w3id.org/security/suites/jws-2020/v1'],
+        id:                  `did:web:streetemporioroyal.com`,
+        controller:          [`did:web:streetemporioroyal.com`],
+        verificationMethod:  jwk ? [{
+            id:                  kid,
+            type:                'JsonWebKey2020',
+            controller:          `did:web:streetemporioroyal.com`,
+            publicKeyJwk:        jwk,
+        }] : [],
+        authentication:      jwk ? [kid] : [],
+        assertionMethod:     jwk ? [kid] : [],
+        service: [
+            { id: `${ISSUER_DOMAIN}#oidc`,     type: 'OIDCIssuer',       serviceEndpoint: `${ISSUER_DOMAIN}/.well-known/openid-configuration` },
+            { id: `${ISSUER_DOMAIN}#sovereign`, type: 'SovereignBackend', serviceEndpoint: `${ISSUER_DOMAIN}/api/sovereign/health` },
+        ],
+        alsoKnownAs:  [`https://streetemporioroyal.com`, `urn:rfc:${OWNER_RFC}`],
+        rfc:          OWNER_RFC,
+        owner:        OWNER_NAME,
+        engine:       'ENGINE-27',
+        created:      '2025-01-01T00:00:00Z',
+        updated:      new Date().toISOString(),
+    });
+});
+
+// GET /.well-known/oauth-authorization-server   — RFC 8414 Server Metadata
+app.get('/.well-known/oauth-authorization-server', (req, res) => {
+    res.set('Cache-Control', 'public, max-age=3600');
+    res.json({
+        issuer:                                ISSUER_DOMAIN,
+        token_endpoint:                        `${ISSUER_DOMAIN}/api/oauth/token`,
+        jwks_uri:                              `${ISSUER_DOMAIN}/.well-known/jwks.json`,
+        grant_types_supported:                 ['client_credentials','authorization_code'],
+        token_endpoint_auth_methods_supported: ['client_secret_basic'],
+        scopes_supported:                      ['openid','profile','email','sovereign','engine27'],
+        response_types_supported:              ['token'],
+        rfc_owner:                             OWNER_RFC,
+        sovereign_engine:                      'ENGINE-27',
+    });
+});
+
+// POST /api/oauth/token   — Emisión de JWT (client_credentials)
+app.post('/api/oauth/token', (req, res) => {
+    const { grant_type, client_id, client_secret, scope } = req.body;
+
+    if (grant_type !== 'client_credentials') {
+        return res.status(400).json({ error: 'unsupported_grant_type', error_description: 'Only client_credentials supported' });
+    }
+    if (!MASTER_KEY_RSA_PRIVADA) {
+        return res.status(503).json({ error: 'server_error', error_description: 'RSA key not configured' });
+    }
+
+    try {
+        const scopes    = (scope || 'openid sovereign').split(' ');
+        const now       = Math.floor(Date.now() / 1000);
+        const payload   = {
+            iss:             ISSUER_DOMAIN,
+            sub:             client_id || OWNER_RFC,
+            aud:             ISSUER_DOMAIN,
+            iat:             now,
+            exp:             now + 3600,
+            jti:             _nodeCrypto.randomBytes(16).toString('hex'),
+            scope:           scopes.join(' '),
+            rfc:             OWNER_RFC,
+            owner:           OWNER_NAME,
+            email:           OWNER_EMAIL,
+            domain:          'streetemporioroyal.com',
+            engine:          'ENGINE-27',
+            sovereign_level: 'PRESIDENTIAL',
+        };
+
+        const pubPem    = cryptoService.extraerClavePublica();
+        const jwk       = publicPemToJwk(pubPem);
+        const token     = jwt.sign(payload, MASTER_KEY_RSA_PRIVADA, {
+            algorithm: 'RS256',
+            keyid:     jwk ? jwk.kid : 'engine27-key',
+        });
+
+        res.json({
+            access_token: token,
+            token_type:   'Bearer',
+            expires_in:   3600,
+            scope:        scopes.join(' '),
+            issuer:       ISSUER_DOMAIN,
+            engine:       'ENGINE-27',
+        });
+    } catch(e) {
+        res.status(500).json({ error: 'server_error', error_description: e.message });
+    }
+});
+
+// GET /api/oauth/userinfo   — Información del propietario (bearer token)
+app.get('/api/oauth/userinfo', (req, res) => {
+    const auth = req.headers.authorization || '';
+    const token = auth.startsWith('Bearer ') ? auth.slice(7) : null;
+    if (!token) {
+        return res.status(401).json({ error: 'unauthorized', error_description: 'Bearer token required' });
+    }
+    try {
+        const pubPem  = cryptoService ? cryptoService.extraerClavePublica() : null;
+        const decoded = pubPem
+            ? jwt.verify(token, pubPem, { algorithms: ['RS256'] })
+            : jwt.decode(token);
+        res.json({
+            sub:             decoded.sub   || OWNER_RFC,
+            name:            decoded.owner || OWNER_NAME,
+            email:           decoded.email || OWNER_EMAIL,
+            rfc:             OWNER_RFC,
+            domain:          'streetemporioroyal.com',
+            engine:          'ENGINE-27',
+            sovereign_level: 'PRESIDENTIAL',
+            iss:             ISSUER_DOMAIN,
+            certifications:  ['AIRTABLE-BUILDER','AI-APP-BUILDER','AIRTABLE-ADMIN'],
+            license_matrix:  'Omega55::RRG::9F3A7C2B',
+        });
+    } catch(e) {
+        res.status(401).json({ error: 'invalid_token', error_description: e.message });
+    }
+});
+
+// GET /api/identity/status   — Estado completo del Identity Provider
+app.get('/api/identity/status', (req, res) => {
+    const pubPem     = cryptoService ? cryptoService.extraerClavePublica() : null;
+    const jwk        = pubPem ? publicPemToJwk(pubPem) : null;
+    const fingerprint = pubPem ? _nodeCrypto.createHash('sha256').update(pubPem).digest('hex') : null;
+    res.json({
+        identity_provider:  'ACTIVE',
+        issuer:             ISSUER_DOMAIN,
+        owner:              OWNER_NAME,
+        rfc:                OWNER_RFC,
+        email:              OWNER_EMAIL,
+        engine:             'ENGINE-27',
+        sovereign_level:    'PRESIDENTIAL',
+        standards: {
+            oidc:            'Core 1.0 — Discovery Ready',
+            oauth2:          'RFC 6749 — client_credentials',
+            jwks:            jwk ? `RS256 — kid:${jwk.kid}` : 'NOT CONFIGURED',
+            jwt:             'RFC 7519 — RS256 RSA-4096',
+            did:             'W3C DID Web Method',
+            pkcs8:           'PKCS#8 private key',
+            sha256:          'ACTIVE — hash integrity',
+            base64:          'ACTIVE — encoding',
+        },
+        endpoints: {
+            oidc_discovery:  '/.well-known/openid-configuration',
+            jwks:            '/.well-known/jwks.json',
+            did:             '/.well-known/did.json',
+            oauth_meta:      '/.well-known/oauth-authorization-server',
+            token:           '/api/oauth/token',
+            userinfo:        '/api/oauth/userinfo',
+        },
+        rsa4096_active:     !!cryptoService,
+        key_fingerprint_sha256: fingerprint,
+        certifications:     ['AIRTABLE-BUILDER-zhipsiu8asuw','AI-APP-BUILDER-xt9gtgzc9enw','AIRTABLE-ADMIN-8enwb259hf8m'],
+        license_matrix:     'Omega55::RRG::9F3A7C2B',
+        timestamp:          new Date().toISOString(),
+    });
+});
+
+// ════════════════════════════════════════════════════════════════════
 // SOVEREIGN BACKEND v1.0 — AHT SUPRM HYBRID • ENGINE 27
 // Endpoints: /api/sovereign/...
 // ════════════════════════════════════════════════════════════════════

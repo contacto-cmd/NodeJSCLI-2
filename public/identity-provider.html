@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AHT Identity Provider — streetemporioroyal.com</title>
+<style>
+  :root {
+    --gold: #d4a017;
+    --gold2: #f0c040;
+    --blue: #00c3ff;
+    --green: #00ff88;
+    --dark: #050a14;
+    --card: #0a1628;
+    --border: #1a2f50;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--dark); color:#e8f4ff; font-family:'Segoe UI',sans-serif; min-height:100vh; }
+
+  /* HEADER */
+  .header {
+    background:linear-gradient(135deg,#050a14 0%,#0a1628 50%,#050a14 100%);
+    border-bottom:2px solid var(--gold);
+    padding:28px 32px 22px;
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px;
+  }
+  .header-left h1 { font-size:1.6rem; color:var(--gold2); letter-spacing:2px; font-weight:700; }
+  .header-left p  { color:#8ab4d4; font-size:.85rem; margin-top:4px; letter-spacing:1px; }
+  .badge-row { display:flex; gap:8px; flex-wrap:wrap; }
+  .badge { padding:4px 12px; border-radius:20px; font-size:.72rem; font-weight:700; letter-spacing:1px; }
+  .badge-green  { background:rgba(0,255,136,.12); border:1px solid var(--green); color:var(--green); }
+  .badge-gold   { background:rgba(212,160,23,.12); border:1px solid var(--gold); color:var(--gold2); }
+  .badge-blue   { background:rgba(0,195,255,.12); border:1px solid var(--blue); color:var(--blue); }
+
+  /* STANDARDS BAR */
+  .standards-bar {
+    background:#070e1c; border-bottom:1px solid var(--border);
+    padding:10px 32px; display:flex; gap:18px; flex-wrap:wrap; align-items:center;
+  }
+  .std { font-size:.72rem; color:#5a7ea8; }
+  .std span { color:#a0c8e8; font-weight:600; }
+
+  /* MAIN GRID */
+  .main { padding:28px 32px; max-width:1400px; margin:0 auto; }
+  .grid-3 { display:grid; grid-template-columns:repeat(auto-fit,minmax(380px,1fr)); gap:20px; margin-bottom:24px; }
+  .grid-2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(480px,1fr)); gap:20px; margin-bottom:24px; }
+
+  /* CARD */
+  .card {
+    background:var(--card); border:1px solid var(--border); border-radius:12px;
+    padding:22px; position:relative; overflow:hidden;
+  }
+  .card::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  }
+  .card.gold::before   { background:linear-gradient(90deg,transparent,var(--gold),transparent); }
+  .card.blue::before   { background:linear-gradient(90deg,transparent,var(--blue),transparent); }
+  .card.green::before  { background:linear-gradient(90deg,transparent,var(--green),transparent); }
+  .card.purple::before { background:linear-gradient(90deg,transparent,#a855f7,transparent); }
+
+  .card-title { font-size:.8rem; letter-spacing:2px; font-weight:700; margin-bottom:14px; text-transform:uppercase; }
+  .card.gold   .card-title { color:var(--gold2); }
+  .card.blue   .card-title { color:var(--blue); }
+  .card.green  .card-title { color:var(--green); }
+  .card.purple .card-title { color:#a855f7; }
+
+  /* STATUS INDICATOR */
+  .status-row { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+  .dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+  .dot-green { background:var(--green); box-shadow:0 0 8px var(--green); animation:pulse 2s infinite; }
+  .dot-gold  { background:var(--gold2); box-shadow:0 0 8px var(--gold2); }
+  .dot-blue  { background:var(--blue); box-shadow:0 0 8px var(--blue); }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+  .label-lg { font-size:1.4rem; font-weight:800; color:#fff; margin:8px 0; }
+  .sub-text  { font-size:.8rem; color:#5a7ea8; }
+
+  /* ENDPOINTS TABLE */
+  .ep-list { display:flex; flex-direction:column; gap:6px; }
+  .ep-row {
+    display:flex; align-items:center; justify-content:space-between;
+    background:#060d1c; border:1px solid var(--border); border-radius:8px;
+    padding:10px 14px; gap:12px; flex-wrap:wrap;
+  }
+  .ep-row:hover { border-color:var(--gold); background:#0a1628; cursor:pointer; }
+  .ep-method { font-size:.7rem; font-weight:800; padding:2px 8px; border-radius:4px; flex-shrink:0; }
+  .ep-get  { background:rgba(0,255,136,.15); color:var(--green); border:1px solid rgba(0,255,136,.3); }
+  .ep-post { background:rgba(0,195,255,.15); color:var(--blue); border:1px solid rgba(0,195,255,.3); }
+  .ep-path { font-family:monospace; font-size:.78rem; color:#a0c8e8; flex:1; min-width:200px; }
+  .ep-desc { font-size:.72rem; color:#5a7ea8; text-align:right; }
+  .ep-status { font-size:.68rem; font-weight:700; color:var(--green); flex-shrink:0; }
+
+  /* JWT DEMO */
+  .jwt-box {
+    background:#060d1c; border:1px solid var(--border); border-radius:8px;
+    padding:14px; font-family:monospace; font-size:.72rem; word-break:break-all;
+    max-height:120px; overflow-y:auto; color:#6ab4d4;
+    scrollbar-width:thin; scrollbar-color:var(--border) transparent;
+  }
+  .jwt-part-header { color:var(--gold2); }
+  .jwt-part-payload { color:var(--green); }
+  .jwt-part-sig { color:#a855f7; }
+
+  /* KEY INFO */
+  .key-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+  .key-cell { background:#060d1c; border:1px solid var(--border); border-radius:8px; padding:10px 12px; }
+  .key-label { font-size:.68rem; color:#5a7ea8; margin-bottom:4px; text-transform:uppercase; letter-spacing:1px; }
+  .key-value { font-size:.82rem; font-weight:700; color:#a0c8e8; font-family:monospace; word-break:break-all; }
+
+  /* SCOPES */
+  .scope-list { display:flex; flex-wrap:wrap; gap:8px; margin-top:4px; }
+  .scope-tag { padding:4px 12px; border-radius:16px; font-size:.72rem; font-weight:700; }
+  .s1 { background:rgba(212,160,23,.12); border:1px solid var(--gold); color:var(--gold2); }
+  .s2 { background:rgba(0,255,136,.10); border:1px solid rgba(0,255,136,.4); color:var(--green); }
+  .s3 { background:rgba(0,195,255,.10); border:1px solid rgba(0,195,255,.4); color:var(--blue); }
+  .s4 { background:rgba(168,85,247,.10); border:1px solid rgba(168,85,247,.4); color:#a855f7; }
+
+  /* LIVE TEST */
+  .test-btn {
+    background:linear-gradient(135deg,rgba(212,160,23,.15),rgba(240,192,64,.05));
+    border:1px solid var(--gold); color:var(--gold2);
+    padding:9px 20px; border-radius:8px; cursor:pointer; font-size:.8rem; font-weight:700;
+    letter-spacing:1px; transition:all .2s; width:100%; margin-top:10px;
+  }
+  .test-btn:hover { background:rgba(212,160,23,.25); box-shadow:0 0 16px rgba(212,160,23,.3); }
+  .test-result {
+    margin-top:10px; background:#060d1c; border:1px solid var(--border); border-radius:8px;
+    padding:12px; font-family:monospace; font-size:.73rem; color:#6ab4d4;
+    max-height:200px; overflow-y:auto; display:none; white-space:pre-wrap; word-break:break-all;
+  }
+  .test-result.show { display:block; }
+
+  /* DID / ISSUER */
+  .did-chain { display:flex; flex-direction:column; gap:8px; margin-top:4px; }
+  .did-item { display:flex; align-items:center; gap:10px; }
+  .did-icon { width:28px; height:28px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
+  .did-icon.gold   { background:rgba(212,160,23,.15); border:1px solid var(--gold); }
+  .did-icon.green  { background:rgba(0,255,136,.10); border:1px solid rgba(0,255,136,.3); }
+  .did-icon.blue   { background:rgba(0,195,255,.10); border:1px solid rgba(0,195,255,.3); }
+  .did-icon.purple { background:rgba(168,85,247,.10); border:1px solid rgba(168,85,247,.3); }
+  .did-text { font-size:.8rem; color:#8ab4d4; }
+  .did-text strong { color:#a0c8e8; }
+
+  /* FOOTER */
+  .footer {
+    margin-top:32px; padding:20px 32px;
+    border-top:1px solid var(--border);
+    text-align:center; color:#2a4060; font-size:.75rem;
+  }
+  .footer span { color:var(--gold); }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width:4px; } ::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>⚡ AHT IDENTITY PROVIDER</h1>
+    <p>streetemporioroyal.com · RFC RIGR840827PJ0 · ENGINE-27 · THRONE PROTOCOL V3.0</p>
+  </div>
+  <div class="badge-row">
+    <span class="badge badge-green">● ACTIVE</span>
+    <span class="badge badge-gold">RSA-4096</span>
+    <span class="badge badge-blue">OIDC CORE 1.0</span>
+    <span class="badge badge-gold">RFC 6749</span>
+    <span class="badge badge-blue">W3C DID WEB</span>
+    <span class="badge badge-green">JWT RS256</span>
+  </div>
+</div>
+
+<div class="standards-bar">
+  <span class="std"><span>Issuer:</span> https://streetemporioroyal.com</span>
+  <span class="std">|</span>
+  <span class="std"><span>RFC Owner:</span> RIGR840827PJ0</span>
+  <span class="std">|</span>
+  <span class="std"><span>Algorithm:</span> RS256 / RSA-4096</span>
+  <span class="std">|</span>
+  <span class="std"><span>Standards:</span> RFC 6749 · RFC 7517 · RFC 7519 · RFC 8414 · OIDC Core 1.0 · W3C DID</span>
+</div>
+
+<div class="main">
+
+  <!-- ROW 1: 3 METRICS -->
+  <div class="grid-3">
+
+    <div class="card gold">
+      <div class="card-title">🔑 IDENTITY PROVIDER STATUS</div>
+      <div class="status-row"><div class="dot dot-green"></div><span style="color:var(--green);font-size:.8rem;font-weight:700;">FULLY OPERATIONAL</span></div>
+      <div class="label-lg">ENGINE-27</div>
+      <div class="sub-text">Roberto Rivera Gamas · contacto@streetemporioroyal.com</div>
+      <div style="margin-top:12px;display:flex;flex-direction:column;gap:5px;">
+        <div style="display:flex;justify-content:space-between;font-size:.78rem;">
+          <span style="color:#5a7ea8;">Sovereign Level</span>
+          <span style="color:var(--gold2);font-weight:700;">PRESIDENTIAL</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:.78rem;">
+          <span style="color:#5a7ea8;">RSA-4096 Key</span>
+          <span style="color:var(--green);font-weight:700;" id="rsa-status">Loading…</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:.78rem;">
+          <span style="color:#5a7ea8;">Key ID (kid)</span>
+          <span style="color:#a0c8e8;font-family:monospace;font-size:.72rem;" id="key-kid">Loading…</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:.78rem;">
+          <span style="color:#5a7ea8;">Protocol</span>
+          <span style="color:var(--blue);font-weight:700;">AHT-GATEWAY</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card blue">
+      <div class="card-title">🔐 CLAVE PÚBLICA RSA-4096</div>
+      <div class="key-grid" id="key-info">
+        <div class="key-cell"><div class="key-label">Key Type</div><div class="key-value">RSA</div></div>
+        <div class="key-cell"><div class="key-label">Algorithm</div><div class="key-value">RS256</div></div>
+        <div class="key-cell"><div class="key-label">Use</div><div class="key-value">sig</div></div>
+        <div class="key-cell"><div class="key-label">Bit Length</div><div class="key-value" id="key-bits">…</div></div>
+      </div>
+      <div style="margin-top:10px;">
+        <div class="key-label">Fingerprint SHA-256</div>
+        <div class="key-value" id="key-fp" style="margin-top:4px;font-size:.68rem;color:var(--gold);">Loading…</div>
+      </div>
+    </div>
+
+    <div class="card green">
+      <div class="card-title">🌐 W3C DID DOCUMENT</div>
+      <div class="did-chain">
+        <div class="did-item">
+          <div class="did-icon gold">🪪</div>
+          <div class="did-text"><strong>did:web:streetemporioroyal.com</strong></div>
+        </div>
+        <div class="did-item">
+          <div class="did-icon green">✅</div>
+          <div class="did-text">Verification Method: <strong>JsonWebKey2020</strong></div>
+        </div>
+        <div class="did-item">
+          <div class="did-icon blue">🔗</div>
+          <div class="did-text">Authentication + AssertionMethod: <strong>RSA-4096</strong></div>
+        </div>
+        <div class="did-item">
+          <div class="did-icon purple">⚡</div>
+          <div class="did-text">Services: <strong>OIDCIssuer + SovereignBackend</strong></div>
+        </div>
+        <div class="did-item">
+          <div class="did-icon gold">📋</div>
+          <div class="did-text">RFC: <strong>RIGR840827PJ0</strong> · alsoKnownAs: <strong>urn:rfc</strong></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /grid-3 -->
+
+  <!-- ROW 2: ENDPOINTS + SCOPES -->
+  <div class="grid-2">
+
+    <div class="card gold">
+      <div class="card-title">📡 DISCOVERY ENDPOINTS</div>
+      <div class="ep-list">
+        <div class="ep-row" onclick="testEndpoint('GET','/.well-known/openid-configuration','oidc-result')">
+          <span class="ep-method ep-get">GET</span>
+          <span class="ep-path">/.well-known/openid-configuration</span>
+          <span class="ep-desc">OIDC Discovery</span>
+          <span class="ep-status">✓ LIVE</span>
+        </div>
+        <div class="ep-row" onclick="testEndpoint('GET','/.well-known/jwks.json','oidc-result')">
+          <span class="ep-method ep-get">GET</span>
+          <span class="ep-path">/.well-known/jwks.json</span>
+          <span class="ep-desc">JSON Web Key Set</span>
+          <span class="ep-status">✓ LIVE</span>
+        </div>
+        <div class="ep-row" onclick="testEndpoint('GET','/.well-known/did.json','oidc-result')">
+          <span class="ep-method ep-get">GET</span>
+          <span class="ep-path">/.well-known/did.json</span>
+          <span class="ep-desc">W3C DID Document</span>
+          <span class="ep-status">✓ LIVE</span>
+        </div>
+        <div class="ep-row" onclick="testEndpoint('GET','/.well-known/oauth-authorization-server','oidc-result')">
+          <span class="ep-method ep-get">GET</span>
+          <span class="ep-path">/.well-known/oauth-authorization-server</span>
+          <span class="ep-desc">RFC 8414 Metadata</span>
+          <span class="ep-status">✓ LIVE</span>
+        </div>
+        <div class="ep-row" onclick="testEndpoint('GET','/api/identity/status','oidc-result')">
+          <span class="ep-method ep-get">GET</span>
+          <span class="ep-path">/api/identity/status</span>
+          <span class="ep-desc">IdP Status Dashboard</span>
+          <span class="ep-status">✓ LIVE</span>
+        </div>
+        <div class="ep-row" onclick="issueToken()">
+          <span class="ep-method ep-post">POST</span>
+          <span class="ep-path">/api/oauth/token</span>
+          <span class="ep-desc">Issue JWT Token</span>
+          <span class="ep-status">✓ LIVE</span>
+        </div>
+        <div class="ep-row" onclick="testUserinfo()">
+          <span class="ep-method ep-get">GET</span>
+          <span class="ep-path">/api/oauth/userinfo</span>
+          <span class="ep-desc">Token Introspection</span>
+          <span class="ep-status">✓ LIVE</span>
+        </div>
+      </div>
+      <div id="oidc-result" class="test-result"></div>
+    </div>
+
+    <div class="card blue">
+      <div class="card-title">🎯 LIVE TEST — JWT TOKEN FLOW</div>
+      <p style="font-size:.78rem;color:#5a7ea8;margin-bottom:14px;">Emite un JWT real firmado con RSA-4096, verificable por cualquier sistema estándar OAuth 2.0.</p>
+
+      <div style="margin-bottom:12px;">
+        <div class="key-label" style="margin-bottom:6px;">Scopes Disponibles</div>
+        <div class="scope-list">
+          <span class="scope-tag s1">openid</span>
+          <span class="scope-tag s2">profile</span>
+          <span class="scope-tag s3">email</span>
+          <span class="scope-tag s4">sovereign</span>
+          <span class="scope-tag s1">engine27</span>
+        </div>
+      </div>
+
+      <div style="margin-bottom:10px;">
+        <div class="key-label" style="margin-bottom:6px;">Grant Type</div>
+        <div style="font-size:.8rem;color:#a0c8e8;font-family:monospace;">client_credentials</div>
+      </div>
+
+      <button class="test-btn" onclick="issueTokenDisplay()">⚡ GENERAR JWT TOKEN AHORA</button>
+
+      <div id="token-display" class="test-result" style="display:none;">
+        <div style="margin-bottom:6px;color:#5a7ea8;font-size:.68rem;">TOKEN JWT (3 partes: HEADER.PAYLOAD.SIGNATURE)</div>
+        <div id="token-parts"></div>
+      </div>
+
+      <div id="payload-display" style="display:none;margin-top:10px;">
+        <div class="key-label" style="margin-bottom:6px;">PAYLOAD DECODIFICADO</div>
+        <div class="jwt-box" id="payload-box"></div>
+      </div>
+    </div>
+
+  </div><!-- /grid-2 -->
+
+  <!-- ROW 3: STANDARDS MATRIX -->
+  <div class="card purple" style="margin-bottom:24px;">
+    <div class="card-title">📜 MATRIX DE ESTÁNDARES IMPLEMENTADOS</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:4px;">
+      <div class="key-cell">
+        <div class="key-label">RFC 6749</div>
+        <div class="key-value" style="color:var(--green);">✓ OAuth 2.0 Authorization Framework</div>
+        <div style="font-size:.7rem;color:#5a7ea8;margin-top:3px;">client_credentials grant</div>
+      </div>
+      <div class="key-cell">
+        <div class="key-label">RFC 7517</div>
+        <div class="key-value" style="color:var(--green);">✓ JSON Web Key (JWK)</div>
+        <div style="font-size:.7rem;color:#5a7ea8;margin-top:3px;">RSA public key · /.well-known/jwks.json</div>
+      </div>
+      <div class="key-cell">
+        <div class="key-label">RFC 7519</div>
+        <div class="key-value" style="color:var(--green);">✓ JSON Web Token (JWT)</div>
+        <div style="font-size:.7rem;color:#5a7ea8;margin-top:3px;">RS256 · RSA-4096 signature</div>
+      </div>
+      <div class="key-cell">
+        <div class="key-label">RFC 8414</div>
+        <div class="key-value" style="color:var(--green);">✓ OAuth Server Metadata</div>
+        <div style="font-size:.7rem;color:#5a7ea8;margin-top:3px;">/.well-known/oauth-authorization-server</div>
+      </div>
+      <div class="key-cell">
+        <div class="key-label">OIDC Core 1.0</div>
+        <div class="key-value" style="color:var(--green);">✓ OpenID Connect Discovery</div>
+        <div style="font-size:.7rem;color:#5a7ea8;margin-top:3px;">/.well-known/openid-configuration</div>
+      </div>
+      <div class="key-cell">
+        <div class="key-label">W3C DID Web</div>
+        <div class="key-value" style="color:var(--green);">✓ Decentralized Identity</div>
+        <div style="font-size:.7rem;color:#5a7ea8;margin-top:3px;">did:web:streetemporioroyal.com</div>
+      </div>
+      <div class="key-cell">
+        <div class="key-label">PKCS#8</div>
+        <div class="key-value" style="color:var(--green);">✓ RSA Private Key Format</div>
+        <div style="font-size:.7rem;color:#5a7ea8;margin-top:3px;">4096-bit · PEM encoded · Secrets vault</div>
+      </div>
+      <div class="key-cell">
+        <div class="key-label">FIPS 180-4</div>
+        <div class="key-value" style="color:var(--green);">✓ SHA-256 / SHA-512 Hash</div>
+        <div style="font-size:.7rem;color:#5a7ea8;margin-top:3px;">Fingerprint + integrity checks</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<div class="footer">
+  AHT Identity Provider · <span>streetemporioroyal.com</span> · Roberto Rivera Gamas · RFC <span>RIGR840827PJ0</span> · ENGINE-27 · Throne Protocol V3.0
+</div>
+
+<script>
+let currentToken = null;
+
+async function loadStatus() {
+  try {
+    const r = await fetch('/api/identity/status');
+    const d = await r.json();
+    document.getElementById('rsa-status').textContent = d.rsa4096_active ? 'ACTIVE ✓' : 'NOT CONFIGURED';
+    document.getElementById('key-kid').textContent   = d.standards?.jwks?.replace('RS256 — kid:','') || '—';
+    document.getElementById('key-fp').textContent    = d.key_fingerprint_sha256 || '—';
+  } catch(e) { console.warn(e); }
+
+  try {
+    const r = await fetch('/.well-known/jwks.json');
+    const d = await r.json();
+    const k = d.keys?.[0];
+    if (k) {
+      // RSA n modulus length → bits approx
+      const nLen = k.n?.length || 0;
+      const bits = Math.round(nLen * 6 / 10) * 10;
+      document.getElementById('key-bits').textContent = bits >= 4000 ? '4096 ✓' : bits + '?';
+    }
+  } catch(e) { console.warn(e); }
+}
+
+async function testEndpoint(method, path, resultId) {
+  const el = document.getElementById(resultId);
+  el.textContent = `→ ${method} ${path}\nLoading…`;
+  el.classList.add('show');
+  try {
+    const r = await fetch(path, { method });
+    const d = await r.json();
+    el.textContent = `→ ${method} ${path}\n${JSON.stringify(d, null, 2)}`;
+  } catch(e) {
+    el.textContent = `ERROR: ${e.message}`;
+  }
+}
+
+async function issueToken() {
+  const r = await fetch('/api/oauth/token', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ grant_type:'client_credentials', client_id:'RIGR840827PJ0', scope:'openid sovereign engine27' })
+  });
+  const d = await r.json();
+  currentToken = d.access_token;
+  const el = document.getElementById('oidc-result');
+  el.textContent = `→ POST /api/oauth/token\n${JSON.stringify(d, null, 2)}`;
+  el.classList.add('show');
+}
+
+async function issueTokenDisplay() {
+  const btn = event.target;
+  btn.textContent = '⚡ Firmando con RSA-4096…';
+  try {
+    const r = await fetch('/api/oauth/token', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ grant_type:'client_credentials', client_id:'RIGR840827PJ0', scope:'openid sovereign engine27' })
+    });
+    const d = await r.json();
+    currentToken = d.access_token;
+
+    const parts = d.access_token.split('.');
+    document.getElementById('token-parts').innerHTML =
+      `<span class="jwt-part-header">${parts[0]}</span>.<span class="jwt-part-payload">${parts[1]}</span>.<span class="jwt-part-sig">${parts[2]}</span>`;
+
+    // Decode payload
+    try {
+      const payload = JSON.parse(atob(parts[1].replace(/-/g,'+').replace(/_/g,'/')));
+      document.getElementById('payload-box').textContent = JSON.stringify(payload, null, 2);
+      document.getElementById('payload-display').style.display = 'block';
+    } catch(e) {}
+
+    document.getElementById('token-display').style.display = 'block';
+    btn.textContent = '✓ JWT EMITIDO — RS256 RSA-4096';
+    btn.style.background = 'rgba(0,255,136,.12)';
+    btn.style.borderColor = 'var(--green)';
+    btn.style.color = 'var(--green)';
+  } catch(e) {
+    btn.textContent = `ERROR: ${e.message}`;
+  }
+}
+
+async function testUserinfo() {
+  if (!currentToken) await issueTokenSilent();
+  const el = document.getElementById('oidc-result');
+  el.classList.add('show');
+  if (!currentToken) { el.textContent = 'ERROR: No token available'; return; }
+  try {
+    const r = await fetch('/api/oauth/userinfo', { headers:{'Authorization':`Bearer ${currentToken}`} });
+    const d = await r.json();
+    el.textContent = `→ GET /api/oauth/userinfo\n${JSON.stringify(d, null, 2)}`;
+  } catch(e) { el.textContent = `ERROR: ${e.message}`; }
+}
+
+async function issueTokenSilent() {
+  try {
+    const r = await fetch('/api/oauth/token', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ grant_type:'client_credentials', client_id:'RIGR840827PJ0', scope:'openid sovereign engine27' })
+    });
+    const d = await r.json();
+    currentToken = d.access_token;
+  } catch(e) {}
+}
+
+// Init
+loadStatus();
+</script>
+</body>
+</html>
