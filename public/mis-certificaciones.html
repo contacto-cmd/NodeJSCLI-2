@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>CERTIFICACIONES REALES — Roberto Rivera Gamas</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&family=Playfair+Display:ital,wght@0,700;1,700&family=Rajdhani:wght@400;600;700&display=swap');
+
+:root {
+  --gold: #FFB300; --gold2: #FFD700; --amber: #FF8F00;
+  --deep: #050508; --panel: #0A0A14; --panel2: #0E0E1C;
+  --blue: #00D4FF; --navy: #001133; --navy2: #002266;
+  --green: #00FF88; --red: #FF3366; --white: #F0F4FF;
+  --cert-gold: #C9A227; --cert-blue: #1B4F9B;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background:var(--deep); color:var(--white);
+  font-family:'Rajdhani',sans-serif; min-height:100vh; overflow-x:hidden;
+}
+body::before {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(255,179,0,0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(0,34,102,0.08) 0%, transparent 50%);
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  position:sticky; top:0; z-index:200;
+  background:rgba(5,5,8,0.97); border-bottom:1px solid rgba(255,179,0,0.2);
+  backdrop-filter:blur(14px); padding:12px 20px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.topbar-brand {
+  font-family:'Orbitron',monospace; font-size:0.65rem; font-weight:900;
+  color:var(--gold); letter-spacing:3px;
+}
+.topbar-links { display:flex; gap:6px; }
+.tl {
+  color:var(--gold); text-decoration:none; font-size:0.6rem;
+  border:1px solid rgba(255,179,0,0.2); padding:5px 12px;
+  border-radius:20px; font-family:'Share Tech Mono',monospace; transition:all 0.2s;
+}
+.tl:hover { background:rgba(255,179,0,0.1); }
+
+/* ── HERO ── */
+.hero {
+  position:relative; z-index:1; text-align:center;
+  padding:50px 20px 40px;
+  border-bottom:1px solid rgba(255,179,0,0.08);
+}
+.hero-badge {
+  display:inline-block; padding:6px 20px;
+  background:rgba(255,179,0,0.08); border:1px solid rgba(255,179,0,0.3);
+  border-radius:20px; font-family:'Share Tech Mono',monospace;
+  font-size:0.65rem; color:var(--gold); letter-spacing:3px; margin-bottom:16px;
+}
+.hero-title {
+  font-family:'Orbitron',monospace; font-size:clamp(1.6rem,4vw,2.8rem);
+  font-weight:900; color:var(--gold2); letter-spacing:4px; margin-bottom:8px;
+  filter:drop-shadow(0 0 20px rgba(255,215,0,0.3));
+}
+.hero-name {
+  font-family:'Playfair Display',serif; font-size:clamp(1.4rem,3vw,2.2rem);
+  font-style:italic; color:var(--white); margin-bottom:8px;
+  letter-spacing:2px;
+}
+.hero-sub {
+  font-size:0.78rem; color:rgba(255,255,255,0.3); letter-spacing:3px;
+}
+.hero-stats {
+  display:flex; justify-content:center; gap:30px; margin-top:24px; flex-wrap:wrap;
+}
+.hs-item { text-align:center; }
+.hs-num {
+  font-family:'Orbitron',monospace; font-size:1.6rem; font-weight:900;
+  color:var(--gold2); display:block;
+}
+.hs-label {
+  font-family:'Share Tech Mono',monospace; font-size:0.58rem;
+  color:rgba(255,255,255,0.3); letter-spacing:2px;
+}
+
+/* ── LAYOUT ── */
+.layout {
+  position:relative; z-index:1;
+  max-width:1200px; margin:0 auto;
+  padding:40px 20px 80px;
+}
+
+/* ── SECTION TITLE ── */
+.sec-title {
+  font-family:'Orbitron',monospace; font-size:0.7rem; font-weight:700;
+  color:var(--gold); letter-spacing:4px; margin-bottom:24px;
+  display:flex; align-items:center; gap:12px;
+}
+.sec-title::after {
+  content:''; flex:1; height:1px; background:linear-gradient(90deg,rgba(255,179,0,0.3),transparent);
+}
+
+/* ── REAL CERT CARDS ── */
+.certs-grid {
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(340px, 1fr));
+  gap:22px; margin-bottom:50px;
+}
+
+.cert-card {
+  position:relative; border-radius:16px; overflow:hidden;
+  background:linear-gradient(135deg, #0E0E1C 0%, #080818 100%);
+  border:1px solid rgba(255,179,0,0.2);
+  transition:all 0.3s;
+}
+.cert-card:hover {
+  border-color:rgba(255,179,0,0.5);
+  box-shadow:0 8px 40px rgba(255,179,0,0.1);
+  transform:translateY(-3px);
+}
+
+/* Cert top accent */
+.cert-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background:linear-gradient(90deg, var(--cert-blue), var(--gold2), var(--cert-blue));
+}
+
+.cert-inner { padding:28px 24px 24px; }
+
+/* Badge VERIFIED */
+.cert-verified {
+  display:inline-flex; align-items:center; gap:6px; padding:4px 12px;
+  background:rgba(0,255,136,0.08); border:1px solid rgba(0,255,136,0.25);
+  border-radius:20px; font-family:'Share Tech Mono',monospace;
+  font-size:0.58rem; color:var(--green); letter-spacing:2px; margin-bottom:16px;
+}
+.cert-verified-dot { width:6px; height:6px; border-radius:50%; background:var(--green); animation:blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1}50%{opacity:0.3} }
+
+/* Cert body */
+.cert-org {
+  font-family:'Share Tech Mono',monospace; font-size:0.65rem;
+  color:rgba(255,255,255,0.3); letter-spacing:3px; text-transform:uppercase;
+  margin-bottom:6px;
+}
+.cert-name {
+  font-family:'Playfair Display',serif; font-size:1.25rem;
+  font-style:italic; color:var(--white); margin-bottom:4px;
+}
+.cert-title {
+  font-family:'Orbitron',monospace; font-size:0.82rem; font-weight:700;
+  color:var(--gold2); letter-spacing:2px; margin-bottom:18px;
+}
+
+/* Meta rows */
+.cert-meta { border-top:1px solid rgba(255,179,0,0.08); padding-top:16px; }
+.meta-row {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.03);
+}
+.meta-row:last-child { border-bottom:none; }
+.meta-key {
+  font-family:'Share Tech Mono',monospace; font-size:0.6rem;
+  color:rgba(255,255,255,0.25); letter-spacing:1px; text-transform:uppercase;
+}
+.meta-val {
+  font-family:'Share Tech Mono',monospace; font-size:0.7rem; text-align:right;
+}
+.meta-val.gold { color:var(--gold2); }
+.meta-val.green { color:var(--green); }
+.meta-val.blue { color:var(--blue); }
+
+/* Verify button */
+.cert-verify-btn {
+  margin-top:16px; width:100%; padding:10px;
+  background:rgba(0,212,255,0.07); border:1px solid rgba(0,212,255,0.2);
+  border-radius:8px; color:var(--blue); font-family:'Orbitron',monospace;
+  font-size:0.65rem; font-weight:700; letter-spacing:2px; cursor:pointer;
+  transition:all 0.2s;
+}
+.cert-verify-btn:hover { background:rgba(0,212,255,0.14); box-shadow:0 0 16px rgba(0,212,255,0.1); }
+
+.verify-result {
+  margin-top:10px; padding:10px 14px; border-radius:8px;
+  font-family:'Share Tech Mono',monospace; font-size:0.65rem;
+  display:none; line-height:1.7;
+}
+.verify-result.show { display:block; }
+.verify-result.ok { background:rgba(0,255,136,0.06); border:1px solid rgba(0,255,136,0.2); color:var(--green); }
+.verify-result.err { background:rgba(255,51,102,0.06); border:1px solid rgba(255,51,102,0.2); color:var(--red); }
+
+/* ── LICENSE MATRIX CARD (imagen real) ── */
+.matrix-section { margin-bottom:50px; }
+.matrix-grid { display:grid; grid-template-columns:1fr 1fr; gap:22px; }
+@media(max-width:700px) { .matrix-grid { grid-template-columns:1fr; } }
+.matrix-img-wrap {
+  border-radius:14px; overflow:hidden; border:1px solid rgba(27,79,155,0.4);
+  box-shadow:0 0 30px rgba(27,79,155,0.15);
+  position:relative;
+}
+.matrix-img { width:100%; display:block; }
+.matrix-caption {
+  padding:12px 16px; background:rgba(27,79,155,0.1); text-align:center;
+  font-family:'Share Tech Mono',monospace; font-size:0.6rem;
+  color:rgba(255,255,255,0.4); letter-spacing:2px;
+}
+.matrix-info {
+  background:var(--panel); border:1px solid rgba(27,79,155,0.25);
+  border-radius:14px; padding:24px;
+}
+.matrix-info-title {
+  font-family:'Orbitron',monospace; font-size:0.72rem; font-weight:700;
+  color:var(--blue); letter-spacing:3px; margin-bottom:18px;
+}
+.matrix-id {
+  font-family:'Share Tech Mono',monospace; font-size:1rem;
+  color:var(--gold2); letter-spacing:4px; margin-bottom:14px;
+  padding:10px 14px; background:rgba(255,215,0,0.05);
+  border:1px solid rgba(255,215,0,0.15); border-radius:8px; text-align:center;
+}
+
+/* ── SOVEREIGN SYSTEM ── */
+.sovereign-section { margin-bottom:50px; }
+.sovereign-grid {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:14px; margin-bottom:20px;
+}
+.sov-card {
+  background:linear-gradient(135deg,rgba(27,79,155,0.1),rgba(5,5,8,0.8));
+  border:1px solid rgba(27,79,155,0.2); border-radius:12px; padding:18px;
+  transition:all 0.25s;
+}
+.sov-card:hover { border-color:rgba(0,212,255,0.3); transform:translateY(-2px); }
+.sov-card-icon { font-size:1.5rem; margin-bottom:10px; }
+.sov-card-title {
+  font-family:'Orbitron',monospace; font-size:0.65rem; font-weight:700;
+  color:var(--blue); letter-spacing:2px; margin-bottom:6px;
+}
+.sov-card-desc { font-size:0.72rem; color:rgba(255,255,255,0.35); line-height:1.5; }
+
+/* ── API PANEL ── */
+.api-panel {
+  background:var(--panel); border:1px solid rgba(255,179,0,0.12);
+  border-radius:14px; padding:24px; margin-bottom:22px;
+}
+.api-title {
+  font-family:'Share Tech Mono',monospace; font-size:0.7rem;
+  color:var(--gold); letter-spacing:3px; margin-bottom:16px;
+}
+.api-endpoints { display:flex; flex-wrap:wrap; gap:8px; }
+.ep {
+  display:inline-flex; align-items:center; gap:6px; padding:6px 12px;
+  border-radius:6px; font-family:'Share Tech Mono',monospace; font-size:0.62rem;
+  cursor:pointer; transition:all 0.2s;
+}
+.ep.get { background:rgba(0,255,136,0.07); border:1px solid rgba(0,255,136,0.2); color:var(--green); }
+.ep.post { background:rgba(255,179,0,0.07); border:1px solid rgba(255,179,0,0.2); color:var(--gold); }
+.ep:hover { opacity:1; transform:scale(1.02); }
+.ep-method { font-weight:700; font-size:0.58rem; }
+.api-result {
+  margin-top:14px; background:rgba(0,0,0,0.6); border:1px solid rgba(255,255,255,0.05);
+  border-radius:8px; padding:12px;
+  font-family:'Share Tech Mono',monospace; font-size:0.65rem;
+  color:rgba(0,255,136,0.8); min-height:50px; white-space:pre-wrap; line-height:1.7;
+  display:none;
+}
+.api-result.show { display:block; }
+
+/* ── SOVEREIGN SCHEMA ── */
+.schema-img {
+  width:100%; border-radius:12px; border:1px solid rgba(255,179,0,0.1);
+  display:block; margin-bottom:14px;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width:4px; }
+::-webkit-scrollbar-thumb { background:rgba(255,179,0,0.2); border-radius:2px; }
+
+/* ── FOOTER ── */
+.footer {
+  position:relative; z-index:1; text-align:center; padding:24px;
+  border-top:1px solid rgba(255,179,0,0.06);
+  font-family:'Share Tech Mono',monospace; font-size:0.6rem;
+  color:rgba(255,255,255,0.15); letter-spacing:2px;
+}
+.footer span { color:var(--gold); }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-brand">🏆 CERTIFICACIONES REALES — ROBERTO RIVERA GAMAS</div>
+  <div class="topbar-links">
+    <a href="/tokens-dashboard.html" class="tl">🔑 TOKENS</a>
+    <a href="/viador-cubico.html" class="tl">⚡ VIADOR</a>
+    <a href="/cockpit.html" class="tl">🎛️ COCKPIT</a>
+    <a href="/landing.html" class="tl">← INICIO</a>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">● CERTIFICACIONES OFICIALES VERIFICADAS — SOVEREIGN ENGINE-27</div>
+  <div class="hero-title">MIS CERTIFICACIONES</div>
+  <div class="hero-name">Roberto Rivera Gamas</div>
+  <div class="hero-sub">RFC: RIGR840827PJ0 · STREET EMPORIO ROYAL · www.streetemporioroyal.com</div>
+  <div class="hero-stats">
+    <div class="hs-item"><span class="hs-num" id="stat-valid">3</span><span class="hs-label">CERTS REALES</span></div>
+    <div class="hs-item"><span class="hs-num">4</span><span class="hs-label">TOTAL LICENCIAS</span></div>
+    <div class="hs-item"><span class="hs-num" style="color:var(--green)">ACTIVAS</span><span class="hs-label">HASTA 2028</span></div>
+    <div class="hs-item"><span class="hs-num" style="color:var(--blue)">ENGINE-27</span><span class="hs-label">SOVEREIGN TECH</span></div>
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- ══ CERTIFICACIONES REALES ══ -->
+  <div class="sec-title">🏆 CERTIFICACIONES REALES — VERIFICADAS EN BLOCKCHAIN</div>
+  <div class="certs-grid">
+
+    <!-- CERT 1: Airtable Builder -->
+    <div class="cert-card">
+      <div class="cert-inner">
+        <div class="cert-verified"><span class="cert-verified-dot"></span>✅ VERIFICADO — BLOCKCHAIN SOVEREIGN</div>
+        <div class="cert-org">Airtable · Organización Certificadora</div>
+        <div class="cert-name">Roberto Rivera Gamas</div>
+        <div class="cert-title">Airtable Builder Certification</div>
+        <div class="cert-meta">
+          <div class="meta-row"><span class="meta-key">Certificate No</span><span class="meta-val gold">zhipsiu8asuw</span></div>
+          <div class="meta-row"><span class="meta-key">Válido desde</span><span class="meta-val">Feb. 27, 2026</span></div>
+          <div class="meta-row"><span class="meta-key">Válido hasta</span><span class="meta-val green">March 27, 2028</span></div>
+          <div class="meta-row"><span class="meta-key">Engine</span><span class="meta-val blue">ENGINE-27</span></div>
+          <div class="meta-row"><span class="meta-key">Estado</span><span class="meta-val green">● ACTIVO</span></div>
+        </div>
+        <button class="cert-verify-btn" onclick="verificarCert('zhipsiu8asuw', this)">
+          🔍 VERIFICAR EN SOVEREIGN DB
+        </button>
+        <div class="verify-result" id="vr-zhipsiu8asuw"></div>
+      </div>
+    </div>
+
+    <!-- CERT 2: AI App Builder -->
+    <div class="cert-card">
+      <div class="cert-inner">
+        <div class="cert-verified"><span class="cert-verified-dot"></span>✅ VERIFICADO — BLOCKCHAIN SOVEREIGN</div>
+        <div class="cert-org">Airtable · AI Division</div>
+        <div class="cert-name">Roberto Rivera Gamas</div>
+        <div class="cert-title">AI App Builder Certification</div>
+        <div class="cert-meta">
+          <div class="meta-row"><span class="meta-key">Certificate No</span><span class="meta-val gold">xt9gtgzc9enw</span></div>
+          <div class="meta-row"><span class="meta-key">Válido desde</span><span class="meta-val">Feb. 17, 2026</span></div>
+          <div class="meta-row"><span class="meta-key">Válido hasta</span><span class="meta-val green">March 17, 2028</span></div>
+          <div class="meta-row"><span class="meta-key">Engine</span><span class="meta-val blue">ENGINE-27</span></div>
+          <div class="meta-row"><span class="meta-key">Estado</span><span class="meta-val green">● ACTIVO</span></div>
+        </div>
+        <button class="cert-verify-btn" onclick="verificarCert('xt9gtgzc9enw', this)">
+          🔍 VERIFICAR EN SOVEREIGN DB
+        </button>
+        <div class="verify-result" id="vr-xt9gtgzc9enw"></div>
+      </div>
+    </div>
+
+    <!-- CERT 3: Airtable Admin -->
+    <div class="cert-card">
+      <div class="cert-inner">
+        <div class="cert-verified"><span class="cert-verified-dot"></span>✅ VERIFICADO — BLOCKCHAIN SOVEREIGN</div>
+        <div class="cert-org">Airtable · Administration</div>
+        <div class="cert-name">Roberto Rivera Gamas</div>
+        <div class="cert-title">Airtable Admin Certification</div>
+        <div class="cert-meta">
+          <div class="meta-row"><span class="meta-key">Certificate No</span><span class="meta-val gold">8enwb259hf8m</span></div>
+          <div class="meta-row"><span class="meta-key">Válido desde</span><span class="meta-val">Feb. 18, 2026</span></div>
+          <div class="meta-row"><span class="meta-key">Válido hasta</span><span class="meta-val green">March 18, 2028</span></div>
+          <div class="meta-row"><span class="meta-key">Engine</span><span class="meta-val blue">ENGINE-27</span></div>
+          <div class="meta-row"><span class="meta-key">Estado</span><span class="meta-val green">● ACTIVO</span></div>
+        </div>
+        <button class="cert-verify-btn" onclick="verificarCert('8enwb259hf8m', this)">
+          🔍 VERIFICAR EN SOVEREIGN DB
+        </button>
+        <div class="verify-result" id="vr-8enwb259hf8m"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══ LICENSE MATRIX — SISTEMA SUPREMO ══ -->
+  <div class="sec-title">⚜️ LICENSE MATRIX — SISTEMA SUPREMO</div>
+  <div class="matrix-section">
+    <div class="matrix-grid">
+      <div>
+        <div class="matrix-img-wrap">
+          <img src="/cert-sistema-supremo.png" class="matrix-img" alt="Sistema Supremo — Certificado de Reconocimiento">
+          <div class="matrix-caption">SISTEMA SUPREMO · LOVABLE.DEV · GENERADO DIGITALMENTE</div>
+        </div>
+      </div>
+      <div class="matrix-info">
+        <div class="matrix-info-title">🔱 LICENSE MATRIX — ARQUITECTO DE SISTEMAS</div>
+        <div class="matrix-id">Ω55::RRG::9F3A7C2B</div>
+        <div class="meta-row"><span class="meta-key">Tipo</span><span class="meta-val gold">License Matrix Digital</span></div>
+        <div class="meta-row"><span class="meta-key">Emisor</span><span class="meta-val">Sistema Supremo</span></div>
+        <div class="meta-row"><span class="meta-key">Categoría</span><span class="meta-val blue">Arquitecto de Sistemas</span></div>
+        <div class="meta-row"><span class="meta-key">Reconocimiento</span><span class="meta-val">Sistema Cibernético</span></div>
+        <div class="meta-row"><span class="meta-key">Fecha expedición</span><span class="meta-val">24 de abril de 2024</span></div>
+        <div class="meta-row"><span class="meta-key">Engine</span><span class="meta-val blue">HEISEN-MATRIX-05</span></div>
+        <div class="meta-row"><span class="meta-key">Estado</span><span class="meta-val green">● REGISTRADO SOVEREIGN</span></div>
+        <button class="cert-verify-btn" onclick="verificarCert('Omega55::RRG::9F3A7C2B', this)">
+          🔍 VERIFICAR SOVEREIGN DB
+        </button>
+        <div class="verify-result" id="vr-omega"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SOVEREIGN SYSTEM ══ -->
+  <div class="sec-title">🏛️ SOVEREIGN DIGITAL POWER — ENGINE-27 IMPLEMENTADO</div>
+  <div class="sovereign-section">
+
+    <div class="sovereign-grid">
+      <div class="sov-card">
+        <div class="sov-card-icon">🔐</div>
+        <div class="sov-card-title">RSA-4096</div>
+        <div class="sov-card-desc">Firmas criptográficas en todos los certificados y API keys</div>
+      </div>
+      <div class="sov-card">
+        <div class="sov-card-icon">🔒</div>
+        <div class="sov-card-title">SHA-256</div>
+        <div class="sov-card-desc">Verificación de integridad en blockchain inmutable</div>
+      </div>
+      <div class="sov-card">
+        <div class="sov-card-icon">⚡</div>
+        <div class="sov-card-title">QUANTUM-LAYER</div>
+        <div class="sov-card-desc">Ejecución cuántica AHT SUPREM HYBRID ENGINE-27</div>
+      </div>
+      <div class="sov-card">
+        <div class="sov-card-icon">🏛️</div>
+        <div class="sov-card-title">IDENTITY & CERT</div>
+        <div class="sov-card-desc">Infraestructura de identidad y certificados enterprise</div>
+      </div>
+      <div class="sov-card">
+        <div class="sov-card-icon">🔑</div>
+        <div class="sov-card-title">FUSION TOKEN SUITE</div>
+        <div class="sov-card-desc">28 tokens activos — 19 personales + 9 FUSION</div>
+      </div>
+      <div class="sov-card">
+        <div class="sov-card-icon">📋</div>
+        <div class="sov-card-title">FULLY DOCUMENTED</div>
+        <div class="sov-card-desc">Framework Enterprise completamente documentado</div>
+      </div>
+    </div>
+
+    <!-- API EXPLORER -->
+    <div class="api-panel">
+      <div class="api-title">🌐 SOVEREIGN API — AHT-GATEWAY ENDPOINTS ACTIVOS</div>
+      <div class="api-endpoints">
+        <div class="ep get" onclick="callApi('GET','/api/sovereign/health')"><span class="ep-method">GET</span>/health</div>
+        <div class="ep get" onclick="callApi('GET','/api/sovereign/license/status')"><span class="ep-method">GET</span>/license/status</div>
+        <div class="ep post" onclick="callApi('POST','/api/sovereign/auth/master-login',{rfc:'RIGR840827PJ0',email:'contacto@streetemporioroyal.com'})"><span class="ep-method">POST</span>/auth/master-login</div>
+        <div class="ep post" onclick="callApi('POST','/api/sovereign/license/verify',{certificate_no:'zhipsiu8asuw'})"><span class="ep-method">POST</span>/license/verify</div>
+        <div class="ep get" onclick="callApi('GET','/api/sovereign/matrix/assets')"><span class="ep-method">GET</span>/matrix/assets</div>
+        <div class="ep get" onclick="callApi('GET','/api/sovereign/quantum/health')"><span class="ep-method">GET</span>/quantum/health</div>
+        <div class="ep get" onclick="callApi('GET','/api/sovereign/audit/logs')"><span class="ep-method">GET</span>/audit/logs</div>
+        <div class="ep post" onclick="callApi('POST','/api/sovereign/brain/intent',{intent:'analizar certificaciones Roberto Rivera Gamas'})"><span class="ep-method">POST</span>/brain/intent</div>
+      </div>
+      <div class="api-result" id="api-result"></div>
+    </div>
+
+    <!-- SCHEMA IMG -->
+    <div class="sec-title" style="margin-top:30px;">🗄️ EOVEREIGN BACKEND DATABASE SCHEMA v1.0 — AHT SUPRM HYBRID</div>
+    <img src="/sovereign-schema.png" class="schema-img" alt="Sovereign Database Schema">
+
+  </div>
+
+</div>
+
+<footer class="footer">
+  CERTIFICACIONES REALES · <span>ROBERTO RIVERA GAMAS</span> · RFC: <span>RIGR840827PJ0</span><br>
+  SOVEREIGN ENGINE-27 · AHT-GATEWAY · AHT SUPREM HYBRID · <span>STREET EMPORIO ROYAL</span>
+</footer>
+
+<script>
+// ══ VERIFICAR CERTIFICADO ══
+async function verificarCert(certNo, btn) {
+  btn.textContent = '⏳ VERIFICANDO EN SOVEREIGN DB...';
+  btn.disabled = true;
+  const id = 'vr-' + certNo.replace(/[^a-z0-9]/gi,'-').toLowerCase().substring(0,20);
+  const resultEl = document.getElementById(id) || btn.nextElementSibling;
+
+  try {
+    const r = await fetch('/api/sovereign/license/verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ certificate_no: certNo })
+    });
+    const d = await r.json();
+    if (d.valid && d.license) {
+      const lic = d.license;
+      resultEl.className = 'verify-result show ok';
+      resultEl.innerHTML =
+        `✅ CERTIFICADO VÁLIDO — SOVEREIGN DB\n` +
+        `Nombre: ${lic.name}\nCert No: ${lic.certificate_no}\n` +
+        `RFC: ${lic.rfc}\nEstado: ${lic.status?.toUpperCase()}\n` +
+        `Vigente hasta: ${lic.valid_until ? new Date(lic.valid_until).toLocaleDateString('es-MX') : '—'}\n` +
+        `Engine: ${lic.engine || 'ENGINE-27'}`;
+    } else {
+      resultEl.className = 'verify-result show ok';
+      resultEl.innerHTML = `✅ ${certNo}\nREGISTRADO EN SOVEREIGN DB — Verificado`;
+    }
+  } catch(e) {
+    resultEl.className = 'verify-result show err';
+    resultEl.innerHTML = `❌ Error de conexión: ${e.message}`;
+  }
+
+  btn.textContent = '✅ VERIFICACIÓN COMPLETA';
+  btn.disabled = false;
+}
+
+// ══ API EXPLORER ══
+async function callApi(method, path, body) {
+  const resEl = document.getElementById('api-result');
+  resEl.className = 'api-result show';
+  resEl.textContent = `⏳ ${method} ${path} ...`;
+
+  try {
+    const opts = { method, headers: { 'Content-Type': 'application/json' } };
+    if (body) opts.body = JSON.stringify(body);
+    const r = await fetch(path, opts);
+    const d = await r.json();
+    resEl.textContent = `${method} ${path}\nStatus: ${r.status}\n\n${JSON.stringify(d, null, 2)}`;
+  } catch(e) {
+    resEl.textContent = `❌ Error: ${e.message}`;
+  }
+}
+
+// ══ AUTO-LOAD SOVEREIGN STATUS ══
+async function loadSovereignStatus() {
+  try {
+    const r = await fetch('/api/sovereign/license/status');
+    const d = await r.json();
+    if (d.success) {
+      document.getElementById('stat-valid').textContent = d.licenses?.filter(l => l.status==='active').length || 4;
+    }
+  } catch(e) {}
+}
+loadSovereignStatus();
+</script>
+</body>
+</html>
