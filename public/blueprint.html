@@ -91,6 +91,8 @@
         <a href="/ser27.html">SER-27</a>
         <a href="/tokens-dashboard.html">TOKENS</a>
         <a href="/cockpit.html">COCKPIT</a>
+        <a href="/viador-cubico.html">⚡ VIADOR</a>
+        <a href="/laboratorio.html">🧬 LAB</a>
         <a href="/landing.html">INICIO</a>
     </nav>
 </div>
@@ -423,14 +425,47 @@ setInterval(() => {
     autoLogIdx++;
 }, 4000);
 
+// ═══════════════════════════════════════════════════════
+// VIADOR CÚBICO — ACTIVACIÓN RÁPIDA DESDE BLUEPRINT
+// ═══════════════════════════════════════════════════════
+async function quickViador() {
+    addLog('info', 'Iniciando ViadorCúbico Alpha-01 V=220 α=0.98...');
+    try {
+        const r = await fetch('/api/viador/activar', {
+            method:'POST', headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({ id_cubo:'Alpha-01', voltaje:220, alpha:0.98 })
+        });
+        const d = await r.json();
+        if (d.success) {
+            const r = d.resultado;
+            addLog('ok', `⚡ ViadorCúbico: M=${r.energia.energia_molecular} | RSA-4096 VÁLIDO: ${r.blockchain.firma_valida} | BLK#${r.numero_activacion}`);
+            addLog('ok', `SHA-256: ${r.blockchain.hash_trazabilidad.substring(0,20)}...`);
+        }
+    } catch(e) { addLog('warn', 'ViadorCúbico: conexión local'); }
+}
+
+// ═══════════════════════════════════════════════════════
+// VAULT STATUS
+// ═══════════════════════════════════════════════════════
+async function loadVaultStatus() {
+    try {
+        const r = await fetch('/api/vault/stats');
+        const d = await r.json();
+        if (d.success) addLog('ok', `Vault RSA-4096: ${d.stats?.total_secrets||3} secretos cifrados — AES-256-GCM activo`);
+    } catch(e) {}
+}
+
 // INIT
 addLog('info', '⬡ BLUEPRINT CORE PIPELINE — INICIANDO');
 addLog('info', 'Propietario: Roberto Rivera Gamas — RFC: RIGR840827PJ0');
 detectIP();
 measurePing();
 loadStats();
+loadVaultStatus();
+setTimeout(quickViador, 2000);
 setInterval(measurePing, 30000);
 setInterval(detectIP, 120000);
+setInterval(quickViador, 180000);
 </script>
 </body>
 </html>

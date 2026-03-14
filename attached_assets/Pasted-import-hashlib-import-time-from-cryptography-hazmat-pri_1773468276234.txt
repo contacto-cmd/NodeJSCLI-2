@@ -1,0 +1,73 @@
+import hashlib
+import time
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.asymmetric import rsa, padding
+
+class ViadorCubico:
+    """
+    Representación técnica de la arquitectura cúbica: 
+    Módulo de transformación energética y sellado criptográfico.
+    """
+    def __init__(self, id_cubo):
+        self.id_cubo = id_cubo
+        self.blockchain_ledger = []
+        # Generación de llaves RSA-4096 para Soberanía Técnica
+        self.private_key = rsa.generate_private_key(public_exponent=65537, key_size=4096)
+        self.public_key = self.private_key.public_key()
+
+    def transformar_energia(self, V, alpha):
+        """
+        Fórmula: M = V * alpha (Transformación Voltaje -> Molecular)
+        """
+        M = V * alpha
+        return M
+
+    def certificar_activación(self, voltaje, coeficiente):
+        # 1. Ejecutar Transformación
+        energia_molecular = self.transformar_energia(voltaje, coeficiente)
+        timestamp = str(time.time())
+        
+        # 2. Crear Data Block (Fisiología Técnica)
+        payload = f"Cubo:{self.id_cubo}|V:{voltaje}|M:{energia_molecular}|T:{timestamp}"
+        
+        # 3. Hash de Trazabilidad (Blockchain style)
+        block_hash = hashlib.sha256(payload.encode()).hexdigest()
+        
+        # 4. Sellado Criptográfico RSA-4096
+        signature = self.private_key.sign(
+            payload.encode(),
+            padding.PSS(mgf=padding.MGF1(hashes.SHA256()), salt_length=padding.PSS.MAX_LENGTH),
+            hashes.SHA256()
+        )
+        
+        registro = {
+            "status": "CERTIFICADO",
+            "id": self.id_cubo,
+            "energia_resultante": energia_molecular,
+            "hash_trazabilidad": block_hash,
+            "firma_rsa": signature.hex()[:64] + "..." # Resumen de la firma
+        }
+        
+        self.blockchain_ledger.append(registro)
+        return registro
+
+# --- EJECUCIÓN DEL SISTEMA ---
+if __name__ == "__main__":
+    print("--- Iniciando Activación de la Nueva Versión ---")
+    
+    # Instanciar el módulo cúbico
+    mi_cubo = ViadorCubico(id_cubo="Alpha-01")
+    
+    # Parámetros: Voltaje (V) y Coeficiente de Absorción (alpha)
+    voltaje_input = 220
+    alpha_input = 0.98
+    
+    # Activar y Certificar
+    resultado = mi_cubo.certificar_activación(voltaje_input, alpha_input)
+    
+    # Salida en Consola
+    print(f"\n[+] Módulo {resultado['id']} activado con éxito.")
+    print(f"[+] Energía Molecular Generada: {resultado['energia_resultante']}")
+    print(f"[+] Hash de Seguridad: {resultado['hash_trazabilidad']}")
+    print(f"[+] Sello RSA-4096: {resultado['firma_rsa']}")
+    print("\n--- Sistema Sólido y Certificado ---")

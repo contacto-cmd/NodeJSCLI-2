@@ -98,6 +98,7 @@
         <a href="/tokens-roberto.html" style="color:var(--gold);border-color:rgba(255,215,0,0.5)">📜 CERTIFICAR</a>
         <a href="/ser27.html">SER-27</a>
         <a href="/blueprint.html">BLUEPRINT</a>
+        <a href="/viador-cubico.html">⚡ VIADOR</a>
         <a href="/cockpit.html">COCKPIT</a>
         <a href="/landing.html">INICIO</a>
     </nav>
@@ -422,7 +423,12 @@ function selectToken(idx) {
     document.getElementById('dp-level').textContent = `${t.blindajeNivel||5}/10`;
     document.getElementById('dp-desc').textContent = (t.descripcion||'---').substring(0,60);
     document.getElementById('dp-ip').textContent = detectedIP;
-    document.getElementById('dp-hash').textContent = `SHA-${Math.random().toString(16).substring(2,12).toUpperCase()}...`;
+    const payload = `${t.tokenName||t.token_code}|RIGR840827PJ0|${Date.now()}`;
+    crypto.subtle.digest('SHA-256', new TextEncoder().encode(payload))
+      .then(buf => {
+        const hash = Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('').toUpperCase();
+        document.getElementById('dp-hash').textContent = hash.substring(0,40) + '...';
+      });
     document.getElementById('dp-url').textContent = t.tokenUrl || '---';
     panel.scrollIntoView({ behavior:'smooth', block:'nearest' });
 }

@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>VIADOR CÚBICO — Transformación Energética RSA-4096</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap');
+
+:root {
+  --gold: #FFB300; --gold2: #FFC947; --amber: #FF8F00;
+  --deep: #060610; --panel: #0C0C1E; --panel2: #0F0F22;
+  --blue: #00D4FF; --purple: #7B2FBE; --green: #00FF88;
+  --red: #FF3366; --cyan: #00FFDD; --energy: #FFD700;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background:var(--deep); color:#E8E8F0;
+  font-family:'Rajdhani',sans-serif; min-height:100vh; overflow-x:hidden;
+}
+body::before {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background:
+    linear-gradient(rgba(255,179,0,0.02) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,179,0,0.02) 1px,transparent 1px);
+  background-size:40px 40px;
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  position:sticky; top:0; z-index:200;
+  background:rgba(6,6,16,0.97);
+  border-bottom:1px solid rgba(255,179,0,0.25);
+  backdrop-filter:blur(14px);
+  padding:12px 20px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.topbar-brand {
+  font-family:'Orbitron',monospace; font-size:0.68rem;
+  font-weight:900; color:var(--gold); letter-spacing:3px;
+}
+.topbar-links { display:flex; gap:6px; }
+.tl {
+  color:var(--gold); text-decoration:none; font-size:0.62rem;
+  border:1px solid rgba(255,179,0,0.2); padding:5px 12px;
+  border-radius:20px; font-family:'Share Tech Mono',monospace; transition:all 0.2s;
+}
+.tl:hover { background:rgba(255,179,0,0.1); }
+
+/* ── HERO ── */
+.hero {
+  position:relative; z-index:1; text-align:center;
+  padding:50px 20px 35px; border-bottom:1px solid rgba(255,179,0,0.1);
+}
+.hero-eye {
+  font-family:'Share Tech Mono',monospace;
+  font-size:0.62rem; color:var(--cyan); letter-spacing:6px; margin-bottom:12px;
+}
+.hero-title {
+  font-family:'Orbitron',monospace;
+  font-size:clamp(1.8rem,5vw,3.5rem); font-weight:900;
+  background:linear-gradient(135deg,var(--cyan) 0%,var(--gold) 50%,var(--cyan) 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  letter-spacing:3px; margin-bottom:10px;
+  filter:drop-shadow(0 0 20px rgba(0,255,221,0.4));
+}
+.hero-formula {
+  font-family:'Share Tech Mono',monospace;
+  font-size:clamp(1rem,3vw,1.6rem); color:var(--gold2);
+  letter-spacing:4px; margin-bottom:8px;
+}
+.hero-sub { font-size:0.8rem; color:rgba(255,255,255,0.3); letter-spacing:2px; }
+
+/* ── MAIN LAYOUT ── */
+.layout {
+  position:relative; z-index:1;
+  max-width:1300px; margin:0 auto;
+  padding:30px 20px 80px;
+  display:grid;
+  grid-template-columns:420px 1fr;
+  gap:22px;
+}
+@media(max-width:900px) { .layout { grid-template-columns:1fr; } }
+
+/* ── CARD ── */
+.card {
+  background:var(--panel);
+  border:1px solid rgba(255,179,0,0.18);
+  border-radius:16px; padding:24px;
+  position:relative; overflow:hidden;
+  transition:border-color 0.3s;
+}
+.card:hover { border-color:rgba(255,179,0,0.35); }
+.card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  border-radius:16px 16px 0 0;
+}
+.card.gold::before { background:linear-gradient(90deg,var(--amber),var(--gold)); }
+.card.cyan::before { background:linear-gradient(90deg,#007799,var(--cyan)); }
+.card.purple::before { background:linear-gradient(90deg,var(--purple),#B44FFF); }
+.card.green::before { background:linear-gradient(90deg,#006644,var(--green)); }
+.card.full { grid-column:span 2; }
+@media(max-width:900px) { .card.full { grid-column:span 1; } }
+
+.card-title {
+  font-family:'Orbitron',monospace; font-size:0.72rem; font-weight:700;
+  letter-spacing:3px; margin-bottom:20px;
+  display:flex; align-items:center; gap:10px;
+}
+.card-title.gold { color:var(--gold); }
+.card-title.cyan { color:var(--cyan); }
+.card-title.purple { color:#B44FFF; }
+.card-title.green { color:var(--green); }
+
+/* ── ENERGY CUBE VISUALIZER ── */
+.cube-wrap {
+  display:flex; align-items:center; justify-content:center;
+  margin-bottom:20px;
+}
+.cube-scene {
+  width:120px; height:120px;
+  perspective:500px;
+}
+.cube {
+  width:100%; height:100%;
+  transform-style:preserve-3d;
+  animation:rotateCube 8s linear infinite;
+  position:relative;
+}
+@keyframes rotateCube {
+  0% { transform:rotateX(15deg) rotateY(0deg); }
+  100% { transform:rotateX(15deg) rotateY(360deg); }
+}
+.face {
+  position:absolute; width:100%; height:100%;
+  border:2px solid rgba(0,255,221,0.4);
+  background:rgba(0,212,255,0.04);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Orbitron',monospace; font-size:0.55rem; color:var(--cyan);
+  letter-spacing:1px;
+}
+.face.front  { transform:translateZ(60px); }
+.face.back   { transform:rotateY(180deg) translateZ(60px); }
+.face.left   { transform:rotateY(-90deg) translateZ(60px); }
+.face.right  { transform:rotateY(90deg) translateZ(60px); }
+.face.top    { transform:rotateX(90deg) translateZ(60px); }
+.face.bottom { transform:rotateX(-90deg) translateZ(60px); }
+
+.cube.active .face {
+  border-color:var(--gold);
+  background:rgba(255,179,0,0.08);
+  box-shadow:0 0 20px rgba(255,179,0,0.3);
+  color:var(--gold);
+}
+
+/* ── FORM ── */
+.field-label {
+  font-family:'Share Tech Mono',monospace; font-size:0.65rem;
+  color:rgba(0,255,221,0.6); letter-spacing:2px; display:block;
+  margin-bottom:6px; text-transform:uppercase;
+}
+.field-input, .field-select {
+  width:100%;
+  background:rgba(0,0,0,0.5);
+  border:1px solid rgba(0,255,221,0.2);
+  border-radius:8px; padding:11px 14px;
+  color:#E8E8F0; font-family:'Rajdhani',sans-serif; font-size:0.95rem;
+  outline:none; transition:border-color 0.3s; margin-bottom:14px;
+}
+.field-input:focus, .field-select:focus {
+  border-color:var(--cyan); box-shadow:0 0 10px rgba(0,255,221,0.1);
+}
+.field-select option { background:#0C0C1E; }
+
+/* Slider */
+.slider-wrap { margin-bottom:14px; }
+.slider {
+  width:100%; -webkit-appearance:none;
+  height:4px; border-radius:2px;
+  background:linear-gradient(90deg, var(--cyan) 0%, rgba(255,255,255,0.1) 0%);
+  outline:none; cursor:pointer;
+}
+.slider::-webkit-slider-thumb {
+  -webkit-appearance:none; width:18px; height:18px;
+  border-radius:50%; background:var(--gold);
+  box-shadow:0 0 8px rgba(255,179,0,0.5); cursor:pointer;
+}
+
+/* ── ENERGY DISPLAY ── */
+.energy-display {
+  background:rgba(0,0,0,0.6); border:1px solid rgba(0,255,221,0.2);
+  border-radius:12px; padding:18px; text-align:center; margin-bottom:16px;
+}
+.energy-num {
+  font-family:'Orbitron',monospace; font-size:2.2rem; font-weight:900;
+  color:var(--gold); display:block; line-height:1;
+  filter:drop-shadow(0 0 15px rgba(255,179,0,0.6));
+}
+.energy-unit {
+  font-family:'Share Tech Mono',monospace; font-size:0.7rem;
+  color:rgba(0,255,221,0.6); letter-spacing:3px; margin-top:4px;
+}
+.energy-formula {
+  font-family:'Share Tech Mono',monospace; font-size:0.72rem;
+  color:rgba(255,255,255,0.4); margin-top:8px; letter-spacing:1px;
+}
+
+/* ── BUTTON ── */
+.btn-activate {
+  width:100%; padding:16px;
+  background:linear-gradient(135deg, #007799, var(--cyan));
+  border:none; border-radius:12px; color:#000;
+  font-family:'Orbitron',monospace; font-size:0.85rem; font-weight:900;
+  letter-spacing:3px; cursor:pointer; transition:all 0.3s;
+  box-shadow:0 0 20px rgba(0,255,221,0.3);
+  margin-bottom:10px;
+}
+.btn-activate:hover { box-shadow:0 0 35px rgba(0,255,221,0.5); transform:translateY(-2px); }
+.btn-activate:disabled { opacity:0.4; cursor:not-allowed; transform:none; }
+.btn-activate.loading { background:linear-gradient(135deg,#444,#666); }
+
+.btn-small {
+  padding:8px 16px; border-radius:8px; border:none; cursor:pointer;
+  font-family:'Orbitron',monospace; font-size:0.6rem; font-weight:700;
+  letter-spacing:1px; transition:all 0.2s;
+}
+.btn-verify { background:rgba(0,255,136,0.15); border:1px solid rgba(0,255,136,0.3); color:var(--green); }
+.btn-verify:hover { background:rgba(0,255,136,0.25); }
+.btn-ledger { background:rgba(180,79,255,0.15); border:1px solid rgba(180,79,255,0.3); color:#B44FFF; }
+.btn-ledger:hover { background:rgba(180,79,255,0.25); }
+
+/* ── RESULT BLOCK ── */
+.result-block {
+  display:none; margin-top:16px;
+}
+.result-block.show { display:block; animation:fadeUp 0.5s ease; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── DATA ROWS ── */
+.data-row {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.05);
+}
+.data-row:last-child { border-bottom:none; }
+.data-key {
+  font-family:'Share Tech Mono',monospace; font-size:0.65rem;
+  color:rgba(255,255,255,0.35); letter-spacing:1px; text-transform:uppercase;
+}
+.data-val {
+  font-family:'Share Tech Mono',monospace; font-size:0.72rem;
+  text-align:right; max-width:65%; word-break:break-all; line-height:1.4;
+}
+.data-val.gold { color:var(--gold); }
+.data-val.cyan { color:var(--cyan); }
+.data-val.green { color:var(--green); }
+.data-val.purple { color:#B44FFF; }
+
+/* ── HASH DISPLAY ── */
+.hash-box {
+  background:rgba(0,0,0,0.5); border:1px solid rgba(0,255,136,0.15);
+  border-radius:8px; padding:12px; margin-top:10px;
+}
+.hash-label {
+  font-family:'Share Tech Mono',monospace; font-size:0.6rem;
+  color:rgba(0,255,136,0.4); letter-spacing:2px; margin-bottom:6px;
+}
+.hash-val {
+  font-family:'Share Tech Mono',monospace; font-size:0.62rem;
+  color:rgba(0,255,136,0.8); word-break:break-all; line-height:1.8;
+}
+
+/* ── BLOCKCHAIN LEDGER ── */
+.ledger-box {
+  background:rgba(0,0,0,0.5); border:1px solid rgba(180,79,255,0.15);
+  border-radius:10px; padding:14px; max-height:280px; overflow-y:auto;
+  font-family:'Share Tech Mono',monospace; font-size:0.65rem;
+  line-height:1.7; color:rgba(255,255,255,0.5);
+}
+
+.block-entry {
+  padding:8px 0; border-bottom:1px solid rgba(180,79,255,0.08);
+}
+.block-entry:last-child { border-bottom:none; }
+.block-num {
+  color:#B44FFF; font-weight:700; margin-right:8px;
+}
+.block-hash { color:rgba(0,255,136,0.6); }
+.block-energy { color:var(--gold); }
+
+/* ── CANVAS ── */
+.energy-canvas {
+  width:100%; height:180px; display:block;
+  border:1px solid rgba(0,255,221,0.12); border-radius:10px;
+  background:rgba(0,0,0,0.5); margin-bottom:14px;
+}
+
+/* ── STATUS DOTS ── */
+.dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+.dot.green { background:var(--green); box-shadow:0 0 6px var(--green); animation:blink 2s infinite; }
+.dot.cyan { background:var(--cyan); box-shadow:0 0 6px var(--cyan); animation:blink 2s 0.5s infinite; }
+@keyframes blink { 0%,100%{opacity:1}50%{opacity:0.3} }
+
+/* ── INTEGRITY BADGE ── */
+.integrity-badge {
+  display:inline-flex; align-items:center; gap:8px; padding:8px 16px;
+  border-radius:20px; font-family:'Share Tech Mono',monospace;
+  font-size:0.7rem; letter-spacing:2px;
+}
+.integrity-badge.ok {
+  background:rgba(0,255,136,0.1); border:1px solid rgba(0,255,136,0.3); color:var(--green);
+}
+.integrity-badge.err {
+  background:rgba(255,51,102,0.1); border:1px solid rgba(255,51,102,0.3); color:var(--red);
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width:4px; }
+::-webkit-scrollbar-thumb { background:rgba(0,255,221,0.25); border-radius:2px; }
+
+/* ── FOOTER ── */
+.footer {
+  position:relative; z-index:1; text-align:center; padding:24px 20px;
+  border-top:1px solid rgba(0,255,221,0.08);
+  font-family:'Share Tech Mono',monospace; font-size:0.62rem;
+  color:rgba(255,255,255,0.2); letter-spacing:2px;
+}
+.footer span { color:var(--gold); }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-brand">⚡ VIADOR CÚBICO — LGORITMO AHT</div>
+  <div class="topbar-links">
+    <a href="/laboratorio.html" class="tl">🧬 LAB</a>
+    <a href="/quantum-loop-room.html" class="tl">🔱 ROOM</a>
+    <a href="/cockpit.html" class="tl">🎛️ COCKPIT</a>
+    <a href="/landing.html" class="tl">← INICIO</a>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eye">● ARQUITECTURA CÚBICA — MÓDULO DE TRANSFORMACIÓN ENERGÉTICA</div>
+  <div class="hero-title">VIADOR CÚBICO</div>
+  <div class="hero-formula">M = V × α</div>
+  <div class="hero-sub">VOLTAJE → ENERGÍA MOLECULAR · SELLADO RSA-4096 · BLOCKCHAIN INMUTABLE</div>
+</div>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+  <!-- ══ PANEL IZQUIERDO: ACTIVADOR ══ -->
+  <div style="display:flex;flex-direction:column;gap:22px;">
+
+    <!-- Cubo 3D + Config -->
+    <div class="card cyan">
+      <div class="card-title cyan">
+        <div class="dot cyan"></div>
+        ⚡ MÓDULO CÚBICO — CONFIGURAR
+      </div>
+
+      <!-- Cubo 3D animado -->
+      <div class="cube-wrap">
+        <div class="cube-scene">
+          <div class="cube" id="cubeVisual">
+            <div class="face front">VIADOR</div>
+            <div class="face back">RSA-4096</div>
+            <div class="face left">ENERGY</div>
+            <div class="face right">SHA-256</div>
+            <div class="face top">M=V×α</div>
+            <div class="face bottom">BLOCK</div>
+          </div>
+        </div>
+      </div>
+
+      <label class="field-label">ID DEL CUBO</label>
+      <input type="text" class="field-input" id="idCubo" value="Alpha-01" placeholder="Ej: Alpha-01, Beta-02..." />
+
+      <label class="field-label">VOLTAJE (V) — <span id="voltDisplay" style="color:var(--gold)">220</span> V</label>
+      <div class="slider-wrap">
+        <input type="range" class="slider" id="voltSlider" min="10" max="500" value="220" oninput="updateSliders()">
+      </div>
+
+      <label class="field-label">COEFICIENTE ALPHA (α) — <span id="alphaDisplay" style="color:var(--cyan)">0.98</span></label>
+      <div class="slider-wrap">
+        <input type="range" class="slider" id="alphaSlider" min="1" max="100" value="98" oninput="updateSliders()">
+      </div>
+
+      <!-- Preview de energía en tiempo real -->
+      <div class="energy-display">
+        <span class="energy-num" id="energyPreview">215.6</span>
+        <div class="energy-unit">ENERGÍA MOLECULAR</div>
+        <div class="energy-formula" id="formulaPreview">M = 220V × 0.98α = 215.6</div>
+      </div>
+
+      <button class="btn-activate" id="btnActivar" onclick="activarCubo()">
+        ⚡ CERTIFICAR ACTIVACIÓN RSA-4096
+      </button>
+
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn-small btn-verify" onclick="verificarIntegridad()">✅ VERIFICAR BLOCKCHAIN</button>
+        <button class="btn-small btn-ledger" onclick="verLedger()">📋 VER LEDGER</button>
+        <button class="btn-small btn-ledger" onclick="verCubos()">🔮 CUBOS ACTIVOS</button>
+      </div>
+    </div>
+
+    <!-- Canvas de Energía -->
+    <div class="card cyan">
+      <div class="card-title cyan">📊 FLUJO DE ENERGÍA EN TIEMPO REAL</div>
+      <canvas class="energy-canvas" id="energyCanvas"></canvas>
+      <div style="display:flex;justify-content:space-between;font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:rgba(255,255,255,0.3);">
+        <span id="energyMin">Min: —</span>
+        <span id="energyMax">Max: —</span>
+        <span id="energyAvg">Avg: —</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══ PANEL DERECHO: RESULTADOS ══ -->
+  <div style="display:flex;flex-direction:column;gap:22px;">
+
+    <!-- Resultado de Activación -->
+    <div class="card gold">
+      <div class="card-title gold">
+        <div class="dot green" id="resultDot" style="background:rgba(255,255,255,0.2);box-shadow:none;animation:none;"></div>
+        🔐 REGISTRO DE CERTIFICACIÓN
+        <span id="blockCount" style="margin-left:auto;font-family:'Share Tech Mono',monospace;font-size:0.6rem;font-weight:400;color:rgba(255,255,255,0.3);">BLOQUE #0</span>
+      </div>
+
+      <div id="resultDefault" style="text-align:center;padding:30px 0;color:rgba(255,255,255,0.2);font-family:'Share Tech Mono',monospace;font-size:0.8rem;letter-spacing:2px;">
+        Configura los parámetros y presiona<br>CERTIFICAR ACTIVACIÓN
+      </div>
+
+      <div class="result-block" id="resultBlock">
+        <div class="data-row">
+          <span class="data-key">STATUS</span>
+          <span class="data-val green">✅ CERTIFICADO</span>
+        </div>
+        <div class="data-row">
+          <span class="data-key">MÓDULO</span>
+          <span class="data-val gold" id="res-id">—</span>
+        </div>
+        <div class="data-row">
+          <span class="data-key">ACTIVACIÓN #</span>
+          <span class="data-val cyan" id="res-num">—</span>
+        </div>
+        <div class="data-row">
+          <span class="data-key">VOLTAJE (V)</span>
+          <span class="data-val" id="res-volt">—</span>
+        </div>
+        <div class="data-row">
+          <span class="data-key">ALPHA (α)</span>
+          <span class="data-val" id="res-alpha">—</span>
+        </div>
+        <div class="data-row">
+          <span class="data-key">M = V × α</span>
+          <span class="data-val gold" id="res-energia" style="font-size:1rem;font-weight:700;">—</span>
+        </div>
+        <div class="data-row">
+          <span class="data-key">POTENCIA (W)</span>
+          <span class="data-val cyan" id="res-potencia">—</span>
+        </div>
+        <div class="data-row">
+          <span class="data-key">EFICIENCIA</span>
+          <span class="data-val green" id="res-eficiencia">—</span>
+        </div>
+        <div class="data-row">
+          <span class="data-key">FIRMA RSA-4096</span>
+          <span class="data-val purple" id="res-firma" style="font-size:0.6rem;">—</span>
+        </div>
+        <div class="data-row">
+          <span class="data-key">FIRMA VÁLIDA</span>
+          <span class="data-val green" id="res-firma-ok">—</span>
+        </div>
+        <div class="data-row">
+          <span class="data-key">TIMESTAMP</span>
+          <span class="data-val" id="res-ts" style="font-size:0.6rem;">—</span>
+        </div>
+
+        <div class="hash-box" style="margin-top:14px;">
+          <div class="hash-label">SHA-256 HASH PAYLOAD</div>
+          <div class="hash-val" id="res-hash-payload">—</div>
+        </div>
+        <div class="hash-box" style="margin-top:8px;border-color:rgba(180,79,255,0.2);">
+          <div class="hash-label" style="color:rgba(180,79,255,0.4);">HASH TRAZABILIDAD ENCADENADO</div>
+          <div class="hash-val" style="color:rgba(180,79,255,0.8);" id="res-hash-chain">—</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ledger Blockchain -->
+    <div class="card purple">
+      <div class="card-title purple">
+        ⛓️ BLOCKCHAIN LEDGER — INMUTABLE
+        <span id="integridadBadge" style="margin-left:auto;"></span>
+      </div>
+
+      <div class="ledger-box" id="ledgerBox">
+        <span style="color:rgba(255,255,255,0.2);">Presiona VER LEDGER o activa el cubo para registrar bloques...</span>
+      </div>
+    </div>
+
+    <!-- Stats del cubo -->
+    <div class="card green">
+      <div class="card-title green">
+        <div class="dot green"></div>
+        📈 ESTADÍSTICAS DEL SISTEMA CÚBICO
+      </div>
+      <div class="data-row">
+        <span class="data-key">ENERGÍA TOTAL ACUMULADA</span>
+        <span class="data-val gold" id="stat-total-energia">—</span>
+      </div>
+      <div class="data-row">
+        <span class="data-key">TOTAL ACTIVACIONES</span>
+        <span class="data-val cyan" id="stat-activaciones">0</span>
+      </div>
+      <div class="data-row">
+        <span class="data-key">BLOQUES EN BLOCKCHAIN</span>
+        <span class="data-val purple" id="stat-bloques">0</span>
+      </div>
+      <div class="data-row">
+        <span class="data-key">PROPIETARIO</span>
+        <span class="data-val gold">Roberto Rivera Gamas</span>
+      </div>
+      <div class="data-row">
+        <span class="data-key">RFC</span>
+        <span class="data-val">RIGR840827PJ0</span>
+      </div>
+      <div class="data-row">
+        <span class="data-key">PROTOCOLO</span>
+        <span class="data-val gold">THRONE V3.0 — JAQUE MATE</span>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<footer class="footer">
+  VIADOR CÚBICO · <span>LGORITMO AHT ANCESTRAL ENGINE</span> · THRONE PROTOCOL V3.0<br>
+  <span>M = V × α</span> · RSA-4096 SIGNED · SHA-256 BLOCKCHAIN · <span>INMUTABLE</span>
+</footer>
+
+<script>
+// ═════════════════════════════════════════════
+// VIADOR CÚBICO — ENGINE FRONTEND
+// ═════════════════════════════════════════════
+
+let energyHistory = [];
+const maxPoints = 40;
+
+// ── SLIDERS ──
+function updateSliders() {
+  const V = parseInt(document.getElementById('voltSlider').value);
+  const alphaInt = parseInt(document.getElementById('alphaSlider').value);
+  const alpha = (alphaInt / 100).toFixed(2);
+  const M = (V * parseFloat(alpha)).toFixed(4);
+
+  document.getElementById('voltDisplay').textContent = V + ' V';
+  document.getElementById('alphaDisplay').textContent = alpha;
+  document.getElementById('energyPreview').textContent = M;
+  document.getElementById('formulaPreview').textContent = `M = ${V}V × ${alpha}α = ${M}`;
+
+  // Update slider gradient
+  const pct = ((V - 10) / (500 - 10) * 100).toFixed(1);
+  document.getElementById('voltSlider').style.background =
+    `linear-gradient(90deg, var(--cyan) ${pct}%, rgba(255,255,255,0.1) ${pct}%)`;
+  const pctA = (alphaInt - 1).toFixed(1);
+  document.getElementById('alphaSlider').style.background =
+    `linear-gradient(90deg, var(--gold) ${pctA}%, rgba(255,255,255,0.1) ${pctA}%)`;
+
+  // Push to energy graph
+  energyHistory.push(parseFloat(M));
+  if (energyHistory.length > maxPoints) energyHistory.shift();
+  drawEnergyCanvas();
+}
+
+// ── ACTIVAR CUBO ──
+async function activarCubo() {
+  const id_cubo = document.getElementById('idCubo').value.trim() || 'Alpha-01';
+  const voltaje = parseInt(document.getElementById('voltSlider').value);
+  const alpha = parseFloat(document.getElementById('alphaSlider').value) / 100;
+
+  const btn = document.getElementById('btnActivar');
+  btn.disabled = true; btn.textContent = '⚡ GENERANDO RSA-4096 + SHA-256...';
+  btn.className = 'btn-activate loading';
+
+  // Animate cube
+  document.getElementById('cubeVisual').classList.add('active');
+
+  try {
+    const r = await fetch('/api/viador/activar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id_cubo, voltaje, alpha })
+    });
+    const d = await r.json();
+
+    if (d.success && d.resultado) {
+      showResultado(d.resultado);
+      actualizarStats(d.resultado);
+      actualizarLedgerLive(d.resultado);
+    } else {
+      alert('Error: ' + (d.error || 'No se pudo activar el cubo'));
+    }
+  } catch (e) {
+    alert('Error de conexión: ' + e.message);
+  }
+
+  btn.disabled = false;
+  btn.textContent = '⚡ CERTIFICAR ACTIVACIÓN RSA-4096';
+  btn.className = 'btn-activate';
+  setTimeout(() => document.getElementById('cubeVisual').classList.remove('active'), 3000);
+}
+
+// ── MOSTRAR RESULTADO ──
+function showResultado(r) {
+  document.getElementById('resultDefault').style.display = 'none';
+  document.getElementById('resultBlock').className = 'result-block show';
+
+  const rb = document.getElementById('resultDot');
+  rb.style.background = 'var(--green)';
+  rb.style.boxShadow = '0 0 6px var(--green)';
+  rb.style.animation = 'blink 2s infinite';
+
+  document.getElementById('blockCount').textContent = 'BLOQUE #' + r.numero_activacion;
+  document.getElementById('res-id').textContent = r.id;
+  document.getElementById('res-num').textContent = '#' + r.numero_activacion;
+  document.getElementById('res-volt').textContent = r.energia.voltaje_entrada + ' V';
+  document.getElementById('res-alpha').textContent = r.energia.alpha_coeficiente;
+  document.getElementById('res-energia').textContent = r.energia.energia_molecular;
+  document.getElementById('res-potencia').textContent = r.energia.potencia_watts + ' W';
+  document.getElementById('res-eficiencia').textContent = r.energia.eficiencia_pct + '%';
+  document.getElementById('res-firma').textContent = r.blockchain.firma_rsa4096;
+  document.getElementById('res-firma-ok').textContent = r.blockchain.firma_valida ? '✅ FIRMA RSA-4096 VÁLIDA' : '❌ INVÁLIDA';
+  document.getElementById('res-ts').textContent = r.timestamp;
+  document.getElementById('res-hash-payload').textContent = r.blockchain.hash_payload;
+  document.getElementById('res-hash-chain').textContent = r.blockchain.hash_trazabilidad;
+}
+
+function actualizarStats(r) {
+  document.getElementById('stat-total-energia').textContent = r.sistema.energia_acumulada?.toFixed(4) || '—';
+  document.getElementById('stat-activaciones').textContent = r.sistema.total_activaciones;
+  document.getElementById('stat-bloques').textContent = r.sistema.total_activaciones;
+}
+
+function actualizarLedgerLive(r) {
+  const box = document.getElementById('ledgerBox');
+  const entry = document.createElement('div');
+  entry.className = 'block-entry';
+  entry.innerHTML = `
+    <span class="block-num">[BLK #${r.numero_activacion}]</span>
+    <span class="block-energy">${r.energia.energia_molecular} M</span>
+    — <span class="block-hash">${r.blockchain.hash_trazabilidad.substring(0,20)}...</span>
+    <br><span style="color:rgba(255,255,255,0.2);font-size:0.58rem;">${r.timestamp} · V=${r.energia.voltaje_entrada} α=${r.energia.alpha_coeficiente}</span>`;
+  box.insertBefore(entry, box.firstChild);
+  // Remove placeholder
+  const placeholder = box.querySelector('span');
+  if (placeholder) box.removeChild(placeholder);
+}
+
+// ── VER LEDGER COMPLETO ──
+async function verLedger() {
+  const id = document.getElementById('idCubo').value.trim() || 'Alpha-01';
+  try {
+    const r = await fetch('/api/viador/ledger/' + encodeURIComponent(id));
+    const d = await r.json();
+    if (!d.success) { alert('Error: ' + d.error); return; }
+
+    const box = document.getElementById('ledgerBox');
+    if (d.ledger && d.ledger.length > 0) {
+      box.innerHTML = d.ledger.slice().reverse().map(b => `
+        <div class="block-entry">
+          <span class="block-num">[BLK #${b.numero_activacion}]</span>
+          <span class="block-energy">${b.energia.energia_molecular} M</span>
+          — <span class="block-hash">${b.blockchain.hash_trazabilidad.substring(0,24)}...</span>
+          <br><span style="color:rgba(255,255,255,0.2);font-size:0.58rem;">${b.timestamp} · V=${b.energia.voltaje_entrada} α=${b.energia.alpha_coeficiente}</span>
+        </div>`).join('');
+    } else {
+      box.innerHTML = '<span style="color:rgba(255,255,255,0.3)">Ledger vacío — activa el cubo para registrar bloques.</span>';
+    }
+  } catch (e) { alert('Error: ' + e.message); }
+}
+
+// ── VERIFICAR INTEGRIDAD ──
+async function verificarIntegridad() {
+  const id = document.getElementById('idCubo').value.trim() || 'Alpha-01';
+  try {
+    const r = await fetch('/api/viador/verificar/' + encodeURIComponent(id));
+    const d = await r.json();
+    const badge = document.getElementById('integridadBadge');
+    badge.innerHTML = `<span class="integrity-badge ${d.integro ? 'ok' : 'err'}">
+      ${d.integro ? '✅' : '❌'} ${d.status || (d.integro ? 'ÍNTEGRO' : 'COMPROMETIDO')}
+    </span>`;
+  } catch (e) { alert('Error: ' + e.message); }
+}
+
+// ── VER CUBOS ACTIVOS ──
+async function verCubos() {
+  try {
+    const r = await fetch('/api/viador/cubos');
+    const d = await r.json();
+    const box = document.getElementById('ledgerBox');
+    if (d.cubos && d.cubos.length > 0) {
+      box.innerHTML = '<div style="color:var(--cyan);margin-bottom:8px;font-size:0.7rem;letter-spacing:2px;">🔮 CUBOS ACTIVOS EN MEMORIA:</div>' +
+        d.cubos.map(c => `<div class="block-entry">
+          <span style="color:var(--gold)">${c.id}</span> · Activaciones: <span style="color:var(--cyan)">${c.activaciones}</span>
+          · Energía: <span style="color:var(--green)">${c.energia_acumulada?.toFixed(2)}</span>
+          <br><span style="color:rgba(255,255,255,0.2);font-size:0.58rem;">Key: ${c.key_fingerprint} · Desde: ${new Date(c.createdAt).toLocaleTimeString('es-MX')}</span>
+        </div>`).join('');
+    } else {
+      box.innerHTML = '<span style="color:rgba(255,255,255,0.3)">No hay cubos activos. Activa el primero.</span>';
+    }
+  } catch (e) { alert('Error: ' + e.message); }
+}
+
+// ── ENERGY CANVAS ──
+const canvas = document.getElementById('energyCanvas');
+const ctx = canvas.getContext('2d');
+
+function resizeCanvas() {
+  canvas.width = canvas.offsetWidth;
+  canvas.height = canvas.offsetHeight || 180;
+}
+resizeCanvas();
+window.addEventListener('resize', () => { resizeCanvas(); drawEnergyCanvas(); });
+
+function drawEnergyCanvas() {
+  if (!canvas.width) resizeCanvas();
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  if (energyHistory.length < 2) {
+    ctx.fillStyle = 'rgba(0,255,221,0.1)';
+    ctx.font = '12px Share Tech Mono';
+    ctx.textAlign = 'center';
+    ctx.fillText('Mueve los sliders para ver el flujo de energía', canvas.width/2, canvas.height/2);
+    return;
+  }
+
+  const min = Math.min(...energyHistory);
+  const max = Math.max(...energyHistory) || 1;
+  const range = (max - min) || 1;
+  const pad = 20;
+  const W = canvas.width - pad * 2;
+  const H = canvas.height - pad * 2;
+
+  // Grid lines
+  ctx.strokeStyle = 'rgba(0,255,221,0.05)';
+  ctx.lineWidth = 1;
+  for (let i = 0; i <= 4; i++) {
+    const y = pad + (H / 4) * i;
+    ctx.beginPath(); ctx.moveTo(pad, y); ctx.lineTo(canvas.width - pad, y); ctx.stroke();
+  }
+
+  // Energy line
+  ctx.beginPath();
+  energyHistory.forEach((v, i) => {
+    const x = pad + (i / (maxPoints - 1)) * W;
+    const y = pad + H - ((v - min) / range) * H;
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  });
+  ctx.strokeStyle = 'rgba(0,255,221,0.8)';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // Fill
+  ctx.lineTo(pad + ((energyHistory.length - 1) / (maxPoints - 1)) * W, canvas.height - pad);
+  ctx.lineTo(pad, canvas.height - pad);
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(0,255,221,0.06)';
+  ctx.fill();
+
+  // Gold dot at current
+  const last = energyHistory[energyHistory.length - 1];
+  const lx = pad + ((energyHistory.length - 1) / (maxPoints - 1)) * W;
+  const ly = pad + H - ((last - min) / range) * H;
+  ctx.beginPath(); ctx.arc(lx, ly, 5, 0, Math.PI * 2);
+  ctx.fillStyle = 'var(--gold)'; ctx.fill();
+  ctx.shadowColor = 'var(--gold)'; ctx.shadowBlur = 10; ctx.fill(); ctx.shadowBlur = 0;
+
+  // Stats
+  document.getElementById('energyMin').textContent = 'Min: ' + min.toFixed(2);
+  document.getElementById('energyMax').textContent = 'Max: ' + max.toFixed(2);
+  const avg = (energyHistory.reduce((a,b)=>a+b,0)/energyHistory.length).toFixed(2);
+  document.getElementById('energyAvg').textContent = 'Avg: ' + avg;
+}
+
+// Init
+updateSliders();
+</script>
+</body>
+</html>

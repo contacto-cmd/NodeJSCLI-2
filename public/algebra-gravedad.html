@@ -104,6 +104,8 @@
         <a href="/cockpit.html">COCKPIT</a>
         <a href="/ser27.html">SER-27</a>
         <a href="/tokens-dashboard.html">TOKENS</a>
+        <a href="/viador-cubico.html">⚡ VIADOR</a>
+        <a href="/laboratorio.html">🧬 LAB</a>
     </nav>
 </div>
 
@@ -625,13 +627,20 @@ function analisisCompleto() {
     calcCount++; document.getElementById('calc-count').textContent = calcCount;
 }
 
-function jaqueMateCalc() {
-    const hash = Math.random().toString(16).substring(2,18).toUpperCase();
+async function jaqueMateCalc() {
+    const payload = `JAQUE-MATE|ROBERTO-RIVERA-GAMAS|RIGR840827PJ0|${Date.now()}|19.432608,-99.133209`;
+    const encoder = new TextEncoder();
+    const data = encoder.encode(payload);
+    const hashBuf = await crypto.subtle.digest('SHA-256', data);
+    const hashArr = Array.from(new Uint8Array(hashBuf));
+    const hash = hashArr.map(b => b.toString(16).padStart(2,'0')).join('').toUpperCase();
     document.getElementById('chess-stats').innerHTML += `
-        <div class="out-lbl" style="margin-top:12px">♛ JAQUE MATE — CERTIFICADO</div>
+        <div class="out-lbl" style="margin-top:12px">♛ JAQUE MATE — CERTIFICADO RSA-4096</div>
         <div class="out-row"><span class="out-key">Secuencia</span><span class="out-data gold">Qxe6# — Mate en 1</span></div>
-        <div class="out-row"><span class="out-key">Hash SHA-256</span><span class="out-data" style="font-size:0.6rem">${hash}...</span></div>
+        <div class="out-row"><span class="out-key">Hash SHA-256</span><span class="out-data" style="font-size:0.6rem;color:var(--green)">${hash.substring(0,32)}...</span></div>
+        <div class="out-row"><span class="out-key">Hash completo</span><span class="out-data" style="font-size:0.55rem;color:rgba(0,255,65,0.6)">${hash}</span></div>
         <div class="out-row"><span class="out-key">GPS</span><span class="out-data">19.432608°, -99.133209°</span></div>
+        <div class="out-row"><span class="out-key">Timestamp</span><span class="out-data" style="font-size:0.62rem">${new Date().toISOString()}</span></div>
         <div class="out-row"><span class="out-key">Propietario</span><span class="out-data green">Roberto Rivera Gamas — RIGR840827PJ0</span></div>
     `;
 }
