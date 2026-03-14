@@ -22,7 +22,7 @@ async function generarCertificadoValoracion(nombreProyecto = "Throne Protocol V3
     console.log('💰 GENERANDO CERTIFICADO DE VALORACIÓN...');
     
     const certificadoId = `VALORACION-${Date.now()}-${crypto.randomBytes(4).toString('hex').toUpperCase()}`;
-    const rfcCode = `RFC: Contacto176`;
+    const rfcCode = `RFC: RIGR840827PJ0  |  Roberto Rivera Gamas`;
     const timestamp = new Date();
     const valorTotal = "$229,800,000,000";
     
@@ -246,27 +246,44 @@ async function generarCertificadoValoracion(nombreProyecto = "Throne Protocol V3
        .fillColor('#ffffff')
        .text('Afique 2025', 100, 695);
     
-    // Firma (simulada)
-    doc.fontSize(24)
-       .font('Helvetica-Oblique')
-       .fillColor('#d4af37')
-       .text('Signature', 320, 645);
-    
+    // Firma manuscrita real (imagen)
+    const firmaImgPath = path.join(__dirname, '..', 'public', 'firma-roberto-rivera.png');
+    if (fs.existsSync(firmaImgPath)) {
+        doc.image(firmaImgPath, 308, 635, { width: 160, height: 55 });
+    } else {
+        doc.fontSize(24)
+           .font('Helvetica-Oblique')
+           .fillColor('#d4af37')
+           .text('Roberto Rivera Gamas', 308, 645, { width: 200 });
+    }
+
+    // Línea de firma
+    doc.moveTo(308, 698).lineTo(508, 698).strokeColor('#d4af37').lineWidth(1).stroke();
+
     doc.fontSize(9)
+       .font('Helvetica-Bold')
+       .fillColor('#ffd700')
+       .text('Roberto Rivera Gamas', 308, 702, { width: 200, align: 'center' });
+
+    doc.fontSize(8)
        .font('Helvetica')
        .fillColor('#ffffff')
-       .text(mesAnioCapitalized, 320, 675, { align: 'center', width: 150 });
+       .text('Propietario y Arquitecto Principal', 308, 714, { width: 200, align: 'center' });
+
+    doc.fontSize(8)
+       .fillColor('#d4af37')
+       .text('Street Emporio Royal', 308, 724, { width: 200, align: 'center' });
     
-    // Footer con firma RSA
+    // Footer propietario + RFC
     doc.fontSize(9)
        .fillColor('#d4af37')
-       .text('Arte Visualista-Royal - Diseñador de Arquitectura Empresarial Futurista', 0, 735, { align: 'center' });
+       .text('Roberto Rivera Gamas  |  RFC: RIGR840827PJ0  |  Street Emporio Royal  |  www.streetemporioroyal.com', 0, 742, { align: 'center' });
     
     // Firma Digital RSA-4096 (si existe)
     if (firmaDigital) {
         doc.fontSize(6)
            .fillColor('#666666')
-           .text(`Firma RSA-4096: ${firmaDigital.substring(0, 40)}...`, 0, 750, { align: 'center' });
+           .text(`Firma RSA-4096: ${firmaDigital.substring(0, 48)}...`, 0, 755, { align: 'center' });
     }
     
     doc.end();
@@ -471,12 +488,30 @@ async function generarCertificadoValidacionTecnica(nombreSistema = "Throne Proto
        .lineWidth(1)
        .stroke();
     
-    // Firma (simulada con estilo elegante)
-    doc.fontSize(32)
-       .font('Helvetica-Oblique')
-       .fillColor('#d4af37')
-       .text('Certified', 320, 590);
-    
+    // Firma manuscrita real (imagen)
+    const firmaImgPath2 = path.join(__dirname, '..', 'public', 'firma-roberto-rivera.png');
+    if (fs.existsSync(firmaImgPath2)) {
+        doc.image(firmaImgPath2, 312, 568, { width: 160, height: 55 });
+    } else {
+        doc.fontSize(28)
+           .font('Helvetica-Oblique')
+           .fillColor('#d4af37')
+           .text('Roberto Rivera Gamas', 312, 580, { width: 200 });
+    }
+
+    // Línea de firma
+    doc.moveTo(312, 628).lineTo(492, 628).strokeColor('#d4af37').lineWidth(1).stroke();
+
+    doc.fontSize(9)
+       .font('Helvetica-Bold')
+       .fillColor('#ffd700')
+       .text('Roberto Rivera Gamas', 312, 632, { width: 180, align: 'center' });
+
+    doc.fontSize(8)
+       .font('Helvetica')
+       .fillColor('#ffffff')
+       .text('Arquitecto Principal  |  Propietario', 312, 644, { width: 180, align: 'center' });
+
     // Información del certificado
     doc.fontSize(10)
        .font('Helvetica')
@@ -487,25 +522,37 @@ async function generarCertificadoValidacionTecnica(nombreSistema = "Throne Proto
     const mesAnioCapitalized = mesAnio.charAt(0).toUpperCase() + mesAnio.slice(1);
     
     doc.fontSize(10)
-       .text(mesAnioCapitalized, 320, 640, { align: 'center', width: 172 });
+       .text(mesAnioCapitalized, 100, 658);
+
+    // RFC del propietario
+    doc.fontSize(10)
+       .font('Helvetica-Bold')
+       .fillColor('#d4af37')
+       .text('RFC: RIGR840827PJ0', 100, 672);
     
-    // Desarrollador
+    // Empresa
+    doc.fontSize(9)
+       .font('Helvetica')
+       .fillColor('#ffffff')
+       .text('Street Emporio Royal  |  www.streetemporioroyal.com', 100, 686);
+
+    // Footer propietario
     doc.fontSize(9)
        .fillColor('#d4af37')
-       .text('Desarrollador: Contacto176 - Arte Visualista Royal', 0, 680, { align: 'center' });
+       .text('Roberto Rivera Gamas  |  RFC: RIGR840827PJ0  |  Street Emporio Royal  |  www.streetemporioroyal.com', 0, 700, { align: 'center' });
     
     // Hash de seguridad (footer)
     doc.fontSize(7)
        .fillColor('#666666')
-       .text(`Hash SHA-256: ${hash.substring(0, 48)}...`, 0, 715, { align: 'center' });
+       .text(`Hash SHA-256: ${hash.substring(0, 48)}...`, 0, 718, { align: 'center' });
     
     if (firmaDigital) {
         doc.fontSize(6)
-           .text(`Firma RSA-4096: ${firmaDigital.substring(0, 40)}...`, 0, 727, { align: 'center' });
+           .text(`Firma RSA-4096: ${firmaDigital.substring(0, 48)}...`, 0, 730, { align: 'center' });
     }
     
     doc.fontSize(7)
-       .text(`Certificado blockchain-verified | Throne Protocol V3.0`, 0, 740, { align: 'center' });
+       .text(`Certificado blockchain-verified | Throne Protocol V3.0 | AHT ENGINE-27`, 0, 742, { align: 'center' });
     
     doc.end();
     
