@@ -4650,6 +4650,107 @@ app.get('/api/aht/anthropic/status', (req, res) => {
 
 // ════════════════════════════════════════════════════════════════════
 
+// ════════════════════════════════════════════════════════════════════
+// CONTACTO CMD — Perfil Público de Roberto Rivera Gamas
+// CORS abierto → superagente.com / cualquier dominio externo
+// ════════════════════════════════════════════════════════════════════
+
+const CONTACTO_CORS = (req, res, next) => {
+    res.set('Access-Control-Allow-Origin', '*');
+    res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    if (req.method === 'OPTIONS') return res.sendStatus(204);
+    next();
+};
+
+// GET /api/contacto   — Tarjeta de contacto pública (CORS abierto)
+app.get('/api/contacto', CONTACTO_CORS, (req, res) => {
+    const pubPem     = cryptoService ? cryptoService.extraerClavePublica() : null;
+    const jwk        = pubPem ? publicPemToJwk(pubPem) : null;
+    res.json({
+        tipo:            'CONTACTO_EMPRESARIAL',
+        nombre:          'Roberto Rivera Gamas',
+        rfc:             'RIGR840827PJ0',
+        empresa:         'Street Emporio Royal',
+        cargo:           'Fundador & Arquitecto Principal',
+        email:           'contacto@streetemporioroyal.com',
+        dominio:         'streetemporioroyal.com',
+        sitio_web:       'https://streetemporioroyal.com',
+        identity_provider: 'https://streetemporioroyal.com/.well-known/openid-configuration',
+        engine:          'ENGINE-27',
+        protocolo:       'AHT-GATEWAY | Throne Protocol V3.0',
+        nivel:           'PRESIDENTIAL',
+        coordenadas_gps: { lat: 19.432608, lng: -99.133209, ciudad: 'Ciudad de México, CDMX' },
+        certifications:  ['AIRTABLE-BUILDER','AI-APP-BUILDER','AIRTABLE-ADMIN','LICENSE-MATRIX-Omega55'],
+        algebra:         'Gauss-Jordan inversa | Matrices 2×2→5×5 | Campo gravitacional WGS84',
+        tokens:          { total: 28, personales: 19, fusion: 9 },
+        rsa4096_kid:     jwk ? jwk.kid : null,
+        jwks_uri:        'https://streetemporioroyal.com/.well-known/jwks.json',
+        did:             'did:web:streetemporioroyal.com',
+        embed_widget:    'https://streetemporioroyal.com/contacto-cmd.html',
+        api_contacto:    'https://streetemporioroyal.com/api/contacto',
+        timestamp:       new Date().toISOString(),
+    });
+});
+
+// GET /api/contacto/embed.js   — Script embebible en cualquier sitio externo
+app.get('/api/contacto/embed.js', CONTACTO_CORS, (req, res) => {
+    res.set('Content-Type', 'application/javascript');
+    res.set('Cache-Control', 'public, max-age=3600');
+    res.send(`
+/* AHT Contact Widget — Roberto Rivera Gamas — streetemporioroyal.com */
+(function(){
+    function ahtLoadContact(containerId, opts){
+        opts = opts || {};
+        fetch('https://streetemporioroyal.com/api/contacto')
+        .then(function(r){return r.json();})
+        .then(function(d){
+            var el = document.getElementById(containerId);
+            if(!el) return;
+            el.innerHTML = [
+                '<div style="font-family:sans-serif;background:#050a14;color:#e8f4ff;border:1px solid #d4a017;border-radius:10px;padding:16px 20px;max-width:340px;">',
+                '<div style="color:#d4a017;font-weight:700;font-size:.9rem;letter-spacing:1px;margin-bottom:8px;">⚡ '+d.empresa+'</div>',
+                '<div style="font-size:1rem;font-weight:700;color:#fff;margin-bottom:2px;">'+d.nombre+'</div>',
+                '<div style="font-size:.75rem;color:#8ab4d4;margin-bottom:8px;">'+d.cargo+'</div>',
+                '<a href="mailto:'+d.email+'" style="display:block;font-size:.8rem;color:#00c3ff;text-decoration:none;margin-bottom:4px;">✉ '+d.email+'</a>',
+                '<a href="'+d.sitio_web+'" target="_blank" style="display:block;font-size:.8rem;color:#00c3ff;text-decoration:none;margin-bottom:8px;">🌐 '+d.dominio+'</a>',
+                '<div style="font-size:.68rem;color:#5a7ea8;border-top:1px solid #1a2f50;padding-top:6px;margin-top:6px;">RFC: '+d.rfc+' · '+d.engine+' · OIDC RS256</div>',
+                '</div>'
+            ].join('');
+        }).catch(function(){});
+    }
+    window.AHTContact = { load: ahtLoadContact };
+    var auto = document.querySelector('[data-aht-contact]');
+    if(auto) ahtLoadContact(auto.id || auto.getAttribute('data-aht-contact'));
+})();
+    `.trim());
+});
+
+// POST /api/contacto/cmd   — Ejecutar comando desde contacto-cmd
+app.post('/api/contacto/cmd', CONTACTO_CORS, async (req, res) => {
+    const { cmd, query } = req.body;
+    const comandos = {
+        'info':    () => ({ resultado: 'Roberto Rivera Gamas | RFC: RIGR840827PJ0 | Street Emporio Royal | contacto@streetemporioroyal.com' }),
+        'algebra': () => ({ resultado: 'Motor Álgebra Inversa: Gauss-Jordan 2×2→5×5 | Campo WGS84 | Ajedrez Cuántico 32 piezas | Topología Poincaré' }),
+        'tokens':  () => ({ resultado: '28 tokens activos: 19 personales + 9 FUSION | ENGINE-27 | RSA-4096 firmados' }),
+        'engine':  () => ({ resultado: 'ENGINE-27 | AHT-GATEWAY | Throne Protocol V3.0 | Sovereign Backend v1.0' }),
+        'oidc':    () => ({ resultado: 'Issuer: https://streetemporioroyal.com | JWKS: /.well-known/jwks.json | DID: did:web:streetemporioroyal.com' }),
+        'help':    () => ({ resultado: 'Comandos: info | algebra | tokens | engine | oidc | status | help' }),
+        'status':  () => ({ resultado: `ENGINE-27 ACTIVO | RSA-4096: ${cryptoService ? 'OK' : 'NO'} | DB: PostgreSQL | Timestamp: ${new Date().toISOString()}` }),
+    };
+    const fn = comandos[cmd?.toLowerCase()?.trim()];
+    if (fn) {
+        return res.json({ ok: true, cmd, ...fn(), timestamp: new Date().toISOString() });
+    }
+    // Comando libre → responder con Gemini si disponible
+    try {
+        const respuesta = await chatWithGemini(`Eres el asistente empresarial de Roberto Rivera Gamas (Street Emporio Royal, RFC RIGR840827PJ0, ENGINE-27, AHT-GATEWAY). Responde en español, máximo 2 oraciones concisas. Pregunta: ${query || cmd}`);
+        res.json({ ok: true, cmd, resultado: respuesta, ai: 'Gemini', timestamp: new Date().toISOString() });
+    } catch(e) {
+        res.json({ ok: false, cmd, resultado: `Comando no reconocido. Usa: help`, timestamp: new Date().toISOString() });
+    }
+});
+
 // Sirve archivos estáticos (HTML, JS, CSS)
 app.use(express.static(path.join(__dirname, '..', 'public')));
 

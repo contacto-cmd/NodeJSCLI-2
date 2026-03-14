@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contacto CMD — Roberto Rivera Gamas · Street Emporio Royal</title>
+<style>
+  :root {
+    --gold:  #d4a017;
+    --gold2: #f0c040;
+    --blue:  #00c3ff;
+    --green: #00ff88;
+    --dark:  #050a14;
+    --card:  #0a1628;
+    --bdr:   #1a2f50;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--dark); color:#e8f4ff; font-family:'Segoe UI',monospace,sans-serif; min-height:100vh; display:flex; flex-direction:column; }
+
+  /* HEADER */
+  .hdr {
+    background:linear-gradient(135deg,#050a14,#0a1628,#050a14);
+    border-bottom:2px solid var(--gold);
+    padding:20px 28px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;
+  }
+  .hdr-left h1 { font-size:1.3rem; color:var(--gold2); letter-spacing:3px; font-weight:800; }
+  .hdr-left p  { font-size:.75rem; color:#5a7ea8; margin-top:3px; letter-spacing:1px; }
+  .badge-row { display:flex; gap:6px; flex-wrap:wrap; }
+  .badge { padding:3px 10px; border-radius:16px; font-size:.68rem; font-weight:700; letter-spacing:1px; }
+  .bg  { background:rgba(0,255,136,.1); border:1px solid var(--green); color:var(--green); }
+  .bb  { background:rgba(0,195,255,.1); border:1px solid var(--blue);  color:var(--blue);  }
+  .bgo { background:rgba(212,160,23,.1); border:1px solid var(--gold); color:var(--gold2); }
+
+  /* MAIN LAYOUT */
+  .main { display:grid; grid-template-columns:340px 1fr; flex:1; min-height:0; }
+  @media(max-width:768px){ .main { grid-template-columns:1fr; } }
+
+  /* SIDE PANEL */
+  .side {
+    background:#060d1c; border-right:1px solid var(--bdr);
+    padding:20px 18px; display:flex; flex-direction:column; gap:14px; overflow-y:auto;
+  }
+  .card-contact {
+    background:var(--card); border:1px solid var(--bdr); border-radius:10px;
+    padding:16px; position:relative; overflow:hidden;
+  }
+  .card-contact::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--gold),transparent); }
+  .ct-name  { font-size:1.1rem; font-weight:800; color:#fff; margin-bottom:2px; }
+  .ct-role  { font-size:.75rem; color:#8ab4d4; margin-bottom:10px; }
+  .ct-row   { display:flex; gap:8px; align-items:center; margin-bottom:6px; }
+  .ct-icon  { width:22px; text-align:center; font-size:.9rem; flex-shrink:0; }
+  .ct-val   { font-size:.78rem; color:#a0c8e8; }
+  .ct-val a { color:var(--blue); text-decoration:none; }
+  .ct-val a:hover { text-decoration:underline; }
+  .divider  { border:none; border-top:1px solid var(--bdr); margin:4px 0; }
+
+  /* EMBED BOX */
+  .embed-box {
+    background:#060d1c; border:1px solid var(--bdr); border-radius:8px; padding:12px;
+  }
+  .embed-title { font-size:.68rem; color:var(--gold); text-transform:uppercase; letter-spacing:2px; margin-bottom:8px; font-weight:700; }
+  .code-block {
+    background:#03070f; border:1px solid var(--bdr); border-radius:6px;
+    padding:10px; font-family:monospace; font-size:.68rem; color:#6ab4d4;
+    white-space:pre-wrap; word-break:break-all; cursor:pointer; position:relative;
+  }
+  .code-block:hover { border-color:var(--gold); }
+  .copy-hint { position:absolute; top:4px; right:6px; font-size:.6rem; color:#5a7ea8; }
+
+  /* ALGEBARA BLOCK */
+  .alg-block { background:var(--card); border:1px solid var(--bdr); border-radius:10px; padding:14px; }
+  .alg-title { font-size:.72rem; color:var(--blue); text-transform:uppercase; letter-spacing:2px; margin-bottom:8px; font-weight:700; }
+  .alg-item  { font-size:.76rem; color:#8ab4d4; margin-bottom:4px; }
+  .alg-item span { color:var(--gold2); font-weight:700; }
+
+  /* TERMINAL PANEL */
+  .terminal { display:flex; flex-direction:column; height:100%; min-height:500px; }
+
+  .term-header {
+    background:#060d1c; border-bottom:1px solid var(--bdr);
+    padding:10px 18px; display:flex; align-items:center; gap:8px;
+  }
+  .term-dots { display:flex; gap:5px; }
+  .dot { width:10px; height:10px; border-radius:50%; }
+  .dot-r { background:#ff5f57; } .dot-y { background:#febc2e; } .dot-g { background:#28c840; }
+  .term-title { font-size:.75rem; color:#5a7ea8; margin-left:8px; letter-spacing:1px; }
+
+  .term-body {
+    flex:1; padding:16px 18px; overflow-y:auto; font-family:monospace; font-size:.82rem;
+    line-height:1.6; scrollbar-width:thin; scrollbar-color:var(--bdr) transparent;
+  }
+  .line-sys   { color:#3a5070; }
+  .line-info  { color:#8ab4d4; }
+  .line-out   { color:var(--green); }
+  .line-err   { color:#ff5566; }
+  .line-ai    { color:#a855f7; }
+  .line-gold  { color:var(--gold2); }
+  .line-cmd   { color:#fff; }
+  .prompt     { color:var(--gold2); margin-right:6px; user-select:none; }
+
+  .term-input-row {
+    border-top:1px solid var(--bdr); background:#060d1c;
+    display:flex; align-items:center; padding:12px 18px; gap:8px;
+  }
+  .term-prompt { color:var(--gold2); font-family:monospace; font-size:.85rem; white-space:nowrap; }
+  .term-input {
+    flex:1; background:transparent; border:none; outline:none; color:#fff;
+    font-family:monospace; font-size:.85rem; caret-color:var(--gold2);
+  }
+  .term-input::placeholder { color:#2a4060; }
+  .run-btn {
+    background:rgba(212,160,23,.12); border:1px solid var(--gold); color:var(--gold2);
+    padding:5px 14px; border-radius:6px; cursor:pointer; font-size:.75rem; font-weight:700;
+    letter-spacing:1px; transition:all .15s; font-family:monospace;
+  }
+  .run-btn:hover { background:rgba(212,160,23,.25); }
+
+  /* API INFO BANNER */
+  .api-banner {
+    background:#060d1c; border-top:1px solid var(--bdr);
+    padding:10px 28px; display:flex; gap:24px; flex-wrap:wrap; align-items:center;
+  }
+  .api-ep { font-size:.72rem; }
+  .api-ep .method { color:var(--green); font-weight:700; margin-right:4px; }
+  .api-ep .path   { color:#a0c8e8; font-family:monospace; }
+  .api-ep .desc   { color:#3a5070; margin-left:6px; }
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-left">
+    <h1>⚡ CONTACTO CMD</h1>
+    <p>Street Emporio Royal · Roberto Rivera Gamas · ENGINE-27 · streetemporioroyal.com</p>
+  </div>
+  <div class="badge-row">
+    <span class="badge bg">● ONLINE</span>
+    <span class="badge bgo">RSA-4096</span>
+    <span class="badge bb">CORS ABIERTO</span>
+    <span class="badge bgo">ENGINE-27</span>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- LEFT SIDE -->
+  <div class="side">
+
+    <div class="card-contact" id="card-data">
+      <div class="ct-name" id="ct-name">Roberto Rivera Gamas</div>
+      <div class="ct-role" id="ct-role">Fundador & Arquitecto Principal · Street Emporio Royal</div>
+      <hr class="divider">
+      <div class="ct-row"><div class="ct-icon">✉</div><div class="ct-val"><a href="mailto:contacto@streetemporioroyal.com" id="ct-email">contacto@streetemporioroyal.com</a></div></div>
+      <div class="ct-row"><div class="ct-icon">🌐</div><div class="ct-val"><a href="https://streetemporioroyal.com" target="_blank" id="ct-web">streetemporioroyal.com</a></div></div>
+      <div class="ct-row"><div class="ct-icon">📋</div><div class="ct-val" id="ct-rfc">RFC: RIGR840827PJ0</div></div>
+      <div class="ct-row"><div class="ct-icon">⚡</div><div class="ct-val" id="ct-engine">ENGINE-27 · AHT-GATEWAY</div></div>
+      <div class="ct-row"><div class="ct-icon">📍</div><div class="ct-val" id="ct-gps">CDMX 19.4326°, -99.1332°</div></div>
+      <hr class="divider">
+      <div class="ct-row"><div class="ct-icon">🔐</div><div class="ct-val" id="ct-did">did:web:streetemporioroyal.com</div></div>
+      <div class="ct-row"><div class="ct-icon">🔑</div><div class="ct-val" id="ct-kid">kid: cargando…</div></div>
+    </div>
+
+    <div class="alg-block">
+      <div class="alg-title">🧮 Motor Álgebra Inversa</div>
+      <div class="alg-item"><span>Gauss-Jordan</span> — Matrices 2×2 → 5×5</div>
+      <div class="alg-item"><span>Campo WGS84</span> — Gravedad real por latitud</div>
+      <div class="alg-item"><span>Ajedrez Cuántico</span> — 32 piezas con masa</div>
+      <div class="alg-item"><span>Topología</span> — Poincaré / Minkowski 4D</div>
+      <div class="alg-item"><span>Tokens</span> — 28 (19 personal + 9 FUSION)</div>
+    </div>
+
+    <div class="embed-box">
+      <div class="embed-title">Código para Integrar en Sitio Externo</div>
+      <div class="code-block" onclick="copyCode(this)" title="Click para copiar">
+        <span class="copy-hint">click para copiar</span>&lt;!-- Widget AHT Contact --&gt;
+&lt;div id="aht-contact"&gt;&lt;/div&gt;
+&lt;script src="https://streetemporioroyal.com
+/api/contacto/embed.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  AHTContact.load('aht-contact');
+&lt;/script&gt;</div>
+      <div style="margin-top:8px;font-size:.68rem;color:#3a5070;">También puedes llamar directamente:<br><span style="color:#6ab4d4;font-family:monospace;">GET /api/contacto</span> — JSON abierto, sin auth</div>
+    </div>
+
+  </div><!-- /side -->
+
+  <!-- TERMINAL PANEL -->
+  <div class="terminal">
+
+    <div class="term-header">
+      <div class="term-dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
+      <div class="term-title">CONTACTO-CMD // ENGINE-27 // AHT-GATEWAY</div>
+    </div>
+
+    <div class="term-body" id="term-body">
+      <div class="line-sys">═══════════════════════════════════════════════════════</div>
+      <div class="line-gold">  CONTACTO-CMD v1.0 — Street Emporio Royal ENGINE-27</div>
+      <div class="line-sys">  Issuer: https://streetemporioroyal.com</div>
+      <div class="line-sys">  RFC: RIGR840827PJ0 · Throne Protocol V3.0</div>
+      <div class="line-sys">═══════════════════════════════════════════════════════</div>
+      <div class="line-info" style="margin-top:8px;">Sistema listo. Comandos disponibles:</div>
+      <div class="line-out" style="margin-top:4px;">  info · algebra · tokens · engine · oidc · status · help</div>
+      <div class="line-info" style="margin-top:4px;">O escribe cualquier pregunta para respuesta AI (Gemini).</div>
+      <div style="margin-top:8px;" class="line-sys">───────────────────────────────────────────────────────</div>
+    </div>
+
+    <div class="term-input-row">
+      <span class="term-prompt">ENGINE-27 ▶</span>
+      <input class="term-input" id="cmd-input" type="text" placeholder="Escribe un comando o pregunta…" autocomplete="off" spellcheck="false">
+      <button class="run-btn" onclick="runCmd()">RUN ↵</button>
+    </div>
+
+  </div><!-- /terminal -->
+
+</div><!-- /main -->
+
+<div class="api-banner">
+  <div class="api-ep"><span class="method">GET</span><span class="path">/api/contacto</span><span class="desc">JSON público · CORS abierto · sin auth</span></div>
+  <div class="api-ep"><span class="method">GET</span><span class="path">/api/contacto/embed.js</span><span class="desc">Widget embebible (superagente.com u otro)</span></div>
+  <div class="api-ep"><span class="method">POST</span><span class="path">/api/contacto/cmd</span><span class="desc">Ejecutar comandos vía API</span></div>
+  <div class="api-ep"><span class="method">GET</span><span class="path">/.well-known/did.json</span><span class="desc">Identidad descentralizada W3C</span></div>
+</div>
+
+<script>
+const body    = document.getElementById('term-body');
+const input   = document.getElementById('cmd-input');
+const history = [];
+let histIdx   = -1;
+
+function appendLine(cls, text) {
+    const d = document.createElement('div');
+    d.className = cls;
+    d.textContent = text;
+    body.appendChild(d);
+    body.scrollTop = body.scrollHeight;
+}
+
+async function runCmd() {
+    const raw = input.value.trim();
+    if (!raw) return;
+    history.unshift(raw); histIdx = -1;
+    input.value = '';
+
+    appendLine('line-cmd', `ENGINE-27 ▶ ${raw}`);
+
+    try {
+        const r = await fetch('/api/contacto/cmd', {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({ cmd: raw, query: raw })
+        });
+        const d = await r.json();
+        if (d.ai) {
+            appendLine('line-ai', `[${d.ai}] ${d.resultado}`);
+        } else if (d.ok) {
+            appendLine('line-out', `  ${d.resultado}`);
+        } else {
+            appendLine('line-err', `  ${d.resultado}`);
+        }
+    } catch(e) {
+        appendLine('line-err', `  ERROR: ${e.message}`);
+    }
+    appendLine('line-sys', '');
+}
+
+input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { runCmd(); return; }
+    if (e.key === 'ArrowUp') {
+        histIdx = Math.min(histIdx + 1, history.length - 1);
+        input.value = history[histIdx] || '';
+    }
+    if (e.key === 'ArrowDown') {
+        histIdx = Math.max(histIdx - 1, -1);
+        input.value = histIdx >= 0 ? history[histIdx] : '';
+    }
+});
+
+function copyCode(el) {
+    const txt = el.innerText.replace('click para copiar','').trim();
+    navigator.clipboard.writeText(txt).then(() => {
+        const h = el.querySelector('.copy-hint');
+        if (h) { h.textContent = '¡Copiado!'; setTimeout(() => h.textContent = 'click para copiar', 2000); }
+    });
+}
+
+// Cargar info de contacto al panel lateral
+async function loadContactInfo() {
+    try {
+        const r = await fetch('/api/contacto');
+        const d = await r.json();
+        document.getElementById('ct-kid').textContent = `kid: ${d.rsa4096_kid || '—'}`;
+        appendLine('line-sys', `[OK] Perfil cargado: ${d.nombre} · ${d.empresa}`);
+        appendLine('line-sys', `[OK] ENGINE: ${d.engine} · OIDC: ${d.identity_provider}`);
+        appendLine('line-sys', '───────────────────────────────────────────────────────');
+    } catch(e) {}
+}
+
+// Auto-ejecutar "status" inicial
+async function autoStatus() {
+    const r = await fetch('/api/contacto/cmd', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({cmd:'status'})
+    });
+    const d = await r.json();
+    appendLine('line-gold', `  STATUS: ${d.resultado}`);
+    appendLine('line-sys', '───────────────────────────────────────────────────────');
+}
+
+// Init
+loadContactInfo();
+setTimeout(autoStatus, 500);
+input.focus();
+</script>
+
+</body>
+</html>
