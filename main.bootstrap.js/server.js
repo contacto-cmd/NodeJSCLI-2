@@ -37,6 +37,7 @@ const anthropicClient = process.env.ANTHROPIC_API_KEY
 // LGORITMO AHT - Servicios Cuánticos
 const QuantumService = require('./services/quantum-service');
 const SatelliteService = require('./services/satellite-service');
+const { obtenerCubo, cubosActivos } = require('./viador-cubico');
 const AlgebraInversaService = require('./services/algebra-inversa-service');
 const BlueprintGeneratorService = require('./services/blueprint-generator-service');
 const CerebroVivoService = require('./services/cerebro-vivo-service');
@@ -596,6 +597,64 @@ app.post('/api/eagi/command', async (req, res) => {
         console.error("EAGI Pipeline Error:", error);
         res.status(500).json({ success: false, error: error.message });
     }
+});
+
+// ════════════════════════════════════════════════════════════════════
+// VIADOR CÚBICO — Transformación Energética + Sellado RSA-4096
+// ════════════════════════════════════════════════════════════════════
+
+// POST /api/viador/activar — Certificar activación con sellado criptográfico
+app.post('/api/viador/activar', (req, res) => {
+    try {
+        const { id_cubo = 'Alpha-01', voltaje = 220, alpha = 0.98 } = req.body;
+        const V = parseFloat(voltaje);
+        const a = parseFloat(alpha);
+        if (isNaN(V) || isNaN(a) || V <= 0 || a <= 0 || a > 1) {
+            return res.status(400).json({ success: false, error: 'Parámetros inválidos. V > 0, 0 < alpha ≤ 1' });
+        }
+        const cubo = obtenerCubo(id_cubo);
+        const resultado = cubo.certificarActivacion(V, a);
+        res.json({ success: true, resultado });
+    } catch (e) {
+        res.status(500).json({ success: false, error: e.message });
+    }
+});
+
+// GET /api/viador/ledger/:id — Ledger blockchain del cubo
+app.get('/api/viador/ledger/:id', (req, res) => {
+    try {
+        const cubo = obtenerCubo(req.params.id);
+        res.json({ success: true, ...cubo.getLedger() });
+    } catch (e) {
+        res.status(500).json({ success: false, error: e.message });
+    }
+});
+
+// GET /api/viador/verificar/:id — Verificar integridad del blockchain
+app.get('/api/viador/verificar/:id', (req, res) => {
+    try {
+        const cubo = obtenerCubo(req.params.id);
+        const integridad = cubo.verificarIntegridad();
+        res.json({ success: true, ...integridad });
+    } catch (e) {
+        res.status(500).json({ success: false, error: e.message });
+    }
+});
+
+// GET /api/viador/cubos — Lista de cubos activos
+app.get('/api/viador/cubos', (req, res) => {
+    const lista = [];
+    cubosActivos.forEach((cubo, id) => {
+        lista.push({
+            id,
+            activaciones: cubo.activaciones,
+            energia_acumulada: cubo.energiaAcumulada,
+            bloques: cubo.blockchainLedger.length,
+            key_fingerprint: cubo.keyFingerprint.substring(0, 16) + '...',
+            createdAt: cubo.createdAt
+        });
+    });
+    res.json({ success: true, total: lista.length, cubos: lista });
 });
 
 // Obtener datos TLE de satélites en órbita (ISS, Starlink, GPS, etc)
