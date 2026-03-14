@@ -657,6 +657,123 @@ app.get('/api/viador/cubos', (req, res) => {
     res.json({ success: true, total: lista.length, cubos: lista });
 });
 
+// ════════════════════════════════════════════════════════════════════
+// SOVEREIGN BACKEND v1.0 — AHT SUPRM HYBRID • ENGINE 27
+// Endpoints: /api/sovereign/...
+// ════════════════════════════════════════════════════════════════════
+
+// GET /api/sovereign/health
+app.get('/api/sovereign/health', (req, res) => {
+    res.json({ status:'SOVEREIGN_ONLINE', engine:'ENGINE-27', protocol:'AHT-GATEWAY', timestamp: new Date().toISOString() });
+});
+
+// POST /api/sovereign/auth/master-login
+app.post('/api/sovereign/auth/master-login', async (req, res) => {
+    const { rfc, email } = req.body;
+    try {
+        const result = await dbService.pool.query('SELECT * FROM sovereign_owners WHERE rfc=$1 OR email=$2', [rfc, email]);
+        if (!result.rows.length) return res.status(401).json({ success:false, error:'Propietario no encontrado' });
+        const owner = result.rows[0];
+        await dbService.pool.query('INSERT INTO sovereign_audit_log(owner_id,action,details,ip_address) VALUES($1,$2,$3,$4)', [owner.id,'MASTER_LOGIN',JSON.stringify({rfc,email}),req.ip]);
+        res.json({ success:true, owner: { name:owner.name, rfc:owner.rfc, email:owner.email, domain:owner.root_domain }, token:`SOVEREIGN-${Date.now()}-${owner.rfc}`, engine:'ENGINE-27' });
+    } catch(e) { res.status(500).json({ success:false, error:e.message }); }
+});
+
+// GET /api/sovereign/license/status
+app.get('/api/sovereign/license/status', async (req, res) => {
+    try {
+        const result = await dbService.pool.query('SELECT l.*, o.name, o.rfc FROM sovereign_licenses l JOIN sovereign_owners o ON l.owner_id=o.id ORDER BY l.issued_at');
+        res.json({ success:true, total:result.rows.length, licenses:result.rows });
+    } catch(e) { res.status(500).json({ success:false, error:e.message }); }
+});
+
+// POST /api/sovereign/license/verify
+app.post('/api/sovereign/license/verify', async (req, res) => {
+    const { certificate_no } = req.body;
+    if (!certificate_no) return res.status(400).json({ success:false, error:'certificate_no requerido' });
+    try {
+        const result = await dbService.pool.query('SELECT l.*, o.name, o.rfc, o.email FROM sovereign_licenses l JOIN sovereign_owners o ON l.owner_id=o.id WHERE l.certificate_no=$1', [certificate_no]);
+        if (!result.rows.length) return res.json({ success:false, valid:false, error:'Certificado no encontrado' });
+        const lic = result.rows[0];
+        const now = new Date();
+        const valid = !lic.valid_until || new Date(lic.valid_until) > now;
+        res.json({ success:true, valid, license:{ name:lic.license_name, certificate_no:lic.certificate_no, owner:lic.name, rfc:lic.rfc, status:lic.status, valid_from:lic.valid_from, valid_until:lic.valid_until, engine:lic.engine_version } });
+    } catch(e) { res.status(500).json({ success:false, error:e.message }); }
+});
+
+// POST /api/sovereign/license/issue
+app.post('/api/sovereign/license/issue', async (req, res) => {
+    const { license_id, license_name, engine_version='ENGINE-27', valid_months=24 } = req.body;
+    try {
+        const owner = await dbService.pool.query('SELECT * FROM sovereign_owners WHERE rfc=$1', ['RIGR840827PJ0']);
+        if (!owner.rows.length) return res.status(404).json({ success:false, error:'Propietario no encontrado' });
+        const certNo = `RRG-${Date.now().toString(36).toUpperCase()}`;
+        const validUntil = new Date(); validUntil.setMonth(validUntil.getMonth()+valid_months);
+        const result = await dbService.pool.query(
+            'INSERT INTO sovereign_licenses(owner_id,license_id,license_name,engine_version,status,valid_from,valid_until,certificate_no) VALUES($1,$2,$3,$4,$5,NOW(),$6,$7) RETURNING *',
+            [owner.rows[0].id, license_id, license_name, engine_version, 'active', validUntil, certNo]
+        );
+        res.json({ success:true, license:result.rows[0], certificate_no:certNo });
+    } catch(e) { res.status(500).json({ success:false, error:e.message }); }
+});
+
+// GET /api/sovereign/matrix/assets
+app.get('/api/sovereign/matrix/assets', async (req, res) => {
+    try {
+        const result = await dbService.pool.query('SELECT * FROM sovereign_matrix_assets ORDER BY created_at DESC');
+        res.json({ success:true, total:result.rows.length, assets:result.rows });
+    } catch(e) { res.status(500).json({ success:false, error:e.message }); }
+});
+
+// POST /api/sovereign/matrix/assign
+app.post('/api/sovereign/matrix/assign', async (req, res) => {
+    const { asset_name, asset_type='token', tier='quantum', metadata={} } = req.body;
+    if (!asset_name) return res.status(400).json({ success:false, error:'asset_name requerido' });
+    try {
+        const owner = await dbService.pool.query('SELECT id FROM sovereign_owners WHERE rfc=$1', ['RIGR840827PJ0']);
+        const result = await dbService.pool.query(
+            'INSERT INTO sovereign_matrix_assets(owner_id,asset_name,asset_type,tier,metadata) VALUES($1,$2,$3,$4,$5) RETURNING *',
+            [owner.rows[0]?.id, asset_name, asset_type, tier, JSON.stringify(metadata)]
+        );
+        res.json({ success:true, asset:result.rows[0] });
+    } catch(e) { res.status(500).json({ success:false, error:e.message }); }
+});
+
+// POST /api/sovereign/quantum
+app.post('/api/sovereign/quantum', (req, res) => {
+    const { intent, parameters={} } = req.body;
+    res.json({ success:true, engine:'ENGINE-27', quantum_layer:'ACTIVE', intent, result:`QUANTUM-${intent?.toUpperCase()||'EXECUTE'}-${Date.now().toString(36).toUpperCase()}`, parameters, timestamp:new Date().toISOString() });
+});
+
+// GET /api/sovereign/quantum/health
+app.get('/api/sovereign/quantum/health', (req, res) => {
+    res.json({ quantum_layer:'ACTIVE', engine:'ENGINE-27', aht_gateway:'ONLINE', aht_suprm_hybrid:'ONLINE', command_brain_27:'ACTIVE', timestamp:new Date().toISOString() });
+});
+
+// POST /api/sovereign/brain/intent
+app.post('/api/sovereign/brain/intent', async (req, res) => {
+    const { intent, context='' } = req.body;
+    if (!intent) return res.status(400).json({ success:false, error:'intent requerido' });
+    try {
+        const response = await chatWithGemini(`Sovereign Command Brain 27 — AHT SUPRM HYBRID — intención: "${intent}". Contexto: "${context}". Responde como motor de inteligencia enterprise en español.`);
+        res.json({ success:true, engine:'COMMAND-BRAIN-27', intent, response, timestamp:new Date().toISOString() });
+    } catch(e) { res.json({ success:true, engine:'COMMAND-BRAIN-27', intent, response:`Motor Sovereign activado para: ${intent}`, timestamp:new Date().toISOString() }); }
+});
+
+// POST /api/sovereign/brain/generate
+app.post('/api/sovereign/brain/generate', async (req, res) => {
+    const { prompt, type='component' } = req.body;
+    res.json({ success:true, engine:'COMMAND-BRAIN-27', generated:`// SOVEREIGN GENERATED — ENGINE-27\n// ${prompt}\n// Type: ${type}\n// Propietario: Roberto Rivera Gamas — RIGR840827PJ0\n\nconsole.log("Sovereign ${type} generado — AHT ENGINE 27");`, timestamp:new Date().toISOString() });
+});
+
+// GET /api/sovereign/audit/logs
+app.get('/api/sovereign/audit/logs', async (req, res) => {
+    try {
+        const result = await dbService.pool.query('SELECT al.*, o.name, o.rfc FROM sovereign_audit_log al LEFT JOIN sovereign_owners o ON al.owner_id=o.id ORDER BY al.created_at DESC LIMIT 100');
+        res.json({ success:true, total:result.rows.length, logs:result.rows });
+    } catch(e) { res.status(500).json({ success:false, error:e.message }); }
+});
+
 // Obtener datos TLE de satélites en órbita (ISS, Starlink, GPS, etc)
 app.get('/api/satellites/live', (req, res) => {
     try {

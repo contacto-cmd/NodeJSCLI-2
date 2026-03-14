@@ -12,6 +12,9 @@
 
 ## 🆕 PÁGINAS PRINCIPALES (ENTERPRISE) — V3.0 SUPERCHARGE
 
+- **/mis-certificaciones.html** — Certificaciones REALES de Roberto (3 Airtable + License Matrix Omega55), verificación en vivo contra Sovereign DB, API Explorer interactivo Sovereign, DB schema visual
+
+
 - **/landing.html** — Landing enterprise COMPLETA: quantum-beast fondo real, quantum-vortex izquierdo, sello AHT SOVEREIGN CORE 27, stats live (IP+tokens+diseños), Master API Key panel, firma de Roberto, pipeline 8 módulos, todos los links reales
 - **/algebra-gravedad.html** — Motor real 5 tabs: Gauss-Jordan inversa (2×2→5×5), Campo gravitacional WGS84 real, Ajedrez cuántico 32 piezas, Topología Poincaré/Minkowski, Reporte enterprise
 - **/cockpit.html** — Panel de comando presidencial
