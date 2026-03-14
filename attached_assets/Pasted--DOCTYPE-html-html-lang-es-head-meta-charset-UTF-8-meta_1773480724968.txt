@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THRONE PROTOCOL V3.0 :: SOVEREIGN HUB</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=JetBrains+Mono:wght@300;500&display=swap');
+
+        :root {
+            --gold: #d4af37; --cyan: #00e1ff; --bg: #05070a;
+            --glass: rgba(255, 255, 255, 0.03); --border: rgba(212, 175, 55, 0.3);
+        }
+
+        body {
+            background-color: var(--bg); color: #fff; font-family: 'JetBrains Mono', monospace;
+            margin: 0; overflow-x: hidden; background-image: radial-gradient(circle at 50% 50%, #101520 0%, #05070a 100%);
+        }
+
+        /* Scanline Effect */
+        body::before {
+            content: " "; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 10; background-size: 100% 2px, 3px 100%; pointer-events: none;
+        }
+
+        header {
+            padding: 60px 20px; text-align: center; border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+        }
+
+        .throne-title {
+            font-family: 'Orbitron', sans-serif; font-size: 3.5rem; letter-spacing: 15px;
+            color: var(--gold); text-shadow: 0 0 20px rgba(212, 175, 55, 0.5); margin: 0;
+        }
+
+        .cert-badge-container {
+            display: flex; justify-content: center; gap: 20px; margin-top: 30px;
+        }
+
+        .cert-badge {
+            padding: 10px 20px; border: 1px solid var(--cyan); border-radius: 4px;
+            font-size: 0.7rem; color: var(--cyan); text-transform: uppercase; background: rgba(0, 225, 255, 0.05);
+        }
+
+        .grid-manifest {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px; padding: 50px; max-width: 1200px; margin: 0 auto;
+        }
+
+        .token-card {
+            background: var(--glass); border: 1px solid var(--border); padding: 20px;
+            position: relative; transition: 0.4s; cursor: pointer;
+        }
+
+        .token-card:hover {
+            border-color: var(--gold); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+        }
+
+        .token-id { color: var(--gold); font-size: 0.8rem; margin-bottom: 10px; display: block; }
+        .token-name { font-size: 1rem; font-weight: bold; letter-spacing: 2px; }
+
+        .cta-section {
+            text-align: center; padding: 100px 20px; background: rgba(212, 175, 55, 0.05);
+        }
+
+        .btn-acquire {
+            padding: 20px 50px; font-family: 'Orbitron', sans-serif; font-size: 1.2rem;
+            background: transparent; color: var(--gold); border: 2px solid var(--gold);
+            cursor: pointer; transition: 0.3s; text-transform: uppercase;
+        }
+
+        .btn-acquire:hover {
+            background: var(--gold); color: #000; box-shadow: 0 0 40px var(--gold);
+        }
+
+        footer {
+            padding: 40px; text-align: center; font-size: 0.7rem; color: #555;
+            border-top: 1px solid var(--border);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <p style="color: var(--cyan); margin-bottom: 10px;">[ SYSTEM STATUS: SECURE / RSA-4096 ACTIVE ]</p>
+    <h1 class="throne-title">THRONE PROTOCOL</h1>
+    <h2 style="font-weight: 300; letter-spacing: 5px;">ENTERPRISE SOVEREIGN COMMAND CLOUD</h2>
+    
+    <div class="cert-badge-container">
+        <div class="cert-badge">Airtable Certified Admin</div>
+        <div class="cert-badge">AI App Builder</div>
+        <div class="cert-badge">SaaS Owner Verified</div>
+    </div>
+</header>
+
+<section class="grid-manifest" id="tokenContainer">
+    </section>
+
+<section class="cta-section">
+    <h2 style="font-family: 'Orbitron';">ADQUIRIR LICENCIA FUSION</h2>
+    <p style="max-width: 600px; margin: 20px auto; line-height: 1.6; color: #aaa;">
+        Cada token representa una unidad de soberanía digital blindada. 
+        Al adquirir un nodo, se emite un certificado criptográfico único verificado por el protocolo RSA-4096.
+    </p>
+    <button class="btn-acquire" onclick="alert('Iniciando Proceso de Certificación...')">Reclamar Soberanía</button>
+</section>
+
+<footer>
+    &copy; 2026 ROBERTO RIVERA GAMAS. ARCHITECT ID: RIGR840827PJ0. ALL RIGHTS RESERVED.
+</footer>
+
+<script>
+    const tokens = [
+        "AETHER-TORUS-01", "PHASE-RING-02", "ENTROPY-BRAID-03", "HIGGS-LOCK-04",
+        "HEISEN-MATRIX-05", "KNOT-TORUS-06", "HODGE-MU-07", "GROTH-SHEAF-08",
+        "SUPERSTRING-09", "POINCARE-NU-10", "QUANTUM-COHOM-11", "MINKOWSKI-12",
+        "TOPO-TENSOR-13", "ISOFIELD-E-14", "WEAVE-15", "RING-OMEGA-16"
+    ]; // Agrega los 40 aquí
+
+    const container = document.getElementById('tokenContainer');
+
+    tokens.forEach((t, i) => {
+        const card = document.createElement('div');
+        card.className = 'token-card';
+        card.innerHTML = `
+            <span class="token-id">NODE_ID: 00${i+1}</span>
+            <div class="token-name">${t}</div>
+            <div style="margin-top:15px; font-size:0.6rem; color:var(--cyan)">STATUS: AVAILABLE</div>
+        `;
+        container.appendChild(card);
+    });
+</script>
+
+</body>
+</html>
