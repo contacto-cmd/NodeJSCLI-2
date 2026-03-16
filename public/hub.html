@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AHT MISSION CONTROL — Throne Protocol V3.0</title>
+<style>
+:root {
+  --gold:#d4a017; --gold2:#f0c040; --blue:#00c3ff; --green:#00ff88;
+  --purple:#a855f7; --red:#ff4466; --dark:#040810; --card:#080f1e;
+  --bdr:#152035; --bdr2:#1e3050;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;overflow:hidden;}
+body{background:var(--dark);color:#e8f4ff;font-family:'Segoe UI',system-ui,sans-serif;display:flex;flex-direction:column;}
+
+/* ANIMATED BG */
+body::before{
+  content:'';position:fixed;inset:0;
+  background:radial-gradient(ellipse 120% 60% at 50% 0%,rgba(0,195,255,.06) 0%,transparent 70%),
+             radial-gradient(ellipse 80% 80% at 90% 100%,rgba(168,85,247,.06) 0%,transparent 60%),
+             radial-gradient(ellipse 60% 60% at 0% 50%,rgba(212,160,23,.04) 0%,transparent 60%);
+  pointer-events:none;z-index:0;
+}
+
+/* TOP BAR */
+.topbar{
+  position:relative;z-index:10;
+  background:rgba(4,8,16,.95);border-bottom:1px solid var(--bdr2);
+  padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
+  backdrop-filter:blur(12px);
+}
+.tb-left{display:flex;align-items:center;gap:16px;}
+.tb-logo{font-size:1rem;font-weight:800;color:var(--gold2);letter-spacing:3px;}
+.tb-logo span{color:var(--blue);}
+.tb-sep{color:var(--bdr2);}
+.tb-title{font-size:.75rem;color:#5a7ea8;letter-spacing:1px;}
+.tb-right{display:flex;align-items:center;gap:12px;}
+.stat-pill{
+  display:flex;align-items:center;gap:5px;
+  background:rgba(255,255,255,.03);border:1px solid var(--bdr);
+  border-radius:20px;padding:3px 10px;font-size:.68rem;
+}
+.stat-dot{width:5px;height:5px;border-radius:50%;}
+.sd-g{background:var(--green);box-shadow:0 0 6px var(--green);animation:blink 2s infinite;}
+.sd-b{background:var(--blue);}
+.sd-go{background:var(--gold2);}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.tb-clock{font-size:.78rem;color:var(--gold2);font-family:monospace;min-width:80px;text-align:right;}
+
+/* LIVE STATS BAND */
+.statsband{
+  position:relative;z-index:10;
+  background:rgba(8,15,30,.9);border-bottom:1px solid var(--bdr);
+  padding:7px 24px;display:flex;gap:0;flex-shrink:0;overflow:hidden;
+}
+.sb-item{
+  display:flex;flex-direction:column;align-items:center;
+  padding:0 20px;border-right:1px solid var(--bdr);
+  min-width:110px;
+}
+.sb-item:first-child{padding-left:0;}
+.sb-item:last-child{border-right:none;}
+.sb-val{font-size:1.1rem;font-weight:800;font-family:monospace;}
+.sb-lbl{font-size:.6rem;color:#4a6080;text-transform:uppercase;letter-spacing:1px;margin-top:1px;}
+.c-gold{color:var(--gold2);}
+.c-green{color:var(--green);}
+.c-blue{color:var(--blue);}
+.c-purple{color:var(--purple);}
+.c-red{color:var(--red);}
+
+/* MAIN SCROLL AREA */
+.scroll{flex:1;overflow-y:auto;overflow-x:hidden;position:relative;z-index:1;padding:20px 24px 32px;}
+::-webkit-scrollbar{width:4px;} ::-webkit-scrollbar-thumb{background:var(--bdr2);border-radius:2px;}
+
+/* ZONE HEADER */
+.zone{margin-bottom:28px;}
+.zone-hdr{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.zone-icon{
+  width:36px;height:36px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;
+}
+.zone-name{font-size:.85rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;}
+.zone-desc{font-size:.72rem;color:#4a6080;margin-left:auto;}
+.zone-line{flex:1;height:1px;background:linear-gradient(90deg,var(--bdr2),transparent);}
+
+/* COLOR ZONES */
+.z-throne .zone-icon{background:rgba(212,160,23,.12);border:1px solid rgba(212,160,23,.3);}
+.z-throne .zone-name{color:var(--gold2);}
+.z-identity .zone-icon{background:rgba(0,195,255,.1);border:1px solid rgba(0,195,255,.3);}
+.z-identity .zone-name{color:var(--blue);}
+.z-tokens .zone-icon{background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.25);}
+.z-tokens .zone-name{color:var(--green);}
+.z-quantum .zone-icon{background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.3);}
+.z-quantum .zone-name{color:var(--purple);}
+.z-arch .zone-icon{background:rgba(255,68,102,.08);border:1px solid rgba(255,68,102,.25);}
+.z-arch .zone-name{color:var(--red);}
+.z-ai .zone-icon{background:rgba(0,195,255,.08);border:1px solid rgba(0,195,255,.2);}
+.z-ai .zone-name{color:#60d0ff;}
+
+/* APP GRID */
+.apps{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
+
+/* APP CARD */
+.app{
+  background:var(--card);border:1px solid var(--bdr);border-radius:14px;
+  padding:16px 14px;cursor:pointer;transition:all .18s;position:relative;overflow:hidden;
+  text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:8px;
+  user-select:none;
+}
+.app::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  opacity:0;transition:opacity .18s;
+}
+.app:hover{border-color:currentColor;transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.4);}
+.app:hover::before{opacity:1;}
+.app:active{transform:translateY(0);}
+
+/* Zone tints on hover */
+.z-throne .app:hover{border-color:rgba(212,160,23,.5);box-shadow:0 8px 32px rgba(212,160,23,.08);}
+.z-throne .app::before{background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.z-identity .app:hover{border-color:rgba(0,195,255,.4);box-shadow:0 8px 32px rgba(0,195,255,.08);}
+.z-identity .app::before{background:linear-gradient(90deg,transparent,var(--blue),transparent);}
+.z-tokens .app:hover{border-color:rgba(0,255,136,.4);box-shadow:0 8px 32px rgba(0,255,136,.08);}
+.z-tokens .app::before{background:linear-gradient(90deg,transparent,var(--green),transparent);}
+.z-quantum .app:hover{border-color:rgba(168,85,247,.5);box-shadow:0 8px 32px rgba(168,85,247,.1);}
+.z-quantum .app::before{background:linear-gradient(90deg,transparent,var(--purple),transparent);}
+.z-arch .app:hover{border-color:rgba(255,68,102,.4);box-shadow:0 8px 32px rgba(255,68,102,.08);}
+.z-arch .app::before{background:linear-gradient(90deg,transparent,var(--red),transparent);}
+.z-ai .app:hover{border-color:rgba(0,195,255,.3);box-shadow:0 8px 32px rgba(96,208,255,.08);}
+.z-ai .app::before{background:linear-gradient(90deg,transparent,#60d0ff,transparent);}
+
+.app-icon{font-size:1.6rem;line-height:1;}
+.app-name{font-size:.82rem;font-weight:700;color:#d0e8ff;line-height:1.2;}
+.app-desc{font-size:.68rem;color:#3a5a78;line-height:1.4;flex:1;}
+.app-badge{
+  align-self:flex-start;padding:2px 7px;border-radius:8px;
+  font-size:.6rem;font-weight:700;letter-spacing:.5px;
+}
+.badge-new{background:rgba(0,255,136,.12);border:1px solid rgba(0,255,136,.3);color:var(--green);}
+.badge-live{background:rgba(0,195,255,.1);border:1px solid rgba(0,195,255,.3);color:var(--blue);}
+.badge-hot{background:rgba(212,160,23,.12);border:1px solid rgba(212,160,23,.3);color:var(--gold2);}
+.badge-ai{background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.3);color:var(--purple);}
+
+/* QUICK CMD BAR */
+.cmdbar{
+  position:relative;z-index:10;
+  background:rgba(4,8,16,.95);border-top:1px solid var(--bdr2);
+  padding:8px 24px;display:flex;align-items:center;gap:10px;flex-shrink:0;
+  backdrop-filter:blur(12px);
+}
+.cmd-icon{color:var(--gold2);font-size:.9rem;}
+.cmd-input{
+  flex:1;background:transparent;border:none;outline:none;
+  color:var(--gold2);font-family:monospace;font-size:.8rem;caret-color:var(--gold2);
+}
+.cmd-input::placeholder{color:#2a4060;}
+.cmd-hint{font-size:.65rem;color:#2a4060;}
+.cmd-enter{
+  background:rgba(212,160,23,.1);border:1px solid rgba(212,160,23,.3);
+  color:var(--gold2);padding:4px 12px;border-radius:6px;cursor:pointer;
+  font-size:.72rem;font-weight:700;letter-spacing:1px;transition:all .15s;
+}
+.cmd-enter:hover{background:rgba(212,160,23,.2);}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="tb-left">
+    <div class="tb-logo">AHT <span>ENGINE-27</span></div>
+    <span class="tb-sep">|</span>
+    <div class="tb-title">THRONE PROTOCOL V3.0 · MISSION CONTROL</div>
+  </div>
+  <div class="tb-right">
+    <div class="stat-pill"><div class="stat-dot sd-g"></div><span style="color:#00ff88">ENGINE ACTIVO</span></div>
+    <div class="stat-pill"><div class="stat-dot sd-b"></div><span style="color:#8ab4d4">RSA-4096</span></div>
+    <div class="stat-pill"><div class="stat-dot sd-go"></div><span style="color:#a0c8e8">PostgreSQL</span></div>
+    <div class="tb-clock" id="clk">--:--:--</div>
+  </div>
+</div>
+
+<!-- LIVE STATS BAND -->
+<div class="statsband">
+  <div class="sb-item"><div class="sb-val c-gold" id="sv-engine">ENGINE-27</div><div class="sb-lbl">Protocolo</div></div>
+  <div class="sb-item"><div class="sb-val c-green" id="sv-tokens">28</div><div class="sb-lbl">Tokens Activos</div></div>
+  <div class="sb-item"><div class="sb-val c-gold" id="sv-val">$2.8T</div><div class="sb-lbl">Portafolio USD</div></div>
+  <div class="sb-item"><div class="sb-val c-blue">40</div><div class="sb-lbl">Apps / Módulos</div></div>
+  <div class="sb-item"><div class="sb-val c-purple">OIDC</div><div class="sb-lbl">Identity Provider</div></div>
+  <div class="sb-item"><div class="sb-val c-green" id="sv-rsa">RS256</div><div class="sb-lbl">Firma Digital</div></div>
+  <div class="sb-item"><div class="sb-val c-gold">RFC</div><div class="sb-lbl">RIGR840827PJ0</div></div>
+  <div class="sb-item" style="border-right:none;"><div class="sb-val" style="color:#a0c8e8;font-size:.72rem;" id="sv-time">--</div><div class="sb-lbl">Timestamp</div></div>
+</div>
+
+<!-- MAIN SCROLL -->
+<div class="scroll" id="scroll">
+
+  <!-- ══════════ ZONA 1: THRONE PROTOCOL ══════════ -->
+  <div class="zone z-throne">
+    <div class="zone-hdr">
+      <div class="zone-icon">👑</div>
+      <div class="zone-name">Throne Protocol</div>
+      <div class="zone-line"></div>
+      <div class="zone-desc">Núcleo del sistema · Acceso presidencial</div>
+    </div>
+    <div class="apps">
+      <a class="app" href="/landing.html">
+        <div class="app-icon">🚀</div>
+        <div class="app-name">Landing Enterprise</div>
+        <div class="app-desc">Presentación completa · Stats en vivo · Pipeline 8 módulos</div>
+        <div class="app-badge badge-hot">PRINCIPAL</div>
+      </a>
+      <a class="app" href="/cockpit.html">
+        <div class="app-icon">🎯</div>
+        <div class="app-name">Cockpit Presidencial</div>
+        <div class="app-desc">Panel de comando y control central · Nivel máximo</div>
+        <div class="app-badge badge-live">LIVE</div>
+      </a>
+      <a class="app" href="/sovereign-hub.html">
+        <div class="app-icon">⚡</div>
+        <div class="app-name">Sovereign Hub</div>
+        <div class="app-desc">$2.8T breakdown · 28 tokens · Estructura Wall Street</div>
+        <div class="app-badge badge-hot">NUEVO</div>
+      </a>
+      <a class="app" href="/portal-throne.html">
+        <div class="app-icon">🔱</div>
+        <div class="app-name">Portal Throne</div>
+        <div class="app-desc">Entrada al sistema soberano · Autenticación presidencial</div>
+        <div class="app-badge badge-live">LIVE</div>
+      </a>
+      <a class="app" href="/vault.html">
+        <div class="app-icon">🔐</div>
+        <div class="app-name">Vault Cifrado</div>
+        <div class="app-desc">AES-256-GCM + RSA-4096 · Secretos enterprise seguros</div>
+        <div class="app-badge badge-live">LIVE</div>
+      </a>
+      <a class="app" href="/dashboard-aht.html">
+        <div class="app-icon">📊</div>
+        <div class="app-name">Dashboard AHT</div>
+        <div class="app-desc">Panel de métricas · Monitoreo de sistema en tiempo real</div>
+        <div class="app-badge badge-live">LIVE</div>
+      </a>
+      <a class="app" href="/activacion.html">
+        <div class="app-icon">🔑</div>
+        <div class="app-name">Códigos de Activación</div>
+        <div class="app-desc">SHA-256 · Activar módulos con códigos secretos</div>
+        <div class="app-badge badge-live">LIVE</div>
+      </a>
+      <a class="app" href="/entrada-throne.html">
+        <div class="app-icon">🎬</div>
+        <div class="app-name">Entrada Cinematográfica</div>
+        <div class="app-desc">Intro animada · Pantalla de bienvenida presidencial</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ══════════ ZONA 2: IDENTIDAD SOBERANA ══════════ -->
+  <div class="zone z-identity">
+    <div class="zone-hdr">
+      <div class="zone-icon">🪪</div>
+      <div class="zone-name">Identidad Soberana</div>
+      <div class="zone-line"></div>
+      <div class="zone-desc">OIDC · OAuth 2.0 · DID · RSA-4096 · streetemporioroyal.com</div>
+    </div>
+    <div class="apps">
+      <a class="app" href="/identity-provider.html">
+        <div class="app-icon">⚡</div>
+        <div class="app-name">Identity Provider</div>
+        <div class="app-desc">OIDC Core 1.0 · JWKS · DID W3C · OAuth 2.0 · JWT RS256 — como Google Auth</div>
+        <div class="app-badge badge-new">NUEVO</div>
+      </a>
+      <a class="app" href="/contacto-cmd.html">
+        <div class="app-icon">💻</div>
+        <div class="app-name">Contacto CMD</div>
+        <div class="app-desc">Terminal de comando · Widget para superagente.com u otro sitio</div>
+        <div class="app-badge badge-new">NUEVO</div>
+      </a>
+      <a class="app" href="/mis-certificaciones.html">
+        <div class="app-icon">📜</div>
+        <div class="app-name">Mis Certificaciones</div>
+        <div class="app-desc">4 certs reales verificados en DB · Airtable + License Matrix Omega55</div>
+        <div class="app-badge badge-live">LIVE</div>
+      </a>
+      <a class="app" href="/certificados-premium.html">
+        <div class="app-icon">🏆</div>
+        <div class="app-name">Certificados Premium</div>
+        <div class="app-desc">PDF con firma RSA-4096 · QR + SHA-256 · Royal Premium</div>
+        <div class="app-badge badge-live">LIVE</div>
+      </a>
+      <a class="app" href="/verificar-certificado.html">
+        <div class="app-icon">✅</div>
+        <div class="app-name">Verificar Certificado</div>
+        <div class="app-desc">Verificación en blockchain · Hash SHA-256 inmutable</div>
+        <div class="app-badge badge-live">LIVE</div>
+      </a>
+      <a class="app" href="/.well-known/openid-configuration" target="_blank">
+        <div class="app-icon">🌐</div>
+        <div class="app-name">OIDC Discovery</div>
+        <div class="app-desc">JSON estándar · streetemporioroyal.com como issuer oficial</div>
+        <div class="app-badge badge-new">RFC</div>
+      </a>
+      <a class="app" href="/.well-known/did.json" target="_blank">
+        <div class="app-icon">🔗</div>
+        <div class="app-name">DID Document</div>
+        <div class="app-desc">did:web:streetemporioroyal.com · W3C Decentralized Identity</div>
+        <div class="app-badge badge-new">W3C</div>
+      </a>
+      <a class="app" href="/api/contacto" target="_blank">
+        <div class="app-icon">📡</div>
+        <div class="app-name">API Contacto Público</div>
+        <div class="app-desc">JSON abierto · CORS * · Cualquier sitio puede integrarlo</div>
+        <div class="app-badge badge-new">API</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ══════════ ZONA 3: TOKENS Y FUSIÓN ══════════ -->
+  <div class="zone z-tokens">
+    <div class="zone-hdr">
+      <div class="zone-icon">🧬</div>
+      <div class="zone-name">Tokens & Fusión</div>
+      <div class="zone-line"></div>
+      <div class="zone-desc">28 tokens activos · 19 personal + 9 FUSION · $1.78M</div>
+    </div>
+    <div class="apps">
+      <a class="app" href="/tokens-dashboard.html">
+        <div class="app-icon">💎</div>
+        <div class="app-name">Tokens Dashboard 3D</div>
+        <div class="app-desc">28 tokens visualizados en 3D · Monitoreo en vivo</div>
+        <div class="app-badge badge-hot">PRINCIPAL</div>
+      </a>
+      <a class="app" href="/tokens-roberto.html">
+        <div class="app-icon">🔑</div>
+        <div class="app-name">Tokens Personales</div>
+        <div class="app-desc">19 tokens RSA-4096 · ANTI-SHIELD-KAPPA-39 y más</div>
+        <div class="app-badge badge-live">LIVE</div>
+      </a>
+      <a class="app" href="/conectar-token.html">
+        <div class="app-icon">🔌</div>
+        <div class="app-name">Conectar Token</div>
+        <div class="app-desc">Activar y vincular tokens al ENGINE-27</div>
+        <div class="app-badge badge-live">LIVE</div>
+      </a>
+      <a class="app" href="/sovereign-hub.html#tokens">
+        <div class="app-icon">⚛️</div>
+        <div class="app-name">FUSION Tokens</div>
+        <div class="app-desc">9 tokens FUSION · Sistema de fusión cuántica enterprise</div>
+        <div class="app-badge badge-live">LIVE</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ══════════ ZONA 4: QUANTUM MATH LAB ══════════ -->
+  <div class="zone z-quantum">
+    <div class="zone-hdr">
+      <div class="zone-icon">🔬</div>
+      <div class="zone-name">Quantum Math Lab</div>
+      <div class="zone-line"></div>
+      <div class="zone-desc">Álgebra real · Física WGS84 · Topología · SER-27</div>
+    </div>
+    <div class="apps">
+      <a class="app" href="/algebra-gravedad.html">
+        <div class="app-icon">🧮</div>
+        <div class="app-name">Álgebra + Gravedad</div>
+        <div class="app-desc">Gauss-Jordan 2×2→5×5 · Campo WGS84 · Ajedrez cuántico 32 piezas · Poincaré</div>
+        <div class="app-badge badge-hot">MOTOR REAL</div>
+      </a>
+      <a class="app" href="/ser27.html">
+        <div class="app-icon">🌌</div>
+        <div class="app-name">SER-27 · Área 51</div>
+        <div class="app-desc">Laboratorio cuántico secreto · Experimentos de nivel máximo</div>
+        <div class="app-badge badge-live">LIVE</div>
+      </a>
+      <a class="app" href="/cerebro-3d.html">
+        <div class="app-icon">🧠</div>
+        <div class="app-name">Cerebro 3D</div>
+        <div class="app-desc">Visualización 3D del sistema cuántico · Neural network visual</div>
+        <div class="app-badge badge-live">LIVE</div>
+      </a>
+      <a class="app" href="/viador-cubico.html">
+        <div class="app-icon">🔮</div>
+        <div class="app-name">Viador Cúbico</div>
+        <div class="app-desc">Transformación de energía cuántica · Motor de campo</div>
+        <div class="app-badge badge-live">LIVE</div>
+      </a>
+      <a class="app" href="/quantum-loop-room.html">
+        <div class="app-icon">⚡</div>
+        <div class="app-name">Quantum Loop</div>
+        <div class="app-desc">Circuito cuántico · Loop de energía en sala inmersiva</div>
+        <div class="app-badge badge-live">LIVE</div>
+      </a>
+      <a class="app" href="/energia-3d.html">
+        <div class="app-icon">💫</div>
+        <div class="app-name">Energía 3D</div>
+        <div class="app-desc">Visualización de flujos de energía en 3 dimensiones</div>
+        <div class="app-badge badge-live">LIVE</div>
+      </a>
+      <a class="app" href="/globo-3d.html">
+        <div class="app-icon">🌍</div>
+        <div class="app-name">Globo 3D</div>
+        <div class="app-desc">Globo Cesium · 40 nodos + 8 satélites · GPS en vivo</div>
+        <div class="app-badge badge-live">LIVE</div>
+      </a>
+      <a class="app" href="/blueprint.html">
+        <div class="app-icon">🗺️</div>
+        <div class="app-name">Blueprint</div>
+        <div class="app-desc">Pipeline infraestructura IP + 3D en tiempo real</div>
+        <div class="app-badge badge-live">LIVE</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ══════════ ZONA 5: ARQUITECTURA EMPIRE ══════════ -->
+  <div class="zone z-arch">
+    <div class="zone-hdr">
+      <div class="zone-icon">🏗️</div>
+      <div class="zone-name">Architecture Empire</div>
+      <div class="zone-line"></div>
+      <div class="zone-desc">372 diseños · $2.8T portafolio · Física estructural real</div>
+    </div>
+    <div class="apps">
+      <a class="app" href="/arquitectura-panel.html">
+        <div class="app-icon">🎛️</div>
+        <div class="app-name">Panel de Arquitectura</div>
+        <div class="app-desc">Control masivo · Generar diseños · Stats del portafolio</div>
+        <div class="app-badge badge-hot">PRINCIPAL</div>
+      </a>
+      <a class="app" href="/galeria-arquitectura.html">
+        <div class="app-icon">🖼️</div>
+        <div class="app-name">Galería 3D</div>
+        <div class="app-desc">Globo con 372 diseños GPS · Cards visuales · Sistema de compra</div>
+        <div class="app-badge badge-live">LIVE</div>
+      </a>
+      <a class="app" href="/documentacion-profesional.html">
+        <div class="app-icon">📋</div>
+        <div class="app-name">Docs Inversionistas</div>
+        <div class="app-desc">5 docs profesionales · Pitch deck 16 slides · Plan de negocios</div>
+        <div class="app-badge badge-hot">$250K META</div>
+      </a>
+      <a class="app" href="/vitrina-diseno.html">
+        <div class="app-icon">✨</div>
+        <div class="app-name">Vitrina de Diseño</div>
+        <div class="app-desc">Ver diseño individual · Certificado + planos técnicos</div>
+        <div class="app-badge badge-live">LIVE</div>
+      </a>
+      <a class="app" href="/galeria.html">
+        <div class="app-icon">🎨</div>
+        <div class="app-name">Galería Quantum</div>
+        <div class="app-desc">Galería visual cuántica de todos los proyectos</div>
+        <div class="app-badge badge-live">LIVE</div>
+      </a>
+      <a class="app" href="/throne-dashboard-3d.html">
+        <div class="app-icon">🏛️</div>
+        <div class="app-name">Dashboard 3D Throne</div>
+        <div class="app-desc">Visualización arquitectónica 3D · Datos en tiempo real</div>
+        <div class="app-badge badge-live">LIVE</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ══════════ ZONA 6: AI COMMAND ══════════ -->
+  <div class="zone z-ai">
+    <div class="zone-hdr">
+      <div class="zone-icon">🤖</div>
+      <div class="zone-name">AI Command Center</div>
+      <div class="zone-line"></div>
+      <div class="zone-desc">Gemini 2.5 · GPT-5 · EAGI Pipeline · Arquitecto Interno</div>
+    </div>
+    <div class="apps">
+      <a class="app" href="/area-ai-presidencial.html">
+        <div class="app-icon">🧠</div>
+        <div class="app-name">Área AI Presidencial</div>
+        <div class="app-desc">Dual AI: Gemini 2.5 + GPT-5 · Análisis enterprise simultáneo</div>
+        <div class="app-badge badge-ai">DUAL AI</div>
+      </a>
+      <a class="app" href="/eagi-panel.html">
+        <div class="app-icon">⚙️</div>
+        <div class="app-name">EAGI Pipeline</div>
+        <div class="app-desc">Engine AI · Comandos enterprise · deploy / audit / conversacional</div>
+        <div class="app-badge badge-ai">PIPELINE</div>
+      </a>
+      <a class="app" href="/chat-assistant.html">
+        <div class="app-icon">💬</div>
+        <div class="app-name">Chat Assistant</div>
+        <div class="app-desc">Conversacional presidencial · Gemini en vivo</div>
+        <div class="app-badge badge-ai">GEMINI</div>
+      </a>
+      <a class="app" href="/arquitecto-dashboard.html">
+        <div class="app-icon">👁️</div>
+        <div class="app-name">Arquitecto Interno</div>
+        <div class="app-desc">AI de monitoreo continuo · Análisis cada 2 minutos</div>
+        <div class="app-badge badge-ai">AUTO</div>
+      </a>
+      <a class="app" href="/laboratorio.html">
+        <div class="app-icon">🔭</div>
+        <div class="app-name">Laboratorio</div>
+        <div class="app-desc">Experimentos AI · Módulos de desarrollo avanzado</div>
+        <div class="app-badge badge-ai">LAB</div>
+      </a>
+    </div>
+  </div>
+
+</div><!-- /scroll -->
+
+<!-- COMMAND BAR -->
+<div class="cmdbar">
+  <div class="cmd-icon">⚡</div>
+  <input class="cmd-input" id="cmd" type="text" placeholder="Navega rápido: escribe 'algebra', 'tokens', 'ai', 'identity', 'cert'…" autocomplete="off">
+  <div class="cmd-hint">↑↓ Historial · Enter para abrir</div>
+  <button class="cmd-enter" onclick="runQuickCmd()">GO ↵</button>
+</div>
+
+<script>
+/* CLOCK */
+function tick(){
+  const n=new Date();
+  document.getElementById('clk').textContent=n.toLocaleTimeString('es-MX',{hour12:false});
+  const ts=n.toISOString().replace('T',' ').substring(0,19);
+  document.getElementById('sv-time').textContent=ts;
+}
+tick(); setInterval(tick,1000);
+
+/* LOAD LIVE STATS */
+async function loadStats(){
+  try{
+    const r=await fetch('/api/identity/status');
+    const d=await r.json();
+    if(d.rsa4096_active) document.getElementById('sv-rsa').textContent='4096✓';
+  }catch(e){}
+  try{
+    const r=await fetch('/api/arquitectura/stats');
+    const d=await r.json();
+    if(d.total) document.getElementById('sv-val').textContent='$'+Math.round((d.valoracionTotal||2800000000000)/1e12*10)/10+'T';
+  }catch(e){}
+}
+loadStats();
+
+/* QUICK NAV CMD */
+const routes={
+  'algebra':'/algebra-gravedad.html','math':'/algebra-gravedad.html',
+  'tokens':'/tokens-dashboard.html','token':'/tokens-dashboard.html',
+  'ai':'/area-ai-presidencial.html','gemini':'/area-ai-presidencial.html',
+  'identity':'/identity-provider.html','oidc':'/identity-provider.html','did':'/identity-provider.html',
+  'cert':'/mis-certificaciones.html','certs':'/certificados-premium.html',
+  'cockpit':'/cockpit.html','landing':'/landing.html','hub':'/sovereign-hub.html',
+  'contacto':'/contacto-cmd.html','cmd':'/contacto-cmd.html',
+  'vault':'/vault.html','blockchain':'/verificar-certificado.html',
+  'galeria':'/galeria-arquitectura.html','arch':'/arquitectura-panel.html',
+  'quantum':'/quantum-loop-room.html','ser27':'/ser27.html',
+  'cerebro':'/cerebro-3d.html','blueprint':'/blueprint.html',
+  'globo':'/globo-3d.html','eagi':'/eagi-panel.html',
+  'chat':'/chat-assistant.html','lab':'/laboratorio.html',
+  'entrada':'/index.html','inicio':'/index.html',
+};
+const hist=[];let hIdx=-1;
+function runQuickCmd(){
+  const v=document.getElementById('cmd').value.trim().toLowerCase();
+  if(!v) return;
+  hist.unshift(v); hIdx=-1;
+  const url=routes[v];
+  if(url){window.location.href=url; return;}
+  // Buscar coincidencia parcial
+  const match=Object.keys(routes).find(k=>k.startsWith(v)||v.startsWith(k));
+  if(match){window.location.href=routes[match]; return;}
+  // Buscar en cards
+  const cards=[...document.querySelectorAll('.app')];
+  const found=cards.find(c=>c.textContent.toLowerCase().includes(v));
+  if(found){found.click(); return;}
+  document.getElementById('cmd').placeholder='❌ No encontrado — intenta: algebra, tokens, ai, identity…';
+  document.getElementById('cmd').value='';
+}
+document.getElementById('cmd').addEventListener('keydown',e=>{
+  if(e.key==='Enter'){runQuickCmd();return;}
+  if(e.key==='ArrowUp'){hIdx=Math.min(hIdx+1,hist.length-1);document.getElementById('cmd').value=hist[hIdx]||'';}
+  if(e.key==='ArrowDown'){hIdx=Math.max(hIdx-1,-1);document.getElementById('cmd').value=hIdx>=0?hist[hIdx]:'';}
+});
+
+/* HIGHLIGHT search on hover */
+document.querySelectorAll('.app').forEach(a=>{
+  a.addEventListener('mouseenter',()=>a.style.opacity='1');
+  a.addEventListener('mouseleave',()=>a.style.opacity='1');
+});
+</script>
+</body>
+</html>
