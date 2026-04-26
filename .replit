@@ -41,5 +41,4 @@ expertMode = true
 
 [deployment]
 deploymentTarget = "autoscale"
-publicDir = "public"
 run = ["node", "main.bootstrap.js/server.js"]
